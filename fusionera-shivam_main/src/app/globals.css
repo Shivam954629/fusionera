@@ -1,0 +1,274 @@
+@import "tailwindcss";
+
+:root {
+  --app-bg: #f5f9ff;
+  --app-text: #1b2440;
+  --app-panel: rgba(255, 255, 255, 0.86);
+  --app-panel-soft: rgba(255, 255, 255, 0.72);
+  --app-border: rgba(27, 36, 64, 0.12);
+  --app-muted: rgba(27, 36, 64, 0.72);
+  --app-header: rgba(255, 255, 255, 0.9);
+  --app-bg-radial-1: rgba(72, 155, 255, 0.18);
+  --app-bg-radial-2: rgba(102, 211, 173, 0.18);
+  --app-bg-radial-3: rgba(255, 176, 120, 0.2);
+}
+
+body.light {
+  --app-bg: #eef3ff;
+  --app-text: #121826;
+  --app-panel: rgba(255, 255, 255, 0.88);
+  --app-panel-soft: rgba(255, 255, 255, 0.72);
+  --app-border: rgba(18, 24, 38, 0.12);
+  --app-muted: rgba(18, 24, 38, 0.72);
+  --app-header: rgba(13, 10, 86, 0.9);
+  --app-bg-radial-1: rgba(138, 61, 255, 0.16);
+  --app-bg-radial-2: rgba(31, 201, 232, 0.14);
+  --app-bg-radial-3: rgba(255, 31, 122, 0.12);
+}
+
+body {
+  font-family: var(--font-body), "Segoe UI", sans-serif;
+  background:
+    radial-gradient(circle at 12% 18%, var(--app-bg-radial-1), transparent 36%),
+    radial-gradient(circle at 88% 12%, var(--app-bg-radial-2), transparent 34%),
+    radial-gradient(circle at 55% 80%, var(--app-bg-radial-3), transparent 42%),
+    linear-gradient(150deg, #f7fbff 0%, #eef6ff 45%, #fff7ef 100%);
+  background-attachment: fixed;
+  color: var(--app-text);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-heading), Georgia, serif;
+  letter-spacing: 0.01em;
+}
+
+.nav-link,
+button,
+input,
+textarea,
+select,
+summary,
+a {
+  font-family: var(--font-body), "Segoe UI", sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+.nav-link {
+  position: relative;
+  transition: color 220ms ease, transform 220ms ease;
+}
+
+.nav-link::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -6px;
+  width: 100%;
+  height: 2px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #76d7ff, #ffffff);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 240ms ease;
+}
+
+.nav-link:hover,
+.nav-link:focus-visible {
+  transform: translateY(-1px);
+}
+
+.nav-link:hover::after,
+.nav-link:focus-visible::after {
+  transform: scaleX(1);
+}
+
+.nav-dropdown {
+  transform: translateY(8px) scale(0.98);
+}
+
+.group:hover .nav-dropdown,
+.group:focus-within .nav-dropdown {
+  transform: translateY(0) scale(1);
+}
+
+.nav-dropdown a {
+  opacity: 0;
+  transform: translateY(6px);
+  transition: opacity 180ms ease, transform 220ms ease;
+}
+
+.group:hover .nav-dropdown a,
+.group:focus-within .nav-dropdown a {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.group:hover .nav-dropdown a:nth-child(2),
+.group:focus-within .nav-dropdown a:nth-child(2) {
+  transition-delay: 40ms;
+}
+
+.group:hover .nav-dropdown a:nth-child(3),
+.group:focus-within .nav-dropdown a:nth-child(3) {
+  transition-delay: 80ms;
+}
+
+.mobile-menu {
+  animation: mobileMenuIn 260ms cubic-bezier(0.22, 1, 0.36, 1);
+  transform-origin: top;
+}
+
+.mobile-summary {
+  position: relative;
+  padding-right: 28px;
+}
+
+.mobile-summary::after {
+  content: "⌄";
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  transition: transform 220ms ease;
+}
+
+.mobile-submenu[open] .mobile-summary::after {
+  transform: translateY(-50%) rotate(180deg);
+}
+
+.mobile-submenu-content {
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  transform: translateY(-4px);
+  transition: max-height 280ms ease, opacity 220ms ease, transform 220ms ease;
+}
+
+.mobile-submenu[open] .mobile-submenu-content {
+  max-height: 220px;
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@keyframes mobileMenuIn {
+  from {
+    opacity: 0;
+    transform: translateY(-8px) scaleY(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scaleY(1);
+  }
+}
+
+.reveal-on-scroll {
+  opacity: 0;
+  transform: translateY(28px);
+  transition:
+    opacity 700ms ease,
+    transform 700ms cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: opacity, transform;
+}
+
+.reveal-on-scroll.reveal-left {
+  transform: translateX(-44px);
+}
+
+.reveal-on-scroll.reveal-right {
+  transform: translateX(44px);
+}
+
+.reveal-on-scroll.reveal-zoom {
+  transform: scale(0.94);
+}
+
+.reveal-on-scroll.is-visible {
+  opacity: 1;
+  transform: translate3d(0, 0, 0) scale(1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .reveal-on-scroll {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+
+  .mobile-menu {
+    animation: none;
+  }
+
+  .mobile-submenu-content {
+    transition: none;
+  }
+}
+
+.whatsapp-float {
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  z-index: 120;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: linear-gradient(145deg, #25d366, #1faa56);
+  color: #ffffff;
+  border-radius: 999px;
+  padding: 10px 14px;
+  box-shadow: 0 14px 30px rgba(20, 92, 49, 0.35);
+  transition: transform 180ms ease, box-shadow 180ms ease, filter 180ms ease;
+}
+
+.whatsapp-float:hover,
+.whatsapp-float:focus-visible {
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 18px 34px rgba(20, 92, 49, 0.42);
+  filter: saturate(1.08);
+}
+
+.whatsapp-float:focus-visible {
+  outline: 2px solid #ffffff;
+  outline-offset: 2px;
+}
+
+.whatsapp-float__icon {
+  width: 22px;
+  height: 22px;
+}
+
+.whatsapp-float__label {
+  font-size: 0.92rem;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: 0.01em;
+}
+
+@media (max-width: 640px) {
+  .whatsapp-float {
+    right: 14px;
+    bottom: 14px;
+    padding: 11px;
+    border-radius: 50%;
+  }
+
+  .whatsapp-float__label {
+    display: none;
+  }
+
+  .whatsapp-float__icon {
+    width: 24px;
+    height: 24px;
+  }
+}
