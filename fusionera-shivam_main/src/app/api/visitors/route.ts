@@ -23,7 +23,6 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-// 1. Visitor ko confirmation email
 async function sendVisitorEmail(to: string, fullName: string) {
   await transporter.sendMail({
     from: `"Fusionera Events" <${process.env.GMAIL_USER}>`,
@@ -74,7 +73,6 @@ async function sendVisitorEmail(to: string, fullName: string) {
   });
 }
 
-// 2. Admin ko notification email
 async function sendAdminEmail(
   fullName: string,
   phoneNumber: string,
@@ -127,20 +125,13 @@ export async function POST(req: NextRequest) {
       );
     }
 
+    // ✅ FIXED: Only 3 fields — no companyName, city, businessType
     const result = await pool.query(
-      `INSERT INTO visitors (full_name, company_name, phone_number, email, city, business_type)
-       VALUES ($1, $2, $3, $4, $5, $6) RETURNING id`,
-      [
-        fullName,
-        companyName || null,
-        phoneNumber,
-        email || null,
-        city || null,
-        businessType || null,
-      ],
+      `INSERT INTO visitors (full_name, phone_number, email)
+       VALUES ($1, $2, $3) RETURNING id`,
+      [fullName, phoneNumber, email || null],
     );
 
-    // Dono emails background mein bhejo — form slow nahi hoga
     Promise.allSettled([
       email ? sendVisitorEmail(email, fullName) : Promise.resolve(),
       sendAdminEmail(fullName, phoneNumber, email),
