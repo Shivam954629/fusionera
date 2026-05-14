@@ -6,8 +6,15 @@ function generateOTP(): string {
 }
 
 async function sendSMS(phone: string, otp: string): Promise<boolean> {
+  // DEV MODE: if no API key, skip SMS and just return true (OTP shown in server console)
+  if (!process.env.FAST2SMS_API_KEY) {
+    console.warn(
+      `⚠️  FAST2SMS_API_KEY not set. OTP for ${phone}: ${otp} (DEV MODE — not sent via SMS)`,
+    );
+    return true; // pretend success so dev can test the flow
+  }
+
   try {
-    const message = `${otp} is your OTP for Fusionera 2026 Visitor Registration. Valid for 10 minutes. Do not share with anyone.`;
     const url = `https://www.fast2sms.com/dev/bulkV2?authorization=${process.env.FAST2SMS_API_KEY}&route=otp&variables_values=${otp}&flash=0&numbers=${phone}`;
     const res = await fetch(url, {
       method: "GET",
@@ -56,17 +63,17 @@ export async function POST(req: NextRequest) {
     const otp = generateOTP();
     const expiresAt = new Date(Date.now() + 10 * 60 * 1000); // 10 minutes
 
-    // Save OTP
+    // Save OTP to DB
     await pool.query(
       `INSERT INTO otps (phone_number, otp, expires_at) VALUES ($1, $2, $3)`,
       [cleanPhone, otp, expiresAt],
     );
 
-    // Send SMS
+    // Send SMS (or log in dev)
     const sent = await sendSMS(cleanPhone, otp);
     if (!sent) {
       return NextResponse.json(
-        { error: "Failed to send OTP. Please try again." },
+        { error: "Failed to send OTP via SMS. Please try again." },
         { status: 500 },
       );
     }
@@ -76,9 +83,16 @@ export async function POST(req: NextRequest) {
       message: "OTP sent successfully.",
       phone: cleanPhone,
       visitorType,
+      // In dev (no API key), expose OTP in response for testing
+      ...(process.env.NODE_ENV !== "production" && !process.env.FAST2SMS_API_KEY
+        ? { devOtp: otp }
+        : {}),
     });
   } catch (err) {
     console.error("OTP send error:", err);
-    return NextResponse.json({ error: "Failed to send OTP." }, { status: 500 });
+    return NextResponse.json(
+      { error: "Server error. Please try again." },
+      { status: 500 },
+    );
   }
 }

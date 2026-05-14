@@ -6,10 +6,7 @@ export const pool =
   globalForPg.pool ??
   new Pool({
     connectionString: process.env.DATABASE_URL,
-    ssl:
-      process.env.NODE_ENV === "production"
-        ? { rejectUnauthorized: false }
-        : false,
+    ssl: { rejectUnauthorized: false }, // Always on — required for Supabase/Neon
   });
 
 if (process.env.NODE_ENV !== "production") globalForPg.pool = pool;

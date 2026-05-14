@@ -15,7 +15,7 @@ export default function Header() {
         <div className="flex items-center gap-3">
           <Link href="/">
             <img
-              src="./images/logo.jpeg"
+              src="/images/logo.jpeg"
               alt="Fusionera logo"
               className="h-12 w-auto"
             />

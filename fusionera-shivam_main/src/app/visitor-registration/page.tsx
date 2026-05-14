@@ -288,7 +288,7 @@ export default function VisitorRegistrationPage() {
                 <div
                   className="w-14 h-14 rounded-full flex items-center justify-center mx-auto mb-4"
                   style={{
-                    background: "linear-gradient(135deg,#b8860b,#d4a017)",
+                    background: "linear-gradient(135deg,#1d4ed8,#2563eb)",
                   }}
                 >
                   <svg
@@ -368,7 +368,7 @@ export default function VisitorRegistrationPage() {
                   disabled={loading}
                   className="w-full py-3.5 rounded-xl text-white font-semibold text-sm transition hover:opacity-90 disabled:opacity-60"
                   style={{
-                    background: "linear-gradient(135deg,#b8860b,#d4a017)",
+                    background: "linear-gradient(135deg,#1d4ed8,#2563eb)",
                   }}
                 >
                   {loading ? "Sending..." : "Generate OTP"}
@@ -424,7 +424,7 @@ export default function VisitorRegistrationPage() {
                   <div
                     className="w-14 h-14 rounded-full flex items-center justify-center mx-auto mb-4"
                     style={{
-                      background: "linear-gradient(135deg,#b8860b,#d4a017)",
+                      background: "linear-gradient(135deg,#1d4ed8,#2563eb)",
                     }}
                   >
                     <svg
@@ -475,7 +475,7 @@ export default function VisitorRegistrationPage() {
                   disabled={loading}
                   className="w-full py-3.5 rounded-xl text-white font-semibold text-sm transition hover:opacity-90 disabled:opacity-60 mb-4"
                   style={{
-                    background: "linear-gradient(135deg,#b8860b,#d4a017)",
+                    background: "linear-gradient(135deg,#1d4ed8,#2563eb)",
                   }}
                 >
                   {loading ? "Verifying..." : "Verify and continue"}
@@ -525,7 +525,7 @@ export default function VisitorRegistrationPage() {
                             i + 1 < currentStep
                               ? "#10b981"
                               : i + 1 === currentStep
-                                ? "linear-gradient(135deg,#b8860b,#d4a017)"
+                                ? "linear-gradient(135deg,#1d4ed8,#2563eb)"
                                 : "var(--app-panel-soft)",
                           border:
                             i + 1 > currentStep
@@ -540,7 +540,7 @@ export default function VisitorRegistrationPage() {
                         style={{
                           color:
                             i + 1 === currentStep
-                              ? "#b8860b"
+                              ? "#1d4ed8"
                               : "var(--app-muted)",
                           fontWeight: i + 1 === currentStep ? 700 : 400,
                         }}
@@ -821,7 +821,7 @@ export default function VisitorRegistrationPage() {
                                 className="cursor-pointer px-4 py-2 rounded-lg text-white text-sm font-medium"
                                 style={{
                                   background:
-                                    "linear-gradient(135deg,#b8860b,#d4a017)",
+                                    "linear-gradient(135deg,#1d4ed8,#2563eb)",
                                 }}
                               >
                                 Upload photo
@@ -1412,7 +1412,7 @@ export default function VisitorRegistrationPage() {
                     disabled={loading}
                     className="ml-auto px-8 py-2.5 rounded-xl text-white text-sm font-semibold transition hover:opacity-90 disabled:opacity-60"
                     style={{
-                      background: "linear-gradient(135deg,#b8860b,#d4a017)",
+                      background: "linear-gradient(135deg,#1d4ed8,#2563eb)",
                     }}
                   >
                     {loading
@@ -1463,7 +1463,7 @@ export default function VisitorRegistrationPage() {
                     <div className="text-2xl mb-2">{card.icon}</div>
                     <p
                       className="text-xs font-bold mb-1"
-                      style={{ color: "#b8860b" }}
+                      style={{ color: "#1d4ed8" }}
                     >
                       {card.title}
                     </p>
