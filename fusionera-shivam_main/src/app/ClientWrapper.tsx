@@ -42,10 +42,13 @@ export default function ClientWrapper({
 
   return (
     <div id="app-shell">
-      {!pathname.startsWith("/admin") && <Header />}
+      {!pathname.startsWith("/admin") &&
+        !pathname.startsWith("/visitor-dashboard") && <Header />}
       {children}
-      {!pathname.startsWith("/admin") && <Footer />}
-      {!pathname.startsWith("/admin") && <WhatsAppFloat />}
+      {!pathname.startsWith("/admin") &&
+        !pathname.startsWith("/visitor-dashboard") && <Footer />}
+      {!pathname.startsWith("/admin") &&
+        !pathname.startsWith("/visitor-dashboard") && <WhatsAppFloat />}
     </div>
   );
 }

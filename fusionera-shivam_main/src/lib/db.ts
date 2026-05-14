@@ -18,16 +18,14 @@ export async function initDB() {
   await pool.query(`
     CREATE TABLE IF NOT EXISTS visitors (
       id SERIAL PRIMARY KEY,
+      registration_no VARCHAR(20) UNIQUE,
       full_name VARCHAR(255) NOT NULL,
-      company_name VARCHAR(255),
       phone_number VARCHAR(50) NOT NULL,
       email VARCHAR(255),
-      city VARCHAR(100),
-      business_type VARCHAR(100),
       is_blocked BOOLEAN DEFAULT FALSE,
+      password_hash VARCHAR(255),
       created_at TIMESTAMP DEFAULT NOW()
     );
-
     CREATE TABLE IF NOT EXISTS admins (
       id SERIAL PRIMARY KEY,
       username VARCHAR(100) UNIQUE NOT NULL,
@@ -35,9 +33,9 @@ export async function initDB() {
       created_at TIMESTAMP DEFAULT NOW()
     );
   `);
-
-  // Add is_blocked column if it doesn't exist (for existing tables)
   await pool.query(`
     ALTER TABLE visitors ADD COLUMN IF NOT EXISTS is_blocked BOOLEAN DEFAULT FALSE;
+    ALTER TABLE visitors ADD COLUMN IF NOT EXISTS password_hash VARCHAR(255);
+    ALTER TABLE visitors ADD COLUMN IF NOT EXISTS registration_no VARCHAR(20);
   `);
 }
