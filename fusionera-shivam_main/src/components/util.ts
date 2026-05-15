@@ -1,33 +1,23 @@
 export const textileSlides = [
   {
     src: "/images/slider/decor-main.png",
-    alt: "Houseware Decor",
-    title: "Luxury Home Decor Collection",
-    subtitle: "Premium handcrafted décor & lifestyle products",
+   
   },
   {
     src: "./images/slider/glassware.png",
-    alt: "Glassware",
-    title: "Elegant Glassware Edit",
-    subtitle: "Crystal-clear table stories for modern homes",
+  
   },
   {
     src: "./images/slider/home-appliances.png",
-    alt: "Home Appliances",
-    title: "Smart Home Appliances",
-    subtitle: "Performance-first essentials for everyday comfort",
+   
   },
   {
     src: "./images/slider/houseware.png",
-    alt: "House Ware",
-    title: "Signature Houseware",
-    subtitle: "Crafted utility with premium finish and style",
+   
   },
   {
     src: "./images/slider/stainless-steel.png",
-    alt: "Stainless Steel",
-    title: "Stainless Steel Range",
-    subtitle: "Durable, hygienic, and built for high use",
+   
   },
 ];
 
