@@ -10,14 +10,11 @@ export default function Section1() {
     seconds: 0,
   });
 
-  // Countdown
   useEffect(() => {
     const showDate = new Date("2026-07-04T10:00:00");
-
     const updateCountdown = () => {
       const now = new Date();
       const diff = Math.max(showDate.getTime() - now.getTime(), 0);
-
       setCountdown({
         days: Math.floor(diff / (1000 * 60 * 60 * 24)),
         hours: Math.floor((diff / (1000 * 60 * 60)) % 24),
@@ -25,28 +22,22 @@ export default function Section1() {
         seconds: Math.floor((diff / 1000) % 60),
       });
     };
-
-    updateCountdown(); // IMPORTANT FIX → refresh pe blank nahi dikhega
-
+    updateCountdown();
     const timer = setInterval(updateCountdown, 1000);
-
     return () => clearInterval(timer);
   }, []);
 
-  // Slider
   useEffect(() => {
     if (!textileSlides?.length) return;
-
     const timer = setInterval(() => {
       setActiveTextileSlide((prev) => (prev + 1) % textileSlides.length);
     }, 3500);
-
     return () => clearInterval(timer);
   }, []);
 
   const goToPrevTextileSlide = () => {
     setActiveTextileSlide(
-      (prev) => (prev - 1 + textileSlides.length) % textileSlides.length,
+      (prev) => (prev - 1 + textileSlides.length) % textileSlides.length
     );
   };
 
@@ -55,17 +46,9 @@ export default function Section1() {
   };
 
   return (
-    <section
-      id="featured"
-      className="relative isolate w-full overflow-hidden py-16 md:py-20"
-    >
-      {/* DARK BACKGROUND LIKE FOOTER */}
+    <section id="featured" className="relative isolate w-full overflow-hidden py-16 md:py-20">
       <div className="absolute inset-0 -z-10 bg-[linear-gradient(120deg,#090f2d_0%,#0f1a4f_48%,#1a2f7f_100%)]"></div>
-
-      {/* OVERLAY */}
       <div className="absolute inset-0 -z-10 bg-black/35"></div>
-
-      {/* GLOW EFFECTS */}
       <div className="pointer-events-none absolute -left-10 top-0 h-40 w-40 rounded-full bg-[#26d1ff]/10 blur-3xl"></div>
       <div className="pointer-events-none absolute -right-8 bottom-0 h-40 w-40 rounded-full bg-[#ffb25a]/10 blur-3xl"></div>
 
@@ -75,25 +58,17 @@ export default function Section1() {
           <h1 className="text-5xl font-bold leading-tight text-white md:text-6xl">
             Our Exhibitions
           </h1>
-
           <div className="mt-5">
-            <h3 className="text-2xl font-semibold text-[#ffe3a6]">
-              04–07 July 2026
-            </h3>
-
+            <h3 className="text-2xl font-semibold text-[#ffe3a6]">04–07 July 2026</h3>
             <h4 className="mt-2 text-xl leading-relaxed text-[#d9e7ff]">
-              Bharat Mandapam, Pragati Maidan,
-              <br />
-              New Delhi, India
+              Bharat Mandapam, Pragati Maidan,<br />New Delhi, India
             </h4>
           </div>
 
-          {/* COUNTDOWN */}
           <div className="mt-8 rounded-3xl border border-white/10 bg-white/10 p-5 shadow-[0_20px_50px_rgba(0,0,0,0.4)] backdrop-blur-xl">
             <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#8cecff]">
               Show Starts In
             </p>
-
             <div className="mt-4 grid grid-cols-4 gap-3 text-center">
               {[
                 { label: "Days", value: countdown.days },
@@ -101,21 +76,14 @@ export default function Section1() {
                 { label: "Minutes", value: countdown.minutes },
                 { label: "Seconds", value: countdown.seconds },
               ].map((item) => (
-                <div
-                  key={item.label}
-                  className="rounded-2xl border border-white/10 bg-black/20 p-3"
-                >
+                <div key={item.label} className="rounded-2xl border border-white/10 bg-black/20 p-3">
                   <p className="text-2xl font-bold text-white">{item.value}</p>
-
-                  <p className="mt-1 text-[10px] uppercase tracking-[0.15em] text-[#d9e7ff]">
-                    {item.label}
-                  </p>
+                  <p className="mt-1 text-[10px] uppercase tracking-[0.15em] text-[#d9e7ff]">{item.label}</p>
                 </div>
               ))}
             </div>
-
             <a
-              href="#contact"
+              href="/visitor-registration"
               className="mt-5 inline-flex w-full items-center justify-center rounded-2xl bg-gradient-to-r from-[#2f66ff] to-[#5b8cff] px-5 py-3 text-sm font-semibold text-white transition hover:scale-[1.02]"
             >
               Register as Visitor
@@ -139,20 +107,6 @@ export default function Section1() {
                     alt={slide.alt}
                     className="h-full w-full object-cover"
                   />
-
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/20 to-transparent"></div>
-
-                  <div className="absolute bottom-0 left-0 right-0 p-6">
-                    <p className="text-xs uppercase tracking-[0.18em] text-[#7de9ff]">
-                      Textile Fest Highlight
-                    </p>
-
-                    <h3 className="mt-2 text-3xl font-bold text-white">
-                      {slide.title}
-                    </h3>
-
-                    <p className="mt-1 text-white/85">{slide.subtitle}</p>
-                  </div>
                 </div>
               ))}
 
@@ -179,9 +133,7 @@ export default function Section1() {
                     key={slide.alt}
                     onClick={() => setActiveTextileSlide(index)}
                     className={`h-2 rounded-full transition-all ${
-                      activeTextileSlide === index
-                        ? "w-8 bg-white"
-                        : "w-2 bg-white/40"
+                      activeTextileSlide === index ? "w-8 bg-white" : "w-2 bg-white/40"
                     }`}
                   />
                 ))}
