@@ -2,7 +2,7 @@ import React from 'react'
 
 export default function Section3() {
   return (
-    <section id="houseware" className="mx-auto w-[92%] max-w-7xl py-8 md:py-12 reveal-on-scroll"
+    <section id="about" className="mx-auto w-[92%] max-w-7xl py-8 md:py-12 reveal-on-scroll"
       data-reveal-delay="0">
       <div className="relative overflow-hidden rounded-3xl border border-[#1b2440]/10 bg-gradient-to-br from-[#f7fbff] via-[#eef5ff] to-[#fff5ea] p-5 shadow-[0_22px_50px_rgba(38,72,125,0.14)] md:p-8">
         <div className="pointer-events-none absolute -left-16 -top-20 h-52 w-52 rounded-full bg-[#7bc4ff]/25 blur-3xl"></div>

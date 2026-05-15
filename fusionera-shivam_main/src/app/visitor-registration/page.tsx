@@ -234,7 +234,7 @@ export default function VisitorRegistrationPage() {
   const labelStyle = { color: "var(--app-text)" };
 
   return (
-    <section className="min-h-screen px-4 py-8">
+    <section id="contact" className="min-h-screen px-4 py-8">
       <div className="max-w-3xl mx-auto">
         {/* Header */}
         <div className="text-center mb-8">

@@ -55,7 +55,10 @@ export default function Section1() {
   };
 
   return (
-    <section className="relative isolate w-full overflow-hidden py-16 md:py-20">
+    <section
+      id="featured"
+      className="relative isolate w-full overflow-hidden py-16 md:py-20"
+    >
       {/* DARK BACKGROUND LIKE FOOTER */}
       <div className="absolute inset-0 -z-10 bg-[linear-gradient(120deg,#090f2d_0%,#0f1a4f_48%,#1a2f7f_100%)]"></div>
 
