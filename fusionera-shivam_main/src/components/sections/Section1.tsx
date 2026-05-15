@@ -179,19 +179,9 @@ export default function Section1() {
                     alt={slide.alt}
                     className="h-full w-full object-cover object-top"
                   />
-
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
-
-                  <div className="absolute bottom-0 left-0 right-0 p-6">
-                    <p className="text-xs uppercase tracking-[0.18em] text-[#7de9ff]"></p>
-
-                    <h3 className="mt-2 text-3xl font-bold text-white">
-                      {slide.title}
-                    </h3>
-
-                    <p className="mt-1 text-white/85">{slide.subtitle}</p>
                   </div>
-                </div>
+
+             
               ))}
 
               {/* PREV BUTTON */}
