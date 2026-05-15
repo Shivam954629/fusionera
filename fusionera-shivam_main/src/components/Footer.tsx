@@ -77,7 +77,7 @@ export default function Footer() {
             <span
               className="flex h-9 w-9  items-center justify-center rounded-full bg-white/10 text-white"
               aria-label="Twitter (coming soon)"
-              title="Coming soon"
+              // title="Coming soon"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -93,7 +93,7 @@ export default function Footer() {
             <span
               className="flex h-9 w-9  items-center justify-center rounded-full bg-white/10 text-white"
               aria-label="LinkedIn (coming soon)"
-              title="Coming soon"
+              // title="Coming soon"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -109,7 +109,7 @@ export default function Footer() {
             <span
               className="flex h-9 w-9  items-center justify-center rounded-full bg-white/10 text-white"
               aria-label="YouTube (coming soon)"
-              title="Coming soon"
+              // title="Coming soon"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
