@@ -15,6 +15,14 @@ const STEPS = [
   "Final Submission",
 ];
 
+const INVITED_BY_OPTIONS = [
+  "Organiser",
+  "Exhibitor",
+  "Reference from other visitors",
+  "Associations",
+  "Others",
+];
+
 const PRODUCT_OPTIONS = [
   "House Ware",
   "Horeca",
@@ -32,6 +40,7 @@ const PRODUCT_OPTIONS = [
   "Gifts & Handicrafts",
   "Other",
 ];
+
 const BUSINESS_TYPES = [
   "Retailer",
   "Wholesaler",
@@ -45,6 +54,7 @@ const BUSINESS_TYPES = [
   "Buying Agent",
   "Other",
 ];
+
 const DESIGNATIONS = [
   "Owner/Proprietor",
   "Director",
@@ -54,7 +64,9 @@ const DESIGNATIONS = [
   "Sales Executive",
   "Other",
 ];
+
 const TITLES = ["Mr.", "Mrs.", "Ms.", "Dr.", "Prof."];
+
 const ANNUAL_BUYING = [
   "Less than ₹10 Lakh",
   "₹10–50 Lakh",
@@ -62,6 +74,7 @@ const ANNUAL_BUYING = [
   "₹1–5 Crore",
   "More than ₹5 Crore",
 ];
+
 const HOW_HEARD = [
   "Social Media",
   "Email",
@@ -70,6 +83,57 @@ const HOW_HEARD = [
   "Magazine/Newspaper",
   "Previous Year",
   "Other",
+];
+
+const VISIT_PURPOSES = [
+  "Sourcing new products",
+  "Meeting existing suppliers",
+  "Exploring new suppliers",
+  "Market research",
+  "Networking",
+  "Attending seminars",
+  "General interest",
+  "Business expansion",
+];
+
+const INDIA_STATES = [
+  "Andhra Pradesh",
+  "Arunachal Pradesh",
+  "Assam",
+  "Bihar",
+  "Chhattisgarh",
+  "Goa",
+  "Gujarat",
+  "Haryana",
+  "Himachal Pradesh",
+  "Jharkhand",
+  "Karnataka",
+  "Kerala",
+  "Madhya Pradesh",
+  "Maharashtra",
+  "Manipur",
+  "Meghalaya",
+  "Mizoram",
+  "Nagaland",
+  "Odisha",
+  "Punjab",
+  "Rajasthan",
+  "Sikkim",
+  "Tamil Nadu",
+  "Telangana",
+  "Tripura",
+  "Uttar Pradesh",
+  "Uttarakhand",
+  "West Bengal",
+  "Andaman and Nicobar Islands",
+  "Chandigarh",
+  "Dadra and Nagar Haveli",
+  "Daman and Diu",
+  "Delhi",
+  "Jammu and Kashmir",
+  "Ladakh",
+  "Lakshadweep",
+  "Puducherry",
 ];
 
 export default function VisitorRegistrationPage() {
@@ -89,7 +153,6 @@ export default function VisitorRegistrationPage() {
   const [qrCode, setQrCode] = useState("");
   const [agreed, setAgreed] = useState(false);
 
-  // Form data
   const [formData, setFormData] = useState({
     photo_url: "",
     invited_by: "",
@@ -100,6 +163,8 @@ export default function VisitorRegistrationPage() {
     designation: "",
     company: "",
     email: "",
+    email2: "",
+    phone2: "",
     country: "India",
     business_card_front: "",
     business_card_back: "",
@@ -119,13 +184,81 @@ export default function VisitorRegistrationPage() {
     brands_interested: "",
   });
 
-  // OTP timer
   useEffect(() => {
     if (otpTimer > 0) {
       const t = setTimeout(() => setOtpTimer((p) => p - 1), 1000);
       return () => clearTimeout(t);
     }
   }, [otpTimer]);
+
+  // ── VALIDATION PER STEP ──
+  const validateStep = (step: number): string | null => {
+    switch (step) {
+      case 1:
+        if (!formData.invited_by) return "Please select 'Invited By'.";
+        if (!formData.title) return "Please select Title.";
+        if (!formData.first_name.trim()) return "First Name is required.";
+        if (!formData.last_name.trim()) return "Last Name is required.";
+        if (!formData.designation) return "Please select Designation.";
+        if (!formData.company.trim()) return "Company name is required.";
+        if (!formData.email.trim()) return "Email ID is required.";
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email))
+          return "Please enter a valid Email ID.";
+        if (
+          formData.email2 &&
+          !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email2)
+        )
+          return "Please enter a valid Email ID 2.";
+        if (!formData.photo_url)
+          return "Please upload your passport size photo.";
+        if (!formData.business_card_front)
+          return "Please upload business card front side.";
+        return null;
+
+      case 2:
+        if (!formData.address1.trim()) return "Address Line 1 is required.";
+        if (!formData.city.trim()) return "City is required.";
+        if (!formData.state) return "Please select State.";
+        if (!formData.pincode.trim()) return "PIN Code is required.";
+        if (!/^\d{6}$/.test(formData.pincode))
+          return "PIN Code must be 6 digits.";
+        return null;
+
+      case 3:
+        if (!formData.business_type) return "Please select Business Type.";
+        if (!formData.nature_of_business.trim())
+          return "Nature of Business is required.";
+        return null;
+
+      case 4:
+        if (formData.product_interests.length === 0)
+          return "Please select at least one Product Interest.";
+        return null;
+
+      case 5:
+        if (formData.visit_purpose.length === 0)
+          return "Please select at least one Visit Purpose.";
+        return null;
+
+      case 6:
+        if (!formData.annual_buying)
+          return "Please select Annual Buying Budget.";
+        return null;
+
+      case 7:
+        if (!formData.how_did_you_hear)
+          return "Please select how you heard about us.";
+        return null;
+
+      case 8:
+        if (!formData.brands_interested.trim())
+          return "Please mention brands & products you are interested in.";
+        return null;
+
+      default:
+        return null;
+    }
+  };
 
   const sendOTP = async () => {
     if (!phone) {
@@ -182,6 +315,13 @@ export default function VisitorRegistrationPage() {
   };
 
   const saveStep = async (step: number) => {
+    // Validate before saving
+    const validationError = validateStep(step);
+    if (validationError) {
+      setError(validationError);
+      return;
+    }
+
     setLoading(true);
     setError("");
     try {
@@ -201,7 +341,6 @@ export default function VisitorRegistrationPage() {
       if (step < 8) {
         setCurrentStep(step + 1);
       } else {
-        // Final submit
         const res = await fetch("/api/registration/submit", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -223,6 +362,13 @@ export default function VisitorRegistrationPage() {
   const toggleArray = (arr: string[], val: string) =>
     arr.includes(val) ? arr.filter((x) => x !== val) : [...arr, val];
 
+  const handleFileUpload = (field: string, file: File) => {
+    const reader = new FileReader();
+    reader.onload = (ev) =>
+      setFormData((p) => ({ ...p, [field]: ev.target?.result as string }));
+    reader.readAsDataURL(file);
+  };
+
   const inputCls =
     "w-full px-4 py-2.5 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 transition";
   const inputStyle = {
@@ -232,6 +378,112 @@ export default function VisitorRegistrationPage() {
   };
   const labelCls = "block text-sm font-semibold mb-1.5";
   const labelStyle = { color: "var(--app-text)" };
+  const reqStar = <span className="text-red-500">*</span>;
+
+  // Reusable clear-select component
+  const ClearSelect = ({
+    value,
+    onChange,
+    options,
+    placeholder,
+  }: {
+    value: string;
+    onChange: (v: string) => void;
+    options: string[];
+    placeholder?: string;
+  }) => (
+    <div className="flex gap-1">
+      <select
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
+        className={`${inputCls} flex-1`}
+        style={inputStyle}
+      >
+        <option value="">Select</option>
+        {options.map((o) => (
+          <option key={o}>{o}</option>
+        ))}
+      </select>
+      {value && (
+        <button
+          type="button"
+          onClick={() => onChange("")}
+          className="px-3 rounded-xl text-sm font-bold text-gray-500 hover:text-red-500 transition flex-shrink-0"
+          style={{
+            background: "var(--app-panel-soft)",
+            border: "1px solid var(--app-border)",
+          }}
+        >
+          ×
+        </button>
+      )}
+    </div>
+  );
+
+  // Reusable file upload box
+  const FileUploadBox = ({
+    field,
+    label,
+    value,
+    accept = "image/*",
+  }: {
+    field: string;
+    label: string;
+    value: string;
+    accept?: string;
+  }) => (
+    <div
+      className="rounded-xl p-4 text-center cursor-pointer relative"
+      style={{
+        background: "var(--app-panel-soft)",
+        border: "2px dashed var(--app-border)",
+      }}
+    >
+      {value ? (
+        <div>
+          <img
+            src={value}
+            alt={label}
+            className="w-full h-24 object-cover rounded-lg mb-2"
+          />
+          <button
+            type="button"
+            onClick={() => setFormData((p) => ({ ...p, [field]: "" }))}
+            className="text-xs text-red-500 font-medium"
+          >
+            Remove
+          </button>
+        </div>
+      ) : (
+        <label className="cursor-pointer block">
+          <svg
+            className="w-8 h-8 mx-auto mb-2 text-gray-400"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <rect x="2" y="5" width="20" height="14" rx="2" strokeWidth={2} />
+            <path strokeLinecap="round" strokeWidth={2} d="M2 10h20" />
+          </svg>
+          <span
+            className="text-sm font-medium"
+            style={{ color: "var(--app-text)" }}
+          >
+            {label}
+          </span>
+          <input
+            type="file"
+            accept={accept}
+            className="hidden"
+            onChange={(e) => {
+              const f = e.target.files?.[0];
+              if (f) handleFileUpload(field, f);
+            }}
+          />
+        </label>
+      )}
+    </div>
+  );
 
   return (
     <section id="contact" className="min-h-screen px-4 py-8">
@@ -261,7 +513,6 @@ export default function VisitorRegistrationPage() {
                 border: "1px solid var(--app-border)",
               }}
             >
-              {/* Tabs */}
               <div
                 className="flex border-b"
                 style={{ borderColor: "var(--app-border)" }}
@@ -283,7 +534,6 @@ export default function VisitorRegistrationPage() {
                   </button>
                 ))}
               </div>
-
               <div className="px-8 py-8 text-center">
                 <div
                   className="w-14 h-14 rounded-full flex items-center justify-center mx-auto mb-4"
@@ -311,7 +561,6 @@ export default function VisitorRegistrationPage() {
                 >
                   Verify Mobile
                 </h2>
-
                 <div className="flex mb-4">
                   <div
                     className="px-4 py-2.5 rounded-l-xl text-sm font-medium border-r-0 flex-shrink-0"
@@ -340,7 +589,6 @@ export default function VisitorRegistrationPage() {
                     }}
                   />
                 </div>
-
                 <label className="flex items-start gap-2 text-left mb-6 cursor-pointer">
                   <input
                     type="checkbox"
@@ -356,13 +604,11 @@ export default function VisitorRegistrationPage() {
                     Email
                   </span>
                 </label>
-
                 {error && (
                   <div className="mb-4 rounded-xl px-4 py-3 text-sm text-red-600 bg-red-50 border border-red-200">
                     {error}
                   </div>
                 )}
-
                 <button
                   onClick={sendOTP}
                   disabled={loading}
@@ -394,7 +640,6 @@ export default function VisitorRegistrationPage() {
                     {success}
                   </div>
                 )}
-
                 <div className="flex justify-between mb-4">
                   <button
                     onClick={() => {
@@ -419,7 +664,6 @@ export default function VisitorRegistrationPage() {
                     Start over
                   </button>
                 </div>
-
                 <div className="text-center mb-6">
                   <div
                     className="w-14 h-14 rounded-full flex items-center justify-center mx-auto mb-4"
@@ -451,7 +695,6 @@ export default function VisitorRegistrationPage() {
                     Sent to <strong>{phone}</strong>
                   </p>
                 </div>
-
                 <input
                   type="text"
                   value={otp}
@@ -463,13 +706,11 @@ export default function VisitorRegistrationPage() {
                   className={`${inputCls} text-center text-xl tracking-widest font-bold mb-4`}
                   style={inputStyle}
                 />
-
                 {error && (
                   <div className="mb-4 rounded-xl px-4 py-3 text-sm text-red-600 bg-red-50 border border-red-200">
                     {error}
                   </div>
                 )}
-
                 <button
                   onClick={verifyOTP}
                   disabled={loading}
@@ -480,7 +721,6 @@ export default function VisitorRegistrationPage() {
                 >
                   {loading ? "Verifying..." : "Verify and continue"}
                 </button>
-
                 <p
                   className="text-center text-xs"
                   style={{ color: "var(--app-muted)" }}
@@ -489,9 +729,7 @@ export default function VisitorRegistrationPage() {
                     `Didn't get the OTP? You can resend after ${String(Math.floor(otpTimer / 60)).padStart(2, "0")}:${String(otpTimer % 60).padStart(2, "0")} (1 min wait)`
                   ) : (
                     <button
-                      onClick={() => {
-                        sendOTP();
-                      }}
+                      onClick={sendOTP}
                       className="text-blue-600 font-medium"
                     >
                       Resend OTP
@@ -513,13 +751,7 @@ export default function VisitorRegistrationPage() {
                   <div key={i} className="flex items-center">
                     <div className="flex flex-col items-center">
                       <div
-                        className={`w-9 h-9 rounded-full flex items-center justify-center text-sm font-bold transition-all ${
-                          i + 1 < currentStep
-                            ? "text-white"
-                            : i + 1 === currentStep
-                              ? "text-white"
-                              : "text-gray-400"
-                        }`}
+                        className={`w-9 h-9 rounded-full flex items-center justify-center text-sm font-bold transition-all ${i + 1 < currentStep ? "text-white" : i + 1 === currentStep ? "text-white" : "text-gray-400"}`}
                         style={{
                           background:
                             i + 1 < currentStep
@@ -588,15 +820,7 @@ export default function VisitorRegistrationPage() {
                   className="text-xl font-bold"
                   style={{ color: "var(--app-text)" }}
                 >
-                  {currentStep === 1 && "Personal Details"}
-                  {currentStep === 2 && "Address Details"}
-                  {currentStep === 3 && "Business Profile"}
-                  {currentStep === 4 && "Product Interests"}
-                  {currentStep === 5 && "Visit Purpose"}
-                  {currentStep === 6 && "Annual Buying"}
-                  {currentStep === 7 && "Additional Information"}
-                  {currentStep === 8 && "Brands & Products"}
-                  {currentStep === 9 && "Final Submission"}
+                  {STEPS[currentStep - 1]}
                 </h2>
               </div>
 
@@ -609,28 +833,138 @@ export default function VisitorRegistrationPage() {
 
                 {/* STEP 1 - Basic Details */}
                 {currentStep === 1 && (
-                  <div className="space-y-4">
+                  <div className="space-y-5">
+                    {/* Passport Photo */}
+                    <div>
+                      <label className={labelCls} style={labelStyle}>
+                        Passport Size Colour Photo {reqStar}
+                      </label>
+                      <p className="text-xs mb-2 text-red-500">
+                        Passport size photo (no sunglasses/cap). Max 10MB.
+                        Supported: png, jpg, jpeg
+                      </p>
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                          {formData.photo_url ? (
+                            <div
+                              className="rounded-xl overflow-hidden border"
+                              style={{ border: "1px solid var(--app-border)" }}
+                            >
+                              <img
+                                src={formData.photo_url}
+                                alt="Photo"
+                                className="w-full h-40 object-cover"
+                              />
+                              <div className="p-2 text-center">
+                                <button
+                                  type="button"
+                                  onClick={() =>
+                                    setFormData((p) => ({
+                                      ...p,
+                                      photo_url: "",
+                                    }))
+                                  }
+                                  className="text-xs text-red-500 font-medium"
+                                >
+                                  Remove photo
+                                </button>
+                              </div>
+                            </div>
+                          ) : (
+                            <label
+                              className="cursor-pointer block rounded-xl p-6 text-center"
+                              style={{
+                                background: "var(--app-panel-soft)",
+                                border: "2px dashed var(--app-border)",
+                              }}
+                            >
+                              <div className="w-20 h-24 bg-gray-200 rounded-lg mx-auto mb-3 flex items-center justify-center">
+                                <svg
+                                  className="w-10 h-10 text-gray-400"
+                                  fill="currentColor"
+                                  viewBox="0 0 24 24"
+                                >
+                                  <path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z" />
+                                </svg>
+                              </div>
+                              <span
+                                className="px-4 py-2 rounded-lg text-white text-sm font-medium"
+                                style={{
+                                  background:
+                                    "linear-gradient(135deg,#1d4ed8,#2563eb)",
+                                }}
+                              >
+                                Upload photo
+                              </span>
+                              <input
+                                type="file"
+                                accept="image/*"
+                                className="hidden"
+                                onChange={(e) => {
+                                  const f = e.target.files?.[0];
+                                  if (f) handleFileUpload("photo_url", f);
+                                }}
+                              />
+                            </label>
+                          )}
+                        </div>
+                        <div
+                          className="rounded-xl overflow-hidden"
+                          style={{
+                            background: "#fef9e7",
+                            border: "1px solid #f59e0b",
+                          }}
+                        >
+                          <div
+                            className="px-3 py-2 text-center text-xs font-bold text-amber-800 uppercase tracking-wide"
+                            style={{ background: "#f59e0b" }}
+                          >
+                            Passport Photo Guidelines
+                          </div>
+                          <div className="p-3 space-y-1">
+                            {[
+                              "Size: 35mm x 45mm",
+                              "Face: 70-80% of height, centered",
+                              "Background: White / Light Color",
+                              "Expression: Neutral",
+                              "Attire: No Caps, No Sunglasses",
+                            ].map((g) => (
+                              <p
+                                key={g}
+                                className="text-xs text-amber-900 flex items-start gap-1"
+                              >
+                                <span className="text-amber-600 mt-0.5">•</span>
+                                {g}
+                              </p>
+                            ))}
+                            <div className="mt-2 pt-2 border-t border-amber-200">
+                              <p className="text-xs font-semibold text-red-600 text-center">
+                                ❌ No selfies, filters, busy backgrounds, or
+                                full body shots
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Row: Invited By + Title */}
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       <div>
                         <label className={labelCls} style={labelStyle}>
-                          Invited By
+                          Invited By {reqStar}
                         </label>
-                        <input
+                        <ClearSelect
                           value={formData.invited_by}
-                          onChange={(e) =>
-                            setFormData((p) => ({
-                              ...p,
-                              invited_by: e.target.value,
-                            }))
+                          onChange={(v) =>
+                            setFormData((p) => ({ ...p, invited_by: v }))
                           }
-                          className={inputCls}
-                          style={inputStyle}
-                          placeholder="Invited by"
+                          options={INVITED_BY_OPTIONS}
                         />
                       </div>
                       <div>
                         <label className={labelCls} style={labelStyle}>
-                          Title <span className="text-red-500">*</span>
+                          Title {reqStar}
                         </label>
                         <select
                           value={formData.title}
@@ -650,10 +984,12 @@ export default function VisitorRegistrationPage() {
                         </select>
                       </div>
                     </div>
+
+                    {/* Row: First, Middle, Last Name */}
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                       <div>
                         <label className={labelCls} style={labelStyle}>
-                          First Name <span className="text-red-500">*</span>
+                          First Name {reqStar}
                         </label>
                         <input
                           value={formData.first_name}
@@ -666,7 +1002,6 @@ export default function VisitorRegistrationPage() {
                           className={inputCls}
                           style={inputStyle}
                           placeholder="First name"
-                          required
                         />
                       </div>
                       <div>
@@ -688,7 +1023,7 @@ export default function VisitorRegistrationPage() {
                       </div>
                       <div>
                         <label className={labelCls} style={labelStyle}>
-                          Last Name <span className="text-red-500">*</span>
+                          Last Name {reqStar}
                         </label>
                         <input
                           value={formData.last_name}
@@ -701,35 +1036,27 @@ export default function VisitorRegistrationPage() {
                           className={inputCls}
                           style={inputStyle}
                           placeholder="Last name"
-                          required
                         />
                       </div>
                     </div>
+
+                    {/* Row: Designation + Company */}
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       <div>
                         <label className={labelCls} style={labelStyle}>
-                          Designation <span className="text-red-500">*</span>
+                          Designation {reqStar}
                         </label>
-                        <select
+                        <ClearSelect
                           value={formData.designation}
-                          onChange={(e) =>
-                            setFormData((p) => ({
-                              ...p,
-                              designation: e.target.value,
-                            }))
+                          onChange={(v) =>
+                            setFormData((p) => ({ ...p, designation: v }))
                           }
-                          className={inputCls}
-                          style={inputStyle}
-                        >
-                          <option value="">Select</option>
-                          {DESIGNATIONS.map((d) => (
-                            <option key={d}>{d}</option>
-                          ))}
-                        </select>
+                          options={DESIGNATIONS}
+                        />
                       </div>
                       <div>
                         <label className={labelCls} style={labelStyle}>
-                          Company <span className="text-red-500">*</span>
+                          Company {reqStar}
                         </label>
                         <input
                           value={formData.company}
@@ -742,14 +1069,26 @@ export default function VisitorRegistrationPage() {
                           className={inputCls}
                           style={inputStyle}
                           placeholder="Company name"
-                          required
                         />
                       </div>
                     </div>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+
+                    {/* Row: Country Code + Mobile 1 + Email 1 */}
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                       <div>
                         <label className={labelCls} style={labelStyle}>
-                          Mobile
+                          Country Code {reqStar}
+                        </label>
+                        <input
+                          value="91"
+                          disabled
+                          className={inputCls}
+                          style={{ ...inputStyle, opacity: 0.7 }}
+                        />
+                      </div>
+                      <div>
+                        <label className={labelCls} style={labelStyle}>
+                          Mobile No. 1 {reqStar}
                         </label>
                         <input
                           value={phone}
@@ -760,7 +1099,7 @@ export default function VisitorRegistrationPage() {
                       </div>
                       <div>
                         <label className={labelCls} style={labelStyle}>
-                          Email ID <span className="text-red-500">*</span>
+                          Email ID 1 {reqStar}
                         </label>
                         <input
                           type="email"
@@ -774,163 +1113,107 @@ export default function VisitorRegistrationPage() {
                           className={inputCls}
                           style={inputStyle}
                           placeholder="email@example.com"
-                          required
                         />
                       </div>
                     </div>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+
+                    {/* Row: Mobile 2 + Email 2 + Country */}
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                       <div>
                         <label className={labelCls} style={labelStyle}>
-                          Passport Photo <span className="text-red-500">*</span>
+                          Mobile No. 2
                         </label>
-                        <div
-                          className="rounded-xl p-4 text-center"
-                          style={{
-                            background: "var(--app-panel-soft)",
-                            border: "2px dashed var(--app-border)",
-                          }}
-                        >
-                          {formData.photo_url ? (
-                            <div>
-                              <img
-                                src={formData.photo_url}
-                                alt="Photo"
-                                className="w-24 h-32 object-cover mx-auto rounded-lg mb-2"
-                              />
-                              <button
-                                onClick={() =>
-                                  setFormData((p) => ({ ...p, photo_url: "" }))
-                                }
-                                className="text-xs text-red-500"
-                              >
-                                Remove
-                              </button>
-                            </div>
-                          ) : (
-                            <>
-                              <div className="w-20 h-24 bg-gray-200 rounded-lg mx-auto mb-2 flex items-center justify-center">
-                                <svg
-                                  className="w-10 h-10 text-gray-400"
-                                  fill="currentColor"
-                                  viewBox="0 0 24 24"
-                                >
-                                  <path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z" />
-                                </svg>
-                              </div>
-                              <label
-                                className="cursor-pointer px-4 py-2 rounded-lg text-white text-sm font-medium"
-                                style={{
-                                  background:
-                                    "linear-gradient(135deg,#1d4ed8,#2563eb)",
-                                }}
-                              >
-                                Upload photo
-                                <input
-                                  type="file"
-                                  accept="image/*"
-                                  className="hidden"
-                                  onChange={(e) => {
-                                    const file = e.target.files?.[0];
-                                    if (file) {
-                                      const reader = new FileReader();
-                                      reader.onload = (ev) =>
-                                        setFormData((p) => ({
-                                          ...p,
-                                          photo_url: ev.target
-                                            ?.result as string,
-                                        }));
-                                      reader.readAsDataURL(file);
-                                    }
-                                  }}
-                                />
-                              </label>
-                              <p className="text-xs mt-2 text-red-500">
-                                Passport size photo (no sunglasses/cap). Max
-                                10MB.
-                              </p>
-                            </>
-                          )}
-                        </div>
+                        <input
+                          type="tel"
+                          value={formData.phone2}
+                          onChange={(e) =>
+                            setFormData((p) => ({
+                              ...p,
+                              phone2: e.target.value
+                                .replace(/\D/g, "")
+                                .slice(0, 10),
+                            }))
+                          }
+                          className={inputCls}
+                          style={inputStyle}
+                          placeholder="Optional"
+                          maxLength={10}
+                        />
                       </div>
                       <div>
                         <label className={labelCls} style={labelStyle}>
-                          Business Card (Front){" "}
-                          <span className="text-red-500">*</span>
+                          Email ID 2
                         </label>
-                        <div
-                          className="rounded-xl p-4 text-center"
-                          style={{
-                            background: "var(--app-panel-soft)",
-                            border: "2px dashed var(--app-border)",
-                          }}
+                        <input
+                          type="email"
+                          value={formData.email2}
+                          onChange={(e) =>
+                            setFormData((p) => ({
+                              ...p,
+                              email2: e.target.value,
+                            }))
+                          }
+                          className={inputCls}
+                          style={inputStyle}
+                          placeholder="Optional"
+                        />
+                      </div>
+                      <div>
+                        <label className={labelCls} style={labelStyle}>
+                          Country
+                        </label>
+                        <div className="flex items-center gap-2">
+                          <span
+                            className="px-3 py-2 rounded-xl text-sm font-medium"
+                            style={{
+                              background: "var(--app-panel-soft)",
+                              border: "1px solid var(--app-border)",
+                              color: "var(--app-text)",
+                            }}
+                          >
+                            🇮🇳 India
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Business Card Upload */}
+                    <div>
+                      <label className={labelCls} style={labelStyle}>
+                        Upload your business card {reqStar}
+                        <span
+                          className="font-normal text-xs ml-1"
+                          style={{ color: "var(--app-muted)" }}
                         >
-                          {formData.business_card_front ? (
-                            <div>
-                              <img
-                                src={formData.business_card_front}
-                                alt="Card"
-                                className="w-full h-20 object-cover rounded mb-1"
-                              />
-                              <button
-                                onClick={() =>
-                                  setFormData((p) => ({
-                                    ...p,
-                                    business_card_front: "",
-                                  }))
-                                }
-                                className="text-xs text-red-500"
-                              >
-                                Remove
-                              </button>
-                            </div>
-                          ) : (
-                            <>
-                              <svg
-                                className="w-8 h-8 mx-auto mb-2 text-gray-400"
-                                fill="none"
-                                stroke="currentColor"
-                                viewBox="0 0 24 24"
-                              >
-                                <rect
-                                  x="2"
-                                  y="5"
-                                  width="20"
-                                  height="14"
-                                  rx="2"
-                                  strokeWidth={2}
-                                />
-                                <path
-                                  strokeLinecap="round"
-                                  strokeWidth={2}
-                                  d="M2 10h20"
-                                />
-                              </svg>
-                              <label
-                                className="cursor-pointer text-sm font-medium"
-                                style={{ color: "var(--app-text)" }}
-                              >
-                                Upload front side
-                                <input
-                                  type="file"
-                                  accept="image/*,.pdf"
-                                  className="hidden"
-                                  onChange={(e) => {
-                                    const file = e.target.files?.[0];
-                                    if (file) {
-                                      const reader = new FileReader();
-                                      reader.onload = (ev) =>
-                                        setFormData((p) => ({
-                                          ...p,
-                                          business_card_front: ev.target
-                                            ?.result as string,
-                                        }));
-                                      reader.readAsDataURL(file);
-                                    }
-                                  }}
-                                />
-                              </label>
-                            </>
-                          )}
+                          (front side required; back optional. Max 10MB, JPG,
+                          PNG, or PDF)
+                        </span>
+                      </label>
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                          <p className="text-xs font-semibold mb-2 text-red-600">
+                            Front side {reqStar}
+                          </p>
+                          <FileUploadBox
+                            field="business_card_front"
+                            label="Upload front side"
+                            value={formData.business_card_front}
+                            accept="image/*,.pdf"
+                          />
+                        </div>
+                        <div>
+                          <p
+                            className="text-xs font-semibold mb-2"
+                            style={{ color: "var(--app-muted)" }}
+                          >
+                            Back Side
+                          </p>
+                          <FileUploadBox
+                            field="business_card_back"
+                            label="Upload back side"
+                            value={formData.business_card_back}
+                            accept="image/*,.pdf"
+                          />
                         </div>
                       </div>
                     </div>
@@ -942,7 +1225,7 @@ export default function VisitorRegistrationPage() {
                   <div className="space-y-4">
                     <div>
                       <label className={labelCls} style={labelStyle}>
-                        Address Line 1 <span className="text-red-500">*</span>
+                        Address Line 1 {reqStar}
                       </label>
                       <input
                         value={formData.address1}
@@ -977,7 +1260,7 @@ export default function VisitorRegistrationPage() {
                     <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
                       <div>
                         <label className={labelCls} style={labelStyle}>
-                          City <span className="text-red-500">*</span>
+                          City {reqStar}
                         </label>
                         <input
                           value={formData.city}
@@ -991,9 +1274,9 @@ export default function VisitorRegistrationPage() {
                       </div>
                       <div>
                         <label className={labelCls} style={labelStyle}>
-                          State <span className="text-red-500">*</span>
+                          State {reqStar}
                         </label>
-                        <input
+                        <select
                           value={formData.state}
                           onChange={(e) =>
                             setFormData((p) => ({
@@ -1003,24 +1286,31 @@ export default function VisitorRegistrationPage() {
                           }
                           className={inputCls}
                           style={inputStyle}
-                          placeholder="State"
-                        />
+                        >
+                          <option value="">Select State</option>
+                          {INDIA_STATES.map((s) => (
+                            <option key={s}>{s}</option>
+                          ))}
+                        </select>
                       </div>
                       <div>
                         <label className={labelCls} style={labelStyle}>
-                          PIN Code
+                          PIN Code {reqStar}
                         </label>
                         <input
                           value={formData.pincode}
                           onChange={(e) =>
                             setFormData((p) => ({
                               ...p,
-                              pincode: e.target.value,
+                              pincode: e.target.value
+                                .replace(/\D/g, "")
+                                .slice(0, 6),
                             }))
                           }
                           className={inputCls}
                           style={inputStyle}
-                          placeholder="PIN code"
+                          placeholder="6-digit PIN"
+                          maxLength={6}
                         />
                       </div>
                     </div>
@@ -1032,28 +1322,19 @@ export default function VisitorRegistrationPage() {
                   <div className="space-y-4">
                     <div>
                       <label className={labelCls} style={labelStyle}>
-                        Business Type <span className="text-red-500">*</span>
+                        Business Type {reqStar}
                       </label>
-                      <select
+                      <ClearSelect
                         value={formData.business_type}
-                        onChange={(e) =>
-                          setFormData((p) => ({
-                            ...p,
-                            business_type: e.target.value,
-                          }))
+                        onChange={(v) =>
+                          setFormData((p) => ({ ...p, business_type: v }))
                         }
-                        className={inputCls}
-                        style={inputStyle}
-                      >
-                        <option value="">Select</option>
-                        {BUSINESS_TYPES.map((t) => (
-                          <option key={t}>{t}</option>
-                        ))}
-                      </select>
+                        options={BUSINESS_TYPES}
+                      />
                     </div>
                     <div>
                       <label className={labelCls} style={labelStyle}>
-                        Nature of Business
+                        Nature of Business {reqStar}
                       </label>
                       <input
                         value={formData.nature_of_business}
@@ -1099,7 +1380,8 @@ export default function VisitorRegistrationPage() {
                       className="text-sm mb-4"
                       style={{ color: "var(--app-muted)" }}
                     >
-                      Select all product categories you are interested in:
+                      Select all product categories you are interested in{" "}
+                      {reqStar}:
                     </p>
                     <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
                       {PRODUCT_OPTIONS.map((p) => (
@@ -1146,19 +1428,10 @@ export default function VisitorRegistrationPage() {
                       className="text-sm mb-4"
                       style={{ color: "var(--app-muted)" }}
                     >
-                      What is the purpose of your visit?
+                      What is the purpose of your visit? {reqStar}
                     </p>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                      {[
-                        "Sourcing new products",
-                        "Meeting existing suppliers",
-                        "Exploring new suppliers",
-                        "Market research",
-                        "Networking",
-                        "Attending seminars",
-                        "General interest",
-                        "Business expansion",
-                      ].map((p) => (
+                      {VISIT_PURPOSES.map((p) => (
                         <label
                           key={p}
                           className="flex items-center gap-2 p-3 rounded-xl cursor-pointer transition"
@@ -1199,8 +1472,7 @@ export default function VisitorRegistrationPage() {
                 {currentStep === 6 && (
                   <div>
                     <label className={labelCls} style={labelStyle}>
-                      Annual Buying Budget{" "}
-                      <span className="text-red-500">*</span>
+                      Annual Buying Budget {reqStar}
                     </label>
                     <div className="space-y-3 mt-2">
                       {ANNUAL_BUYING.map((a) => (
@@ -1240,7 +1512,7 @@ export default function VisitorRegistrationPage() {
                   <div className="space-y-4">
                     <div>
                       <label className={labelCls} style={labelStyle}>
-                        How did you hear about us?
+                        How did you hear about us? {reqStar}
                       </label>
                       <select
                         value={formData.how_did_you_hear}
@@ -1284,7 +1556,7 @@ export default function VisitorRegistrationPage() {
                 {currentStep === 8 && (
                   <div>
                     <label className={labelCls} style={labelStyle}>
-                      Brands & Products you are interested in
+                      Brands & Products you are interested in {reqStar}
                     </label>
                     <textarea
                       value={formData.brands_interested}
@@ -1329,12 +1601,10 @@ export default function VisitorRegistrationPage() {
                           desk to print your badge.
                         </li>
                         <li>
-                          Please note that once you submit, your phone number
-                          cannot be changed.
+                          Once you submit, your phone number cannot be changed.
                         </li>
                       </ul>
                     </div>
-                    {/* Summary */}
                     <div
                       className="rounded-xl p-4"
                       style={{
@@ -1356,10 +1626,13 @@ export default function VisitorRegistrationPage() {
                               `${formData.title} ${formData.first_name} ${formData.middle_name} ${formData.last_name}`.trim(),
                             ],
                             ["Company", formData.company],
+                            ["Designation", formData.designation],
                             ["Mobile", phone],
                             ["Email", formData.email],
                             ["City", formData.city],
+                            ["State", formData.state],
                             ["Business Type", formData.business_type],
+                            ["Annual Buying", formData.annual_buying],
                           ].map(
                             ([k, v]) =>
                               v && (
@@ -1396,7 +1669,10 @@ export default function VisitorRegistrationPage() {
                 >
                   {currentStep > 1 && (
                     <button
-                      onClick={() => setCurrentStep((p) => p - 1)}
+                      onClick={() => {
+                        setCurrentStep((p) => p - 1);
+                        setError("");
+                      }}
                       className="px-6 py-2.5 rounded-xl text-sm font-semibold border transition hover:opacity-80"
                       style={{
                         color: "var(--app-text)",
@@ -1532,8 +1808,6 @@ export default function VisitorRegistrationPage() {
                 >
                   Your entry pass and QR code have been sent to your email.
                 </p>
-
-                {/* Reg No */}
                 <div
                   className="rounded-xl p-4 mb-6"
                   style={{
@@ -1547,8 +1821,6 @@ export default function VisitorRegistrationPage() {
                     {regNo}
                   </p>
                 </div>
-
-                {/* QR Code */}
                 {qrCode && (
                   <div className="mb-6">
                     <p
@@ -1584,7 +1856,6 @@ export default function VisitorRegistrationPage() {
                     </a>
                   </div>
                 )}
-
                 <div
                   className="rounded-xl p-4"
                   style={{

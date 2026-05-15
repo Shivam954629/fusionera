@@ -1,33 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
 import { pool, initDB } from "@/lib/db";
+import twilio from "twilio";
 
-function generateOTP(): string {
-  return Math.floor(100000 + Math.random() * 900000).toString();
-}
-
-async function sendSMS(phone: string, otp: string): Promise<boolean> {
-  // DEV MODE: if no API key, skip SMS and just return true (OTP shown in server console)
-  if (!process.env.FAST2SMS_API_KEY) {
-    console.warn(
-      `⚠️  FAST2SMS_API_KEY not set. OTP for ${phone}: ${otp} (DEV MODE — not sent via SMS)`,
-    );
-    return true; // pretend success so dev can test the flow
-  }
-
-  try {
-    const url = `https://www.fast2sms.com/dev/bulkV2?authorization=${process.env.FAST2SMS_API_KEY}&route=otp&variables_values=${otp}&flash=0&numbers=${phone}`;
-    const res = await fetch(url, {
-      method: "GET",
-      headers: { "cache-control": "no-cache" },
-    });
-    const data = await res.json();
-    console.log("Fast2SMS response:", data);
-    return data.return === true;
-  } catch (err) {
-    console.error("SMS error:", err);
-    return false;
-  }
-}
+const twilioClient = twilio(
+  process.env.TWILIO_ACCOUNT_SID,
+  process.env.TWILIO_AUTH_TOKEN,
+);
 
 export async function POST(req: NextRequest) {
   try {
@@ -40,7 +18,7 @@ export async function POST(req: NextRequest) {
         { status: 400 },
       );
 
-    // Clean phone number
+    // Clean phone number and format for Twilio (+91XXXXXXXXXX)
     const cleanPhone = phone.replace(/\D/g, "").slice(-10);
     if (cleanPhone.length !== 10)
       return NextResponse.json(
@@ -48,48 +26,49 @@ export async function POST(req: NextRequest) {
         { status: 400 },
       );
 
-    // Check rate limit - max 3 OTPs per phone per hour
+    const fullPhone = `+91${cleanPhone}`;
+
+    // Rate limit: max 3 OTPs per phone per hour
     const rateCheck = await pool.query(
       `SELECT COUNT(*) FROM otps WHERE phone_number=$1 AND created_at > NOW() - INTERVAL '1 hour'`,
       [cleanPhone],
     );
-    if (parseInt(rateCheck.rows[0].count) >= 3) {
+    if (parseInt(rateCheck.rows[0].count) >= 4) {
       return NextResponse.json(
         { error: "Too many OTP requests. Please try after 1 hour." },
         { status: 429 },
       );
     }
 
-    const otp = generateOTP();
-    const expiresAt = new Date(Date.now() + 10 * 60 * 1000); // 10 minutes
+    // Send OTP via Twilio Verify
+    const verification = await twilioClient.verify.v2
+      .services(process.env.TWILIO_VERIFY_SERVICE_SID!)
+      .verifications.create({ to: fullPhone, channel: "sms" });
 
-    // Save OTP to DB
-    await pool.query(
-      `INSERT INTO otps (phone_number, otp, expires_at) VALUES ($1, $2, $3)`,
-      [cleanPhone, otp, expiresAt],
-    );
+    console.log("Twilio verification status:", verification.status);
 
-    // Send SMS (or log in dev)
-    const sent = await sendSMS(cleanPhone, otp);
-    if (!sent) {
+    if (verification.status !== "pending") {
       return NextResponse.json(
-        { error: "Failed to send OTP via SMS. Please try again." },
+        { error: "Failed to send OTP. Please try again." },
         { status: 500 },
       );
     }
+
+    // Save a record in DB (otp field empty since Twilio manages it)
+    const expiresAt = new Date(Date.now() + 10 * 60 * 1000);
+    await pool.query(
+      `INSERT INTO otps (phone_number, otp, expires_at) VALUES ($1, $2, $3)`,
+      [cleanPhone, "twilio", expiresAt],
+    );
 
     return NextResponse.json({
       success: true,
       message: "OTP sent successfully.",
       phone: cleanPhone,
       visitorType,
-      // In dev (no API key), expose OTP in response for testing
-      ...(process.env.NODE_ENV !== "production" && !process.env.FAST2SMS_API_KEY
-        ? { devOtp: otp }
-        : {}),
     });
-  } catch (err) {
-    console.error("OTP send error:", err);
+  } catch (err: any) {
+    console.error("OTP send error:", err?.message || err);
     return NextResponse.json(
       { error: "Server error. Please try again." },
       { status: 500 },

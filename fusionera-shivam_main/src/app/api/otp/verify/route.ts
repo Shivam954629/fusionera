@@ -1,5 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
 import { pool } from "@/lib/db";
+import twilio from "twilio";
+
+const twilioClient = twilio(
+  process.env.TWILIO_ACCOUNT_SID,
+  process.env.TWILIO_AUTH_TOKEN,
+);
 
 export async function POST(req: NextRequest) {
   try {
@@ -11,24 +17,27 @@ export async function POST(req: NextRequest) {
       );
 
     const cleanPhone = phone.replace(/\D/g, "").slice(-10);
+    const fullPhone = `+91${cleanPhone}`;
 
-    // Find valid OTP
-    const result = await pool.query(
-      `SELECT * FROM otps WHERE phone_number=$1 AND otp=$2 AND used=FALSE AND expires_at > NOW() ORDER BY created_at DESC LIMIT 1`,
-      [cleanPhone, otp],
-    );
+    // Verify OTP via Twilio Verify
+    const verificationCheck = await twilioClient.verify.v2
+      .services(process.env.TWILIO_VERIFY_SERVICE_SID!)
+      .verificationChecks.create({ to: fullPhone, code: otp });
 
-    if (result.rows.length === 0) {
+    console.log("Twilio verification check status:", verificationCheck.status);
+
+    if (verificationCheck.status !== "approved") {
       return NextResponse.json(
         { error: "Invalid or expired OTP." },
         { status: 401 },
       );
     }
 
-    // Mark OTP as used
-    await pool.query(`UPDATE otps SET used=TRUE WHERE id=$1`, [
-      result.rows[0].id,
-    ]);
+    // Mark OTP record as used in DB
+    await pool.query(
+      `UPDATE otps SET used=TRUE WHERE phone_number=$1 AND used=FALSE`,
+      [cleanPhone],
+    );
 
     // Create or get visitor session
     const existing = await pool.query(
@@ -41,15 +50,15 @@ export async function POST(req: NextRequest) {
       visitorId = existing.rows[0].id;
     } else {
       const newVisitor = await pool.query(
-        `INSERT INTO visitors (phone_number, otp_verified) VALUES ($1, TRUE) RETURNING id`,
-        [cleanPhone],
+        `INSERT INTO visitors (phone_number, otp_verified, full_name) VALUES ($1, TRUE, $2) RETURNING id`,
+        [cleanPhone, ""],
       );
       visitorId = newVisitor.rows[0].id;
     }
 
     return NextResponse.json({ success: true, visitorId, phone: cleanPhone });
-  } catch (err) {
-    console.error("OTP verify error:", err);
+  } catch (err: any) {
+    console.error("OTP verify error:", err?.message || err);
     return NextResponse.json(
       { error: "Verification failed." },
       { status: 500 },
