@@ -14,7 +14,6 @@ const STEPS = [
   "Brands & Products",
   "Final Submission",
 ];
-
 const INVITED_BY_OPTIONS = [
   "Organiser",
   "Exhibitor",
@@ -22,7 +21,6 @@ const INVITED_BY_OPTIONS = [
   "Associations",
   "Others",
 ];
-
 const PRODUCT_OPTIONS = [
   "House Ware",
   "Horeca",
@@ -40,7 +38,6 @@ const PRODUCT_OPTIONS = [
   "Gifts & Handicrafts",
   "Other",
 ];
-
 const BUSINESS_TYPES = [
   "Retailer",
   "Wholesaler",
@@ -54,7 +51,6 @@ const BUSINESS_TYPES = [
   "Buying Agent",
   "Other",
 ];
-
 const DESIGNATIONS = [
   "Owner/Proprietor",
   "Director",
@@ -64,9 +60,7 @@ const DESIGNATIONS = [
   "Sales Executive",
   "Other",
 ];
-
 const TITLES = ["Mr.", "Mrs.", "Ms.", "Dr.", "Prof."];
-
 const ANNUAL_BUYING = [
   "Less than ₹10 Lakh",
   "₹10–50 Lakh",
@@ -74,7 +68,6 @@ const ANNUAL_BUYING = [
   "₹1–5 Crore",
   "More than ₹5 Crore",
 ];
-
 const HOW_HEARD = [
   "Social Media",
   "Email",
@@ -84,7 +77,6 @@ const HOW_HEARD = [
   "Previous Year",
   "Other",
 ];
-
 const VISIT_PURPOSES = [
   "Sourcing new products",
   "Meeting existing suppliers",
@@ -95,7 +87,6 @@ const VISIT_PURPOSES = [
   "General interest",
   "Business expansion",
 ];
-
 const INDIA_STATES = [
   "Andhra Pradesh",
   "Arunachal Pradesh",
@@ -135,7 +126,6 @@ const INDIA_STATES = [
   "Lakshadweep",
   "Puducherry",
 ];
-
 const COUNTRY_CODES = [
   { code: "+1", label: "+1 (USA/Canada)" },
   { code: "+44", label: "+44 (UK)" },
@@ -228,7 +218,6 @@ export default function VisitorRegistrationPage() {
     brands_interested: "",
   });
 
-  // Reset phone when visitor type changes
   useEffect(() => {
     setPhone("");
     setIntlEmail("");
@@ -245,7 +234,6 @@ export default function VisitorRegistrationPage() {
   }, [otpTimer]);
 
   const fullPhone = visitorType === "indian" ? phone : `${countryCode}${phone}`;
-  const identifier = visitorType === "international" ? intlEmail : fullPhone;
 
   const validateStep = (step: number): string | null => {
     switch (step) {
@@ -468,7 +456,7 @@ export default function VisitorRegistrationPage() {
         <button
           type="button"
           onClick={() => onChange("")}
-          className="px-3 rounded-xl text-sm font-bold text-gray-500 hover:text-red-500 transition flex-shrink-0"
+          className="px-3 rounded-xl text-sm font-bold text-gray-500 hover:text-red-500 flex-shrink-0"
           style={{
             background: "var(--app-panel-soft)",
             border: "1px solid var(--app-border)",
@@ -545,11 +533,11 @@ export default function VisitorRegistrationPage() {
   );
 
   return (
-    <section id="contact" className="min-h-screen px-4 py-8">
+    <section id="contact" className="min-h-screen px-3 md:px-4 py-6 md:py-8">
       <div className="max-w-3xl mx-auto">
-        <div className="text-center mb-8">
+        <div className="text-center mb-6 md:mb-8">
           <h1
-            className="text-3xl font-bold mb-2"
+            className="text-2xl md:text-3xl font-bold mb-2"
             style={{ color: "var(--app-text)" }}
           >
             Visitor Registration
@@ -571,7 +559,6 @@ export default function VisitorRegistrationPage() {
                 border: "1px solid var(--app-border)",
               }}
             >
-              {/* Tabs */}
               <div
                 className="flex border-b"
                 style={{ borderColor: "var(--app-border)" }}
@@ -593,8 +580,7 @@ export default function VisitorRegistrationPage() {
                   </button>
                 ))}
               </div>
-
-              <div className="px-8 py-8 text-center">
+              <div className="px-5 md:px-8 py-6 md:py-8 text-center">
                 {visitorType === "indian" && (
                   <>
                     <div
@@ -626,7 +612,6 @@ export default function VisitorRegistrationPage() {
                   </>
                 )}
 
-                {/* Phone / Email Input */}
                 {visitorType === "indian" ? (
                   <div className="flex mb-4">
                     <div
@@ -744,7 +729,7 @@ export default function VisitorRegistrationPage() {
                 border: "1px solid var(--app-border)",
               }}
             >
-              <div className="px-8 py-8">
+              <div className="px-5 md:px-8 py-6 md:py-8">
                 {success && (
                   <div className="mb-4 rounded-xl px-4 py-3 text-sm text-green-700 bg-green-50 border border-green-200">
                     {success}
@@ -856,17 +841,17 @@ export default function VisitorRegistrationPage() {
           </div>
         )}
 
-        {/* MULTI-STEP FORM */}
+        {/* FORM */}
         {stage === "form" && (
           <div>
             {/* Step Progress Bar */}
-            <div className="mb-8 overflow-x-auto">
-              <div className="flex items-center min-w-max px-2">
+            <div className="mb-6 md:mb-8 overflow-x-auto">
+              <div className="flex items-center min-w-max px-1 md:px-2">
                 {STEPS.map((step, i) => (
                   <div key={i} className="flex items-center">
                     <div className="flex flex-col items-center">
                       <div
-                        className={`w-9 h-9 rounded-full flex items-center justify-center text-sm font-bold transition-all ${i + 1 <= currentStep ? "text-white" : "text-gray-400"}`}
+                        className={`w-8 h-8 md:w-9 md:h-9 rounded-full flex items-center justify-center text-xs md:text-sm font-bold transition-all ${i + 1 <= currentStep ? "text-white" : "text-gray-400"}`}
                         style={{
                           background:
                             i + 1 < currentStep
@@ -883,7 +868,7 @@ export default function VisitorRegistrationPage() {
                         {i + 1 < currentStep ? "✓" : i + 1}
                       </div>
                       <span
-                        className="text-xs mt-1 whitespace-nowrap"
+                        className="text-xs mt-1 whitespace-nowrap hidden md:block"
                         style={{
                           color:
                             i + 1 === currentStep
@@ -897,7 +882,7 @@ export default function VisitorRegistrationPage() {
                     </div>
                     {i < STEPS.length - 1 && (
                       <div
-                        className="w-8 h-0.5 mx-1 mb-4"
+                        className="w-5 md:w-8 h-0.5 mx-0.5 md:mx-1 mb-0 md:mb-4"
                         style={{
                           background:
                             i + 1 < currentStep
@@ -909,6 +894,13 @@ export default function VisitorRegistrationPage() {
                   </div>
                 ))}
               </div>
+              {/* Mobile step label */}
+              <p
+                className="text-center text-xs font-semibold mt-2 md:hidden"
+                style={{ color: "#1d4ed8" }}
+              >
+                {STEPS[currentStep - 1]}
+              </p>
             </div>
 
             <div
@@ -919,7 +911,7 @@ export default function VisitorRegistrationPage() {
               }}
             >
               <div
-                className="px-6 py-5 border-b"
+                className="px-4 md:px-6 py-4 md:py-5 border-b"
                 style={{
                   borderColor: "var(--app-border)",
                   background: "var(--app-panel-soft)",
@@ -932,24 +924,23 @@ export default function VisitorRegistrationPage() {
                   Step {currentStep} of 9
                 </p>
                 <h2
-                  className="text-xl font-bold"
+                  className="text-lg md:text-xl font-bold"
                   style={{ color: "var(--app-text)" }}
                 >
                   {STEPS[currentStep - 1]}
                 </h2>
               </div>
 
-              <div className="px-6 py-6">
+              <div className="px-4 md:px-6 py-4 md:py-6">
                 {error && (
-                  <div className="mb-5 rounded-xl px-4 py-3 text-sm text-red-600 bg-red-50 border border-red-200">
+                  <div className="mb-4 md:mb-5 rounded-xl px-4 py-3 text-sm text-red-600 bg-red-50 border border-red-200">
                     {error}
                   </div>
                 )}
 
                 {/* STEP 1 */}
                 {currentStep === 1 && (
-                  <div className="space-y-5">
-                    {/* Passport Photo */}
+                  <div className="space-y-4 md:space-y-5">
                     <div>
                       <label className={labelCls} style={labelStyle}>
                         Passport Size Colour Photo {reqStar}
@@ -1063,7 +1054,6 @@ export default function VisitorRegistrationPage() {
                       </div>
                     </div>
 
-                    {/* Invited By + Title */}
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       <div>
                         <label className={labelCls} style={labelStyle}>
@@ -1100,7 +1090,6 @@ export default function VisitorRegistrationPage() {
                       </div>
                     </div>
 
-                    {/* Name */}
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                       <div>
                         <label className={labelCls} style={labelStyle}>
@@ -1155,7 +1144,6 @@ export default function VisitorRegistrationPage() {
                       </div>
                     </div>
 
-                    {/* Designation + Company */}
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       <div>
                         <label className={labelCls} style={labelStyle}>
@@ -1188,7 +1176,6 @@ export default function VisitorRegistrationPage() {
                       </div>
                     </div>
 
-                    {/* Country Code + Mobile 1 + Email 1 */}
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                       <div>
                         <label className={labelCls} style={labelStyle}>
@@ -1232,7 +1219,6 @@ export default function VisitorRegistrationPage() {
                       </div>
                     </div>
 
-                    {/* Mobile 2 + Email 2 + Country */}
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                       <div>
                         <label className={labelCls} style={labelStyle}>
@@ -1291,7 +1277,6 @@ export default function VisitorRegistrationPage() {
                       </div>
                     </div>
 
-                    {/* Business Card */}
                     <div>
                       <label className={labelCls} style={labelStyle}>
                         Upload your business card {reqStar}
@@ -1299,8 +1284,7 @@ export default function VisitorRegistrationPage() {
                           className="font-normal text-xs ml-1"
                           style={{ color: "var(--app-muted)" }}
                         >
-                          (front required; back optional. Max 10MB, JPG, PNG, or
-                          PDF)
+                          (front required; back optional. Max 10MB)
                         </span>
                       </label>
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -1497,11 +1481,11 @@ export default function VisitorRegistrationPage() {
                       Select all product categories you are interested in{" "}
                       {reqStar}:
                     </p>
-                    <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+                    <div className="grid grid-cols-2 md:grid-cols-3 gap-2 md:gap-3">
                       {PRODUCT_OPTIONS.map((p) => (
                         <label
                           key={p}
-                          className="flex items-center gap-2 p-3 rounded-xl cursor-pointer transition"
+                          className="flex items-center gap-2 p-2.5 md:p-3 rounded-xl cursor-pointer transition"
                           style={{
                             background: formData.product_interests.includes(p)
                               ? "#eff6ff"
@@ -1521,10 +1505,10 @@ export default function VisitorRegistrationPage() {
                                 ),
                               }))
                             }
-                            className="w-4 h-4 accent-blue-600"
+                            className="w-4 h-4 accent-blue-600 flex-shrink-0"
                           />
                           <span
-                            className="text-sm"
+                            className="text-xs md:text-sm"
                             style={{ color: "var(--app-text)" }}
                           >
                             {p}
@@ -1544,11 +1528,11 @@ export default function VisitorRegistrationPage() {
                     >
                       What is the purpose of your visit? {reqStar}
                     </p>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-2 md:gap-3">
                       {VISIT_PURPOSES.map((p) => (
                         <label
                           key={p}
-                          className="flex items-center gap-2 p-3 rounded-xl cursor-pointer transition"
+                          className="flex items-center gap-2 p-2.5 md:p-3 rounded-xl cursor-pointer transition"
                           style={{
                             background: formData.visit_purpose.includes(p)
                               ? "#eff6ff"
@@ -1568,10 +1552,10 @@ export default function VisitorRegistrationPage() {
                                 ),
                               }))
                             }
-                            className="w-4 h-4 accent-blue-600"
+                            className="w-4 h-4 accent-blue-600 flex-shrink-0"
                           />
                           <span
-                            className="text-sm"
+                            className="text-xs md:text-sm"
                             style={{ color: "var(--app-text)" }}
                           >
                             {p}
@@ -1588,11 +1572,11 @@ export default function VisitorRegistrationPage() {
                     <label className={labelCls} style={labelStyle}>
                       Annual Buying Budget {reqStar}
                     </label>
-                    <div className="space-y-3 mt-2">
+                    <div className="space-y-2 md:space-y-3 mt-2">
                       {ANNUAL_BUYING.map((a) => (
                         <label
                           key={a}
-                          className="flex items-center gap-3 p-3.5 rounded-xl cursor-pointer transition"
+                          className="flex items-center gap-3 p-3 md:p-3.5 rounded-xl cursor-pointer transition"
                           style={{
                             background:
                               formData.annual_buying === a
@@ -1607,7 +1591,7 @@ export default function VisitorRegistrationPage() {
                             onChange={() =>
                               setFormData((p) => ({ ...p, annual_buying: a }))
                             }
-                            className="w-4 h-4 accent-blue-600"
+                            className="w-4 h-4 accent-blue-600 flex-shrink-0"
                           />
                           <span
                             className="text-sm"
@@ -1701,7 +1685,7 @@ export default function VisitorRegistrationPage() {
                       <p className="text-sm font-semibold text-amber-800 mb-2">
                         📋 Notes
                       </p>
-                      <ul className="text-sm text-amber-700 space-y-1.5 list-disc list-inside">
+                      <ul className="text-xs md:text-sm text-amber-700 space-y-1.5 list-disc list-inside">
                         <li>
                           You will receive your Visitor Registration No. and QR
                           code via e-mail.
@@ -1732,7 +1716,7 @@ export default function VisitorRegistrationPage() {
                       >
                         Registration Summary
                       </p>
-                      <table className="w-full text-sm">
+                      <table className="w-full text-xs md:text-sm">
                         <tbody>
                           {[
                             [
@@ -1761,7 +1745,7 @@ export default function VisitorRegistrationPage() {
                                   style={{ borderColor: "var(--app-border)" }}
                                 >
                                   <td
-                                    className="py-1.5 pr-4 font-medium w-32"
+                                    className="py-1.5 pr-4 font-medium w-28 md:w-32"
                                     style={{ color: "var(--app-muted)" }}
                                   >
                                     {k}
@@ -1783,7 +1767,7 @@ export default function VisitorRegistrationPage() {
 
                 {/* Navigation */}
                 <div
-                  className="flex gap-3 mt-6 pt-4"
+                  className="flex gap-3 mt-5 md:mt-6 pt-4"
                   style={{ borderTop: "1px solid var(--app-border)" }}
                 >
                   {currentStep > 1 && (
@@ -1792,7 +1776,7 @@ export default function VisitorRegistrationPage() {
                         setCurrentStep((p) => p - 1);
                         setError("");
                       }}
-                      className="px-6 py-2.5 rounded-xl text-sm font-semibold border transition hover:opacity-80"
+                      className="px-5 md:px-6 py-2.5 rounded-xl text-sm font-semibold border transition hover:opacity-80"
                       style={{
                         color: "var(--app-text)",
                         borderColor: "var(--app-border)",
@@ -1805,7 +1789,7 @@ export default function VisitorRegistrationPage() {
                   <button
                     onClick={() => saveStep(currentStep)}
                     disabled={loading}
-                    className="ml-auto px-8 py-2.5 rounded-xl text-white text-sm font-semibold transition hover:opacity-90 disabled:opacity-60"
+                    className="ml-auto px-6 md:px-8 py-2.5 rounded-xl text-white text-sm font-semibold transition hover:opacity-90 disabled:opacity-60"
                     style={{
                       background: "linear-gradient(135deg,#1d4ed8,#2563eb)",
                     }}
@@ -1821,14 +1805,14 @@ export default function VisitorRegistrationPage() {
             </div>
 
             {/* Need Assistance */}
-            <div className="mt-10">
+            <div className="mt-8 md:mt-10">
               <h3
-                className="text-lg font-bold mb-4"
+                className="text-base md:text-lg font-bold mb-4"
                 style={{ color: "var(--app-text)" }}
               >
                 Need Assistance?
               </h3>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-3 md:gap-4">
                 {[
                   {
                     icon: "👤",
@@ -1849,7 +1833,7 @@ export default function VisitorRegistrationPage() {
                 ].map((card) => (
                   <div
                     key={card.title}
-                    className="rounded-xl p-5 text-center"
+                    className="rounded-xl p-4 md:p-5 text-center"
                     style={{
                       background: "var(--app-panel)",
                       border: "1px solid var(--app-border)",
@@ -1865,7 +1849,7 @@ export default function VisitorRegistrationPage() {
                     {card.link ? (
                       <a
                         href={`mailto:${card.sub}`}
-                        className="text-sm text-blue-600"
+                        className="text-sm text-blue-600 break-all"
                       >
                         {card.sub}
                       </a>
@@ -1894,7 +1878,7 @@ export default function VisitorRegistrationPage() {
                 border: "1px solid var(--app-border)",
               }}
             >
-              <div className="px-8 py-10 text-center">
+              <div className="px-5 md:px-8 py-8 md:py-10 text-center">
                 <div
                   className="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4"
                   style={{
@@ -1916,7 +1900,7 @@ export default function VisitorRegistrationPage() {
                   </svg>
                 </div>
                 <h2
-                  className="text-2xl font-bold mb-2"
+                  className="text-xl md:text-2xl font-bold mb-2"
                   style={{ color: "var(--app-text)" }}
                 >
                   Registration Complete!
@@ -1936,7 +1920,7 @@ export default function VisitorRegistrationPage() {
                   <p className="text-xs text-blue-300 uppercase tracking-widest mb-1">
                     Registration Number
                   </p>
-                  <p className="text-2xl font-bold text-white tracking-widest">
+                  <p className="text-xl md:text-2xl font-bold text-white tracking-widest">
                     {regNo}
                   </p>
                 </div>
@@ -1955,7 +1939,11 @@ export default function VisitorRegistrationPage() {
                         border: "2px solid var(--app-border)",
                       }}
                     >
-                      <img src={qrCode} alt="QR Code" className="w-48 h-48" />
+                      <img
+                        src={qrCode}
+                        alt="QR Code"
+                        className="w-40 h-40 md:w-48 md:h-48"
+                      />
                     </div>
                     <p
                       className="text-xs mt-2"
@@ -1983,7 +1971,7 @@ export default function VisitorRegistrationPage() {
                   }}
                 >
                   <p
-                    className="text-sm font-medium"
+                    className="text-xs md:text-sm font-medium"
                     style={{ color: "var(--app-text)" }}
                   >
                     📅 July 4–7, 2026 · 📍 Bharat Mandapam, Pragati Maidan, New
