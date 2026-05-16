@@ -81,28 +81,24 @@ export default function Header() {
             </a>
             <div className="nav-dropdown invisible absolute left-0 top-full z-40 w-52 pt-2 opacity-0 transition duration-300 group-hover:visible group-hover:opacity-100 group-focus-within:visible group-focus-within:opacity-100">
               <div className="rounded-md border border-white/15 bg-[#191452] p-2 shadow-lg">
-  
                 <Link
                   href="/whoshouldvisit"
                   className="block rounded px-3 py-2 text-xs text-white hover:bg-white/10"
                 >
                   Who should visit
                 </Link>
-
-                 <Link
+                <Link
                   href="/benefits"
                   className="block rounded px-3 py-2 text-xs text-white hover:bg-white/10"
                 >
-                  benifits
+                  Benefits
                 </Link>
-
                 <Link
                   href="/comments"
                   className="block rounded px-3 py-2 text-xs text-white hover:bg-white/10"
                 >
-                 Visitor comment
+                  Visitor comment
                 </Link>
-             
               </div>
             </div>
           </div>
@@ -123,7 +119,7 @@ export default function Header() {
                   Who should exhibit?
                 </Link>
                 <Link
-                  href="/benefits"
+                  href="/exhibitorbenefits"
                   className="block rounded px-3 py-2 text-xs text-white hover:bg-white/10"
                 >
                   Benefits
@@ -132,19 +128,19 @@ export default function Header() {
                   href="/exhibitorprofile"
                   className="block rounded px-3 py-2 text-xs text-white hover:bg-white/10"
                 >
-                  Exhibiter Profile
+                  Exhibitor Profile
                 </Link>
                 <Link
-                  href="/comments"
+                  href="/exhibitorcomments"
                   className="block rounded px-3 py-2 text-xs text-white hover:bg-white/10"
                 >
-                  Exhibiter Comment
+                  Exhibitor Comment
                 </Link>
                 <Link
                   href="/exhibitorlist"
                   className="block rounded px-3 py-2 text-xs text-white hover:bg-white/10"
                 >
-                  Exhibiters List
+                  Exhibitors List
                 </Link>
               </div>
             </div>
@@ -154,10 +150,12 @@ export default function Header() {
             Newsletter
           </a>
 
-          <a href="#contact" className="nav-link hover:text-brand-amber">
+          <Link
+            href="/exhibitors-registration"
+            className="nav-link hover:text-brand-amber"
+          >
             Exhibiters Registration
-          </a>
-
+          </Link>
 
           <Link
             href="/visitor-registration"
@@ -169,15 +167,13 @@ export default function Header() {
           <a href="#contact" className="nav-link hover:text-brand-amber">
             Pay Stall Advance
           </a>
-    
-           <Link
+
+          <Link
             href="/venue"
             className="nav-link hover:text-brand-amber border-b-2 border-transparent hover:border-brand-amber transition-all"
           >
             Reaching The Venue
           </Link>
-          {/* <a href="#contact" className="nav-link hover:text-brand-amber">About Fusion The Era</a>
-               <a href="#contact" className="nav-link hover:text-brand-amber">Sponsorship</a> */}
         </nav>
 
         <div className="flex w-full items-center gap-2 md:w-auto">
@@ -233,31 +229,31 @@ export default function Header() {
                   About fusion the era
                 </Link>
                 <Link
-                  href="/about"
+                  href="/show"
                   className="rounded px-2 py-2 hover:bg-white/10"
                 >
                   About the show 2026
                 </Link>
                 <Link
-                  href="/about"
+                  href="/organizer"
                   className="rounded px-2 py-2 hover:bg-white/10"
                 >
                   About organiser
                 </Link>
                 <Link
-                  href="/about"
+                  href="/trade"
                   className="rounded px-2 py-2 hover:bg-white/10"
                 >
                   Trade show facts
                 </Link>
                 <Link
-                  href="/about"
+                  href="/report"
                   className="rounded px-2 py-2 hover:bg-white/10"
                 >
                   Post Show Report
                 </Link>
                 <Link
-                  href="/products"
+                  href="/range"
                   className="rounded px-2 py-2 hover:bg-white/10"
                 >
                   Product Range
@@ -270,24 +266,24 @@ export default function Header() {
                 Visitors
               </summary>
               <div className="mobile-submenu-content mt-1 grid gap-1 pl-3 text-xs">
-                <a
-                  href="#featured"
+                <Link
+                  href="/whoshouldvisit"
                   className="rounded px-2 py-2 hover:bg-white/10"
                 >
                   Who should visit
-                </a>
-                <a
-                  href="#categories"
+                </Link>
+                <Link
+                  href="/benefits"
                   className="rounded px-2 py-2 hover:bg-white/10"
                 >
                   Benefits
-                </a>
-                <a
-                  href="#about"
+                </Link>
+                <Link
+                  href="/comments"
                   className="rounded px-2 py-2 hover:bg-white/10"
                 >
                   Visitor comment
-                </a>
+                </Link>
               </div>
             </details>
 
@@ -296,51 +292,45 @@ export default function Header() {
                 Exhibitors
               </summary>
               <div className="mobile-submenu-content mt-1 grid gap-1 pl-3 text-xs">
-                <a
-                  href="#featured"
+                <Link
+                  href="/whoshouldexhibit"
                   className="rounded px-2 py-2 hover:bg-white/10"
                 >
                   Who should exhibit?
-                </a>
-                <a
-                  href="#categories"
+                </Link>
+                <Link
+                  href="/exhibitorbenefits"
                   className="rounded px-2 py-2 hover:bg-white/10"
                 >
                   Benefits
-                </a>
-                <a
-                  href="#about"
+                </Link>
+                <Link
+                  href="/exhibitorprofile"
                   className="rounded px-2 py-2 hover:bg-white/10"
                 >
                   Exhibitor Profile
-                </a>
-                <a
-                  href="#about"
+                </Link>
+                <Link
+                  href="/exhibitorcomments"
                   className="rounded px-2 py-2 hover:bg-white/10"
                 >
                   Exhibitor Comment
-                </a>
-                <a
-                  href="#about"
+                </Link>
+                <Link
+                  href="/exhibitorlist"
                   className="rounded px-2 py-2 hover:bg-white/10"
                 >
                   Exhibitors List
-                </a>
+                </Link>
               </div>
             </details>
 
-            <a
-              href="#new"
-              className="mt-1 block rounded px-2 py-2 hover:bg-white/10"
-            >
-              Exhibitors
-            </a>
-            <a
-              href="#contact"
+            <Link
+              href="/exhibitors-registration"
               className="mt-1 block rounded px-2 py-2 hover:bg-white/10"
             >
               Exhibiters Registration
-            </a>
+            </Link>
             <Link
               href="/visitor-registration"
               className="mt-1 block rounded px-2 py-2 hover:bg-white/10"
@@ -353,12 +343,12 @@ export default function Header() {
             >
               Pay Stall Advance
             </a>
-            <a
-              href="#contact"
+            <Link
+              href="/venue"
               className="mt-1 block rounded px-2 py-2 hover:bg-white/10"
             >
               Reaching The Venue
-            </a>
+            </Link>
           </nav>
         )}
       </div>
