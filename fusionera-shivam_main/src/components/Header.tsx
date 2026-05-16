@@ -2,9 +2,27 @@
 
 import Link from "next/link";
 import React, { useState } from "react";
+import { useRouter } from "next/navigation";
 
 export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const router = useRouter();
+
+  const closeMenu = () => {
+    setMobileMenuOpen(false);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  const handleMobileNav = (href: string) => {
+    setMobileMenuOpen(false);
+    if (href.startsWith("#")) {
+      const el = document.getElementById(href.slice(1));
+      if (el) el.scrollIntoView({ behavior: "smooth" });
+    } else {
+      router.push(href);
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  };
 
   return (
     <header
@@ -13,7 +31,10 @@ export default function Header() {
     >
       <div className="mx-auto flex w-[92%] max-w-7xl flex-wrap items-center justify-between gap-3 py-4">
         <div className="flex items-center gap-3">
-          <Link href="/">
+          <Link
+            href="/"
+            onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+          >
             <img
               src="/images/logo.jpeg"
               alt="Fusionera logo"
@@ -23,6 +44,7 @@ export default function Header() {
         </div>
 
         <nav className="hidden items-center gap-8 text-sm font-medium text-white md:flex">
+          {/* Fusion The Era */}
           <div className="group relative">
             <Link
               href="/"
@@ -36,19 +58,19 @@ export default function Header() {
                   href="/about"
                   className="block rounded px-3 py-2 text-xs text-white hover:bg-white/10"
                 >
-                  About fusion the era
+                  About Fusion The Era
                 </Link>
                 <Link
                   href="/about"
                   className="block rounded px-3 py-2 text-xs text-white hover:bg-white/10"
                 >
-                  About the show
+                  About The Show
                 </Link>
                 <Link
                   href="/about"
                   className="block rounded px-3 py-2 text-xs text-white hover:bg-white/10"
                 >
-                  About organiser
+                  About Organiser
                 </Link>
                 <Link
                   href="/about"
@@ -72,6 +94,7 @@ export default function Header() {
             </div>
           </div>
 
+          {/* Visitors */}
           <div className="group relative">
             <a
               href="#featured"
@@ -85,7 +108,7 @@ export default function Header() {
                   href="#featured"
                   className="block rounded px-3 py-2 text-xs text-white hover:bg-white/10"
                 >
-                  Who should visit
+                  Who Should Visit
                 </a>
                 <a
                   href="#categories"
@@ -97,12 +120,13 @@ export default function Header() {
                   href="#about"
                   className="block rounded px-3 py-2 text-xs text-white hover:bg-white/10"
                 >
-                  Visitor comment
+                  Visitor Comments
                 </a>
               </div>
             </div>
           </div>
 
+          {/* Exhibitors */}
           <div className="group relative">
             <a
               href="#featured"
@@ -116,7 +140,7 @@ export default function Header() {
                   href="/about"
                   className="block rounded px-3 py-2 text-xs text-white hover:bg-white/10"
                 >
-                  Who should exhibit?
+                  Who Should Exhibit?
                 </Link>
                 <Link
                   href="/about"
@@ -128,19 +152,19 @@ export default function Header() {
                   href="/about"
                   className="block rounded px-3 py-2 text-xs text-white hover:bg-white/10"
                 >
-                  Exhibiter Profile
+                  Exhibitor Profile
                 </Link>
                 <Link
                   href="/about"
                   className="block rounded px-3 py-2 text-xs text-white hover:bg-white/10"
                 >
-                  Exhibiter Comment
+                  Exhibitor Comments
                 </Link>
                 <Link
                   href="/about"
                   className="block rounded px-3 py-2 text-xs text-white hover:bg-white/10"
                 >
-                  Exhibiters List
+                  Exhibitors List
                 </Link>
               </div>
             </div>
@@ -149,9 +173,12 @@ export default function Header() {
           <a href="#contact" className="nav-link hover:text-brand-amber">
             Newsletter
           </a>
-          <a href="#contact" className="nav-link hover:text-brand-amber">
-            Exhibiters Registration
-          </a>
+          <Link
+            href="/exhibitors-registration"
+            className="nav-link hover:text-brand-amber border-b-2 border-transparent hover:border-brand-amber transition-all"
+          >
+            Exhibitors Registration
+          </Link>
           <Link
             href="/visitor-registration"
             className="nav-link hover:text-brand-amber border-b-2 border-transparent hover:border-brand-amber transition-all"
@@ -164,10 +191,9 @@ export default function Header() {
           <a href="#contact" className="nav-link hover:text-brand-amber">
             Reaching The Venue
           </a>
-          {/* <a href="#contact" className="nav-link hover:text-brand-amber">About Fusion The Era</a>
-               <a href="#contact" className="nav-link hover:text-brand-amber">Sponsorship</a> */}
         </nav>
 
+        {/* Mobile Menu Button */}
         <div className="flex w-full items-center gap-2 md:w-auto">
           <button
             type="button"
@@ -207,6 +233,7 @@ export default function Header() {
           </button>
         </div>
 
+        {/* Mobile Menu */}
         {mobileMenuOpen && (
           <nav className="mobile-menu surface w-full rounded-md border p-3 text-sm font-medium text-white md:hidden">
             <details className="group mobile-submenu">
@@ -214,42 +241,42 @@ export default function Header() {
                 Fusion The Era
               </summary>
               <div className="mobile-submenu-content mt-1 grid gap-1 pl-3 text-xs">
-                <Link
-                  href="/about"
-                  className="rounded px-2 py-2 hover:bg-white/10"
+                <button
+                  onClick={() => handleMobileNav("/about")}
+                  className="rounded px-2 py-2 hover:bg-white/10 text-left w-full"
                 >
-                  About fusion the era
-                </Link>
-                <Link
-                  href="/about"
-                  className="rounded px-2 py-2 hover:bg-white/10"
+                  About Fusion The Era
+                </button>
+                <button
+                  onClick={() => handleMobileNav("/about")}
+                  className="rounded px-2 py-2 hover:bg-white/10 text-left w-full"
                 >
-                  About the show 2026
-                </Link>
-                <Link
-                  href="/about"
-                  className="rounded px-2 py-2 hover:bg-white/10"
+                  About The Show 2026
+                </button>
+                <button
+                  onClick={() => handleMobileNav("/about")}
+                  className="rounded px-2 py-2 hover:bg-white/10 text-left w-full"
                 >
-                  About organiser
-                </Link>
-                <Link
-                  href="/about"
-                  className="rounded px-2 py-2 hover:bg-white/10"
+                  About Organiser
+                </button>
+                <button
+                  onClick={() => handleMobileNav("/about")}
+                  className="rounded px-2 py-2 hover:bg-white/10 text-left w-full"
                 >
-                  Trade show facts
-                </Link>
-                <Link
-                  href="/about"
-                  className="rounded px-2 py-2 hover:bg-white/10"
+                  Trade Show Facts
+                </button>
+                <button
+                  onClick={() => handleMobileNav("/about")}
+                  className="rounded px-2 py-2 hover:bg-white/10 text-left w-full"
                 >
                   Post Show Report
-                </Link>
-                <Link
-                  href="/products"
-                  className="rounded px-2 py-2 hover:bg-white/10"
+                </button>
+                <button
+                  onClick={() => handleMobileNav("/products")}
+                  className="rounded px-2 py-2 hover:bg-white/10 text-left w-full"
                 >
                   Product Range
-                </Link>
+                </button>
               </div>
             </details>
 
@@ -258,24 +285,24 @@ export default function Header() {
                 Visitors
               </summary>
               <div className="mobile-submenu-content mt-1 grid gap-1 pl-3 text-xs">
-                <a
-                  href="#featured"
-                  className="rounded px-2 py-2 hover:bg-white/10"
+                <button
+                  onClick={() => handleMobileNav("#featured")}
+                  className="rounded px-2 py-2 hover:bg-white/10 text-left w-full"
                 >
-                  Who should visit
-                </a>
-                <a
-                  href="#categories"
-                  className="rounded px-2 py-2 hover:bg-white/10"
+                  Who Should Visit
+                </button>
+                <button
+                  onClick={() => handleMobileNav("#categories")}
+                  className="rounded px-2 py-2 hover:bg-white/10 text-left w-full"
                 >
                   Benefits
-                </a>
-                <a
-                  href="#about"
-                  className="rounded px-2 py-2 hover:bg-white/10"
+                </button>
+                <button
+                  onClick={() => handleMobileNav("#about")}
+                  className="rounded px-2 py-2 hover:bg-white/10 text-left w-full"
                 >
-                  Visitor comment
-                </a>
+                  Visitor Comments
+                </button>
               </div>
             </details>
 
@@ -284,69 +311,69 @@ export default function Header() {
                 Exhibitors
               </summary>
               <div className="mobile-submenu-content mt-1 grid gap-1 pl-3 text-xs">
-                <a
-                  href="#featured"
-                  className="rounded px-2 py-2 hover:bg-white/10"
+                <button
+                  onClick={() => handleMobileNav("#featured")}
+                  className="rounded px-2 py-2 hover:bg-white/10 text-left w-full"
                 >
-                  Who should exhibit?
-                </a>
-                <a
-                  href="#categories"
-                  className="rounded px-2 py-2 hover:bg-white/10"
+                  Who Should Exhibit?
+                </button>
+                <button
+                  onClick={() => handleMobileNav("#categories")}
+                  className="rounded px-2 py-2 hover:bg-white/10 text-left w-full"
                 >
                   Benefits
-                </a>
-                <a
-                  href="#about"
-                  className="rounded px-2 py-2 hover:bg-white/10"
+                </button>
+                <button
+                  onClick={() => handleMobileNav("#about")}
+                  className="rounded px-2 py-2 hover:bg-white/10 text-left w-full"
                 >
                   Exhibitor Profile
-                </a>
-                <a
-                  href="#about"
-                  className="rounded px-2 py-2 hover:bg-white/10"
+                </button>
+                <button
+                  onClick={() => handleMobileNav("#about")}
+                  className="rounded px-2 py-2 hover:bg-white/10 text-left w-full"
                 >
-                  Exhibitor Comment
-                </a>
-                <a
-                  href="#about"
-                  className="rounded px-2 py-2 hover:bg-white/10"
+                  Exhibitor Comments
+                </button>
+                <button
+                  onClick={() => handleMobileNav("#about")}
+                  className="rounded px-2 py-2 hover:bg-white/10 text-left w-full"
                 >
                   Exhibitors List
-                </a>
+                </button>
               </div>
             </details>
 
-            <a
-              href="#new"
-              className="mt-1 block rounded px-2 py-2 hover:bg-white/10"
+            <button
+              onClick={() => handleMobileNav("#contact")}
+              className="mt-1 block rounded px-2 py-2 hover:bg-white/10 text-left w-full"
             >
-              Exhibitors
-            </a>
-            <a
-              href="#contact"
-              className="mt-1 block rounded px-2 py-2 hover:bg-white/10"
+              Newsletter
+            </button>
+            <button
+              onClick={() => handleMobileNav("/exhibitors-registration")}
+              className="mt-1 block rounded px-2 py-2 hover:bg-white/10 text-left w-full"
             >
-              Exhibiters Registration
-            </a>
-            <Link
-              href="/visitor-registration"
-              className="mt-1 block rounded px-2 py-2 hover:bg-white/10"
+              Exhibitors Registration
+            </button>
+            <button
+              onClick={() => handleMobileNav("/visitor-registration")}
+              className="mt-1 block rounded px-2 py-2 hover:bg-white/10 text-left w-full"
             >
               Visitor Registration
-            </Link>
-            <a
-              href="#contact"
-              className="mt-1 block rounded px-2 py-2 hover:bg-white/10"
+            </button>
+            <button
+              onClick={() => handleMobileNav("#contact")}
+              className="mt-1 block rounded px-2 py-2 hover:bg-white/10 text-left w-full"
             >
               Pay Stall Advance
-            </a>
-            <a
-              href="#contact"
-              className="mt-1 block rounded px-2 py-2 hover:bg-white/10"
+            </button>
+            <button
+              onClick={() => handleMobileNav("#contact")}
+              className="mt-1 block rounded px-2 py-2 hover:bg-white/10 text-left w-full"
             >
               Reaching The Venue
-            </a>
+            </button>
           </nav>
         )}
       </div>

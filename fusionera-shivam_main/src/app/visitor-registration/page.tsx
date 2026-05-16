@@ -136,12 +136,56 @@ const INDIA_STATES = [
   "Puducherry",
 ];
 
+const COUNTRY_CODES = [
+  { code: "+1", label: "+1 (USA/Canada)" },
+  { code: "+44", label: "+44 (UK)" },
+  { code: "+61", label: "+61 (Australia)" },
+  { code: "+971", label: "+971 (UAE)" },
+  { code: "+966", label: "+966 (Saudi Arabia)" },
+  { code: "+65", label: "+65 (Singapore)" },
+  { code: "+60", label: "+60 (Malaysia)" },
+  { code: "+86", label: "+86 (China)" },
+  { code: "+81", label: "+81 (Japan)" },
+  { code: "+82", label: "+82 (South Korea)" },
+  { code: "+49", label: "+49 (Germany)" },
+  { code: "+33", label: "+33 (France)" },
+  { code: "+39", label: "+39 (Italy)" },
+  { code: "+34", label: "+34 (Spain)" },
+  { code: "+7", label: "+7 (Russia)" },
+  { code: "+55", label: "+55 (Brazil)" },
+  { code: "+27", label: "+27 (South Africa)" },
+  { code: "+234", label: "+234 (Nigeria)" },
+  { code: "+20", label: "+20 (Egypt)" },
+  { code: "+92", label: "+92 (Pakistan)" },
+  { code: "+880", label: "+880 (Bangladesh)" },
+  { code: "+94", label: "+94 (Sri Lanka)" },
+  { code: "+977", label: "+977 (Nepal)" },
+  { code: "+66", label: "+66 (Thailand)" },
+  { code: "+62", label: "+62 (Indonesia)" },
+  { code: "+63", label: "+63 (Philippines)" },
+  { code: "+84", label: "+84 (Vietnam)" },
+  { code: "+98", label: "+98 (Iran)" },
+  { code: "+90", label: "+90 (Turkey)" },
+  { code: "+31", label: "+31 (Netherlands)" },
+  { code: "+46", label: "+46 (Sweden)" },
+  { code: "+47", label: "+47 (Norway)" },
+  { code: "+45", label: "+45 (Denmark)" },
+  { code: "+41", label: "+41 (Switzerland)" },
+  { code: "+48", label: "+48 (Poland)" },
+  { code: "+32", label: "+32 (Belgium)" },
+  { code: "+64", label: "+64 (New Zealand)" },
+  { code: "+52", label: "+52 (Mexico)" },
+  { code: "+54", label: "+54 (Argentina)" },
+];
+
 export default function VisitorRegistrationPage() {
   const [stage, setStage] = useState<Stage>("otp-phone");
   const [visitorType, setVisitorType] = useState<"indian" | "international">(
     "indian",
   );
+  const [countryCode, setCountryCode] = useState("+1");
   const [phone, setPhone] = useState("");
+  const [intlEmail, setIntlEmail] = useState("");
   const [otp, setOtp] = useState("");
   const [otpTimer, setOtpTimer] = useState(0);
   const [visitorId, setVisitorId] = useState<number | null>(null);
@@ -184,6 +228,15 @@ export default function VisitorRegistrationPage() {
     brands_interested: "",
   });
 
+  // Reset phone when visitor type changes
+  useEffect(() => {
+    setPhone("");
+    setIntlEmail("");
+    setError("");
+    if (visitorType === "indian") setCountryCode("+91");
+    else setCountryCode("+1");
+  }, [visitorType]);
+
   useEffect(() => {
     if (otpTimer > 0) {
       const t = setTimeout(() => setOtpTimer((p) => p - 1), 1000);
@@ -191,7 +244,9 @@ export default function VisitorRegistrationPage() {
     }
   }, [otpTimer]);
 
-  // ── VALIDATION PER STEP ──
+  const fullPhone = visitorType === "indian" ? phone : `${countryCode}${phone}`;
+  const identifier = visitorType === "international" ? intlEmail : fullPhone;
+
   const validateStep = (step: number): string | null => {
     switch (step) {
       case 1:
@@ -214,7 +269,6 @@ export default function VisitorRegistrationPage() {
         if (!formData.business_card_front)
           return "Please upload business card front side.";
         return null;
-
       case 2:
         if (!formData.address1.trim()) return "Address Line 1 is required.";
         if (!formData.city.trim()) return "City is required.";
@@ -223,45 +277,47 @@ export default function VisitorRegistrationPage() {
         if (!/^\d{6}$/.test(formData.pincode))
           return "PIN Code must be 6 digits.";
         return null;
-
       case 3:
         if (!formData.business_type) return "Please select Business Type.";
         if (!formData.nature_of_business.trim())
           return "Nature of Business is required.";
         return null;
-
       case 4:
         if (formData.product_interests.length === 0)
           return "Please select at least one Product Interest.";
         return null;
-
       case 5:
         if (formData.visit_purpose.length === 0)
           return "Please select at least one Visit Purpose.";
         return null;
-
       case 6:
         if (!formData.annual_buying)
           return "Please select Annual Buying Budget.";
         return null;
-
       case 7:
         if (!formData.how_did_you_hear)
           return "Please select how you heard about us.";
         return null;
-
       case 8:
         if (!formData.brands_interested.trim())
           return "Please mention brands & products you are interested in.";
         return null;
-
       default:
         return null;
     }
   };
 
   const sendOTP = async () => {
-    if (!phone) {
+    if (visitorType === "international") {
+      if (!intlEmail) {
+        setError("Please enter email address.");
+        return;
+      }
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(intlEmail)) {
+        setError("Please enter a valid email address.");
+        return;
+      }
+    } else if (!phone) {
       setError("Please enter mobile number.");
       return;
     }
@@ -275,7 +331,11 @@ export default function VisitorRegistrationPage() {
       const res = await fetch("/api/otp/send", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ phone, visitorType }),
+        body: JSON.stringify({
+          phone: visitorType === "indian" ? fullPhone : undefined,
+          email: visitorType === "international" ? intlEmail : undefined,
+          visitorType,
+        }),
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error);
@@ -300,7 +360,12 @@ export default function VisitorRegistrationPage() {
       const res = await fetch("/api/otp/verify", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ phone, otp }),
+        body: JSON.stringify({
+          phone: visitorType === "indian" ? fullPhone : undefined,
+          email: visitorType === "international" ? intlEmail : undefined,
+          otp,
+          visitorType,
+        }),
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error);
@@ -315,13 +380,11 @@ export default function VisitorRegistrationPage() {
   };
 
   const saveStep = async (step: number) => {
-    // Validate before saving
     const validationError = validateStep(step);
     if (validationError) {
       setError(validationError);
       return;
     }
-
     setLoading(true);
     setError("");
     try {
@@ -380,17 +443,14 @@ export default function VisitorRegistrationPage() {
   const labelStyle = { color: "var(--app-text)" };
   const reqStar = <span className="text-red-500">*</span>;
 
-  // Reusable clear-select component
   const ClearSelect = ({
     value,
     onChange,
     options,
-    placeholder,
   }: {
     value: string;
     onChange: (v: string) => void;
     options: string[];
-    placeholder?: string;
   }) => (
     <div className="flex gap-1">
       <select
@@ -420,7 +480,6 @@ export default function VisitorRegistrationPage() {
     </div>
   );
 
-  // Reusable file upload box
   const FileUploadBox = ({
     field,
     label,
@@ -433,7 +492,7 @@ export default function VisitorRegistrationPage() {
     accept?: string;
   }) => (
     <div
-      className="rounded-xl p-4 text-center cursor-pointer relative"
+      className="rounded-xl p-4 text-center"
       style={{
         background: "var(--app-panel-soft)",
         border: "2px dashed var(--app-border)",
@@ -488,7 +547,6 @@ export default function VisitorRegistrationPage() {
   return (
     <section id="contact" className="min-h-screen px-4 py-8">
       <div className="max-w-3xl mx-auto">
-        {/* Header */}
         <div className="text-center mb-8">
           <h1
             className="text-3xl font-bold mb-2"
@@ -503,7 +561,7 @@ export default function VisitorRegistrationPage() {
           )}
         </div>
 
-        {/* ── OTP PHONE STAGE ── */}
+        {/* OTP PHONE */}
         {stage === "otp-phone" && (
           <div className="max-w-md mx-auto">
             <div
@@ -513,6 +571,7 @@ export default function VisitorRegistrationPage() {
                 border: "1px solid var(--app-border)",
               }}
             >
+              {/* Tabs */}
               <div
                 className="flex border-b"
                 style={{ borderColor: "var(--app-border)" }}
@@ -534,61 +593,112 @@ export default function VisitorRegistrationPage() {
                   </button>
                 ))}
               </div>
+
               <div className="px-8 py-8 text-center">
-                <div
-                  className="w-14 h-14 rounded-full flex items-center justify-center mx-auto mb-4"
-                  style={{
-                    background: "linear-gradient(135deg,#1d4ed8,#2563eb)",
-                  }}
-                >
-                  <svg
-                    className="w-7 h-7 text-white"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"
+                {visitorType === "indian" && (
+                  <>
+                    <div
+                      className="w-14 h-14 rounded-full flex items-center justify-center mx-auto mb-4"
+                      style={{
+                        background: "linear-gradient(135deg,#1d4ed8,#2563eb)",
+                      }}
+                    >
+                      <svg
+                        className="w-7 h-7 text-white"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"
+                        />
+                      </svg>
+                    </div>
+                    <h2
+                      className="text-xl font-bold mb-6"
+                      style={{ color: "var(--app-text)" }}
+                    >
+                      Verify Mobile
+                    </h2>
+                  </>
+                )}
+
+                {/* Phone / Email Input */}
+                {visitorType === "indian" ? (
+                  <div className="flex mb-4">
+                    <div
+                      className="px-4 py-2.5 rounded-l-xl text-sm font-semibold flex-shrink-0 flex items-center"
+                      style={{
+                        background: "var(--app-panel-soft)",
+                        border: "1px solid var(--app-border)",
+                        borderRight: "none",
+                        color: "var(--app-text)",
+                      }}
+                    >
+                      +91
+                    </div>
+                    <input
+                      type="tel"
+                      value={phone}
+                      onChange={(e) =>
+                        setPhone(e.target.value.replace(/\D/g, "").slice(0, 10))
+                      }
+                      placeholder="Mobile Number"
+                      className="flex-1 px-4 py-2.5 rounded-r-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
+                      style={{
+                        background: "var(--app-panel-soft)",
+                        border: "1px solid var(--app-border)",
+                        borderLeft: "none",
+                        color: "var(--app-text)",
+                      }}
                     />
-                  </svg>
-                </div>
-                <h2
-                  className="text-xl font-bold mb-6"
-                  style={{ color: "var(--app-text)" }}
-                >
-                  Verify Mobile
-                </h2>
-                <div className="flex mb-4">
-                  <div
-                    className="px-4 py-2.5 rounded-l-xl text-sm font-medium border-r-0 flex-shrink-0"
-                    style={{
-                      background: "var(--app-panel-soft)",
-                      border: "1px solid var(--app-border)",
-                      color: "var(--app-text)",
-                    }}
-                  >
-                    + {visitorType === "indian" ? "91" : "Intl"}
                   </div>
-                  <input
-                    type="tel"
-                    value={phone}
-                    onChange={(e) =>
-                      setPhone(e.target.value.replace(/\D/g, "").slice(0, 10))
-                    }
-                    placeholder="Mobile Number"
-                    maxLength={10}
-                    className="flex-1 px-4 py-2.5 rounded-r-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
-                    style={{
-                      background: "var(--app-panel-soft)",
-                      border: "1px solid var(--app-border)",
-                      borderLeft: "none",
-                      color: "var(--app-text)",
-                    }}
-                  />
-                </div>
+                ) : (
+                  <div className="mb-4 text-left">
+                    <div
+                      className="w-14 h-14 rounded-full flex items-center justify-center mx-auto mb-3"
+                      style={{
+                        background: "linear-gradient(135deg,#1d4ed8,#2563eb)",
+                      }}
+                    >
+                      <svg
+                        className="w-7 h-7 text-white"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+                        />
+                      </svg>
+                    </div>
+                    <h2
+                      className="text-xl font-bold mb-4 text-center"
+                      style={{ color: "var(--app-text)" }}
+                    >
+                      Verify Email
+                    </h2>
+                    <input
+                      type="email"
+                      value={intlEmail}
+                      onChange={(e) => setIntlEmail(e.target.value)}
+                      placeholder="Provide Email Address"
+                      className="w-full px-4 py-2.5 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
+                      style={{
+                        background: "var(--app-panel-soft)",
+                        border: "1px solid var(--app-border)",
+                        color: "var(--app-text)",
+                      }}
+                    />
+                  </div>
+                )}
+
                 <label className="flex items-start gap-2 text-left mb-6 cursor-pointer">
                   <input
                     type="checkbox"
@@ -624,7 +734,7 @@ export default function VisitorRegistrationPage() {
           </div>
         )}
 
-        {/* ── OTP VERIFY STAGE ── */}
+        {/* OTP VERIFY */}
         {stage === "otp-verify" && (
           <div className="max-w-md mx-auto">
             <div
@@ -692,7 +802,12 @@ export default function VisitorRegistrationPage() {
                     Enter OTP
                   </h2>
                   <p className="text-sm" style={{ color: "var(--app-muted)" }}>
-                    Sent to <strong>{phone}</strong>
+                    Sent to{" "}
+                    <strong>
+                      {visitorType === "international"
+                        ? intlEmail
+                        : `+91 ${phone}`}
+                    </strong>
                   </p>
                 </div>
                 <input
@@ -741,7 +856,7 @@ export default function VisitorRegistrationPage() {
           </div>
         )}
 
-        {/* ── MULTI-STEP FORM ── */}
+        {/* MULTI-STEP FORM */}
         {stage === "form" && (
           <div>
             {/* Step Progress Bar */}
@@ -751,7 +866,7 @@ export default function VisitorRegistrationPage() {
                   <div key={i} className="flex items-center">
                     <div className="flex flex-col items-center">
                       <div
-                        className={`w-9 h-9 rounded-full flex items-center justify-center text-sm font-bold transition-all ${i + 1 < currentStep ? "text-white" : i + 1 === currentStep ? "text-white" : "text-gray-400"}`}
+                        className={`w-9 h-9 rounded-full flex items-center justify-center text-sm font-bold transition-all ${i + 1 <= currentStep ? "text-white" : "text-gray-400"}`}
                         style={{
                           background:
                             i + 1 < currentStep
@@ -826,12 +941,12 @@ export default function VisitorRegistrationPage() {
 
               <div className="px-6 py-6">
                 {error && (
-                  <div className="mb-4 rounded-xl px-4 py-3 text-sm text-red-600 bg-red-50 border border-red-200">
+                  <div className="mb-5 rounded-xl px-4 py-3 text-sm text-red-600 bg-red-50 border border-red-200">
                     {error}
                   </div>
                 )}
 
-                {/* STEP 1 - Basic Details */}
+                {/* STEP 1 */}
                 {currentStep === 1 && (
                   <div className="space-y-5">
                     {/* Passport Photo */}
@@ -847,7 +962,7 @@ export default function VisitorRegistrationPage() {
                         <div>
                           {formData.photo_url ? (
                             <div
-                              className="rounded-xl overflow-hidden border"
+                              className="rounded-xl overflow-hidden"
                               style={{ border: "1px solid var(--app-border)" }}
                             >
                               <img
@@ -948,7 +1063,7 @@ export default function VisitorRegistrationPage() {
                       </div>
                     </div>
 
-                    {/* Row: Invited By + Title */}
+                    {/* Invited By + Title */}
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       <div>
                         <label className={labelCls} style={labelStyle}>
@@ -985,7 +1100,7 @@ export default function VisitorRegistrationPage() {
                       </div>
                     </div>
 
-                    {/* Row: First, Middle, Last Name */}
+                    {/* Name */}
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                       <div>
                         <label className={labelCls} style={labelStyle}>
@@ -1040,7 +1155,7 @@ export default function VisitorRegistrationPage() {
                       </div>
                     </div>
 
-                    {/* Row: Designation + Company */}
+                    {/* Designation + Company */}
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       <div>
                         <label className={labelCls} style={labelStyle}>
@@ -1073,14 +1188,14 @@ export default function VisitorRegistrationPage() {
                       </div>
                     </div>
 
-                    {/* Row: Country Code + Mobile 1 + Email 1 */}
+                    {/* Country Code + Mobile 1 + Email 1 */}
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                       <div>
                         <label className={labelCls} style={labelStyle}>
                           Country Code {reqStar}
                         </label>
                         <input
-                          value="91"
+                          value={visitorType === "indian" ? "+91" : countryCode}
                           disabled
                           className={inputCls}
                           style={{ ...inputStyle, opacity: 0.7 }}
@@ -1117,7 +1232,7 @@ export default function VisitorRegistrationPage() {
                       </div>
                     </div>
 
-                    {/* Row: Mobile 2 + Email 2 + Country */}
+                    {/* Mobile 2 + Email 2 + Country */}
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                       <div>
                         <label className={labelCls} style={labelStyle}>
@@ -1131,13 +1246,12 @@ export default function VisitorRegistrationPage() {
                               ...p,
                               phone2: e.target.value
                                 .replace(/\D/g, "")
-                                .slice(0, 10),
+                                .slice(0, 15),
                             }))
                           }
                           className={inputCls}
                           style={inputStyle}
                           placeholder="Optional"
-                          maxLength={10}
                         />
                       </div>
                       <div>
@@ -1162,22 +1276,22 @@ export default function VisitorRegistrationPage() {
                         <label className={labelCls} style={labelStyle}>
                           Country
                         </label>
-                        <div className="flex items-center gap-2">
-                          <span
-                            className="px-3 py-2 rounded-xl text-sm font-medium"
-                            style={{
-                              background: "var(--app-panel-soft)",
-                              border: "1px solid var(--app-border)",
-                              color: "var(--app-text)",
-                            }}
-                          >
-                            🇮🇳 India
-                          </span>
-                        </div>
+                        <span
+                          className="inline-block px-3 py-2.5 rounded-xl text-sm font-medium"
+                          style={{
+                            background: "var(--app-panel-soft)",
+                            border: "1px solid var(--app-border)",
+                            color: "var(--app-text)",
+                          }}
+                        >
+                          {visitorType === "indian"
+                            ? "🇮🇳 India"
+                            : `🌍 International (${countryCode})`}
+                        </span>
                       </div>
                     </div>
 
-                    {/* Business Card Upload */}
+                    {/* Business Card */}
                     <div>
                       <label className={labelCls} style={labelStyle}>
                         Upload your business card {reqStar}
@@ -1185,8 +1299,8 @@ export default function VisitorRegistrationPage() {
                           className="font-normal text-xs ml-1"
                           style={{ color: "var(--app-muted)" }}
                         >
-                          (front side required; back optional. Max 10MB, JPG,
-                          PNG, or PDF)
+                          (front required; back optional. Max 10MB, JPG, PNG, or
+                          PDF)
                         </span>
                       </label>
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -1220,7 +1334,7 @@ export default function VisitorRegistrationPage() {
                   </div>
                 )}
 
-                {/* STEP 2 - Address */}
+                {/* STEP 2 */}
                 {currentStep === 2 && (
                   <div className="space-y-4">
                     <div>
@@ -1257,7 +1371,7 @@ export default function VisitorRegistrationPage() {
                         placeholder="Apartment, suite, etc."
                       />
                     </div>
-                    <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                       <div>
                         <label className={labelCls} style={labelStyle}>
                           City {reqStar}
@@ -1317,7 +1431,7 @@ export default function VisitorRegistrationPage() {
                   </div>
                 )}
 
-                {/* STEP 3 - Business Profile */}
+                {/* STEP 3 */}
                 {currentStep === 3 && (
                   <div className="space-y-4">
                     <div>
@@ -1373,7 +1487,7 @@ export default function VisitorRegistrationPage() {
                   </div>
                 )}
 
-                {/* STEP 4 - Product Interests */}
+                {/* STEP 4 */}
                 {currentStep === 4 && (
                   <div>
                     <p
@@ -1421,7 +1535,7 @@ export default function VisitorRegistrationPage() {
                   </div>
                 )}
 
-                {/* STEP 5 - Visit Purpose */}
+                {/* STEP 5 */}
                 {currentStep === 5 && (
                   <div>
                     <p
@@ -1468,7 +1582,7 @@ export default function VisitorRegistrationPage() {
                   </div>
                 )}
 
-                {/* STEP 6 - Annual Buying */}
+                {/* STEP 6 */}
                 {currentStep === 6 && (
                   <div>
                     <label className={labelCls} style={labelStyle}>
@@ -1507,7 +1621,7 @@ export default function VisitorRegistrationPage() {
                   </div>
                 )}
 
-                {/* STEP 7 - Additional Info */}
+                {/* STEP 7 */}
                 {currentStep === 7 && (
                   <div className="space-y-4">
                     <div>
@@ -1552,7 +1666,7 @@ export default function VisitorRegistrationPage() {
                   </div>
                 )}
 
-                {/* STEP 8 - Brands */}
+                {/* STEP 8 */}
                 {currentStep === 8 && (
                   <div>
                     <label className={labelCls} style={labelStyle}>
@@ -1574,7 +1688,7 @@ export default function VisitorRegistrationPage() {
                   </div>
                 )}
 
-                {/* STEP 9 - Final Submission */}
+                {/* STEP 9 */}
                 {currentStep === 9 && (
                   <div className="space-y-4">
                     <div
@@ -1627,7 +1741,12 @@ export default function VisitorRegistrationPage() {
                             ],
                             ["Company", formData.company],
                             ["Designation", formData.designation],
-                            ["Mobile", phone],
+                            [
+                              "Mobile",
+                              visitorType === "indian"
+                                ? `+91 ${phone}`
+                                : `${countryCode} ${phone}`,
+                            ],
                             ["Email", formData.email],
                             ["City", formData.city],
                             ["State", formData.state],
@@ -1642,7 +1761,7 @@ export default function VisitorRegistrationPage() {
                                   style={{ borderColor: "var(--app-border)" }}
                                 >
                                   <td
-                                    className="py-1.5 pr-4 font-medium"
+                                    className="py-1.5 pr-4 font-medium w-32"
                                     style={{ color: "var(--app-muted)" }}
                                   >
                                     {k}
@@ -1765,7 +1884,7 @@ export default function VisitorRegistrationPage() {
           </div>
         )}
 
-        {/* ── COMPLETE STAGE ── */}
+        {/* COMPLETE */}
         {stage === "complete" && (
           <div className="max-w-lg mx-auto">
             <div
@@ -1867,7 +1986,7 @@ export default function VisitorRegistrationPage() {
                     className="text-sm font-medium"
                     style={{ color: "var(--app-text)" }}
                   >
-                    📅 July 4–6, 2026 · 📍 Bharat Mandapam, Pragati Maidan, New
+                    📅 July 4–7, 2026 · 📍 Bharat Mandapam, Pragati Maidan, New
                     Delhi
                   </p>
                 </div>
