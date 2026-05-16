@@ -1838,12 +1838,12 @@ export default function VisitorRegistrationPage() {
                   {
                     icon: "📞",
                     title: "PHONE",
-                    sub: "+91 99 676 00286\n+91 99 301 72973",
+                    sub: "+91 93157 00590\n+91 85888 92885",
                   },
                   {
                     icon: "📧",
                     title: "EMAIL",
-                    sub: "visitors@fusionera.in",
+                    sub: "info@fusiontheera.com",
                     link: true,
                   },
                 ].map((card) => (

@@ -42,17 +42,17 @@ export default function PayStallAdvancePage() {
                 {[
                   {
                     city: "Delhi",
-                    name: "Mr. Lakshay Sharma",
-                    mobile: "+91 99 676 00257",
-                    tel: "+91 (11) 2571 4111",
-                    email: "lakshay.sharma@fusionera.in",
+                    name: "Mr. Pawan Singh",
+                    mobile: "+91 93157 00590",
+
+                    email: "pawan.singh@fusiontheera.com",
                   },
                   {
                     city: "Mumbai",
-                    name: "Ms. Ananya Singh",
-                    mobile: "+91 99 301 66099",
-                    tel: "+91 (22) 6997 1122",
-                    email: "ananya.singh@fusionera.in",
+                    name: "Mr. Jasvinder Singh Chaudhary",
+                    mobile: "+91 85888 92885",
+
+                    email: "jasvinder.chaudhary@fusiontheera.com",
                   },
                 ].map((c) => (
                   <div

@@ -10,9 +10,7 @@ export default function Section4() {
 
         <div className="relative mb-6 flex flex-col gap-3 md:mb-8 md:flex-row md:items-end md:justify-between">
           <div>
-            <p className="inline-flex rounded-full border border-[#3d66d6]/25 bg-white/70 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.16em] text-[#3d66d6]">
-              Fusion The Era
-            </p>
+            
             <h2 className="mt-3 text-2xl font-bold leading-tight text-[#172445] md:text-4xl">
               Why Fusion The Era?
             </h2>

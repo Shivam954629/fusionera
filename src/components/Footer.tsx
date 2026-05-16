@@ -154,9 +154,9 @@ export default function Footer() {
             Contact
           </h3>
           <div className="mt-4 grid gap-2 text-sm text-[#e7f0ff]">
-            <p>Email: info@fusionera.in</p>
+            <p>Email: info@fusiontheera.com</p>
             <p>Phone: +91 93157 00590</p>
-            <p>Support: +91 93157 00590</p>
+            <p>Support: +91 8588892885</p>
           </div>
         </div>
 

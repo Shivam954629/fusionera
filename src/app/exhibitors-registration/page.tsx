@@ -3,6 +3,24 @@ import { useState } from "react";
 
 type Stage = "intro" | "selection" | "login" | "form" | "submitted";
 
+// ── CONTACT DETAILS (ek jagah update karo, sab jagah change hoga) ──
+const CONTACTS = [
+  {
+    city: "Delhi",
+    name: "Mr. Pawan Singh",
+    mobile: "+91 93157 00590",
+    tel: "+91 (11) 2571 4111",
+    email: "pawan.singh@fusiontheera.com",
+  },
+  {
+    city: "Mumbai",
+    name: "Mr. Jasvinder Singh Chaudhary",
+    mobile: "+91 85888 92885",
+    tel: "+91 (22) 6997 1122",
+    email: "jasvinder.chaudhary@fusiontheera.com",
+  },
+];
+
 export default function ExhibitorRegistrationPage() {
   const [stage, setStage] = useState<Stage>("intro");
   const [exhibitorType, setExhibitorType] = useState<
@@ -54,7 +72,7 @@ export default function ExhibitorRegistrationPage() {
     }
   };
 
-  const handleResend = async (type: "id" | "password") => {
+  const handleResend = (type: "id" | "password") => {
     if (!loginData.name.trim()) {
       setLoginError("Please enter your Exhibitor Name first.");
       return;
@@ -76,19 +94,23 @@ export default function ExhibitorRegistrationPage() {
 
   return (
     <section
-      className="min-h-screen px-4 py-12"
+      className="min-h-screen px-4 py-8 md:py-12"
       style={{ background: "var(--app-bg)" }}
     >
       <div className="max-w-3xl mx-auto">
-        <div className="text-center mb-8">
+        <div className="text-center mb-6 md:mb-8">
           <h1
-            className="text-3xl font-bold mb-2"
+            className="text-2xl md:text-3xl font-bold mb-2"
             style={{ color: "var(--app-text)" }}
           >
             Exhibitors Registration
           </h1>
-          <p className="text-sm" style={{ color: "var(--app-muted)" }}>
-            JULY 4 – JULY 7, 2026 · Bharat Mandapam, Pragati Maidan, New Delhi, India
+          <p
+            className="text-xs md:text-sm"
+            style={{ color: "var(--app-muted)" }}
+          >
+            JULY 4 - JULY 7, 2026 · Bharat Mandapam, Pragati Maidan, New Delhi,
+            India
           </p>
         </div>
 
@@ -102,7 +124,7 @@ export default function ExhibitorRegistrationPage() {
                 border: "1px solid var(--app-border)",
               }}
             >
-              <div className="px-8 py-12 text-center space-y-6">
+              <div className="px-6 md:px-8 py-10 md:py-12 text-center space-y-5">
                 <div>
                   <p
                     className="text-xs font-bold uppercase tracking-widest mb-3"
@@ -111,19 +133,19 @@ export default function ExhibitorRegistrationPage() {
                     EXHIBITOR REGISTRATION
                   </p>
                   <h2
-                    className="text-3xl font-black mb-2"
+                    className="text-2xl md:text-3xl font-black mb-2"
                     style={{ color: "#1d4ed8" }}
                   >
-                    JULY 4 – JULY 7, 2026
+                    JULY 4 - JULY 7, 2026
                   </h2>
                   <p
-                    className="text-base font-medium"
+                    className="text-sm font-medium"
                     style={{ color: "var(--app-muted)" }}
                   >
                     Bharat Mandapam, Pragati Maidan
                   </p>
                   <p
-                    className="text-base font-bold"
+                    className="text-sm font-bold"
                     style={{ color: "var(--app-text)" }}
                   >
                     New Delhi, India
@@ -131,7 +153,7 @@ export default function ExhibitorRegistrationPage() {
                 </div>
                 <button
                   onClick={() => setStage("selection")}
-                  className="px-10 py-3 rounded-xl text-white font-bold text-sm transition hover:opacity-90"
+                  className="px-10 py-3 rounded-xl text-white font-bold text-sm transition hover:opacity-90 w-full md:w-auto"
                   style={blueBg}
                 >
                   Register Now
@@ -151,76 +173,70 @@ export default function ExhibitorRegistrationPage() {
                 border: "1px solid var(--app-border)",
               }}
             >
-              <div className="px-8 py-10 text-center space-y-6">
+              <div className="px-6 md:px-8 py-8 md:py-10 text-center space-y-5">
                 <div>
                   <h2
-                    className="text-2xl font-black mb-1"
-                    style={{ color: "var(--app-text)" }}
+                    className="text-xl md:text-2xl font-black mb-1"
+                    style={{ color: "#1d4ed8" }}
                   >
-                    JULY 4 – JULY 7, 2026
+                    JULY 4 - JULY 7, 2026
                   </h2>
-                  <p className="text-sm" style={{ color: "var(--app-muted)" }}>
+                  <p
+                    className="text-xs md:text-sm"
+                    style={{ color: "var(--app-muted)" }}
+                  >
                     Bharat Mandapam, Pragati Maidan
                   </p>
                   <p
-                    className="text-sm font-bold"
+                    className="text-xs md:text-sm font-bold"
                     style={{ color: "var(--app-text)" }}
                   >
                     New Delhi, India
                   </p>
                 </div>
                 <div className="space-y-4">
-                  <div
-                    className="rounded-xl p-5"
-                    style={{
-                      background: "var(--app-panel-soft)",
-                      border: "1px solid var(--app-border)",
-                    }}
-                  >
-                    <p
-                      className="text-sm mb-4"
-                      style={{ color: "var(--app-muted)" }}
+                  {[
+                    {
+                      type: "regular" as const,
+                      label: "REGULAR EXHIBITOR",
+                      desc: "If you have exhibited at FusionEra in any of the past editions, please click below",
+                    },
+                    {
+                      type: "firsttime" as const,
+                      label: "FIRST TIME EXHIBITOR",
+                      desc: "If you are exhibiting at FusionEra for the first time, please click below",
+                    },
+                  ].map((item) => (
+                    <div
+                      key={item.type}
+                      className="rounded-xl p-4 md:p-5"
+                      style={{
+                        background: "var(--app-panel-soft)",
+                        border: "1px solid var(--app-border)",
+                      }}
                     >
-                      If you have exhibited at FusionEra previously, please
-                      click below
-                    </p>
-                    <button
-                      onClick={() => handleSelect("regular")}
-                      className="px-8 py-3 rounded-xl text-white font-bold text-sm transition hover:opacity-90 w-full"
-                      style={blueBg}
-                    >
-                      REGULAR EXHIBITOR
-                    </button>
-                  </div>
-                  <div
-                    className="rounded-xl p-5"
-                    style={{
-                      background: "var(--app-panel-soft)",
-                      border: "1px solid var(--app-border)",
-                    }}
-                  >
-                    <p
-                      className="text-sm mb-4"
-                      style={{ color: "var(--app-muted)" }}
-                    >
-                      If you are exhibiting at FusionEra for the first time,
-                      please click below
-                    </p>
-                    <button
-                      onClick={() => handleSelect("firsttime")}
-                      className="px-8 py-3 rounded-xl text-white font-bold text-sm transition hover:opacity-90 w-full"
-                      style={blueBg}
-                    >
-                      FIRST TIME EXHIBITOR
-                    </button>
-                  </div>
+                      <p
+                        className="text-xs md:text-sm mb-3"
+                        style={{ color: "var(--app-muted)" }}
+                      >
+                        {item.desc}
+                      </p>
+                      <button
+                        onClick={() => handleSelect(item.type)}
+                        className="px-6 md:px-8 py-2.5 rounded-xl text-white font-bold text-sm transition hover:opacity-90 w-full"
+                        style={blueBg}
+                      >
+                        {item.label}
+                      </button>
+                    </div>
+                  ))}
                 </div>
               </div>
             </div>
           </div>
         )}
 
-        {/* REGULAR EXHIBITOR LOGIN */}
+        {/* LOGIN */}
         {stage === "login" && (
           <div className="max-w-lg mx-auto">
             <div
@@ -231,7 +247,7 @@ export default function ExhibitorRegistrationPage() {
               }}
             >
               <div
-                className="px-6 py-5 border-b"
+                className="px-5 py-4 border-b"
                 style={{
                   borderColor: "var(--app-border)",
                   background: "var(--app-panel-soft)",
@@ -239,28 +255,27 @@ export default function ExhibitorRegistrationPage() {
               >
                 <button
                   onClick={() => setStage("selection")}
-                  className="text-sm mb-2 flex items-center gap-1 hover:opacity-70 transition"
+                  className="text-sm mb-2 flex items-center gap-1 hover:opacity-70"
                   style={{ color: "var(--app-muted)" }}
                 >
                   ← Back
                 </button>
                 <h2
-                  className="text-xl font-bold"
+                  className="text-lg md:text-xl font-bold"
                   style={{ color: "var(--app-text)" }}
                 >
                   Regular Exhibitor Login
                 </h2>
               </div>
-              <div className="px-6 py-6">
+              <div className="px-5 md:px-6 py-5 md:py-6">
                 <p
-                  className="text-sm mb-6"
+                  className="text-xs md:text-sm mb-5"
                   style={{ color: "var(--app-muted)" }}
                 >
                   To book your Exhibition space for FusionEra 2026, please login
                   below by using the same Exhibitor ID and Password which has
                   been shared with you by FusionEra Team.
                 </p>
-
                 {loginError && (
                   <div className="mb-4 rounded-xl px-4 py-3 text-sm text-red-600 bg-red-50 border border-red-200">
                     {loginError}
@@ -271,7 +286,6 @@ export default function ExhibitorRegistrationPage() {
                     {resendMsg}
                   </div>
                 )}
-
                 <div className="space-y-4">
                   <div>
                     <label
@@ -290,7 +304,6 @@ export default function ExhibitorRegistrationPage() {
                       placeholder="Enter your exhibitor name"
                     />
                   </div>
-
                   <div>
                     <label
                       className="block text-sm font-semibold mb-1.5"
@@ -317,7 +330,6 @@ export default function ExhibitorRegistrationPage() {
                       </button>
                     </div>
                   </div>
-
                   <div>
                     <label
                       className="block text-sm font-semibold mb-1.5"
@@ -349,12 +361,11 @@ export default function ExhibitorRegistrationPage() {
                       </button>
                     </div>
                   </div>
-
-                  <div className="flex gap-3 pt-2">
+                  <div className="flex gap-3 pt-1">
                     <button
                       onClick={handleLogin}
                       disabled={loginLoading}
-                      className="px-8 py-2.5 rounded-xl text-white font-bold text-sm transition hover:opacity-90 disabled:opacity-60"
+                      className="flex-1 md:flex-none px-8 py-2.5 rounded-xl text-white font-bold text-sm transition hover:opacity-90 disabled:opacity-60"
                       style={blueBg}
                     >
                       {loginLoading ? "Logging in..." : "Login"}
@@ -364,7 +375,7 @@ export default function ExhibitorRegistrationPage() {
                         setLoginData({ name: "", id: "", password: "" });
                         setLoginError("");
                       }}
-                      className="px-8 py-2.5 rounded-xl text-sm font-bold transition hover:opacity-80"
+                      className="flex-1 md:flex-none px-8 py-2.5 rounded-xl text-sm font-bold transition hover:opacity-80"
                       style={{
                         background: "var(--app-panel-soft)",
                         border: "1px solid var(--app-border)",
@@ -374,33 +385,19 @@ export default function ExhibitorRegistrationPage() {
                       Reset
                     </button>
                   </div>
-
                   <div
-                    className="mt-4 pt-4"
+                    className="pt-3"
                     style={{ borderTop: "1px solid var(--app-border)" }}
                   >
                     <p
-                      className="text-sm"
+                      className="text-xs md:text-sm mb-3"
                       style={{ color: "var(--app-muted)" }}
                     >
-                      If you don't have Exhibitor ID and Password, please
+                      If you don&apos;t have Exhibitor ID and Password, please
                       contact:
                     </p>
-                    <div className="mt-2 grid grid-cols-1 md:grid-cols-2 gap-3">
-                      {[
-                        {
-                          city: "Delhi",
-                          name: "Mr. Lakshay Sharma",
-                          mobile: "+91 99 676 00257",
-                          email: "lakshay.sharma@fusionera.in",
-                        },
-                        {
-                          city: "Mumbai",
-                          name: "Ms. Ananya Singh",
-                          mobile: "+91 99 301 66099",
-                          email: "ananya.singh@fusionera.in",
-                        },
-                      ].map((c) => (
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                      {CONTACTS.map((c) => (
                         <div
                           key={c.city}
                           className="rounded-xl p-3"
@@ -429,7 +426,7 @@ export default function ExhibitorRegistrationPage() {
                           </p>
                           <a
                             href={`mailto:${c.email}`}
-                            className="text-xs text-blue-500 hover:underline"
+                            className="text-xs text-blue-500 hover:underline break-all"
                           >
                             {c.email}
                           </a>
@@ -464,7 +461,7 @@ export default function ExhibitorRegistrationPage() {
                 border: "1px solid var(--app-border)",
               }}
             >
-              <div className="px-8 py-12">
+              <div className="px-6 md:px-8 py-10 md:py-12">
                 <div
                   className="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4"
                   style={{
@@ -486,7 +483,7 @@ export default function ExhibitorRegistrationPage() {
                   </svg>
                 </div>
                 <h2
-                  className="text-2xl font-bold mb-2"
+                  className="text-xl md:text-2xl font-bold mb-2"
                   style={{ color: "var(--app-text)" }}
                 >
                   Request Submitted!
@@ -749,19 +746,19 @@ function ExhibitorRequestForm({
   const removeBrand = (i: number) =>
     setBrands(brands.filter((_, idx) => idx !== i));
   const updateBrand = (i: number, field: keyof Brand, value: string) => {
-    const updated = [...brands];
-    updated[i][field] = value;
-    setBrands(updated);
+    const u = [...brands];
+    u[i][field] = value;
+    setBrands(u);
   };
-  const toggleCategory = (cat: string) =>
-    setProductCategories((prev) =>
-      prev.includes(cat) ? prev.filter((c) => c !== cat) : [...prev, cat],
+  const toggleCat = (cat: string) =>
+    setProductCategories((p) =>
+      p.includes(cat) ? p.filter((c) => c !== cat) : [...p, cat],
     );
 
   const validate = () => {
     if (!participationMode) return "Please select Mode of Participation.";
     if (!companyName.trim()) return "Company Name is required.";
-    if (!boothArea.trim()) return "Approximate booth area is required.";
+    if (!boothArea.trim()) return "Booth area is required.";
     if (!boothType) return "Please select Type of Booth.";
     if (!opening) return "Please select Opening.";
     if (brands.filter((b) => b.name.trim()).length === 0)
@@ -851,7 +848,7 @@ function ExhibitorRequestForm({
       if (!res.ok) throw new Error(data.error);
       onSubmitted();
     } catch (e: any) {
-      setError(e.message || "Submission failed. Please try again.");
+      setError(e.message || "Submission failed.");
     } finally {
       setLoading(false);
     }
@@ -870,246 +867,317 @@ function ExhibitorRequestForm({
   const blueBg = { background: "linear-gradient(135deg,#1d4ed8,#2563eb)" };
 
   return (
-    <div className="space-y-6">
+    <div
+      className="rounded-2xl overflow-hidden shadow-xl"
+      style={{
+        background: "var(--app-panel)",
+        border: "1px solid var(--app-border)",
+      }}
+    >
       <div
-        className="rounded-2xl overflow-hidden shadow-xl"
+        className="px-5 md:px-6 py-4 md:py-5 border-b"
         style={{
-          background: "var(--app-panel)",
-          border: "1px solid var(--app-border)",
+          borderColor: "var(--app-border)",
+          background: "var(--app-panel-soft)",
         }}
       >
-        <div
-          className="px-6 py-5 border-b"
-          style={{
-            borderColor: "var(--app-border)",
-            background: "var(--app-panel-soft)",
-          }}
+        <button
+          onClick={onBack}
+          className="text-sm mb-2 flex items-center gap-1 hover:opacity-70"
+          style={{ color: "var(--app-muted)" }}
         >
-          <button
-            onClick={onBack}
-            className="text-sm mb-2 flex items-center gap-1 hover:opacity-70 transition"
-            style={{ color: "var(--app-muted)" }}
+          ← Back
+        </button>
+        <h2
+          className="text-lg md:text-xl font-bold"
+          style={{ color: "var(--app-text)" }}
+        >
+          Exhibitor Request Form
+          <span
+            className="ml-2 text-xs font-normal px-2 py-1 rounded-full"
+            style={{
+              background: "var(--app-border)",
+              color: "var(--app-muted)",
+            }}
           >
-            ← Back
-          </button>
-          <h2
-            className="text-xl font-bold"
-            style={{ color: "var(--app-text)" }}
-          >
-            Exhibitor Request Form
-            <span
-              className="ml-2 text-xs font-normal px-2 py-1 rounded-full"
-              style={{
-                background: "var(--app-border)",
-                color: "var(--app-muted)",
-              }}
-            >
-              {exhibitorType === "regular"
-                ? "Regular Exhibitor"
-                : "First Time Exhibitor"}
-            </span>
-          </h2>
-          <p className="text-sm mt-1" style={{ color: "var(--app-muted)" }}>
-            We are interested in exhibiting at FusionEra 2026 scheduled for July
-            4–7, 2026 at Bharat Mandapam, Pragati Maidan, New Delhi.
-          </p>
+            {exhibitorType === "regular"
+              ? "Regular Exhibitor"
+              : "First Time Exhibitor"}
+          </span>
+        </h2>
+        <p
+          className="text-xs md:text-sm mt-1"
+          style={{ color: "var(--app-muted)" }}
+        >
+          We are interested in exhibiting at FusionEra 2026 scheduled for July
+          4–7, 2026 at Bharat Mandapam, Pragati Maidan, New Delhi.
+        </p>
+      </div>
+
+      <div className="px-5 md:px-6 py-5 md:py-6 space-y-5 md:space-y-6">
+        {error && (
+          <div className="rounded-xl px-4 py-3 text-sm text-red-600 bg-red-50 border border-red-200">
+            {error}
+          </div>
+        )}
+
+        {/* Domestic/International */}
+        <div className="flex gap-4 md:gap-6 flex-wrap">
+          {(["domestic", "international"] as const).map((t) => (
+            <label key={t} className="flex items-center gap-2 cursor-pointer">
+              <input
+                type="radio"
+                checked={participationType === t}
+                onChange={() => setParticipationType(t)}
+                className="w-4 h-4 accent-blue-600"
+              />
+              <span
+                className="text-sm font-medium"
+                style={{ color: "var(--app-text)" }}
+              >
+                {t === "domestic" ? "Domestic" : "International"}
+              </span>
+            </label>
+          ))}
         </div>
 
-        <div className="px-6 py-6 space-y-6">
-          {error && (
-            <div className="rounded-xl px-4 py-3 text-sm text-red-600 bg-red-50 border border-red-200">
-              {error}
-            </div>
-          )}
-
-          {/* Domestic / International */}
-          <div className="flex gap-6">
-            {(["domestic", "international"] as const).map((t) => (
-              <label key={t} className="flex items-center gap-2 cursor-pointer">
+        {/* Mode of Participation */}
+        <div>
+          <label className={labelCls} style={ls}>
+            Mode of Participation {req}
+          </label>
+          <div className="space-y-2">
+            {PARTICIPATION_MODES.map((mode) => (
+              <label
+                key={mode}
+                className="flex items-start gap-2 cursor-pointer p-2.5 md:p-3 rounded-xl"
+                style={{
+                  background:
+                    participationMode === mode
+                      ? "#eff6ff"
+                      : "var(--app-panel-soft)",
+                  border: `1px solid ${participationMode === mode ? "#3b82f6" : "var(--app-border)"}`,
+                }}
+              >
                 <input
                   type="radio"
-                  checked={participationType === t}
-                  onChange={() => setParticipationType(t)}
-                  className="w-4 h-4 accent-blue-600"
+                  checked={participationMode === mode}
+                  onChange={() => setParticipationMode(mode)}
+                  className="mt-0.5 w-4 h-4 accent-blue-600 flex-shrink-0"
                 />
                 <span
-                  className="text-sm font-medium"
+                  className="text-xs md:text-sm"
                   style={{ color: "var(--app-text)" }}
                 >
-                  {t === "domestic" ? "Domestic" : "International"}
+                  {mode}
                 </span>
               </label>
             ))}
           </div>
+        </div>
 
-          {/* Mode of Participation */}
+        {/* Company + Booth Area */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
             <label className={labelCls} style={ls}>
-              Mode of Participation {req}
+              Company Name {req}
             </label>
-            <div className="space-y-2 mt-1">
-              {PARTICIPATION_MODES.map((mode) => (
-                <label
-                  key={mode}
-                  className="flex items-start gap-2 cursor-pointer p-3 rounded-xl transition"
-                  style={{
-                    background:
-                      participationMode === mode
-                        ? "#eff6ff"
-                        : "var(--app-panel-soft)",
-                    border: `1px solid ${participationMode === mode ? "#3b82f6" : "var(--app-border)"}`,
-                  }}
-                >
-                  <input
-                    type="radio"
-                    checked={participationMode === mode}
-                    onChange={() => setParticipationMode(mode)}
-                    className="mt-0.5 w-4 h-4 accent-blue-600"
-                  />
-                  <span
-                    className="text-sm"
-                    style={{ color: "var(--app-text)" }}
-                  >
-                    {mode}
-                  </span>
-                </label>
-              ))}
-            </div>
+            <input
+              value={companyName}
+              onChange={(e) => setCompanyName(e.target.value)}
+              className={inputCls}
+              style={inputStyle}
+              placeholder="Your company name"
+            />
           </div>
-
-          {/* Company + Booth Area */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
-              <label className={labelCls} style={ls}>
-                Company Name {req}
-              </label>
+          <div>
+            <label className={labelCls} style={ls}>
+              Approximate Booth Area Required {req}
+            </label>
+            <div className="flex items-center gap-2">
               <input
-                value={companyName}
-                onChange={(e) => setCompanyName(e.target.value)}
+                value={boothArea}
+                onChange={(e) =>
+                  setBoothArea(e.target.value.replace(/\D/g, ""))
+                }
                 className={inputCls}
                 style={inputStyle}
-                placeholder="Your company name"
+                placeholder="e.g. 18"
               />
-            </div>
-            <div>
-              <label className={labelCls} style={ls}>
-                Approximate Booth Area Required {req}
-              </label>
-              <div className="flex items-center gap-2">
-                <input
-                  value={boothArea}
-                  onChange={(e) =>
-                    setBoothArea(e.target.value.replace(/\D/g, ""))
-                  }
-                  className={inputCls}
-                  style={inputStyle}
-                  placeholder="e.g. 18"
-                />
-                <span
-                  className="text-sm whitespace-nowrap"
-                  style={{ color: "var(--app-muted)" }}
-                >
-                  sq. mtrs.
-                </span>
-              </div>
+              <span
+                className="text-sm whitespace-nowrap"
+                style={{ color: "var(--app-muted)" }}
+              >
+                sq. mtrs.
+              </span>
             </div>
           </div>
+        </div>
 
-          {/* Booth Type + Opening */}
-          <div
-            className="grid grid-cols-1 md:grid-cols-2 gap-4 rounded-xl p-4"
-            style={{
-              background: "var(--app-panel-soft)",
-              border: "1px solid var(--app-border)",
-            }}
-          >
-            <div>
-              <label className={labelCls} style={ls}>
-                Type of Booth Required {req}
-              </label>
-              {BOOTH_TYPES.map((b) => (
-                <label
-                  key={b.value}
-                  className="flex items-start gap-2 cursor-pointer mb-2 p-2 rounded-lg transition"
-                  style={{
-                    background:
-                      boothType === b.value ? "#eff6ff" : "transparent",
-                    border: `1px solid ${boothType === b.value ? "#3b82f6" : "transparent"}`,
-                  }}
-                >
-                  <input
-                    type="radio"
-                    checked={boothType === b.value}
-                    onChange={() => setBoothType(b.value)}
-                    className="mt-0.5 w-4 h-4 accent-blue-600"
-                  />
-                  <span
-                    className="text-sm"
-                    style={{ color: "var(--app-text)" }}
-                  >
-                    {b.label}
-                  </span>
-                </label>
-              ))}
-            </div>
-            <div>
-              <label className={labelCls} style={ls}>
-                Opening {req}
-              </label>
-              {OPENING_OPTIONS.map((o) => (
-                <label
-                  key={o}
-                  className="flex items-start gap-2 cursor-pointer mb-2 p-2 rounded-lg transition"
-                  style={{
-                    background: opening === o ? "#eff6ff" : "transparent",
-                    border: `1px solid ${opening === o ? "#3b82f6" : "transparent"}`,
-                  }}
-                >
-                  <input
-                    type="radio"
-                    checked={opening === o}
-                    onChange={() => setOpening(o)}
-                    className="mt-0.5 w-4 h-4 accent-blue-600"
-                  />
-                  <span
-                    className="text-sm"
-                    style={{ color: "var(--app-text)" }}
-                  >
-                    {o}
-                  </span>
-                </label>
-              ))}
-            </div>
-          </div>
-
-          {/* Brands */}
+        {/* Booth Type + Opening */}
+        <div
+          className="grid grid-cols-1 md:grid-cols-2 gap-4 rounded-xl p-4"
+          style={{
+            background: "var(--app-panel-soft)",
+            border: "1px solid var(--app-border)",
+          }}
+        >
           <div>
             <label className={labelCls} style={ls}>
-              Brand/s {req}
+              Type of Booth Required {req}
             </label>
-            <div className="space-y-2">
-              <div className="grid grid-cols-3 gap-2 mb-1 px-1">
+            {BOOTH_TYPES.map((b) => (
+              <label
+                key={b.value}
+                className="flex items-start gap-2 cursor-pointer mb-2 p-2 rounded-lg"
+                style={{
+                  background: boothType === b.value ? "#eff6ff" : "transparent",
+                  border: `1px solid ${boothType === b.value ? "#3b82f6" : "transparent"}`,
+                }}
+              >
+                <input
+                  type="radio"
+                  checked={boothType === b.value}
+                  onChange={() => setBoothType(b.value)}
+                  className="mt-0.5 w-4 h-4 accent-blue-600 flex-shrink-0"
+                />
                 <span
-                  className="text-xs font-semibold"
-                  style={{ color: "var(--app-muted)" }}
+                  className="text-xs md:text-sm"
+                  style={{ color: "var(--app-text)" }}
                 >
-                  Brand Name
+                  {b.label}
                 </span>
+              </label>
+            ))}
+          </div>
+          <div>
+            <label className={labelCls} style={ls}>
+              Opening {req}
+            </label>
+            {OPENING_OPTIONS.map((o) => (
+              <label
+                key={o}
+                className="flex items-start gap-2 cursor-pointer mb-2 p-2 rounded-lg"
+                style={{
+                  background: opening === o ? "#eff6ff" : "transparent",
+                  border: `1px solid ${opening === o ? "#3b82f6" : "transparent"}`,
+                }}
+              >
+                <input
+                  type="radio"
+                  checked={opening === o}
+                  onChange={() => setOpening(o)}
+                  className="mt-0.5 w-4 h-4 accent-blue-600 flex-shrink-0"
+                />
                 <span
-                  className="text-xs font-semibold"
-                  style={{ color: "var(--app-muted)" }}
+                  className="text-xs md:text-sm"
+                  style={{ color: "var(--app-text)" }}
                 >
-                  Products {req}
+                  {o}
                 </span>
-                <span
-                  className="text-xs font-semibold"
-                  style={{ color: "var(--app-muted)" }}
+              </label>
+            ))}
+          </div>
+        </div>
+
+        {/* Brands — RESPONSIVE */}
+        <div>
+          <label className={labelCls} style={ls}>
+            Brand/s {req}
+          </label>
+          <div className="space-y-3">
+            {/* Desktop headers */}
+            <div className="hidden md:grid md:grid-cols-3 gap-2 px-1">
+              <span
+                className="text-xs font-semibold"
+                style={{ color: "var(--app-muted)" }}
+              >
+                Brand Name
+              </span>
+              <span
+                className="text-xs font-semibold"
+                style={{ color: "var(--app-muted)" }}
+              >
+                Products {req}
+              </span>
+              <span
+                className="text-xs font-semibold"
+                style={{ color: "var(--app-muted)" }}
+              >
+                Country of Brand Origin {req}
+              </span>
+            </div>
+            {brands.map((b, i) => (
+              <div key={i}>
+                {/* Mobile */}
+                <div
+                  className="md:hidden rounded-xl p-3 space-y-2"
+                  style={{
+                    background: "var(--app-panel-soft)",
+                    border: "1px solid var(--app-border)",
+                  }}
                 >
-                  Country of Brand Origin {req}
-                </span>
-              </div>
-              {brands.map((b, i) => (
-                <div key={i} className="grid grid-cols-3 gap-2 items-center">
+                  <div>
+                    <p
+                      className="text-xs font-semibold mb-1"
+                      style={{ color: "var(--app-muted)" }}
+                    >
+                      Brand Name
+                    </p>
+                    <input
+                      value={b.name}
+                      onChange={(e) => updateBrand(i, "name", e.target.value)}
+                      className={inputCls}
+                      style={inputStyle}
+                      placeholder="Brand name"
+                    />
+                  </div>
+                  <div>
+                    <p
+                      className="text-xs font-semibold mb-1"
+                      style={{ color: "var(--app-muted)" }}
+                    >
+                      Products {req}
+                    </p>
+                    <input
+                      value={b.products}
+                      onChange={(e) =>
+                        updateBrand(i, "products", e.target.value)
+                      }
+                      className={inputCls}
+                      style={inputStyle}
+                      placeholder="Products"
+                    />
+                  </div>
+                  <div>
+                    <p
+                      className="text-xs font-semibold mb-1"
+                      style={{ color: "var(--app-muted)" }}
+                    >
+                      Country of Brand Origin {req}
+                    </p>
+                    <input
+                      value={b.country}
+                      onChange={(e) =>
+                        updateBrand(i, "country", e.target.value)
+                      }
+                      className={inputCls}
+                      style={inputStyle}
+                      placeholder="Country"
+                    />
+                  </div>
+                  {i > 0 && (
+                    <button
+                      onClick={() => removeBrand(i)}
+                      className="w-full py-1.5 rounded-lg text-white text-xs font-bold"
+                      style={blueBg}
+                    >
+                      − Remove
+                    </button>
+                  )}
+                </div>
+                {/* Desktop */}
+                <div className="hidden md:grid md:grid-cols-3 gap-2 items-center">
                   <input
                     value={b.name}
                     onChange={(e) => updateBrand(i, "name", e.target.value)}
@@ -1145,559 +1213,538 @@ function ExhibitorRequestForm({
                     )}
                   </div>
                 </div>
-              ))}
-              <button
-                onClick={addBrand}
-                className="flex items-center gap-1 px-3 py-1.5 rounded-lg text-white text-xs font-bold"
-                style={blueBg}
+              </div>
+            ))}
+            <button
+              onClick={addBrand}
+              className="flex items-center gap-1 px-3 py-1.5 rounded-lg text-white text-xs font-bold"
+              style={blueBg}
+            >
+              + Add more
+            </button>
+          </div>
+        </div>
+
+        {/* Product Categories */}
+        <div>
+          <label className={labelCls} style={ls}>
+            Product Categories
+          </label>
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
+            {PRODUCT_CATEGORIES.map((cat) => (
+              <label
+                key={cat}
+                className="flex items-center gap-2 p-2 md:p-2.5 rounded-xl cursor-pointer text-xs md:text-sm"
+                style={{
+                  background: productCategories.includes(cat)
+                    ? "#eff6ff"
+                    : "var(--app-panel-soft)",
+                  border: `1px solid ${productCategories.includes(cat) ? "#3b82f6" : "var(--app-border)"}`,
+                  color: "var(--app-text)",
+                }}
               >
-                + Add more
-              </button>
-            </div>
+                <input
+                  type="checkbox"
+                  checked={productCategories.includes(cat)}
+                  onChange={() => toggleCat(cat)}
+                  className="w-3.5 h-3.5 accent-blue-600 flex-shrink-0"
+                />
+                {cat}
+              </label>
+            ))}
           </div>
+        </div>
 
-          {/* Product Categories */}
-          <div>
-            <label className={labelCls} style={ls}>
-              Product Categories
-            </label>
-            <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
-              {PRODUCT_CATEGORIES.map((cat) => (
-                <label
-                  key={cat}
-                  className="flex items-center gap-2 p-2.5 rounded-xl cursor-pointer transition text-sm"
-                  style={{
-                    background: productCategories.includes(cat)
-                      ? "#eff6ff"
-                      : "var(--app-panel-soft)",
-                    border: `1px solid ${productCategories.includes(cat) ? "#3b82f6" : "var(--app-border)"}`,
-                    color: "var(--app-text)",
-                  }}
-                >
-                  <input
-                    type="checkbox"
-                    checked={productCategories.includes(cat)}
-                    onChange={() => toggleCategory(cat)}
-                    className="w-3.5 h-3.5 accent-blue-600"
-                  />
-                  {cat}
+        <div className="h-px" style={{ background: "var(--app-border)" }} />
+
+        {/* Organization Head */}
+        <div>
+          <h3
+            className="text-sm md:text-base font-bold mb-3 pb-2"
+            style={{
+              color: "var(--app-text)",
+              borderBottom: "2px solid #3b82f6",
+            }}
+          >
+            Organization Head
+          </h3>
+          <div className="space-y-3 md:space-y-4">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-3 md:gap-4">
+              <div>
+                <label className={labelCls} style={ls}>
+                  Title {req}
                 </label>
-              ))}
-            </div>
-          </div>
-
-          <div className="h-px" style={{ background: "var(--app-border)" }} />
-
-          {/* Organization Head */}
-          <div>
-            <h3
-              className="text-base font-bold mb-4 pb-2"
-              style={{
-                color: "var(--app-text)",
-                borderBottom: "2px solid #3b82f6",
-              }}
-            >
-              Organization Head
-            </h3>
-            <div className="space-y-4">
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <div>
-                  <label className={labelCls} style={ls}>
-                    Title {req}
-                  </label>
-                  <select
-                    value={orgTitle}
-                    onChange={(e) => setOrgTitle(e.target.value)}
-                    className={inputCls}
-                    style={inputStyle}
-                  >
-                    <option value="">Select</option>
-                    {TITLES.map((t) => (
-                      <option key={t}>{t}</option>
-                    ))}
-                  </select>
-                </div>
-                <div>
-                  <label className={labelCls} style={ls}>
-                    First Name {req}
-                  </label>
-                  <input
-                    value={orgFirstName}
-                    onChange={(e) => setOrgFirstName(e.target.value)}
-                    className={inputCls}
-                    style={inputStyle}
-                    placeholder="First name"
-                  />
-                </div>
-                <div>
-                  <label className={labelCls} style={ls}>
-                    Last Name {req}
-                  </label>
-                  <input
-                    value={orgLastName}
-                    onChange={(e) => setOrgLastName(e.target.value)}
-                    className={inputCls}
-                    style={inputStyle}
-                    placeholder="Last name"
-                  />
-                </div>
+                <select
+                  value={orgTitle}
+                  onChange={(e) => setOrgTitle(e.target.value)}
+                  className={inputCls}
+                  style={inputStyle}
+                >
+                  <option value="">Select</option>
+                  {TITLES.map((t) => (
+                    <option key={t}>{t}</option>
+                  ))}
+                </select>
               </div>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <div>
-                  <label className={labelCls} style={ls}>
-                    Designation {req}
-                  </label>
-                  <input
-                    value={orgDesignation}
-                    onChange={(e) => setOrgDesignation(e.target.value)}
-                    className={inputCls}
-                    style={inputStyle}
-                    placeholder="Designation"
-                  />
-                </div>
-                <div>
-                  <label className={labelCls} style={ls}>
-                    Mobile No. (with Country Code) {req}
-                  </label>
-                  <div className="flex gap-1">
-                    <select
-                      value={orgCountryCode}
-                      onChange={(e) => setOrgCountryCode(e.target.value)}
-                      className="px-2 py-2.5 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-                      style={{ ...inputStyle, minWidth: "75px" }}
-                    >
-                      {COUNTRY_CODES.map((c) => (
-                        <option key={c}>{c}</option>
-                      ))}
-                    </select>
-                    <input
-                      value={orgMobile}
-                      onChange={(e) =>
-                        setOrgMobile(e.target.value.replace(/\D/g, ""))
-                      }
-                      className={`${inputCls} flex-1`}
-                      style={inputStyle}
-                      placeholder="Mobile"
-                    />
-                  </div>
-                </div>
-                <div>
-                  <label className={labelCls} style={ls}>
-                    Email ID {req}
-                  </label>
-                  <input
-                    type="email"
-                    value={orgEmail}
-                    onChange={(e) => setOrgEmail(e.target.value)}
-                    className={inputCls}
-                    style={inputStyle}
-                    placeholder="email@example.com"
-                  />
-                </div>
+              <div>
+                <label className={labelCls} style={ls}>
+                  First Name {req}
+                </label>
+                <input
+                  value={orgFirstName}
+                  onChange={(e) => setOrgFirstName(e.target.value)}
+                  className={inputCls}
+                  style={inputStyle}
+                  placeholder="First name"
+                />
+              </div>
+              <div>
+                <label className={labelCls} style={ls}>
+                  Last Name {req}
+                </label>
+                <input
+                  value={orgLastName}
+                  onChange={(e) => setOrgLastName(e.target.value)}
+                  className={inputCls}
+                  style={inputStyle}
+                  placeholder="Last name"
+                />
               </div>
             </div>
-          </div>
-
-          <div className="h-px" style={{ background: "var(--app-border)" }} />
-
-          {/* Contact Person */}
-          <div>
-            <h3
-              className="text-base font-bold mb-4 pb-2"
-              style={{
-                color: "var(--app-text)",
-                borderBottom: "2px solid #3b82f6",
-              }}
-            >
-              Contact Person
-            </h3>
-            <div className="space-y-4">
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <div>
-                  <label className={labelCls} style={ls}>
-                    Title {req}
-                  </label>
-                  <select
-                    value={cpTitle}
-                    onChange={(e) => setCpTitle(e.target.value)}
-                    className={inputCls}
-                    style={inputStyle}
-                  >
-                    <option value="">Select</option>
-                    {TITLES.map((t) => (
-                      <option key={t}>{t}</option>
-                    ))}
-                  </select>
-                </div>
-                <div>
-                  <label className={labelCls} style={ls}>
-                    First Name {req}
-                  </label>
-                  <input
-                    value={cpFirstName}
-                    onChange={(e) => setCpFirstName(e.target.value)}
-                    className={inputCls}
-                    style={inputStyle}
-                    placeholder="First name"
-                  />
-                </div>
-                <div>
-                  <label className={labelCls} style={ls}>
-                    Last Name {req}
-                  </label>
-                  <input
-                    value={cpLastName}
-                    onChange={(e) => setCpLastName(e.target.value)}
-                    className={inputCls}
-                    style={inputStyle}
-                    placeholder="Last name"
-                  />
-                </div>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-3 md:gap-4">
+              <div>
+                <label className={labelCls} style={ls}>
+                  Designation {req}
+                </label>
+                <input
+                  value={orgDesignation}
+                  onChange={(e) => setOrgDesignation(e.target.value)}
+                  className={inputCls}
+                  style={inputStyle}
+                  placeholder="Designation"
+                />
               </div>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <div>
-                  <label className={labelCls} style={ls}>
-                    Designation {req}
-                  </label>
-                  <input
-                    value={cpDesignation}
-                    onChange={(e) => setCpDesignation(e.target.value)}
-                    className={inputCls}
-                    style={inputStyle}
-                    placeholder="Designation"
-                  />
-                </div>
-                <div>
-                  <label className={labelCls} style={ls}>
-                    Mobile No. (with Country Code) {req}
-                  </label>
-                  <div className="flex gap-1">
-                    <select
-                      value={cpCountryCode}
-                      onChange={(e) => setCpCountryCode(e.target.value)}
-                      className="px-2 py-2.5 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-                      style={{ ...inputStyle, minWidth: "75px" }}
-                    >
-                      {COUNTRY_CODES.map((c) => (
-                        <option key={c}>{c}</option>
-                      ))}
-                    </select>
-                    <input
-                      value={cpMobile}
-                      onChange={(e) =>
-                        setCpMobile(e.target.value.replace(/\D/g, ""))
-                      }
-                      className={`${inputCls} flex-1`}
-                      style={inputStyle}
-                      placeholder="Mobile"
-                    />
-                  </div>
-                </div>
-                <div>
-                  <label className={labelCls} style={ls}>
-                    WhatsApp No.
-                  </label>
-                  <input
-                    value={cpWhatsapp}
-                    onChange={(e) =>
-                      setCpWhatsapp(e.target.value.replace(/\D/g, ""))
-                    }
-                    className={inputCls}
-                    style={inputStyle}
-                    placeholder="WhatsApp number"
-                  />
-                </div>
-              </div>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                  <label className={labelCls} style={ls}>
-                    Email ID {req}
-                  </label>
-                  <input
-                    type="email"
-                    value={cpEmail}
-                    onChange={(e) => setCpEmail(e.target.value)}
-                    className={inputCls}
-                    style={inputStyle}
-                    placeholder="email@example.com"
-                  />
-                </div>
-                <div>
-                  <label className={labelCls} style={ls}>
-                    Country {req}
-                  </label>
+              <div>
+                <label className={labelCls} style={ls}>
+                  Mobile No. (with Country Code) {req}
+                </label>
+                <div className="flex gap-1">
                   <select
-                    value={cpCountry}
-                    onChange={(e) => setCpCountry(e.target.value)}
-                    className={inputCls}
-                    style={inputStyle}
+                    value={orgCountryCode}
+                    onChange={(e) => setOrgCountryCode(e.target.value)}
+                    className="px-2 py-2.5 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    style={{ ...inputStyle, minWidth: "75px" }}
                   >
-                    {COUNTRIES.map((c) => (
+                    {COUNTRY_CODES.map((c) => (
                       <option key={c}>{c}</option>
                     ))}
                   </select>
-                </div>
-              </div>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <div>
-                  <label className={labelCls} style={ls}>
-                    Address Line 1 {req}
-                  </label>
                   <input
-                    value={cpAddress1}
-                    onChange={(e) => setCpAddress1(e.target.value)}
-                    className={inputCls}
+                    value={orgMobile}
+                    onChange={(e) =>
+                      setOrgMobile(e.target.value.replace(/\D/g, ""))
+                    }
+                    className={`${inputCls} flex-1`}
                     style={inputStyle}
-                    placeholder="Street address"
-                  />
-                </div>
-                <div>
-                  <label className={labelCls} style={ls}>
-                    Address Line 2
-                  </label>
-                  <input
-                    value={cpAddress2}
-                    onChange={(e) => setCpAddress2(e.target.value)}
-                    className={inputCls}
-                    style={inputStyle}
-                    placeholder="Line 2"
-                  />
-                </div>
-                <div>
-                  <label className={labelCls} style={ls}>
-                    Address Line 3
-                  </label>
-                  <input
-                    value={cpAddress3}
-                    onChange={(e) => setCpAddress3(e.target.value)}
-                    className={inputCls}
-                    style={inputStyle}
-                    placeholder="Line 3"
+                    placeholder="Mobile"
                   />
                 </div>
               </div>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <div>
-                  <label className={labelCls} style={ls}>
-                    Pincode {req}
-                  </label>
+              <div>
+                <label className={labelCls} style={ls}>
+                  Email ID {req}
+                </label>
+                <input
+                  type="email"
+                  value={orgEmail}
+                  onChange={(e) => setOrgEmail(e.target.value)}
+                  className={inputCls}
+                  style={inputStyle}
+                  placeholder="email@example.com"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="h-px" style={{ background: "var(--app-border)" }} />
+
+        {/* Contact Person */}
+        <div>
+          <h3
+            className="text-sm md:text-base font-bold mb-3 pb-2"
+            style={{
+              color: "var(--app-text)",
+              borderBottom: "2px solid #3b82f6",
+            }}
+          >
+            Contact Person
+          </h3>
+          <div className="space-y-3 md:space-y-4">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-3 md:gap-4">
+              <div>
+                <label className={labelCls} style={ls}>
+                  Title {req}
+                </label>
+                <select
+                  value={cpTitle}
+                  onChange={(e) => setCpTitle(e.target.value)}
+                  className={inputCls}
+                  style={inputStyle}
+                >
+                  <option value="">Select</option>
+                  {TITLES.map((t) => (
+                    <option key={t}>{t}</option>
+                  ))}
+                </select>
+              </div>
+              <div>
+                <label className={labelCls} style={ls}>
+                  First Name {req}
+                </label>
+                <input
+                  value={cpFirstName}
+                  onChange={(e) => setCpFirstName(e.target.value)}
+                  className={inputCls}
+                  style={inputStyle}
+                  placeholder="First name"
+                />
+              </div>
+              <div>
+                <label className={labelCls} style={ls}>
+                  Last Name {req}
+                </label>
+                <input
+                  value={cpLastName}
+                  onChange={(e) => setCpLastName(e.target.value)}
+                  className={inputCls}
+                  style={inputStyle}
+                  placeholder="Last name"
+                />
+              </div>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-3 md:gap-4">
+              <div>
+                <label className={labelCls} style={ls}>
+                  Designation {req}
+                </label>
+                <input
+                  value={cpDesignation}
+                  onChange={(e) => setCpDesignation(e.target.value)}
+                  className={inputCls}
+                  style={inputStyle}
+                  placeholder="Designation"
+                />
+              </div>
+              <div>
+                <label className={labelCls} style={ls}>
+                  Mobile No. (with Country Code) {req}
+                </label>
+                <div className="flex gap-1">
+                  <select
+                    value={cpCountryCode}
+                    onChange={(e) => setCpCountryCode(e.target.value)}
+                    className="px-2 py-2.5 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    style={{ ...inputStyle, minWidth: "75px" }}
+                  >
+                    {COUNTRY_CODES.map((c) => (
+                      <option key={c}>{c}</option>
+                    ))}
+                  </select>
                   <input
-                    value={cpPincode}
-                    onChange={(e) => setCpPincode(e.target.value)}
-                    className={inputCls}
+                    value={cpMobile}
+                    onChange={(e) =>
+                      setCpMobile(e.target.value.replace(/\D/g, ""))
+                    }
+                    className={`${inputCls} flex-1`}
                     style={inputStyle}
-                    placeholder="Pincode"
-                  />
-                </div>
-                <div>
-                  <label className={labelCls} style={ls}>
-                    City {req}
-                  </label>
-                  <input
-                    value={cpCity}
-                    onChange={(e) => setCpCity(e.target.value)}
-                    className={inputCls}
-                    style={inputStyle}
-                    placeholder="City"
-                  />
-                </div>
-                <div>
-                  <label className={labelCls} style={ls}>
-                    State {req}
-                  </label>
-                  <input
-                    value={cpState}
-                    onChange={(e) => setCpState(e.target.value)}
-                    className={inputCls}
-                    style={inputStyle}
-                    placeholder="State"
+                    placeholder="Mobile"
                   />
                 </div>
               </div>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                  <label className={labelCls} style={ls}>
-                    Tel. No. (with Country & STD Code) {req}
-                  </label>
-                  <div className="flex items-center gap-1">
-                    <input
-                      value={cpTelCountry}
-                      onChange={(e) => setCpTelCountry(e.target.value)}
-                      className={inputCls}
-                      style={{ ...inputStyle, width: "65px" }}
-                      placeholder="+91"
-                    />
-                    <span style={{ color: "var(--app-muted)" }}>-</span>
-                    <input
-                      value={cpTelStd}
-                      onChange={(e) => setCpTelStd(e.target.value)}
-                      className={inputCls}
-                      style={{ ...inputStyle, width: "75px" }}
-                      placeholder="STD"
-                    />
-                    <span style={{ color: "var(--app-muted)" }}>-</span>
-                    <input
-                      value={cpTel}
-                      onChange={(e) => setCpTel(e.target.value)}
-                      className={`${inputCls} flex-1`}
-                      style={inputStyle}
-                      placeholder="Number"
-                    />
-                  </div>
-                </div>
-                <div>
-                  <label className={labelCls} style={ls}>
-                    Fax No. (with Country & STD Code)
-                  </label>
-                  <div className="flex items-center gap-1">
-                    <input
-                      value={cpFaxCountry}
-                      onChange={(e) => setCpFaxCountry(e.target.value)}
-                      className={inputCls}
-                      style={{ ...inputStyle, width: "65px" }}
-                      placeholder="+91"
-                    />
-                    <span style={{ color: "var(--app-muted)" }}>-</span>
-                    <input
-                      value={cpFaxStd}
-                      onChange={(e) => setCpFaxStd(e.target.value)}
-                      className={inputCls}
-                      style={{ ...inputStyle, width: "75px" }}
-                      placeholder="STD"
-                    />
-                    <span style={{ color: "var(--app-muted)" }}>-</span>
-                    <input
-                      value={cpFax}
-                      onChange={(e) => setCpFax(e.target.value)}
-                      className={`${inputCls} flex-1`}
-                      style={inputStyle}
-                      placeholder="Number"
-                    />
-                  </div>
-                </div>
+              <div>
+                <label className={labelCls} style={ls}>
+                  WhatsApp No.
+                </label>
+                <input
+                  value={cpWhatsapp}
+                  onChange={(e) =>
+                    setCpWhatsapp(e.target.value.replace(/\D/g, ""))
+                  }
+                  className={inputCls}
+                  style={inputStyle}
+                  placeholder="WhatsApp number"
+                />
               </div>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                  <label className={labelCls} style={ls}>
-                    Website
-                  </label>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4">
+              <div>
+                <label className={labelCls} style={ls}>
+                  Email ID {req}
+                </label>
+                <input
+                  type="email"
+                  value={cpEmail}
+                  onChange={(e) => setCpEmail(e.target.value)}
+                  className={inputCls}
+                  style={inputStyle}
+                  placeholder="email@example.com"
+                />
+              </div>
+              <div>
+                <label className={labelCls} style={ls}>
+                  Country {req}
+                </label>
+                <select
+                  value={cpCountry}
+                  onChange={(e) => setCpCountry(e.target.value)}
+                  className={inputCls}
+                  style={inputStyle}
+                >
+                  {COUNTRIES.map((c) => (
+                    <option key={c}>{c}</option>
+                  ))}
+                </select>
+              </div>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-3 md:gap-4">
+              <div>
+                <label className={labelCls} style={ls}>
+                  Address Line 1 {req}
+                </label>
+                <input
+                  value={cpAddress1}
+                  onChange={(e) => setCpAddress1(e.target.value)}
+                  className={inputCls}
+                  style={inputStyle}
+                  placeholder="Street address"
+                />
+              </div>
+              <div>
+                <label className={labelCls} style={ls}>
+                  Address Line 2
+                </label>
+                <input
+                  value={cpAddress2}
+                  onChange={(e) => setCpAddress2(e.target.value)}
+                  className={inputCls}
+                  style={inputStyle}
+                  placeholder="Line 2"
+                />
+              </div>
+              <div>
+                <label className={labelCls} style={ls}>
+                  Address Line 3
+                </label>
+                <input
+                  value={cpAddress3}
+                  onChange={(e) => setCpAddress3(e.target.value)}
+                  className={inputCls}
+                  style={inputStyle}
+                  placeholder="Line 3"
+                />
+              </div>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-3 md:gap-4">
+              <div>
+                <label className={labelCls} style={ls}>
+                  Pincode {req}
+                </label>
+                <input
+                  value={cpPincode}
+                  onChange={(e) => setCpPincode(e.target.value)}
+                  className={inputCls}
+                  style={inputStyle}
+                  placeholder="Pincode"
+                />
+              </div>
+              <div>
+                <label className={labelCls} style={ls}>
+                  City {req}
+                </label>
+                <input
+                  value={cpCity}
+                  onChange={(e) => setCpCity(e.target.value)}
+                  className={inputCls}
+                  style={inputStyle}
+                  placeholder="City"
+                />
+              </div>
+              <div>
+                <label className={labelCls} style={ls}>
+                  State {req}
+                </label>
+                <input
+                  value={cpState}
+                  onChange={(e) => setCpState(e.target.value)}
+                  className={inputCls}
+                  style={inputStyle}
+                  placeholder="State"
+                />
+              </div>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4">
+              <div>
+                <label className={labelCls} style={ls}>
+                  Tel. No. (with Country & STD Code) {req}
+                </label>
+                <div className="flex items-center gap-1">
                   <input
-                    value={website}
-                    onChange={(e) => setWebsite(e.target.value)}
+                    value={cpTelCountry}
+                    onChange={(e) => setCpTelCountry(e.target.value)}
                     className={inputCls}
+                    style={{ ...inputStyle, width: "60px" }}
+                    placeholder="+91"
+                  />
+                  <span style={{ color: "var(--app-muted)" }}>-</span>
+                  <input
+                    value={cpTelStd}
+                    onChange={(e) => setCpTelStd(e.target.value)}
+                    className={inputCls}
+                    style={{ ...inputStyle, width: "70px" }}
+                    placeholder="STD"
+                  />
+                  <span style={{ color: "var(--app-muted)" }}>-</span>
+                  <input
+                    value={cpTel}
+                    onChange={(e) => setCpTel(e.target.value)}
+                    className={`${inputCls} flex-1`}
                     style={inputStyle}
-                    placeholder="https://"
+                    placeholder="Number"
                   />
                 </div>
-                <div>
-                  <label className={labelCls} style={ls}>
-                    Parent Group Name (If any)
-                  </label>
+              </div>
+              <div>
+                <label className={labelCls} style={ls}>
+                  Fax No. (with Country & STD Code)
+                </label>
+                <div className="flex items-center gap-1">
                   <input
-                    value={parentGroup}
-                    onChange={(e) => setParentGroup(e.target.value)}
+                    value={cpFaxCountry}
+                    onChange={(e) => setCpFaxCountry(e.target.value)}
                     className={inputCls}
+                    style={{ ...inputStyle, width: "60px" }}
+                    placeholder="+91"
+                  />
+                  <span style={{ color: "var(--app-muted)" }}>-</span>
+                  <input
+                    value={cpFaxStd}
+                    onChange={(e) => setCpFaxStd(e.target.value)}
+                    className={inputCls}
+                    style={{ ...inputStyle, width: "70px" }}
+                    placeholder="STD"
+                  />
+                  <span style={{ color: "var(--app-muted)" }}>-</span>
+                  <input
+                    value={cpFax}
+                    onChange={(e) => setCpFax(e.target.value)}
+                    className={`${inputCls} flex-1`}
                     style={inputStyle}
-                    placeholder="Parent group name"
+                    placeholder="Number"
                   />
                 </div>
               </div>
             </div>
-          </div>
-
-          {/* Notes */}
-          <div
-            className="rounded-xl p-4 space-y-2"
-            style={{
-              background: "var(--app-panel-soft)",
-              border: "1px solid var(--app-border)",
-            }}
-          >
-            <p
-              className="text-sm font-bold"
-              style={{ color: "var(--app-text)" }}
-            >
-              Please accept our request and allocate space accordingly.
-            </p>
-            <p className="text-sm font-bold text-red-500">Important Note:</p>
-            <p className="text-xs" style={{ color: "var(--app-muted)" }}>
-              <span className="text-red-500">*</span> These fields are
-              compulsory to fill.
-            </p>
-            <p className="text-xs" style={{ color: "var(--app-muted)" }}>
-              † This is only an Exhibitor Request Form and not Exhibitor
-              Contract Form. Our team will contact you immediately with further
-              details once you fill in this request form.
-            </p>
-          </div>
-
-          {/* Contact Info */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {[
-              {
-                city: "Delhi",
-                name: "Mr. Lakshay Sharma",
-                mobile: "+91 99 676 00257",
-                tel: "+91 (11) 2571 4111",
-                email: "lakshay.sharma@fusionera.in",
-              },
-              {
-                city: "Mumbai",
-                name: "Ms. Ananya Singh",
-                mobile: "+91 99 301 66099",
-                tel: "+91 (22) 6997 1122",
-                email: "ananya.singh@fusionera.in",
-              },
-            ].map((c) => (
-              <div
-                key={c.city}
-                className="rounded-xl p-4"
-                style={{
-                  background: "var(--app-panel-soft)",
-                  border: "1px solid var(--app-border)",
-                }}
-              >
-                <p
-                  className="font-bold text-sm mb-1"
-                  style={{ color: "#1d4ed8" }}
-                >
-                  {c.city}:
-                </p>
-                <p
-                  className="font-bold text-sm"
-                  style={{ color: "var(--app-text)" }}
-                >
-                  {c.name}
-                </p>
-                <p
-                  className="text-xs mt-1"
-                  style={{ color: "var(--app-muted)" }}
-                >
-                  Mobile: {c.mobile}
-                </p>
-                <p className="text-xs" style={{ color: "var(--app-muted)" }}>
-                  Tel: {c.tel}
-                </p>
-                <a
-                  href={`mailto:${c.email}`}
-                  className="text-xs text-blue-500 hover:underline"
-                >
-                  {c.email}
-                </a>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4">
+              <div>
+                <label className={labelCls} style={ls}>
+                  Website
+                </label>
+                <input
+                  value={website}
+                  onChange={(e) => setWebsite(e.target.value)}
+                  className={inputCls}
+                  style={inputStyle}
+                  placeholder="https://"
+                />
               </div>
-            ))}
+              <div>
+                <label className={labelCls} style={ls}>
+                  Parent Group Name (If any)
+                </label>
+                <input
+                  value={parentGroup}
+                  onChange={(e) => setParentGroup(e.target.value)}
+                  className={inputCls}
+                  style={inputStyle}
+                  placeholder="Parent group name"
+                />
+              </div>
+            </div>
           </div>
-
-          {/* Submit */}
-          <button
-            onClick={handleSubmit}
-            disabled={loading}
-            className="w-full py-3.5 rounded-xl text-white font-bold text-sm transition hover:opacity-90 disabled:opacity-60"
-            style={{ background: "linear-gradient(135deg,#1d4ed8,#2563eb)" }}
-          >
-            {loading ? "Submitting..." : "SUBMIT"}
-          </button>
         </div>
+
+        {/* Notes */}
+        <div
+          className="rounded-xl p-4 space-y-2"
+          style={{
+            background: "var(--app-panel-soft)",
+            border: "1px solid var(--app-border)",
+          }}
+        >
+          <p className="text-sm font-bold" style={{ color: "var(--app-text)" }}>
+            Please accept our request and allocate space accordingly.
+          </p>
+          <p className="text-sm font-bold text-red-500">Important Note:</p>
+          <p className="text-xs" style={{ color: "var(--app-muted)" }}>
+            <span className="text-red-500">*</span> These fields are compulsory
+            to fill.
+          </p>
+          <p className="text-xs" style={{ color: "var(--app-muted)" }}>
+            † This is only an Exhibitor Request Form and not Exhibitor Contract
+            Form. Our team will contact you immediately with further details
+            once you fill in this request form.
+          </p>
+        </div>
+
+        {/* Contact Info — from CONTACTS constant */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {CONTACTS.map((c) => (
+            <div
+              key={c.city}
+              className="rounded-xl p-4"
+              style={{
+                background: "var(--app-panel-soft)",
+                border: "1px solid var(--app-border)",
+              }}
+            >
+              <p
+                className="font-bold text-sm mb-1"
+                style={{ color: "#1d4ed8" }}
+              >
+                {c.city}:
+              </p>
+              <p
+                className="font-bold text-sm"
+                style={{ color: "var(--app-text)" }}
+              >
+                {c.name}
+              </p>
+              <p className="text-xs mt-1" style={{ color: "var(--app-muted)" }}>
+                Mobile: {c.mobile}
+              </p>
+              <p className="text-xs" style={{ color: "var(--app-muted)" }}>
+                Tel: {c.tel}
+              </p>
+              <a
+                href={`mailto:${c.email}`}
+                className="text-xs text-blue-500 hover:underline break-all"
+              >
+                {c.email}
+              </a>
+            </div>
+          ))}
+        </div>
+
+        {/* Submit */}
+        <button
+          onClick={handleSubmit}
+          disabled={loading}
+          className="w-full py-3.5 rounded-xl text-white font-bold text-sm transition hover:opacity-90 disabled:opacity-60"
+          style={{ background: "linear-gradient(135deg,#1d4ed8,#2563eb)" }}
+        >
+          {loading ? "Submitting..." : "SUBMIT"}
+        </button>
       </div>
     </div>
   );

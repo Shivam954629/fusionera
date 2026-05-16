@@ -31,9 +31,7 @@ export default function Section2() {
 
           <div className="mb-6 flex flex-wrap items-end justify-between gap-4">
             <div className="max-w-3xl">
-              <p className="mb-3 inline-flex rounded-full border border-[#3e7bff]/20 bg-white/80 px-4 py-1 text-xs font-semibold uppercase tracking-[0.18em] text-[#2f5ab8]">
-                Featured Vertical
-              </p>
+              
               <h2 className="text-3xl font-bold text-[#172445] md:text-4xl">Product Portfolio</h2>
               <p className="mt-3 text-sm leading-7 text-[#2d3b5f]/85 md:text-base">
                 Indian and International brands, importers, manufacturers and distributors, private label suppliers, startup brands and specialized producers.
