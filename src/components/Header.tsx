@@ -39,31 +39,31 @@ export default function Header() {
                   About fusion the era
                 </Link>
                 <Link
-                  href="/about"
+                  href="/show"
                   className="block rounded px-3 py-2 text-xs text-white hover:bg-white/10"
                 >
                   About the show
                 </Link>
                 <Link
-                  href="/about"
+                  href="/organizer"
                   className="block rounded px-3 py-2 text-xs text-white hover:bg-white/10"
                 >
                   About organiser
                 </Link>
                 <Link
-                  href="/about"
+                  href="/trade"
                   className="block rounded px-3 py-2 text-xs text-white hover:bg-white/10"
                 >
                   Trade Show Facts
                 </Link>
                 <Link
-                  href="/about"
+                  href="/report"
                   className="block rounded px-3 py-2 text-xs text-white hover:bg-white/10"
                 >
                   Post Show Report
                 </Link>
                 <Link
-                  href="/products"
+                  href="/range"
                   className="block rounded px-3 py-2 text-xs text-white hover:bg-white/10"
                 >
                   Product Range
@@ -81,24 +81,28 @@ export default function Header() {
             </a>
             <div className="nav-dropdown invisible absolute left-0 top-full z-40 w-52 pt-2 opacity-0 transition duration-300 group-hover:visible group-hover:opacity-100 group-focus-within:visible group-focus-within:opacity-100">
               <div className="rounded-md border border-white/15 bg-[#191452] p-2 shadow-lg">
-                <a
-                  href="#featured"
+  
+                <Link
+                  href="/whoshouldvisit"
                   className="block rounded px-3 py-2 text-xs text-white hover:bg-white/10"
                 >
                   Who should visit
-                </a>
-                <a
-                  href="#categories"
+                </Link>
+
+                 <Link
+                  href="/benefits"
                   className="block rounded px-3 py-2 text-xs text-white hover:bg-white/10"
                 >
-                  Benefits
-                </a>
-                <a
-                  href="#about"
+                  benifits
+                </Link>
+
+                <Link
+                  href="/comments"
                   className="block rounded px-3 py-2 text-xs text-white hover:bg-white/10"
                 >
-                  Visitor comment
-                </a>
+                 Visitor comment
+                </Link>
+             
               </div>
             </div>
           </div>
@@ -113,31 +117,31 @@ export default function Header() {
             <div className="nav-dropdown invisible absolute left-0 top-full z-40 w-52 pt-2 opacity-0 transition duration-300 group-hover:visible group-hover:opacity-100 group-focus-within:visible group-focus-within:opacity-100">
               <div className="rounded-md border border-white/15 bg-[#191452] p-2 shadow-lg">
                 <Link
-                  href="/about"
+                  href="/whoshouldexhibit"
                   className="block rounded px-3 py-2 text-xs text-white hover:bg-white/10"
                 >
                   Who should exhibit?
                 </Link>
                 <Link
-                  href="/about"
+                  href="/benefits"
                   className="block rounded px-3 py-2 text-xs text-white hover:bg-white/10"
                 >
                   Benefits
                 </Link>
                 <Link
-                  href="/about"
+                  href="/exhibitorprofile"
                   className="block rounded px-3 py-2 text-xs text-white hover:bg-white/10"
                 >
                   Exhibiter Profile
                 </Link>
                 <Link
-                  href="/about"
+                  href="/comments"
                   className="block rounded px-3 py-2 text-xs text-white hover:bg-white/10"
                 >
                   Exhibiter Comment
                 </Link>
                 <Link
-                  href="/about"
+                  href="/exhibitorlist"
                   className="block rounded px-3 py-2 text-xs text-white hover:bg-white/10"
                 >
                   Exhibiters List
@@ -149,21 +153,29 @@ export default function Header() {
           <a href="#contact" className="nav-link hover:text-brand-amber">
             Newsletter
           </a>
+
           <a href="#contact" className="nav-link hover:text-brand-amber">
             Exhibiters Registration
           </a>
+
+
           <Link
             href="/visitor-registration"
             className="nav-link hover:text-brand-amber border-b-2 border-transparent hover:border-brand-amber transition-all"
           >
             Visitor Registration
           </Link>
+
           <a href="#contact" className="nav-link hover:text-brand-amber">
             Pay Stall Advance
           </a>
-          <a href="#contact" className="nav-link hover:text-brand-amber">
+    
+           <Link
+            href="/venue"
+            className="nav-link hover:text-brand-amber border-b-2 border-transparent hover:border-brand-amber transition-all"
+          >
             Reaching The Venue
-          </a>
+          </Link>
           {/* <a href="#contact" className="nav-link hover:text-brand-amber">About Fusion The Era</a>
                <a href="#contact" className="nav-link hover:text-brand-amber">Sponsorship</a> */}
         </nav>

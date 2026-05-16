@@ -5,8 +5,8 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-<<<<<<< HEAD
-    "start": "next start"
+    "start": "next start",
+    "lint": "next lint"
   },
   "dependencies": {
     "@types/qrcode": "^1.5.6",
@@ -19,35 +19,17 @@
     "react": "19.2.4",
     "react-dom": "19.2.4",
     "twilio": "^6.0.2"
-=======
-    "start": "next start",
-    "lint": "next lint"
-  },
-  "dependencies": {
-    "bcryptjs": "^3.0.3",
-    "jsonwebtoken": "^9.0.3",
-    "next": "16.2.6",
-    "pg": "^8.20.0",
-    "react": "19.2.4",
-    "react-dom": "19.2.4"
->>>>>>> 61b52f4ae68fccdbc888eae05ecdf982c331de0e
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
     "@types/bcryptjs": "^2.4.6",
     "@types/jsonwebtoken": "^9.0.10",
     "@types/node": "^20",
-<<<<<<< HEAD
     "@types/nodemailer": "^8.0.0",
     "@types/pg": "^8.20.0",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "babel-plugin-react-compiler": "1.0.0",
-=======
-    "@types/pg": "^8.20.0",
-    "@types/react": "^19",
-    "@types/react-dom": "^19",
->>>>>>> 61b52f4ae68fccdbc888eae05ecdf982c331de0e
     "tailwindcss": "^4",
     "typescript": "^5"
   }
