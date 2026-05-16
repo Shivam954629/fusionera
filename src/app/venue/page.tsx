@@ -1,8 +1,3 @@
-import ReachingTheVenue from "@/components/ReachingTheVenue";
+"use client";
 import React from "react";
-
-export default function VenuePage() {   
-    return (
-        <ReachingTheVenue />
-    )
-}
+export { default } from "@/app/reaching-the-venue/page";
