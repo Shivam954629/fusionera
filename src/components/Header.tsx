@@ -12,7 +12,17 @@ export default function Header() {
 
   useEffect(() => {
     setMobileMenuOpen(false);
-    window.scrollTo({ top: 0, behavior: "smooth" });
+
+    const anchor = sessionStorage.getItem("scrollTo");
+    if (anchor) {
+      sessionStorage.removeItem("scrollTo");
+      setTimeout(() => {
+        const el = document.getElementById(anchor);
+        if (el) el.scrollIntoView({ behavior: "smooth" });
+      }, 300);
+    } else {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
   }, [pathname]);
 
   useEffect(() => {
@@ -30,10 +40,14 @@ export default function Header() {
   const handleMobileNav = (href: string) => {
     setMobileMenuOpen(false);
     if (href.startsWith("#")) {
-      setTimeout(() => {
-        const el = document.getElementById(href.slice(1));
+      const anchor = href.slice(1);
+      if (pathname !== "/") {
+        sessionStorage.setItem("scrollTo", anchor);
+        router.push("/");
+      } else {
+        const el = document.getElementById(anchor);
         if (el) el.scrollIntoView({ behavior: "smooth" });
-      }, 100);
+      }
     } else {
       router.push(href);
     }
@@ -199,12 +213,18 @@ export default function Header() {
           >
             Visitor Registration
           </Link>
-          <a href="#contact" className="nav-link hover:text-brand-amber">
+          <Link
+            href="/pay-stall-advance"
+            className="nav-link hover:text-brand-amber"
+          >
             Pay Stall Advance
-          </a>
-          <a href="#contact" className="nav-link hover:text-brand-amber">
+          </Link>
+          <button
+            onClick={() => handleMobileNav("#contact")}
+            className="nav-link hover:text-brand-amber bg-transparent border-none cursor-pointer p-0"
+          >
             Reaching The Venue
-          </a>
+          </button>
         </nav>
 
         {/* HAMBURGER BUTTON */}
@@ -374,7 +394,7 @@ export default function Header() {
               Visitor Registration
             </button>
             <button
-              onClick={() => handleMobileNav("#contact")}
+              onClick={() => handleMobileNav("/pay-stall-advance")}
               className="mt-1 block rounded px-2 py-2 hover:bg-white/10 text-left w-full"
             >
               Pay Stall Advance

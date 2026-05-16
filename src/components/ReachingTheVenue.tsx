@@ -4,7 +4,7 @@ import React from "react";
 export default function ReachingTheVenue() {
   return (
     <section
-      id="reaching-the-venue"
+      id="contact"
       className="mx-auto w-[92%] max-w-7xl py-8 md:py-12 reveal-on-scroll reveal-zoom"
       data-reveal-delay="50"
     >
@@ -17,7 +17,7 @@ export default function ReachingTheVenue() {
             </h2>
             <p className="mt-4 text-md leading-7 text-justify text-[#1b2440]/85">
               Located in the New Delhi, Bharat Mandapam at Pragati Maidan stands
-              as one of India’s most prestigious international exhibition and
+              as one of India's most prestigious international exhibition and
               convention destinations. With world-class infrastructure, seamless
               connectivity, and modern facilities, the venue offers a convenient
               and professional experience for exhibitors and visitors attending
