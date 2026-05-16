@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-
+import Link from "next/link";
 export default function Footer() {
   return (
     <footer className="relative mt-10 overflow-hidden border-t border-[#7cc7ff]/20 bg-[linear-gradient(120deg,#090f2d_0%,#0f1a4f_48%,#1a2f7f_100%)] py-10 text-white">
@@ -178,15 +178,26 @@ export default function Footer() {
       <div className="mx-auto mt-8 w-[92%] max-w-7xl border-t border-white/20 pt-4 text-xs text-[#c8d9ff] md:flex md:items-center md:justify-between">
         <p>© 2026 Fusionera Home. All rights reserved.</p>
         <div className="mt-2 flex gap-5 md:mt-0">
-          <a href="#" className="transition hover:text-[#8cecff]">
-            Privacy
-          </a>
-          <a href="#" className="transition hover:text-[#8cecff]">
-            Terms
-          </a>
-          <a href="#" className="transition hover:text-[#8cecff]">
+          <Link
+            href="/privacy"
+            className="nav-link inline-flex items-center gap-1 hover:text-brand-cyan focus:text-brand-cyan"
+          >
+            Privacy Policy
+          </Link>
+
+          <Link
+            href="/terms"
+            className="nav-link inline-flex items-center gap-1 hover:text-brand-cyan focus:text-brand-cyan"
+          >
+            Terms of Service
+          </Link>
+
+          <Link
+            href="/support"
+            className="nav-link inline-flex items-center gap-1 hover:text-brand-cyan focus:text-brand-cyan"
+          >
             Support
-          </a>
+          </Link>
         </div>
       </div>
     </footer>
