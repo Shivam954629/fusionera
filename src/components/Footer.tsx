@@ -2,6 +2,7 @@
 
 import React from "react";
 import Link from "next/link";
+
 export default function Footer() {
   return (
     <footer className="relative mt-10 overflow-hidden border-t border-[#7cc7ff]/20 bg-[linear-gradient(120deg,#090f2d_0%,#0f1a4f_48%,#1a2f7f_100%)] py-10 text-white">
@@ -25,7 +26,6 @@ export default function Footer() {
 
           {/* SOCIAL ICONS */}
           <div className="mt-5 flex items-center gap-3">
-            {/* Facebook - ACTIVE */}
             <a
               href="https://www.facebook.com/share/1EiPZcSKdq/"
               target="_blank"
@@ -42,13 +42,11 @@ export default function Footer() {
                 <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" />
               </svg>
             </a>
-
-            {/* Instagram - ACTIVE */}
             <a
               href="https://www.instagram.com/fusiontheera?igsh=MXFyYngydHI4ZTdvZg=="
               target="_blank"
               rel="noopener noreferrer"
-              className="flex h-9 w-9 items-center justify-center rounded-full bg-white/10 text-white transition hover:bg-gradient-to-br hover:from-[#f09433] hover:via-[#e6683c] hover:to-[#bc1888] hover:scale-110"
+              className="flex h-9 w-9 items-center justify-center rounded-full bg-white/10 text-white transition hover:scale-110"
               aria-label="Instagram"
             >
               <svg
@@ -72,12 +70,9 @@ export default function Footer() {
                 />
               </svg>
             </a>
-
-            {/* Twitter/X - DISABLED */}
             <span
-              className="flex h-9 w-9  items-center justify-center rounded-full bg-white/10 text-white"
-              aria-label="Twitter (coming soon)"
-              // title="Coming soon"
+              className="flex h-9 w-9 items-center justify-center rounded-full bg-white/10 text-white"
+              aria-label="Twitter"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -88,12 +83,9 @@ export default function Footer() {
                 <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53A4.48 4.48 0 0 0 22.43 1s-1.65.98-3.91 1.6A4.48 4.48 0 0 0 16 0c-2.5 0-4.5 2.24-4.5 5 0 .39.04.76.12 1.12A12.94 12.94 0 0 1 1.64 1.15 5 5 0 0 0 .96 3.6a4.93 4.93 0 0 0 2 3.07 4.54 4.54 0 0 1-2-.56v.06a5 5 0 0 0 4 4.92 4.52 4.52 0 0 1-2 .08 4.93 4.93 0 0 0 4.6 3.42A9 9 0 0 1 0 19.54 12.7 12.7 0 0 0 6.92 21c8.3 0 12.84-7.11 12.84-13.29 0-.2 0-.42-.02-.63A9.35 9.35 0 0 0 23 3z" />
               </svg>
             </span>
-
-            {/* LinkedIn - DISABLED */}
             <span
-              className="flex h-9 w-9  items-center justify-center rounded-full bg-white/10 text-white"
-              aria-label="LinkedIn (coming soon)"
-              // title="Coming soon"
+              className="flex h-9 w-9 items-center justify-center rounded-full bg-white/10 text-white"
+              aria-label="LinkedIn"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -104,12 +96,9 @@ export default function Footer() {
                 <path d="M4.98 3.5C4.98 4.88 3.9 6 2.5 6S0 4.88 0 3.5 1.08 1 2.5 1 4.98 2.12 4.98 3.5zM.5 8h4V24h-4V8zm7.5 0h3.75v2.32h.05c.52-.98 1.78-2.01 3.67-2.01 3.92 0 4.64 2.58 4.64 5.93V24H16.7v-7.99c0-1.9-.03-4.34-2.65-4.34-2.66 0-3.07 2.07-3.07 4.21V24H7.99V8z" />
               </svg>
             </span>
-
-            {/* YouTube - DISABLED */}
             <span
-              className="flex h-9 w-9  items-center justify-center rounded-full bg-white/10 text-white"
-              aria-label="YouTube (coming soon)"
-              // title="Coming soon"
+              className="flex h-9 w-9 items-center justify-center rounded-full bg-white/10 text-white"
+              aria-label="YouTube"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -123,27 +112,39 @@ export default function Footer() {
           </div>
         </div>
 
-        {/* QUICK LINKS */}
+        {/* QUICK LINKS — ✅ FIXED */}
         <div>
           <h3 className="text-sm font-semibold uppercase tracking-[0.16em] text-[#8cecff]">
             Quick Links
           </h3>
           <div className="mt-4 grid gap-2 text-sm text-[#e7f0ff]">
-            <a href="#about" className="transition hover:text-[#8cecff]">
+            <Link href="/about" className="transition hover:text-[#8cecff]">
               About The Show
-            </a>
-            <a href="#houseware" className="transition hover:text-[#8cecff]">
+            </Link>
+            <Link href="/products" className="transition hover:text-[#8cecff]">
               Product Portfolio
-            </a>
-            <a href="#why" className="transition hover:text-[#8cecff]">
+            </Link>
+            <Link href="/#why" className="transition hover:text-[#8cecff]">
               Why Fusion The Era
-            </a>
-            <a
+            </Link>
+            <Link
               href="/visitor-registration"
               className="transition hover:text-[#8cecff]"
             >
               Visitor Registration
-            </a>
+            </Link>
+            <Link
+              href="/exhibitors-registration"
+              className="transition hover:text-[#8cecff]"
+            >
+              Exhibitors Registration
+            </Link>
+            <Link
+              href="/newsletter"
+              className="transition hover:text-[#8cecff]"
+            >
+              Newsletter
+            </Link>
           </div>
         </div>
 
@@ -178,28 +179,15 @@ export default function Footer() {
       <div className="mx-auto mt-8 w-[92%] max-w-7xl border-t border-white/20 pt-4 text-xs text-[#c8d9ff] md:flex md:items-center md:justify-between">
         <p>© 2026 Fusionera Home. All rights reserved.</p>
         <div className="mt-2 flex gap-5 md:mt-0">
-
-            <Link
-              href="/privacy"
-              className="nav-link inline-flex items-center gap-1 hover:text-brand-cyan focus:text-brand-cyan"
-            >
-              Privacy Policy
-            </Link>
-
-          <Link
-            href="/terms"
-            className="nav-link inline-flex items-center gap-1 hover:text-brand-cyan focus:text-brand-cyan"
-          >
+          <Link href="/privacy" className="transition hover:text-[#8cecff]">
+            Privacy Policy
+          </Link>
+          <Link href="/terms" className="transition hover:text-[#8cecff]">
             Terms of Service
           </Link>
-
-            <Link
-            href="/support"
-            className="nav-link inline-flex items-center gap-1 hover:text-brand-cyan focus:text-brand-cyan"
-          >
+          <Link href="/support" className="transition hover:text-[#8cecff]">
             Support
           </Link>
-
         </div>
       </div>
     </footer>

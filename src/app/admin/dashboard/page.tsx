@@ -27,9 +27,9 @@ export default function AdminDashboard() {
   const [stats, setStats] = useState<Stats | null>(null);
   const [visitors, setVisitors] = useState<Visitor[]>([]);
   const [loading, setLoading] = useState(true);
-  const [activeTab, setActiveTab] = useState<"dashboard" | "visitors">(
-    "dashboard",
-  );
+  const [activeTab, setActiveTab] = useState<
+    "dashboard" | "visitors" | "newsletter"
+  >("dashboard");
   const [search, setSearch] = useState("");
   const [filterStatus, setFilterStatus] = useState<
     "all" | "active" | "blocked"
@@ -39,7 +39,48 @@ export default function AdminDashboard() {
   const [deletingId, setDeletingId] = useState<number | null>(null);
   const [confirmDeleteId, setConfirmDeleteId] = useState<number | null>(null);
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [nlTitle, setNlTitle] = useState("");
+  const [nlSubtitle, setNlSubtitle] = useState("");
+  const [nlContent, setNlContent] = useState("");
+  const [nlPublished, setNlPublished] = useState(false);
+  const [nlLoading, setNlLoading] = useState(false);
+  const [nlSaved, setNlSaved] = useState(false);
+  const [nlFetched, setNlFetched] = useState(false);
   const PER_PAGE = 15;
+
+  const fetchNewsletter = async () => {
+    try {
+      const res = await fetch("/api/newsletter");
+      const data = await res.json();
+      if (data.data) {
+        setNlTitle(data.data.title || "");
+        setNlSubtitle(data.data.subtitle || "");
+        setNlContent(data.data.content || "");
+        setNlPublished(data.data.is_published || false);
+      }
+      setNlFetched(true);
+    } catch {}
+  };
+
+  const saveNewsletter = async () => {
+    setNlLoading(true);
+    setNlSaved(false);
+    try {
+      await fetch("/api/newsletter", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          title: nlTitle,
+          subtitle: nlSubtitle,
+          content: nlContent,
+          is_published: nlPublished,
+        }),
+      });
+      setNlSaved(true);
+      setTimeout(() => setNlSaved(false), 3000);
+    } catch {}
+    setNlLoading(false);
+  };
 
   const fetchData = useCallback(async () => {
     try {
@@ -573,6 +614,141 @@ export default function AdminDashboard() {
           )}
 
           {/* VISITORS TAB */}
+
+          {activeTab === "newsletter" && (
+            <div className="space-y-4">
+              <div
+                className="rounded-2xl overflow-hidden shadow"
+                style={{
+                  background: "var(--app-panel)",
+                  border: "1px solid var(--app-border)",
+                }}
+              >
+                <div
+                  className="px-6 py-4 border-b"
+                  style={{
+                    borderColor: "var(--app-border)",
+                    background: "var(--app-panel-soft)",
+                  }}
+                >
+                  <h2
+                    className="text-lg font-bold"
+                    style={{ color: "var(--app-text)" }}
+                  >
+                    Newsletter Editor
+                  </h2>
+                  <p
+                    className="text-xs mt-0.5"
+                    style={{ color: "var(--app-muted)" }}
+                  >
+                    Yahan se newsletter ka content manage karo. Publish toggle
+                    on karne se visitors ko dikhega.
+                  </p>
+                </div>
+                <div className="px-6 py-6 space-y-4">
+                  {nlSaved && (
+                    <div className="rounded-xl px-4 py-3 text-sm text-green-700 bg-green-50 border border-green-200">
+                      ✅ Newsletter saved successfully!
+                    </div>
+                  )}
+
+                  <div>
+                    <label
+                      className="block text-sm font-semibold mb-1.5"
+                      style={{ color: "var(--app-text)" }}
+                    >
+                      Title
+                    </label>
+                    <input
+                      value={nlTitle}
+                      onChange={(e) => setNlTitle(e.target.value)}
+                      className="w-full px-4 py-2.5 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      style={{
+                        background: "var(--app-panel-soft)",
+                        border: "1px solid var(--app-border)",
+                        color: "var(--app-text)",
+                      }}
+                      placeholder="Newsletter title..."
+                    />
+                  </div>
+
+                  <div>
+                    <label
+                      className="block text-sm font-semibold mb-1.5"
+                      style={{ color: "var(--app-text)" }}
+                    >
+                      Subtitle
+                    </label>
+                    <input
+                      value={nlSubtitle}
+                      onChange={(e) => setNlSubtitle(e.target.value)}
+                      className="w-full px-4 py-2.5 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      style={{
+                        background: "var(--app-panel-soft)",
+                        border: "1px solid var(--app-border)",
+                        color: "var(--app-text)",
+                      }}
+                      placeholder="Short description..."
+                    />
+                  </div>
+
+                  <div>
+                    <label
+                      className="block text-sm font-semibold mb-1.5"
+                      style={{ color: "var(--app-text)" }}
+                    >
+                      Content
+                    </label>
+                    <textarea
+                      value={nlContent}
+                      onChange={(e) => setNlContent(e.target.value)}
+                      rows={12}
+                      className="w-full px-4 py-2.5 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
+                      style={{
+                        background: "var(--app-panel-soft)",
+                        border: "1px solid var(--app-border)",
+                        color: "var(--app-text)",
+                      }}
+                      placeholder="Newsletter ka content yahan likho..."
+                    />
+                  </div>
+
+                  <div className="flex items-center justify-between">
+                    <label className="flex items-center gap-3 cursor-pointer">
+                      <div
+                        onClick={() => setNlPublished((p) => !p)}
+                        className={`w-12 h-6 rounded-full transition-colors relative ${nlPublished ? "bg-blue-600" : "bg-gray-300"}`}
+                      >
+                        <div
+                          className={`absolute top-0.5 w-5 h-5 rounded-full bg-white shadow transition-transform ${nlPublished ? "translate-x-6" : "translate-x-0.5"}`}
+                        />
+                      </div>
+                      <span
+                        className="text-sm font-medium"
+                        style={{ color: "var(--app-text)" }}
+                      >
+                        {nlPublished
+                          ? "Published — visitors ko dikh raha hai"
+                          : "Unpublished — visitors ko nahi dikhega"}
+                      </span>
+                    </label>
+                  </div>
+
+                  <button
+                    onClick={saveNewsletter}
+                    disabled={nlLoading}
+                    className="w-full py-3 rounded-xl text-white font-bold text-sm transition hover:opacity-90 disabled:opacity-60"
+                    style={{
+                      background: "linear-gradient(135deg,#1d4ed8,#2563eb)",
+                    }}
+                  >
+                    {nlLoading ? "Saving..." : "Save Newsletter"}
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
+
           {activeTab === "visitors" && (
             <div className="space-y-4">
               <div className="flex flex-col gap-3">

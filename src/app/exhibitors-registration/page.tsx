@@ -88,7 +88,7 @@ export default function ExhibitorRegistrationPage() {
             Exhibitors Registration
           </h1>
           <p className="text-sm" style={{ color: "var(--app-muted)" }}>
-            July 4–7, 2026 · Bharat Mandapam, Pragati Maidan, New Delhi, India
+            JULY4–JULY7, 2026 · Bharat Mandapam, Pragati Maidan, New Delhi, India
           </p>
         </div>
 
@@ -114,7 +114,7 @@ export default function ExhibitorRegistrationPage() {
                     className="text-3xl font-black mb-2"
                     style={{ color: "#1d4ed8" }}
                   >
-                    JULY 4–7, 2026
+                    JULY4–JULY7, 2026
                   </h2>
                   <p
                     className="text-base font-medium"
@@ -157,7 +157,7 @@ export default function ExhibitorRegistrationPage() {
                     className="text-2xl font-black mb-1"
                     style={{ color: "var(--app-text)" }}
                   >
-                    July 4–7, 2026
+                    JULY4–JULY7, 2026
                   </h2>
                   <p className="text-sm" style={{ color: "var(--app-muted)" }}>
                     Bharat Mandapam, Pragati Maidan

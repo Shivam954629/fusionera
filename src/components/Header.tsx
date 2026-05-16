@@ -1,17 +1,54 @@
 "use client";
 
 import Link from "next/link";
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
+import { useRouter, usePathname } from "next/navigation";
 
 export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const menuRef = useRef<HTMLDivElement>(null);
+  const router = useRouter();
+  const pathname = usePathname();
+
+  useEffect(() => {
+    setMobileMenuOpen(false);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, [pathname]);
+
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (menuRef.current && !menuRef.current.contains(e.target as Node)) {
+        setMobileMenuOpen(false);
+      }
+    };
+    if (mobileMenuOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [mobileMenuOpen]);
+
+  const handleMobileNav = (href: string) => {
+    setMobileMenuOpen(false);
+    if (href.startsWith("#")) {
+      setTimeout(() => {
+        const el = document.getElementById(href.slice(1));
+        if (el) el.scrollIntoView({ behavior: "smooth" });
+      }, 100);
+    } else {
+      router.push(href);
+    }
+  };
 
   return (
     <header
       id="main-header"
       className="sticky top-0 z-30 border-b border-white/30 bg-gradient-to-r from-[#110c41] via-[#110c41] to-[#110c41]/80 backdrop-blur-md"
     >
-      <div className="mx-auto flex w-[92%] max-w-7xl flex-wrap items-center justify-between gap-3 py-4">
+      <div
+        ref={menuRef}
+        className="mx-auto flex w-[92%] max-w-7xl flex-wrap items-center justify-between gap-3 py-4"
+      >
+        {/* LOGO */}
         <div className="flex items-center gap-3">
           <Link href="/">
             <img
@@ -22,11 +59,12 @@ export default function Header() {
           </Link>
         </div>
 
-        <nav className="hidden items-center gap-8 text-sm font-medium text-white md:flex">
+        {/* DESKTOP NAV */}
+        <nav className="hidden items-center gap-6 text-sm font-medium text-white md:flex lg:gap-8">
           <div className="group relative">
             <Link
               href="/"
-              className="nav-link inline-flex items-center gap-1 hover:text-brand-cyan focus:text-brand-cyan"
+              className="nav-link inline-flex items-center gap-1 hover:text-brand-cyan"
             >
               Fusion The Era <span>▾</span>
             </Link>
@@ -36,34 +74,34 @@ export default function Header() {
                   href="/about"
                   className="block rounded px-3 py-2 text-xs text-white hover:bg-white/10"
                 >
-                  About fusion the era
+                  About Fusion The Era
                 </Link>
                 <Link
-                  href="/show"
+                  href="/about"
                   className="block rounded px-3 py-2 text-xs text-white hover:bg-white/10"
                 >
-                  About the show
+                  About The Show
                 </Link>
                 <Link
-                  href="/organizer"
+                  href="/about"
                   className="block rounded px-3 py-2 text-xs text-white hover:bg-white/10"
                 >
-                  About organiser
+                  About Organiser
                 </Link>
                 <Link
-                  href="/trade"
+                  href="/about"
                   className="block rounded px-3 py-2 text-xs text-white hover:bg-white/10"
                 >
                   Trade Show Facts
                 </Link>
                 <Link
-                  href="/report"
+                  href="/about"
                   className="block rounded px-3 py-2 text-xs text-white hover:bg-white/10"
                 >
                   Post Show Report
                 </Link>
                 <Link
-                  href="/range"
+                  href="/products"
                   className="block rounded px-3 py-2 text-xs text-white hover:bg-white/10"
                 >
                   Product Range
@@ -75,30 +113,30 @@ export default function Header() {
           <div className="group relative">
             <a
               href="#featured"
-              className="nav-link inline-flex items-center gap-1 hover:text-brand-magenta focus:text-brand-magenta"
+              className="nav-link inline-flex items-center gap-1 hover:text-brand-magenta"
             >
               Visitors <span>▾</span>
             </a>
             <div className="nav-dropdown invisible absolute left-0 top-full z-40 w-52 pt-2 opacity-0 transition duration-300 group-hover:visible group-hover:opacity-100 group-focus-within:visible group-focus-within:opacity-100">
               <div className="rounded-md border border-white/15 bg-[#191452] p-2 shadow-lg">
-                <Link
-                  href="/whoshouldvisit"
+                <a
+                  href="#featured"
                   className="block rounded px-3 py-2 text-xs text-white hover:bg-white/10"
                 >
-                  Who should visit
-                </Link>
-                <Link
-                  href="/benefits"
+                  Who Should Visit
+                </a>
+                <a
+                  href="#categories"
                   className="block rounded px-3 py-2 text-xs text-white hover:bg-white/10"
                 >
                   Benefits
-                </Link>
-                <Link
-                  href="/comments"
+                </a>
+                <a
+                  href="#about"
                   className="block rounded px-3 py-2 text-xs text-white hover:bg-white/10"
                 >
-                  Visitor comment
-                </Link>
+                  Visitor Comments
+                </a>
               </div>
             </div>
           </div>
@@ -106,38 +144,38 @@ export default function Header() {
           <div className="group relative">
             <a
               href="#featured"
-              className="nav-link inline-flex items-center gap-1 hover:text-brand-magenta focus:text-brand-magenta"
+              className="nav-link inline-flex items-center gap-1 hover:text-brand-magenta"
             >
               Exhibitors <span>▾</span>
             </a>
             <div className="nav-dropdown invisible absolute left-0 top-full z-40 w-52 pt-2 opacity-0 transition duration-300 group-hover:visible group-hover:opacity-100 group-focus-within:visible group-focus-within:opacity-100">
               <div className="rounded-md border border-white/15 bg-[#191452] p-2 shadow-lg">
                 <Link
-                  href="/whoshouldexhibit"
+                  href="/about"
                   className="block rounded px-3 py-2 text-xs text-white hover:bg-white/10"
                 >
-                  Who should exhibit?
+                  Who Should Exhibit?
                 </Link>
                 <Link
-                  href="/exhibitorbenefits"
+                  href="/about"
                   className="block rounded px-3 py-2 text-xs text-white hover:bg-white/10"
                 >
                   Benefits
                 </Link>
                 <Link
-                  href="/exhibitorprofile"
+                  href="/about"
                   className="block rounded px-3 py-2 text-xs text-white hover:bg-white/10"
                 >
                   Exhibitor Profile
                 </Link>
                 <Link
-                  href="/exhibitorcomments"
+                  href="/about"
                   className="block rounded px-3 py-2 text-xs text-white hover:bg-white/10"
                 >
-                  Exhibitor Comment
+                  Exhibitor Comments
                 </Link>
                 <Link
-                  href="/exhibitorlist"
+                  href="/about"
                   className="block rounded px-3 py-2 text-xs text-white hover:bg-white/10"
                 >
                   Exhibitors List
@@ -146,43 +184,36 @@ export default function Header() {
             </div>
           </div>
 
-          <a href="#contact" className="nav-link hover:text-brand-amber">
+          <Link href="/newsletter" className="nav-link hover:text-brand-amber">
             Newsletter
-          </a>
-
+          </Link>
           <Link
             href="/exhibitors-registration"
             className="nav-link hover:text-brand-amber"
           >
-            Exhibiters Registration
+            Exhibitors Registration
           </Link>
-
           <Link
             href="/visitor-registration"
-            className="nav-link hover:text-brand-amber border-b-2 border-transparent hover:border-brand-amber transition-all"
+            className="nav-link hover:text-brand-amber"
           >
             Visitor Registration
           </Link>
-
           <a href="#contact" className="nav-link hover:text-brand-amber">
             Pay Stall Advance
           </a>
-
-          <Link
-            href="/venue"
-            className="nav-link hover:text-brand-amber border-b-2 border-transparent hover:border-brand-amber transition-all"
-          >
+          <a href="#contact" className="nav-link hover:text-brand-amber">
             Reaching The Venue
-          </Link>
+          </a>
         </nav>
 
+        {/* HAMBURGER BUTTON */}
         <div className="flex w-full items-center gap-2 md:w-auto">
           <button
             type="button"
             onClick={() => setMobileMenuOpen((prev) => !prev)}
             className={`inline-flex items-center justify-center rounded-md border border-white/40 bg-[#1b2560] px-3 py-2 text-white transition duration-300 hover:scale-105 md:hidden ${mobileMenuOpen ? "rotate-90" : "rotate-0"}`}
             aria-label="Toggle menu"
-            aria-expanded={mobileMenuOpen}
           >
             {mobileMenuOpen ? (
               <svg
@@ -192,7 +223,6 @@ export default function Header() {
                 fill="none"
                 stroke="currentColor"
                 strokeWidth="2"
-                aria-hidden="true"
               >
                 <path d="M18 6 6 18"></path>
                 <path d="m6 6 12 12"></path>
@@ -205,7 +235,6 @@ export default function Header() {
                 fill="none"
                 stroke="currentColor"
                 strokeWidth="2"
-                aria-hidden="true"
               >
                 <path d="M3 6h18"></path>
                 <path d="M3 12h18"></path>
@@ -215,6 +244,7 @@ export default function Header() {
           </button>
         </div>
 
+        {/* MOBILE MENU */}
         {mobileMenuOpen && (
           <nav className="mobile-menu surface w-full rounded-md border p-3 text-sm font-medium text-white md:hidden">
             <details className="group mobile-submenu">
@@ -222,42 +252,42 @@ export default function Header() {
                 Fusion The Era
               </summary>
               <div className="mobile-submenu-content mt-1 grid gap-1 pl-3 text-xs">
-                <Link
-                  href="/about"
-                  className="rounded px-2 py-2 hover:bg-white/10"
+                <button
+                  onClick={() => handleMobileNav("/about")}
+                  className="rounded px-2 py-2 hover:bg-white/10 text-left w-full"
                 >
-                  About fusion the era
-                </Link>
-                <Link
-                  href="/show"
-                  className="rounded px-2 py-2 hover:bg-white/10"
+                  About Fusion The Era
+                </button>
+                <button
+                  onClick={() => handleMobileNav("/about")}
+                  className="rounded px-2 py-2 hover:bg-white/10 text-left w-full"
                 >
-                  About the show 2026
-                </Link>
-                <Link
-                  href="/organizer"
-                  className="rounded px-2 py-2 hover:bg-white/10"
+                  About The Show 2026
+                </button>
+                <button
+                  onClick={() => handleMobileNav("/about")}
+                  className="rounded px-2 py-2 hover:bg-white/10 text-left w-full"
                 >
-                  About organiser
-                </Link>
-                <Link
-                  href="/trade"
-                  className="rounded px-2 py-2 hover:bg-white/10"
+                  About Organiser
+                </button>
+                <button
+                  onClick={() => handleMobileNav("/about")}
+                  className="rounded px-2 py-2 hover:bg-white/10 text-left w-full"
                 >
-                  Trade show facts
-                </Link>
-                <Link
-                  href="/report"
-                  className="rounded px-2 py-2 hover:bg-white/10"
+                  Trade Show Facts
+                </button>
+                <button
+                  onClick={() => handleMobileNav("/about")}
+                  className="rounded px-2 py-2 hover:bg-white/10 text-left w-full"
                 >
                   Post Show Report
-                </Link>
-                <Link
-                  href="/range"
-                  className="rounded px-2 py-2 hover:bg-white/10"
+                </button>
+                <button
+                  onClick={() => handleMobileNav("/products")}
+                  className="rounded px-2 py-2 hover:bg-white/10 text-left w-full"
                 >
                   Product Range
-                </Link>
+                </button>
               </div>
             </details>
 
@@ -266,24 +296,24 @@ export default function Header() {
                 Visitors
               </summary>
               <div className="mobile-submenu-content mt-1 grid gap-1 pl-3 text-xs">
-                <Link
-                  href="/whoshouldvisit"
-                  className="rounded px-2 py-2 hover:bg-white/10"
+                <button
+                  onClick={() => handleMobileNav("#featured")}
+                  className="rounded px-2 py-2 hover:bg-white/10 text-left w-full"
                 >
-                  Who should visit
-                </Link>
-                <Link
-                  href="/benefits"
-                  className="rounded px-2 py-2 hover:bg-white/10"
+                  Who Should Visit
+                </button>
+                <button
+                  onClick={() => handleMobileNav("#categories")}
+                  className="rounded px-2 py-2 hover:bg-white/10 text-left w-full"
                 >
                   Benefits
-                </Link>
-                <Link
-                  href="/comments"
-                  className="rounded px-2 py-2 hover:bg-white/10"
+                </button>
+                <button
+                  onClick={() => handleMobileNav("#about")}
+                  className="rounded px-2 py-2 hover:bg-white/10 text-left w-full"
                 >
-                  Visitor comment
-                </Link>
+                  Visitor Comments
+                </button>
               </div>
             </details>
 
@@ -292,63 +322,69 @@ export default function Header() {
                 Exhibitors
               </summary>
               <div className="mobile-submenu-content mt-1 grid gap-1 pl-3 text-xs">
-                <Link
-                  href="/whoshouldexhibit"
-                  className="rounded px-2 py-2 hover:bg-white/10"
+                <button
+                  onClick={() => handleMobileNav("/about")}
+                  className="rounded px-2 py-2 hover:bg-white/10 text-left w-full"
                 >
-                  Who should exhibit?
-                </Link>
-                <Link
-                  href="/exhibitorbenefits"
-                  className="rounded px-2 py-2 hover:bg-white/10"
+                  Who Should Exhibit?
+                </button>
+                <button
+                  onClick={() => handleMobileNav("/about")}
+                  className="rounded px-2 py-2 hover:bg-white/10 text-left w-full"
                 >
                   Benefits
-                </Link>
-                <Link
-                  href="/exhibitorprofile"
-                  className="rounded px-2 py-2 hover:bg-white/10"
+                </button>
+                <button
+                  onClick={() => handleMobileNav("/about")}
+                  className="rounded px-2 py-2 hover:bg-white/10 text-left w-full"
                 >
                   Exhibitor Profile
-                </Link>
-                <Link
-                  href="/exhibitorcomments"
-                  className="rounded px-2 py-2 hover:bg-white/10"
+                </button>
+                <button
+                  onClick={() => handleMobileNav("/about")}
+                  className="rounded px-2 py-2 hover:bg-white/10 text-left w-full"
                 >
-                  Exhibitor Comment
-                </Link>
-                <Link
-                  href="/exhibitorlist"
-                  className="rounded px-2 py-2 hover:bg-white/10"
+                  Exhibitor Comments
+                </button>
+                <button
+                  onClick={() => handleMobileNav("/about")}
+                  className="rounded px-2 py-2 hover:bg-white/10 text-left w-full"
                 >
                   Exhibitors List
-                </Link>
+                </button>
               </div>
             </details>
 
-            <Link
-              href="/exhibitors-registration"
-              className="mt-1 block rounded px-2 py-2 hover:bg-white/10"
+            <button
+              onClick={() => handleMobileNav("/newsletter")}
+              className="mt-1 block rounded px-2 py-2 hover:bg-white/10 text-left w-full"
             >
-              Exhibiters Registration
-            </Link>
-            <Link
-              href="/visitor-registration"
-              className="mt-1 block rounded px-2 py-2 hover:bg-white/10"
+              Newsletter
+            </button>
+            <button
+              onClick={() => handleMobileNav("/exhibitors-registration")}
+              className="mt-1 block rounded px-2 py-2 hover:bg-white/10 text-left w-full"
+            >
+              Exhibitors Registration
+            </button>
+            <button
+              onClick={() => handleMobileNav("/visitor-registration")}
+              className="mt-1 block rounded px-2 py-2 hover:bg-white/10 text-left w-full"
             >
               Visitor Registration
-            </Link>
-            <a
-              href="#contact"
-              className="mt-1 block rounded px-2 py-2 hover:bg-white/10"
+            </button>
+            <button
+              onClick={() => handleMobileNav("#contact")}
+              className="mt-1 block rounded px-2 py-2 hover:bg-white/10 text-left w-full"
             >
               Pay Stall Advance
-            </a>
-            <Link
-              href="/venue"
-              className="mt-1 block rounded px-2 py-2 hover:bg-white/10"
+            </button>
+            <button
+              onClick={() => handleMobileNav("#contact")}
+              className="mt-1 block rounded px-2 py-2 hover:bg-white/10 text-left w-full"
             >
               Reaching The Venue
-            </Link>
+            </button>
           </nav>
         )}
       </div>
