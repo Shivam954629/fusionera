@@ -219,12 +219,13 @@ export default function Header() {
           >
             Pay Stall Advance
           </Link>
-          <button
-            onClick={() => handleMobileNav("#contact")}
-            className="nav-link hover:text-brand-amber bg-transparent border-none cursor-pointer p-0"
+          {/* FIXED: was "#contact", now points to /reaching-the-venue */}
+          <Link
+            href="/reaching-the-venue"
+            className="nav-link hover:text-brand-amber"
           >
             Reaching The Venue
-          </button>
+          </Link>
         </nav>
 
         {/* HAMBURGER BUTTON */}
@@ -399,8 +400,9 @@ export default function Header() {
             >
               Pay Stall Advance
             </button>
+            {/* FIXED: was "#contact", now points to /reaching-the-venue */}
             <button
-              onClick={() => handleMobileNav("#contact")}
+              onClick={() => handleMobileNav("/reaching-the-venue")}
               className="mt-1 block rounded px-2 py-2 hover:bg-white/10 text-left w-full"
             >
               Reaching The Venue
