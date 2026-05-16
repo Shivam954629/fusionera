@@ -1,0 +1,184 @@
+"use client";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+
+interface VisitorInfo {
+  id: number;
+  fullName: string;
+  regNo: string;
+  email: string;
+  phone: string;
+}
+
+export default function VisitorDashboardPage() {
+  const router = useRouter();
+  const [visitor, setVisitor] = useState<VisitorInfo | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetch("/api/visitor-me", { credentials: "include" })
+      .then((res) => {
+        if (!res.ok) {
+          router.push("/visitor-registration");
+          return null;
+        }
+        return res.json();
+      })
+      .then((data) => {
+        if (data) setVisitor(data.visitor);
+      })
+      .finally(() => setLoading(false));
+  }, [router]);
+
+  const handleLogout = async () => {
+    await fetch("/api/visitor-login", {
+      method: "DELETE",
+      credentials: "include",
+    });
+    router.push("/visitor-registration");
+  };
+
+  if (loading)
+    return (
+      <section className="min-h-screen flex items-center justify-center">
+        <div className="w-10 h-10 border-4 border-blue-200 border-t-blue-600 rounded-full animate-spin" />
+      </section>
+    );
+
+  return (
+    <section className="min-h-screen flex items-center justify-center px-4 py-16">
+      <div className="w-full max-w-lg space-y-4">
+        {/* Entry Pass Card */}
+        <div
+          className="rounded-2xl overflow-hidden shadow-xl"
+          style={{
+            background: "var(--app-panel)",
+            border: "1px solid var(--app-border)",
+          }}
+        >
+          <div className="px-8 pt-8 pb-4">
+            <h1
+              className="text-2xl font-bold mb-1"
+              style={{ color: "var(--app-text)" }}
+            >
+              🎟️ Your Entry Pass
+            </h1>
+            <p className="text-sm" style={{ color: "var(--app-muted)" }}>
+              Fusionera 2026 — New Delhi, India
+            </p>
+          </div>
+
+          <div className="px-8 pb-8 space-y-4">
+            {/* Reg No */}
+            <div
+              className="rounded-xl p-4 text-center"
+              style={{ background: "linear-gradient(135deg,#110c41,#1a1560)" }}
+            >
+              <p className="text-xs text-blue-300 uppercase tracking-widest mb-1">
+                Registration Number
+              </p>
+              <p className="text-3xl font-bold text-white tracking-widest">
+                {visitor?.regNo}
+              </p>
+            </div>
+
+            {/* Details */}
+            <div className="grid grid-cols-2 gap-3">
+              <div
+                className="rounded-xl p-3"
+                style={{
+                  background: "var(--app-panel-soft)",
+                  border: "1px solid var(--app-border)",
+                }}
+              >
+                <p
+                  className="text-xs mb-0.5"
+                  style={{ color: "var(--app-muted)" }}
+                >
+                  Name
+                </p>
+                <p
+                  className="text-sm font-semibold"
+                  style={{ color: "var(--app-text)" }}
+                >
+                  {visitor?.fullName}
+                </p>
+              </div>
+              <div
+                className="rounded-xl p-3"
+                style={{
+                  background: "var(--app-panel-soft)",
+                  border: "1px solid var(--app-border)",
+                }}
+              >
+                <p
+                  className="text-xs mb-0.5"
+                  style={{ color: "var(--app-muted)" }}
+                >
+                  Phone
+                </p>
+                <p
+                  className="text-sm font-semibold"
+                  style={{ color: "var(--app-text)" }}
+                >
+                  {visitor?.phone}
+                </p>
+              </div>
+              {visitor?.email && (
+                <div
+                  className="rounded-xl p-3 col-span-2"
+                  style={{
+                    background: "var(--app-panel-soft)",
+                    border: "1px solid var(--app-border)",
+                  }}
+                >
+                  <p
+                    className="text-xs mb-0.5"
+                    style={{ color: "var(--app-muted)" }}
+                  >
+                    Email
+                  </p>
+                  <p
+                    className="text-sm font-semibold"
+                    style={{ color: "var(--app-text)" }}
+                  >
+                    {visitor.email}
+                  </p>
+                </div>
+              )}
+            </div>
+
+            {/* Event info */}
+            <div
+              className="rounded-xl p-4 text-center"
+              style={{
+                background: "var(--app-panel-soft)",
+                border: "1px solid var(--app-border)",
+              }}
+            >
+              <p
+                className="text-sm font-medium"
+                style={{ color: "var(--app-text)" }}
+              >
+                📅 July 4–6, 2026 &nbsp;·&nbsp; 📍 New Delhi, India
+                &nbsp;·&nbsp; 🎟️ Free Entry
+              </p>
+            </div>
+
+            <button
+              onClick={handleLogout}
+              className="w-full py-3 rounded-xl text-sm font-medium border transition hover:opacity-80"
+              style={{
+                color: "var(--app-muted)",
+                borderColor: "var(--app-border)",
+                background: "transparent",
+              }}
+            >
+              Logout
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
