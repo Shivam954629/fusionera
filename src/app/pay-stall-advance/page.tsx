@@ -37,21 +37,18 @@ export default function PayStallAdvancePage() {
 
               <div className="mt-6 h-px bg-[#1b2440]/10" />
 
-              {/* Contact Cards */}
               <div className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-4">
                 {[
                   {
                     city: "Delhi",
                     name: "Mr. Pawan Singh",
                     mobile: "+91 93157 00590",
-
                     email: "pawan.singh@fusiontheera.com",
                   },
                   {
                     city: "Mumbai",
                     name: "Mr. Jasvinder Singh Chaudhary",
                     mobile: "+91 85888 92885",
-
                     email: "jasvinder.chaudhary@fusiontheera.com",
                   },
                 ].map((c) => (
@@ -66,7 +63,6 @@ export default function PayStallAdvancePage() {
                     <p className="text-xs mt-1 text-[#1b2440]/70">
                       Mobile: {c.mobile}
                     </p>
-                    <p className="text-xs text-[#1b2440]/70">Tel: {c.tel}</p>
                     <a
                       href={`mailto:${c.email}`}
                       className="text-xs text-blue-500 hover:underline"
