@@ -160,7 +160,7 @@ export default function VisitorDashboardPage() {
                 className="text-sm font-medium"
                 style={{ color: "var(--app-text)" }}
               >
-                📅 July 4–6, 2026 &nbsp;·&nbsp; 📍 New Delhi, India
+                📅 July 4–7, 2026 &nbsp;·&nbsp; 📍 New Delhi, India
                 &nbsp;·&nbsp; 🎟️ Free Entry
               </p>
             </div>

@@ -20,9 +20,9 @@ export default function Header() {
         const el = document.getElementById(anchor);
         if (el) el.scrollIntoView({ behavior: "smooth" });
       }, 300);
-    } else {
-      window.scrollTo({ top: 0, behavior: "smooth" });
     }
+    // FIXED: removed window.scrollTo({ top: 0 }) — yeh har page change pe
+    // unnecessary scroll/reload feel deta tha
   }, [pathname]);
 
   useEffect(() => {
@@ -75,6 +75,7 @@ export default function Header() {
 
         {/* DESKTOP NAV */}
         <nav className="hidden items-center gap-6 text-sm font-medium text-white md:flex lg:gap-8">
+          {/* FUSION THE ERA DROPDOWN */}
           <div className="group relative">
             <Link
               href="/"
@@ -90,26 +91,30 @@ export default function Header() {
                 >
                   About Fusion The Era
                 </Link>
+                {/* FIXED: was /about */}
                 <Link
-                  href="/about"
+                  href="/show"
                   className="block rounded px-3 py-2 text-xs text-white hover:bg-white/10"
                 >
                   About The Show
                 </Link>
+                {/* FIXED: was /about */}
                 <Link
-                  href="/about"
+                  href="/organizer"
                   className="block rounded px-3 py-2 text-xs text-white hover:bg-white/10"
                 >
                   About Organiser
                 </Link>
+                {/* FIXED: was /about */}
                 <Link
-                  href="/about"
+                  href="/trade"
                   className="block rounded px-3 py-2 text-xs text-white hover:bg-white/10"
                 >
                   Trade Show Facts
                 </Link>
+                {/* FIXED: was /about */}
                 <Link
-                  href="/about"
+                  href="/report"
                   className="block rounded px-3 py-2 text-xs text-white hover:bg-white/10"
                 >
                   Post Show Report
@@ -124,72 +129,84 @@ export default function Header() {
             </div>
           </div>
 
+          {/* VISITORS DROPDOWN */}
           <div className="group relative">
-            <a
-              href="#featured"
+            {/* FIXED: was <a href="#featured"> */}
+            <Link
+              href="/whoshouldvisit"
               className="nav-link inline-flex items-center gap-1 hover:text-brand-magenta"
             >
               Visitors <span>▾</span>
-            </a>
+            </Link>
             <div className="nav-dropdown invisible absolute left-0 top-full z-40 w-52 pt-2 opacity-0 transition duration-300 group-hover:visible group-hover:opacity-100 group-focus-within:visible group-focus-within:opacity-100">
               <div className="rounded-md border border-white/15 bg-[#191452] p-2 shadow-lg">
-                <a
-                  href="#featured"
+                {/* FIXED: was href="#featured" */}
+                <Link
+                  href="/whoshouldvisit"
                   className="block rounded px-3 py-2 text-xs text-white hover:bg-white/10"
                 >
                   Who Should Visit
-                </a>
-                <a
-                  href="#categories"
+                </Link>
+                {/* FIXED: was href="#categories" */}
+                <Link
+                  href="/benefits"
                   className="block rounded px-3 py-2 text-xs text-white hover:bg-white/10"
                 >
                   Benefits
-                </a>
-                <a
-                  href="#about"
+                </Link>
+                {/* FIXED: was href="#about" */}
+                <Link
+                  href="/comments"
                   className="block rounded px-3 py-2 text-xs text-white hover:bg-white/10"
                 >
                   Visitor Comments
-                </a>
+                </Link>
               </div>
             </div>
           </div>
 
+          {/* EXHIBITORS DROPDOWN */}
           <div className="group relative">
-            <a
-              href="#featured"
+            {/* FIXED: was <a href="#featured"> */}
+            <Link
+              href="/whoshouldexhibit"
               className="nav-link inline-flex items-center gap-1 hover:text-brand-magenta"
             >
               Exhibitors <span>▾</span>
-            </a>
+            </Link>
             <div className="nav-dropdown invisible absolute left-0 top-full z-40 w-52 pt-2 opacity-0 transition duration-300 group-hover:visible group-hover:opacity-100 group-focus-within:visible group-focus-within:opacity-100">
               <div className="rounded-md border border-white/15 bg-[#191452] p-2 shadow-lg">
+                {/* FIXED: was /about */}
                 <Link
-                  href="/about"
+                  href="/whoshouldexhibit"
                   className="block rounded px-3 py-2 text-xs text-white hover:bg-white/10"
                 >
                   Who Should Exhibit?
                 </Link>
+                {/* FIXED: was /about */}
                 <Link
-                  href="/about"
+                  href="/exhibitorbenefits"
                   className="block rounded px-3 py-2 text-xs text-white hover:bg-white/10"
                 >
                   Benefits
                 </Link>
+                {/* FIXED: was /about */}
                 <Link
-                  href="/about"
+                  href="/exhibitorprofile"
                   className="block rounded px-3 py-2 text-xs text-white hover:bg-white/10"
                 >
                   Exhibitor Profile
                 </Link>
+                {/* FIXED: was /about */}
                 <Link
-                  href="/about"
+                  href="/exhibitorcomments"
                   className="block rounded px-3 py-2 text-xs text-white hover:bg-white/10"
                 >
                   Exhibitor Comments
                 </Link>
+                {/* FIXED: was /about */}
                 <Link
-                  href="/about"
+                  href="/exhibitorlist"
                   className="block rounded px-3 py-2 text-xs text-white hover:bg-white/10"
                 >
                   Exhibitors List
@@ -219,7 +236,6 @@ export default function Header() {
           >
             Pay Stall Advance
           </Link>
-          {/* FIXED: was "#contact", now points to /reaching-the-venue */}
           <Link
             href="/reaching-the-venue"
             className="nav-link hover:text-brand-amber"
@@ -279,26 +295,30 @@ export default function Header() {
                 >
                   About Fusion The Era
                 </button>
+                {/* FIXED: was /about */}
                 <button
-                  onClick={() => handleMobileNav("/about")}
+                  onClick={() => handleMobileNav("/show")}
                   className="rounded px-2 py-2 hover:bg-white/10 text-left w-full"
                 >
                   About The Show 2026
                 </button>
+                {/* FIXED: was /about */}
                 <button
-                  onClick={() => handleMobileNav("/about")}
+                  onClick={() => handleMobileNav("/organizer")}
                   className="rounded px-2 py-2 hover:bg-white/10 text-left w-full"
                 >
                   About Organiser
                 </button>
+                {/* FIXED: was /about */}
                 <button
-                  onClick={() => handleMobileNav("/about")}
+                  onClick={() => handleMobileNav("/trade")}
                   className="rounded px-2 py-2 hover:bg-white/10 text-left w-full"
                 >
                   Trade Show Facts
                 </button>
+                {/* FIXED: was /about */}
                 <button
-                  onClick={() => handleMobileNav("/about")}
+                  onClick={() => handleMobileNav("/report")}
                   className="rounded px-2 py-2 hover:bg-white/10 text-left w-full"
                 >
                   Post Show Report
@@ -317,20 +337,23 @@ export default function Header() {
                 Visitors
               </summary>
               <div className="mobile-submenu-content mt-1 grid gap-1 pl-3 text-xs">
+                {/* FIXED: was #featured */}
                 <button
-                  onClick={() => handleMobileNav("#featured")}
+                  onClick={() => handleMobileNav("/whoshouldvisit")}
                   className="rounded px-2 py-2 hover:bg-white/10 text-left w-full"
                 >
                   Who Should Visit
                 </button>
+                {/* FIXED: was #categories */}
                 <button
-                  onClick={() => handleMobileNav("#categories")}
+                  onClick={() => handleMobileNav("/benefits")}
                   className="rounded px-2 py-2 hover:bg-white/10 text-left w-full"
                 >
                   Benefits
                 </button>
+                {/* FIXED: was #about */}
                 <button
-                  onClick={() => handleMobileNav("#about")}
+                  onClick={() => handleMobileNav("/comments")}
                   className="rounded px-2 py-2 hover:bg-white/10 text-left w-full"
                 >
                   Visitor Comments
@@ -343,32 +366,37 @@ export default function Header() {
                 Exhibitors
               </summary>
               <div className="mobile-submenu-content mt-1 grid gap-1 pl-3 text-xs">
+                {/* FIXED: was /about */}
                 <button
-                  onClick={() => handleMobileNav("/about")}
+                  onClick={() => handleMobileNav("/whoshouldexhibit")}
                   className="rounded px-2 py-2 hover:bg-white/10 text-left w-full"
                 >
                   Who Should Exhibit?
                 </button>
+                {/* FIXED: was /about */}
                 <button
-                  onClick={() => handleMobileNav("/about")}
+                  onClick={() => handleMobileNav("/exhibitorbenefits")}
                   className="rounded px-2 py-2 hover:bg-white/10 text-left w-full"
                 >
                   Benefits
                 </button>
+                {/* FIXED: was /about */}
                 <button
-                  onClick={() => handleMobileNav("/about")}
+                  onClick={() => handleMobileNav("/exhibitorprofile")}
                   className="rounded px-2 py-2 hover:bg-white/10 text-left w-full"
                 >
                   Exhibitor Profile
                 </button>
+                {/* FIXED: was /about */}
                 <button
-                  onClick={() => handleMobileNav("/about")}
+                  onClick={() => handleMobileNav("/exhibitorcomments")}
                   className="rounded px-2 py-2 hover:bg-white/10 text-left w-full"
                 >
                   Exhibitor Comments
                 </button>
+                {/* FIXED: was /about */}
                 <button
-                  onClick={() => handleMobileNav("/about")}
+                  onClick={() => handleMobileNav("/exhibitorlist")}
                   className="rounded px-2 py-2 hover:bg-white/10 text-left w-full"
                 >
                   Exhibitors List
@@ -400,7 +428,6 @@ export default function Header() {
             >
               Pay Stall Advance
             </button>
-            {/* FIXED: was "#contact", now points to /reaching-the-venue */}
             <button
               onClick={() => handleMobileNav("/reaching-the-venue")}
               className="mt-1 block rounded px-2 py-2 hover:bg-white/10 text-left w-full"

@@ -26,13 +26,13 @@ export default function Section4() {
           <article className="rounded-2xl border border-white/75 bg-white/80 p-5 shadow-[0_10px_24px_rgba(34,55,99,0.08)] backdrop-blur-sm md:p-6">
             <h3 className="text-xl font-bold text-[#172445] md:text-2xl">Direct B2B Connections</h3>
             <p className="mt-3 text-sm leading-7 text-[#1b2440]/85 md:text-[15px]">
-              FMeet hypermarkets, hotel chains, retailers and serious trade buyers face-to-face.
+              Meet hypermarkets, hotel chains, retailers and serious trade buyers face-to-face.
             </p>
           </article>
           <article className="rounded-2xl border border-white/75 bg-white/80 p-5 shadow-[0_10px_24px_rgba(34,55,99,0.08)] backdrop-blur-sm md:p-6">
             <h3 className="text-xl font-bold text-[#172445] md:text-2xl">Indian & Global Brands</h3>
             <p className="mt-3 text-sm leading-7 text-[#1b2440]/85 md:text-[15px]">
-              onnect with 600+ exhibitors — Indian manufacturers, importers, private labels and global brands.
+              Connect with 600+ exhibitors — Indian manufacturers, importers, private labels and global brands.
             </p>
           </article>
           <article className="rounded-2xl border border-white/75 bg-white/80 p-5 shadow-[0_10px_24px_rgba(34,55,99,0.08)] backdrop-blur-sm md:p-6">

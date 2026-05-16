@@ -29,7 +29,7 @@ export default function WhoShouldVisit() {
              The exhibition attracts:
             </p>
             <ul className="mt-4 list-disc space-y-2 pl-6 text-md leading-7 text-[#1b2440]/85">
-              <li>into Retailers & Modern Trade Buyers</li>
+              <li>Retailers & Modern Trade Buyers</li>
               <li>Dealers & Distribution Networks</li>
               <li>Hotel & Hospitality Procurement Teams</li>
               <li>Importers & Exporters</li>
