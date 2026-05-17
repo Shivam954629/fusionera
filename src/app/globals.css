@@ -1,38 +1,38 @@
 @import "tailwindcss";
 
 :root {
-  --app-bg: #f5f9ff;
-  --app-text: #1b2440;
-  --app-panel: rgba(255, 255, 255, 0.86);
-  --app-panel-soft: rgba(255, 255, 255, 0.72);
-  --app-border: rgba(27, 36, 64, 0.12);
-  --app-muted: rgba(27, 36, 64, 0.72);
-  --app-header: rgba(255, 255, 255, 0.9);
-  --app-bg-radial-1: rgba(72, 155, 255, 0.18);
-  --app-bg-radial-2: rgba(102, 211, 173, 0.18);
-  --app-bg-radial-3: rgba(255, 176, 120, 0.2);
+  --app-bg: #070b34;
+  --app-text: #ffffff;
+  --app-panel: rgba(255, 255, 255, 0.06);
+  --app-panel-soft: rgba(255, 255, 255, 0.1);
+  --app-border: rgba(255, 255, 255, 0.12);
+  --app-muted: rgba(229, 231, 235, 0.78);
+  --app-header: rgba(17, 12, 65, 0.9);
+  --app-bg-radial-1: rgba(38, 209, 255, 0.16);
+  --app-bg-radial-2: rgba(124, 199, 255, 0.14);
+  --app-bg-radial-3: rgba(255, 178, 90, 0.12);
 }
 
 body.light {
-  --app-bg: #eef3ff;
-  --app-text: #121826;
-  --app-panel: rgba(255, 255, 255, 0.88);
-  --app-panel-soft: rgba(255, 255, 255, 0.72);
-  --app-border: rgba(18, 24, 38, 0.12);
-  --app-muted: rgba(18, 24, 38, 0.72);
-  --app-header: rgba(13, 10, 86, 0.9);
-  --app-bg-radial-1: rgba(138, 61, 255, 0.16);
-  --app-bg-radial-2: rgba(31, 201, 232, 0.14);
-  --app-bg-radial-3: rgba(255, 31, 122, 0.12);
+  --app-bg: #070b34;
+  --app-text: #ffffff;
+  --app-panel: rgba(255, 255, 255, 0.06);
+  --app-panel-soft: rgba(255, 255, 255, 0.1);
+  --app-border: rgba(255, 255, 255, 0.12);
+  --app-muted: rgba(229, 231, 235, 0.78);
+  --app-header: rgba(17, 12, 65, 0.9);
+  --app-bg-radial-1: rgba(38, 209, 255, 0.16);
+  --app-bg-radial-2: rgba(124, 199, 255, 0.14);
+  --app-bg-radial-3: rgba(255, 178, 90, 0.12);
 }
 
 body {
   font-family: var(--font-body), "Segoe UI", sans-serif;
   background:
-    radial-gradient(circle at 12% 18%, var(--app-bg-radial-1), transparent 36%),
-    radial-gradient(circle at 88% 12%, var(--app-bg-radial-2), transparent 34%),
-    radial-gradient(circle at 55% 80%, var(--app-bg-radial-3), transparent 42%),
-    linear-gradient(150deg, #f7fbff 0%, #eef6ff 45%, #fff7ef 100%);
+    radial-gradient(circle at 12% 18%, rgba(38, 209, 255, 0.16), transparent 36%),
+    radial-gradient(circle at 88% 12%, rgba(124, 199, 255, 0.14), transparent 34%),
+    radial-gradient(circle at 55% 80%, rgba(255, 178, 90, 0.12), transparent 42%),
+    linear-gradient(120deg, #090f2d 0%, #0f1a4f 48%, #1a2f7f 100%);
   background-attachment: fixed;
   color: var(--app-text);
 }
@@ -59,6 +59,18 @@ a {
 
 html {
   scroll-behavior: smooth;
+  overflow-x: hidden;
+}
+
+body {
+  overflow-x: hidden;
+}
+
+img,
+video,
+canvas,
+svg {
+  max-width: 100%;
 }
 
 .nav-link {

@@ -57,7 +57,7 @@ export default function Section1() {
   return (
     <section
       id="featured"
-      className="relative isolate w-full overflow-hidden py-14 md:py-16"
+      className="relative isolate w-full overflow-hidden py-8 sm:py-10 md:py-14 lg:py-16"
     >
       {/* BACKGROUND */}
       <div className="absolute inset-0 -z-10 bg-[linear-gradient(120deg,#090f2d_0%,#0f1a4f_48%,#1a2f7f_100%)]"></div>
@@ -69,9 +69,9 @@ export default function Section1() {
       <div className="pointer-events-none absolute -left-10 top-0 h-40 w-40 rounded-full bg-[#26d1ff]/10 blur-3xl"></div>
       <div className="pointer-events-none absolute -right-8 bottom-0 h-40 w-40 rounded-full bg-[#ffb25a]/10 blur-3xl"></div>
 
-      <div className="mx-auto grid w-full max-w-7xl grid-cols-1 items-stretch gap-8 px-6 md:grid-cols-2 lg:px-8">
+      <div className="mx-auto grid w-full max-w-7xl grid-cols-1 items-stretch gap-5 px-4 sm:px-6 md:gap-8 lg:grid-cols-2 lg:px-10">
         {/* LEFT SIDE */}
-        <div className="flex h-full min-w-0 flex-col justify-center rounded-[2rem] border border-white/10 bg-white/5 p-6 shadow-[0_20px_50px_rgba(0,0,0,0.35)] backdrop-blur-xl">
+        <div className="flex h-full min-w-0 flex-col justify-center rounded-2xl border border-white/10 bg-white/5 p-4 shadow-[0_20px_50px_rgba(0,0,0,0.35)] backdrop-blur-xl sm:p-6 lg:rounded-[2rem]">
           {/* LOGO */}
           <div className="flex w-full items-center justify-center">
             <div className="flex w-full max-w-[18rem] items-center justify-center rounded-xl border border-white/30 bg-white/[0.03] px-5 py-3 backdrop-blur-xl">
@@ -84,7 +84,7 @@ export default function Section1() {
           </div>
 
           {/* TITLE */}
-          <h1 className="mt-5 text-center text-[clamp(1.4rem,2.5vw,2rem)] font-black leading-none tracking-tight text-white">
+          <h1 className="mt-5 text-center text-3xl font-black leading-tight tracking-tight text-white sm:text-4xl lg:text-5xl">
             Our Exhibitions
           </h1>
 
@@ -92,8 +92,8 @@ export default function Section1() {
           <div className="mt-4 flex items-center justify-center gap-2">
             <span className="hidden h-px w-10 bg-gradient-to-r from-transparent via-[#ffd64d] to-transparent sm:block"></span>
 
-            <div className="rounded-xl border border-white/20 bg-[#101a43]/50 px-4 py-2 backdrop-blur-xl">
-              <p className="whitespace-nowrap text-[clamp(0.95rem,2vw,1.35rem)] font-black text-[#ffd238]">
+            <div className="rounded-xl border border-white/20 bg-[#101a43]/50 px-3 py-2 backdrop-blur-xl sm:px-4">
+              <p className="text-center text-base font-black text-[#ffd238] sm:text-xl">
                 4<sup className="text-[0.5em]">th</sup>, 5
                 <sup className="text-[0.5em]">th</sup>, 6
                 <sup className="text-[0.5em]">th</sup>, 7
@@ -126,12 +126,12 @@ export default function Section1() {
           </div>
 
           {/* COUNTDOWN */}
-          <div className="mt-6 rounded-[1.4rem] border border-white/15 bg-white/[0.08] p-4 shadow-[0_15px_40px_rgba(0,0,0,0.35)] backdrop-blur-2xl">
+          <div className="mt-6 rounded-2xl border border-white/15 bg-white/[0.08] p-3 shadow-[0_15px_40px_rgba(0,0,0,0.35)] backdrop-blur-2xl sm:p-4">
             <p className="text-center text-xs font-extrabold uppercase tracking-[0.25em] text-[#8cecff]">
               SHOW STARTS IN
             </p>
 
-            <div className="mt-4 grid grid-cols-4 gap-2">
+            <div className="mt-4 grid grid-cols-2 gap-2 sm:grid-cols-4">
               {[
                 { label: "Days", value: countdown.days },
                 { label: "Hours", value: countdown.hours },
@@ -165,8 +165,8 @@ export default function Section1() {
 
         {/* RIGHT SIDE */}
         <div className="flex h-full min-w-0">
-          <div className="w-full rounded-[2rem] border border-white/10 bg-white/10 p-4 shadow-[0_25px_60px_rgba(0,0,0,0.45)] backdrop-blur-xl">
-            <div className="relative h-full min-h-[500px] overflow-hidden rounded-[1.7rem]">
+          <div className="w-full rounded-2xl border border-white/10 bg-white/10 p-3 shadow-[0_25px_60px_rgba(0,0,0,0.45)] backdrop-blur-xl sm:p-4 lg:rounded-[2rem]">
+            <div className="relative h-[320px] overflow-hidden rounded-[1.35rem] sm:h-[420px] lg:h-full lg:min-h-[500px] lg:rounded-[1.7rem]">
               {textileSlides.map((slide, index) => (
                 <div
                   key={slide.src}

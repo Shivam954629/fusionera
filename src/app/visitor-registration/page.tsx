@@ -533,7 +533,7 @@ export default function VisitorRegistrationPage() {
   );
 
   return (
-    <section id="contact" className="min-h-screen px-3 md:px-4 py-6 md:py-8">
+    <section id="contact" className="min-h-screen px-4 py-6 sm:px-6 md:py-8 lg:px-10">
       <div className="max-w-3xl mx-auto">
         <div className="text-center mb-6 md:mb-8">
           <h1
@@ -567,7 +567,7 @@ export default function VisitorRegistrationPage() {
                   <button
                     key={t}
                     onClick={() => setVisitorType(t)}
-                    className={`flex-1 py-3.5 text-sm font-semibold transition ${visitorType === t ? "bg-white text-blue-700 border-b-2 border-blue-600" : "text-gray-500 hover:bg-gray-50"}`}
+                    className={`flex-1 py-3.5 text-sm font-semibold transition ${visitorType === t ? "border-b-2 border-blue-400 bg-white/15 text-white" : "text-gray-300 hover:bg-white/10"}`}
                     style={
                       visitorType !== t
                         ? { background: "var(--app-panel-soft)" }
@@ -984,7 +984,7 @@ export default function VisitorRegistrationPage() {
                                 border: "2px dashed var(--app-border)",
                               }}
                             >
-                              <div className="w-20 h-24 bg-gray-200 rounded-lg mx-auto mb-3 flex items-center justify-center">
+                              <div className="mx-auto mb-3 flex h-24 w-20 items-center justify-center rounded-lg border border-white/10 bg-white/10">
                                 <svg
                                   className="w-10 h-10 text-gray-400"
                                   fill="currentColor"
@@ -1481,7 +1481,7 @@ export default function VisitorRegistrationPage() {
                       Select all product categories you are interested in{" "}
                       {reqStar}:
                     </p>
-                    <div className="grid grid-cols-2 md:grid-cols-3 gap-2 md:gap-3">
+                    <div className="grid grid-cols-1 gap-2 sm:grid-cols-2 md:grid-cols-3 md:gap-3">
                       {PRODUCT_OPTIONS.map((p) => (
                         <label
                           key={p}
@@ -1767,7 +1767,7 @@ export default function VisitorRegistrationPage() {
 
                 {/* Navigation */}
                 <div
-                  className="flex gap-3 mt-5 md:mt-6 pt-4"
+                  className="mt-5 flex flex-col gap-3 pt-4 sm:flex-row md:mt-6"
                   style={{ borderTop: "1px solid var(--app-border)" }}
                 >
                   {currentStep > 1 && (
@@ -1776,7 +1776,7 @@ export default function VisitorRegistrationPage() {
                         setCurrentStep((p) => p - 1);
                         setError("");
                       }}
-                      className="px-5 md:px-6 py-2.5 rounded-xl text-sm font-semibold border transition hover:opacity-80"
+                      className="w-full rounded-xl border px-5 py-2.5 text-sm font-semibold transition hover:opacity-80 sm:w-auto md:px-6"
                       style={{
                         color: "var(--app-text)",
                         borderColor: "var(--app-border)",
@@ -1789,7 +1789,7 @@ export default function VisitorRegistrationPage() {
                   <button
                     onClick={() => saveStep(currentStep)}
                     disabled={loading}
-                    className="ml-auto px-6 md:px-8 py-2.5 rounded-xl text-white text-sm font-semibold transition hover:opacity-90 disabled:opacity-60"
+                    className="w-full rounded-xl px-6 py-2.5 text-sm font-semibold text-white transition hover:opacity-90 disabled:opacity-60 sm:ml-auto sm:w-auto md:px-8"
                     style={{
                       background: "linear-gradient(135deg,#1d4ed8,#2563eb)",
                     }}

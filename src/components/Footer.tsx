@@ -9,13 +9,13 @@ export default function Footer() {
       <div className="pointer-events-none absolute -left-10 top-0 h-40 w-40 rounded-full bg-[#26d1ff]/20 blur-3xl"></div>
       <div className="pointer-events-none absolute -right-8 bottom-0 h-40 w-40 rounded-full bg-[#ffb25a]/20 blur-3xl"></div>
 
-      <div className="mx-auto grid w-[92%] max-w-7xl gap-8 md:grid-cols-4">
+      <div className="mx-auto grid w-full max-w-7xl grid-cols-1 gap-8 px-4 sm:grid-cols-2 sm:px-6 lg:grid-cols-4 lg:px-10">
         {/* LOGO + DESC */}
         <div>
           <img
             src="/images/logo.jpeg"
             alt="Fusionera logo"
-            className="h-12 w-auto rounded-md"
+            className="h-10 w-auto max-w-[220px] rounded-md object-contain sm:h-12"
           />
           <p className="mt-4 text-sm leading-6 text-[#d8e6ff]">
             India&apos;s business-first platform for Houseware, HORECA,
@@ -176,9 +176,9 @@ export default function Footer() {
       </div>
 
       {/* BOTTOM BAR */}
-      <div className="mx-auto mt-8 w-[92%] max-w-7xl border-t border-white/20 pt-4 text-xs text-[#c8d9ff] md:flex md:items-center md:justify-between">
+      <div className="mx-auto mt-8 w-full max-w-7xl border-t border-white/20 px-4 pt-4 text-xs text-[#c8d9ff] sm:px-6 md:flex md:items-center md:justify-between lg:px-10">
         <p>© 2026 Fusionera Home. All rights reserved.</p>
-        <div className="mt-2 flex gap-5 md:mt-0">
+        <div className="mt-3 flex flex-wrap gap-4 md:mt-0 md:gap-5">
           <Link href="/privacy" className="transition hover:text-[#8cecff]">
             Privacy Policy
           </Link>

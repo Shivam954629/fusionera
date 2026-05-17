@@ -255,16 +255,16 @@ export default function AdminDashboard() {
 
   if (loading)
     return (
-      <div className="min-h-screen flex items-center justify-center bg-slate-50">
+      <div className="min-h-screen flex items-center justify-center bg-[#070B34]">
         <div className="text-center">
           <div className="w-12 h-12 border-4 border-indigo-200 border-t-indigo-600 rounded-full animate-spin mx-auto" />
-          <p className="mt-4 text-gray-500 text-sm">Loading...</p>
+          <p className="mt-4 text-gray-400 text-sm">Loading...</p>
         </div>
       </div>
     );
 
   return (
-    <div className="min-h-screen bg-slate-50 flex">
+    <div className="min-h-screen bg-[#070B34] flex">
       {sidebarOpen && (
         <div
           className="fixed inset-0 bg-black/50 z-20 md:hidden"
@@ -275,8 +275,8 @@ export default function AdminDashboard() {
       {/* ✅ Delete Modal — clean English */}
       {confirmDeleteId && (
         <div className="fixed inset-0 bg-black/60 z-50 flex items-center justify-center px-4">
-          <div className="bg-white rounded-2xl p-6 max-w-sm w-full shadow-2xl">
-            <div className="w-16 h-16 bg-red-50 rounded-full flex items-center justify-center mx-auto mb-4 border-4 border-red-100">
+          <div className="rounded-2xl border border-white/10 bg-[#0B1E5B]/90 p-6 max-w-sm w-full shadow-[0_0_40px_rgba(0,0,0,0.35)] backdrop-blur-xl">
+            <div className="w-16 h-16 bg-red-500/15 rounded-full flex items-center justify-center mx-auto mb-4 border-4 border-red-400/20">
               <svg
                 className="w-8 h-8 text-red-500"
                 fill="none"
@@ -291,7 +291,7 @@ export default function AdminDashboard() {
                 />
               </svg>
             </div>
-            <h3 className="text-lg font-bold text-gray-800 text-center mb-1">
+            <h3 className="text-lg font-bold text-white text-center mb-1">
               Delete Visitor?
             </h3>
             <p className="text-sm text-gray-400 text-center mb-6">
@@ -302,7 +302,7 @@ export default function AdminDashboard() {
             <div className="flex gap-3">
               <button
                 onClick={() => setConfirmDeleteId(null)}
-                className="flex-1 py-2.5 rounded-xl border border-gray-200 text-gray-600 text-sm font-medium hover:bg-gray-50 transition"
+                className="flex-1 py-2.5 rounded-xl border border-white/10 text-gray-300 text-sm font-medium hover:bg-white/10 transition"
               >
                 Cancel
               </button>
@@ -414,11 +414,11 @@ export default function AdminDashboard() {
 
       {/* Main */}
       <div className="flex-1 flex flex-col min-w-0">
-        <header className="bg-white border-b border-gray-200 px-4 md:px-6 py-4 flex items-center justify-between gap-3 sticky top-0 z-10">
+        <header className="border-b border-white/10 bg-[#0B1E5B]/90 backdrop-blur-xl px-4 md:px-6 py-4 flex items-center justify-between gap-3 sticky top-0 z-10">
           <div className="flex items-center gap-3">
             <button
               onClick={() => setSidebarOpen(true)}
-              className="md:hidden p-2 rounded-lg hover:bg-gray-100 text-gray-600"
+              className="md:hidden p-2 rounded-lg hover:bg-white/10 text-gray-300"
             >
               <svg
                 className="w-5 h-5"
@@ -435,7 +435,7 @@ export default function AdminDashboard() {
               </svg>
             </button>
             <div>
-              <h1 className="text-lg font-bold text-gray-800">
+              <h1 className="text-lg font-bold text-white">
                 {activeTab === "dashboard"
                   ? "📊 Dashboard"
                   : "👥 Visitor Details"}
@@ -453,7 +453,7 @@ export default function AdminDashboard() {
           <button
             onClick={fetchData}
             title="Refresh data"
-            className="p-2 rounded-lg hover:bg-gray-100 text-gray-400 hover:text-gray-600 transition"
+            className="p-2 rounded-lg hover:bg-white/10 text-gray-400 hover:text-white transition"
           >
             <svg
               className="w-4 h-4"
@@ -504,7 +504,7 @@ export default function AdminDashboard() {
                 ].map((card) => (
                   <div
                     key={card.label}
-                    className="bg-white rounded-2xl p-4 md:p-5 shadow-sm border border-gray-100 flex items-center gap-3"
+                    className="rounded-2xl border border-white/10 bg-white/5 p-4 md:p-5 shadow-[0_0_30px_rgba(0,0,0,0.22)] backdrop-blur-xl flex items-center gap-3"
                   >
                     <div
                       className="w-11 h-11 rounded-xl flex items-center justify-center text-xl flex-shrink-0"
@@ -513,8 +513,8 @@ export default function AdminDashboard() {
                       {card.icon}
                     </div>
                     <div>
-                      <p className="text-xs text-gray-500">{card.label}</p>
-                      <p className="text-2xl font-bold text-gray-800">
+                      <p className="text-xs text-gray-400">{card.label}</p>
+                      <p className="text-2xl font-bold text-white">
                         {card.value}
                       </p>
                     </div>
@@ -522,9 +522,9 @@ export default function AdminDashboard() {
                 ))}
               </div>
 
-              <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
-                <div className="flex items-center justify-between px-5 py-4 border-b border-gray-100">
-                  <h3 className="font-bold text-gray-800">
+              <div className="overflow-hidden rounded-2xl border border-white/10 bg-white/5 shadow-[0_0_30px_rgba(0,0,0,0.22)] backdrop-blur-xl">
+                <div className="flex items-center justify-between px-5 py-4 border-b border-white/10">
+                  <h3 className="font-bold text-white">
                     🕐 Recent Registrations
                   </h3>
                   <button
@@ -536,13 +536,13 @@ export default function AdminDashboard() {
                 </div>
                 <div className="overflow-x-auto">
                   <table className="w-full text-sm min-w-[500px]">
-                    <thead className="bg-gray-50">
+                    <thead className="bg-white/5">
                       <tr>
                         {["Name", "Phone", "Email", "Status", "Actions"].map(
                           (h) => (
                             <th
                               key={h}
-                              className="text-left py-3 px-4 text-xs font-semibold text-gray-500 uppercase tracking-wider"
+                              className="text-left py-3 px-4 text-xs font-semibold text-gray-400 uppercase tracking-wider"
                             >
                               {h}
                             </th>
@@ -564,15 +564,15 @@ export default function AdminDashboard() {
                         stats.recentVisitors.map((v) => (
                           <tr
                             key={v.id}
-                            className={`border-t border-gray-50 ${v.is_blocked ? "bg-red-50/40" : "hover:bg-gray-50"}`}
+                            className={`border-t border-white/10 ${v.is_blocked ? "bg-red-500/10" : "hover:bg-white/5"}`}
                           >
-                            <td className="py-3 px-4 font-medium text-gray-800">
+                            <td className="py-3 px-4 font-medium text-white">
                               {v.full_name}
                             </td>
-                            <td className="py-3 px-4 text-gray-600 text-xs">
+                            <td className="py-3 px-4 text-gray-300 text-xs">
                               {v.phone_number}
                             </td>
-                            <td className="py-3 px-4 text-gray-500 text-xs">
+                            <td className="py-3 px-4 text-gray-400 text-xs">
                               {v.email || "—"}
                             </td>
                             <td className="py-3 px-4">
@@ -717,7 +717,7 @@ export default function AdminDashboard() {
                     <label className="flex items-center gap-3 cursor-pointer">
                       <div
                         onClick={() => setNlPublished((p) => !p)}
-                        className={`w-12 h-6 rounded-full transition-colors relative ${nlPublished ? "bg-blue-600" : "bg-gray-300"}`}
+                        className={`w-12 h-6 rounded-full transition-colors relative ${nlPublished ? "bg-blue-600" : "bg-white/20"}`}
                       >
                         <div
                           className={`absolute top-0.5 w-5 h-5 rounded-full bg-white shadow transition-transform ${nlPublished ? "translate-x-6" : "translate-x-0.5"}`}
@@ -765,7 +765,7 @@ export default function AdminDashboard() {
                         setPage(1);
                       }}
                       placeholder="Search name, phone, email..."
-                      className="w-full pl-9 pr-4 py-2.5 bg-white border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-indigo-400"
+                      className="w-full pl-9 pr-4 py-2.5 bg-white/10 border border-white/10 rounded-xl text-white placeholder-gray-400 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-400"
                     />
                   </div>
                   <button
@@ -790,7 +790,7 @@ export default function AdminDashboard() {
                         setFilterStatus(f.id as "all" | "active" | "blocked");
                         setPage(1);
                       }}
-                      className={`px-3 py-2 text-xs rounded-xl font-medium transition ${filterStatus === f.id ? "bg-indigo-600 text-white" : "bg-white border border-gray-200 text-gray-600 hover:bg-gray-50"}`}
+                      className={`px-3 py-2 text-xs rounded-xl font-medium transition ${filterStatus === f.id ? "bg-indigo-600 text-white" : "border border-white/10 bg-white/10 text-gray-300 hover:bg-white/15"}`}
                     >
                       {f.label}
                     </button>
@@ -801,10 +801,10 @@ export default function AdminDashboard() {
                 </div>
               </div>
 
-              <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+              <div className="overflow-hidden rounded-2xl border border-white/10 bg-white/5 shadow-[0_0_30px_rgba(0,0,0,0.22)] backdrop-blur-xl">
                 <div className="overflow-x-auto">
                   <table className="w-full text-sm min-w-[600px]">
-                    <thead className="bg-gray-50 border-b border-gray-100">
+                    <thead className="bg-white/5 border-b border-white/10">
                       <tr>
                         {[
                           "#",
@@ -817,7 +817,7 @@ export default function AdminDashboard() {
                         ].map((h) => (
                           <th
                             key={h}
-                            className="text-left py-3.5 px-4 text-xs font-semibold text-gray-500 uppercase tracking-wider whitespace-nowrap"
+                            className="text-left py-3.5 px-4 text-xs font-semibold text-gray-400 uppercase tracking-wider whitespace-nowrap"
                           >
                             {h}
                           </th>
@@ -839,12 +839,12 @@ export default function AdminDashboard() {
                         paginated.map((v, i) => (
                           <tr
                             key={v.id}
-                            className={`border-t border-gray-50 transition ${v.is_blocked ? "bg-red-50/30" : "hover:bg-slate-50"}`}
+                            className={`border-t border-white/10 transition ${v.is_blocked ? "bg-red-500/10" : "hover:bg-[#070B34]"}`}
                           >
                             <td className="py-3.5 px-4 text-gray-400 text-xs font-mono">
                               {(page - 1) * PER_PAGE + i + 1}
                             </td>
-                            <td className="py-3.5 px-4 font-semibold text-gray-800">
+                            <td className="py-3.5 px-4 font-semibold text-white">
                               {v.full_name}
                             </td>
                             <td className="py-3.5 px-4">
@@ -855,7 +855,7 @@ export default function AdminDashboard() {
                                 {v.phone_number}
                               </a>
                             </td>
-                            <td className="py-3.5 px-4 text-gray-500 text-xs">
+                            <td className="py-3.5 px-4 text-gray-400 text-xs">
                               {v.email || (
                                 <span className="text-gray-300">—</span>
                               )}
@@ -906,8 +906,8 @@ export default function AdminDashboard() {
                 </div>
 
                 {totalPages > 1 && (
-                  <div className="px-4 py-3 border-t border-gray-100 flex flex-col sm:flex-row items-center justify-between gap-2">
-                    <p className="text-xs text-gray-500">
+                  <div className="px-4 py-3 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-2">
+                    <p className="text-xs text-gray-400">
                       Showing {(page - 1) * PER_PAGE + 1}–
                       {Math.min(page * PER_PAGE, filtered.length)} of{" "}
                       {filtered.length}
@@ -916,7 +916,7 @@ export default function AdminDashboard() {
                       <button
                         onClick={() => setPage((p) => Math.max(1, p - 1))}
                         disabled={page === 1}
-                        className="px-3 py-1.5 text-xs rounded-lg border border-gray-200 text-gray-600 hover:bg-gray-50 disabled:opacity-40"
+                        className="px-3 py-1.5 text-xs rounded-lg border border-white/10 text-gray-300 hover:bg-white/10 disabled:opacity-40"
                       >
                         ← Prev
                       </button>
@@ -929,7 +929,7 @@ export default function AdminDashboard() {
                             <button
                               key={p}
                               onClick={() => setPage(p)}
-                              className={`px-3 py-1.5 text-xs rounded-lg ${p === page ? "bg-indigo-600 text-white" : "border border-gray-200 text-gray-600 hover:bg-gray-50"}`}
+                              className={`px-3 py-1.5 text-xs rounded-lg ${p === page ? "bg-indigo-600 text-white" : "border border-white/10 text-gray-300 hover:bg-white/10"}`}
                             >
                               {p}
                             </button>
@@ -941,7 +941,7 @@ export default function AdminDashboard() {
                           setPage((p) => Math.min(totalPages, p + 1))
                         }
                         disabled={page === totalPages}
-                        className="px-3 py-1.5 text-xs rounded-lg border border-gray-200 text-gray-600 hover:bg-gray-50 disabled:opacity-40"
+                        className="px-3 py-1.5 text-xs rounded-lg border border-white/10 text-gray-300 hover:bg-white/10 disabled:opacity-40"
                       >
                         Next →
                       </button>

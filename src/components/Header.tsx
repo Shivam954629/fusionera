@@ -60,21 +60,21 @@ export default function Header() {
     >
       <div
         ref={menuRef}
-        className="mx-auto flex w-[92%] max-w-7xl flex-wrap items-center justify-between gap-3 py-4"
+        className="mx-auto flex w-full max-w-7xl flex-wrap items-center justify-between gap-3 px-4 py-3 sm:px-6 lg:px-10 lg:py-4"
       >
         {/* LOGO */}
-        <div className="flex items-center gap-3">
-          <Link href="/">
+        <div className="flex min-w-0 items-center gap-3">
+          <Link href="/" className="min-w-0">
             <img
               src="/images/logo.jpeg"
               alt="Fusionera logo"
-              className="h-12 w-auto"
+              className="h-10 w-auto max-w-[190px] object-contain sm:h-12 sm:max-w-[250px]"
             />
           </Link>
         </div>
 
         {/* DESKTOP NAV */}
-        <nav className="hidden items-center gap-6 text-sm font-medium text-white md:flex lg:gap-8">
+        <nav className="hidden items-center gap-4 text-sm font-medium text-white lg:flex xl:gap-8">
           {/* FUSION THE ERA DROPDOWN */}
           <div className="group relative">
             <Link
@@ -245,11 +245,11 @@ export default function Header() {
         </nav>
 
         {/* HAMBURGER BUTTON */}
-        <div className="flex w-full items-center gap-2 md:w-auto">
+        <div className="flex items-center gap-2 lg:hidden">
           <button
             type="button"
             onClick={() => setMobileMenuOpen((prev) => !prev)}
-            className={`inline-flex items-center justify-center rounded-md border border-white/40 bg-[#1b2560] px-3 py-2 text-white transition duration-300 hover:scale-105 md:hidden ${mobileMenuOpen ? "rotate-90" : "rotate-0"}`}
+            className={`inline-flex items-center justify-center rounded-md border border-white/40 bg-[#1b2560] px-3 py-2 text-white transition duration-300 hover:scale-105 lg:hidden ${mobileMenuOpen ? "rotate-90" : "rotate-0"}`}
             aria-label="Toggle menu"
           >
             {mobileMenuOpen ? (
@@ -283,7 +283,7 @@ export default function Header() {
 
         {/* MOBILE MENU */}
         {mobileMenuOpen && (
-          <nav className="mobile-menu surface w-full rounded-md border p-3 text-sm font-medium text-white md:hidden">
+          <nav className="mobile-menu max-h-[calc(100vh-76px)] w-full overflow-y-auto rounded-md border border-white/10 bg-[#0B1E5B]/95 p-3 text-sm font-medium text-white shadow-[0_18px_45px_rgba(0,0,0,0.35)] backdrop-blur-xl lg:hidden">
             <details className="group mobile-submenu">
               <summary className="mobile-summary cursor-pointer list-none rounded px-2 py-2 hover:bg-white/10">
                 Fusion The Era

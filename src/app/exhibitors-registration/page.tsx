@@ -93,10 +93,7 @@ export default function ExhibitorRegistrationPage() {
   const blueBg = { background: "linear-gradient(135deg,#1d4ed8,#2563eb)" };
 
   return (
-    <section
-      className="min-h-screen px-4 py-8 md:py-12"
-      style={{ background: "var(--app-bg)" }}
-    >
+    <section className="min-h-screen px-4 py-8 sm:px-6 md:py-12 lg:px-10">
       <div className="max-w-3xl mx-auto">
         <div className="text-center mb-6 md:mb-8">
           <h1
@@ -361,11 +358,11 @@ export default function ExhibitorRegistrationPage() {
                       </button>
                     </div>
                   </div>
-                  <div className="flex gap-3 pt-1">
+                  <div className="flex flex-col gap-3 pt-1 sm:flex-row">
                     <button
                       onClick={handleLogin}
                       disabled={loginLoading}
-                      className="flex-1 md:flex-none px-8 py-2.5 rounded-xl text-white font-bold text-sm transition hover:opacity-90 disabled:opacity-60"
+                      className="w-full rounded-xl px-8 py-2.5 text-sm font-bold text-white transition hover:opacity-90 disabled:opacity-60 sm:w-auto sm:flex-1 md:flex-none"
                       style={blueBg}
                     >
                       {loginLoading ? "Logging in..." : "Login"}
@@ -375,7 +372,7 @@ export default function ExhibitorRegistrationPage() {
                         setLoginData({ name: "", id: "", password: "" });
                         setLoginError("");
                       }}
-                      className="flex-1 md:flex-none px-8 py-2.5 rounded-xl text-sm font-bold transition hover:opacity-80"
+                      className="w-full rounded-xl px-8 py-2.5 text-sm font-bold transition hover:opacity-80 sm:w-auto sm:flex-1 md:flex-none"
                       style={{
                         background: "var(--app-panel-soft)",
                         border: "1px solid var(--app-border)",
@@ -1230,7 +1227,7 @@ function ExhibitorRequestForm({
           <label className={labelCls} style={ls}>
             Product Categories
           </label>
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
+          <div className="grid grid-cols-1 gap-2 sm:grid-cols-2 md:grid-cols-3">
             {PRODUCT_CATEGORIES.map((cat) => (
               <label
                 key={cat}

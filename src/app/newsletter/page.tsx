@@ -45,7 +45,7 @@ export default function NewsletterPage() {
 
   return (
     <section
-      className="min-h-screen px-4 py-12"
+      className="min-h-screen px-4 py-8 sm:px-6 sm:py-10 lg:px-10 lg:py-12"
       style={{ background: "var(--app-bg)" }}
     >
       <div className="max-w-3xl mx-auto">
@@ -71,7 +71,7 @@ export default function NewsletterPage() {
           </div>
           {data.title && (
             <h1
-              className="text-3xl font-bold mb-2"
+              className="mb-2 text-3xl font-bold sm:text-4xl lg:text-5xl"
               style={{ color: "var(--app-text)" }}
             >
               {data.title}
@@ -93,7 +93,7 @@ export default function NewsletterPage() {
               border: "1px solid var(--app-border)",
             }}
           >
-            <div className="px-8 py-8">
+            <div className="px-4 py-6 sm:px-8 sm:py-8">
               <div
                 className="text-sm leading-7 whitespace-pre-wrap"
                 style={{ color: "var(--app-text)" }}

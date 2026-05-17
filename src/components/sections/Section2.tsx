@@ -23,34 +23,34 @@ export default function Section2() {
 
   return (
     <>
-      <section id="houseware" className="mx-auto w-[92%] max-w-7xl py-6 md:py-10 reveal-on-scroll"
+      <section id="houseware" className="mx-auto w-full max-w-7xl px-4 py-6 sm:px-6 md:py-10 lg:px-10 reveal-on-scroll"
         data-reveal-delay="0">
-        <div className="relative overflow-hidden rounded-2xl border border-[rgba(27,36,64,0.12)] bg-gradient-to-br from-[#f9fcff] via-[#eff6ff] to-[#fff6ed] p-6 shadow-[0_20px_45px_rgba(38,72,125,0.12)] md:p-8">
+        <div className="relative overflow-hidden rounded-2xl border border-white/10 bg-[linear-gradient(135deg,rgba(7,11,52,0.92)_0%,rgba(11,30,91,0.9)_48%,rgba(17,45,122,0.88)_100%)] p-4 shadow-[0_0_40px_rgba(0,0,0,0.25)] backdrop-blur-xl sm:p-6 md:p-8">
           <div className="pointer-events-none absolute -right-8 -top-8 h-36 w-36 rounded-full bg-[#7dc8ff]/30 blur-2xl"></div>
           <div className="pointer-events-none absolute -bottom-8 -left-8 h-36 w-36 rounded-full bg-[#ffd59f]/40 blur-2xl"></div>
 
           <div className="mb-6 flex flex-wrap items-end justify-between gap-4">
             <div className="max-w-3xl">
               
-              <h2 className="text-3xl font-bold text-[#172445] md:text-4xl">Product Portfolio</h2>
-              <p className="mt-3 text-sm leading-7 text-[#2d3b5f]/85 md:text-base">
+              <h2 className="text-3xl font-bold text-white sm:text-4xl lg:text-5xl">Product Portfolio</h2>
+              <p className="mt-3 text-sm leading-7 text-gray-300 md:text-base">
                 Indian and International brands, importers, manufacturers and distributors, private label suppliers, startup brands and specialized producers.
               </p>
             </div>
             <Link
               href="/products"
-              className="rounded-full border border-[#2d5fd4]/25 bg-white/85 px-5 py-2.5 text-sm font-semibold text-[#1f3d8b] shadow-sm transition hover:-translate-y-0.5 hover:bg-white"
+              className="inline-flex w-full items-center justify-center rounded-full border border-white/20 bg-white/10 px-5 py-2.5 text-sm font-semibold text-white shadow-[0_10px_30px_rgba(52,123,255,0.22)] backdrop-blur transition hover:-translate-y-0.5 hover:bg-white/15 sm:w-auto"
             >
               Browse All
             </Link>
           </div>
 
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
             {
               productList.filter((p, i) => i < 8).map((p1, i1) =>
                 <article
                   key={i1}
-                  className="group cursor-pointer rounded-xl border border-[rgba(27,36,64,0.12)] bg-white/90 p-4 shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-[#8fb8ff]/30">
+                  className="group cursor-pointer rounded-xl border border-white/10 bg-white/5 p-4 shadow-[0_0_30px_rgba(0,0,0,0.22)] backdrop-blur-xl transition duration-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-[#8fb8ff]/30">
                   <button
                     type="button"
                     onClick={() => setPortfolioModal({ src: p1.src, alt: 'Premium glass ware set on dining table', title: 'Home Appliances' })}
@@ -61,8 +61,8 @@ export default function Section2() {
                       alt="Premium glass ware set on dining table"
                       className="h-44 w-full rounded-lg object-cover transition duration-300 group-hover:scale-105 cursor-pointer" />
                   </button>
-                  <h3 className="mt-3 text-lg font-semibold text-[#1a2748]">{p1.title}</h3>
-                  <p className="mt-2 text-sm text-[#32456b]/80">{p1.desc}</p>
+                  <h3 className="mt-3 text-lg font-semibold text-white">{p1.title}</h3>
+                  <p className="mt-2 text-sm text-gray-300">{p1.desc}</p>
                 </article>
               )
             }
