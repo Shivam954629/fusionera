@@ -572,12 +572,11 @@ export default function VisitorRegistrationPage() {
                   <button
                     key={t}
                     onClick={() => setVisitorType(t)}
-                    className={`flex-1 py-3.5 text-sm font-semibold transition ${visitorType === t ? "border-b-2 border-blue-400 bg-white/15 text-white" : "text-gray-300 hover:bg-white/10"}`}
-                    style={
-                      visitorType !== t
-                        ? { background: "var(--app-panel-soft)" }
-                        : {}
-                    }
+                    className={`flex-1 py-3.5 text-sm font-semibold transition ${visitorType === t ? "border-b-2 border-blue-500" : "hover:bg-gray-50"}`}
+                    style={{
+                      background: visitorType === t ? "var(--app-panel)" : "var(--app-panel-soft)",
+                      color: visitorType === t ? "#1d4ed8" : "var(--app-muted)",
+                    }}
                   >
                     {t === "indian"
                       ? "Indian Visitor"

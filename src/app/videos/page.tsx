@@ -29,25 +29,21 @@ export default function VideosPage() {
   };
 
   return (
-    <div className="min-h-screen" style={{ background: "var(--app-bg)" }}>
+    <div className="min-h-screen">
       <div className="mx-auto w-full max-w-7xl px-4 py-10 sm:px-6 lg:px-10">
         <div className="mb-8 text-center">
-          <h1 className="text-3xl font-bold text-white"></h1>
-          <p className="mt-3 text-sm text-gray-300 max-w-2xl mx-auto">
-
-          </p>
+          <h1 className="text-3xl font-bold text-gray-900">Videos</h1>
         </div>
 
         {loading && (
           <div className="py-20 text-center">
-            <div className="w-10 h-10 border-4 border-white/20 border-t-white rounded-full animate-spin mx-auto" />
+            <div className="w-10 h-10 border-4 border-blue-200 border-t-blue-600 rounded-full animate-spin mx-auto" />
           </div>
         )}
 
         {!loading && videos.length === 0 && (
-          <div className="py-20 text-center text-gray-400">
-            <p className="text-5xl mb-3"></p>
-            <p className="font-medium"></p>
+          <div className="py-20 text-center text-gray-500">
+            <p className="font-medium">No videos available yet.</p>
           </div>
         )}
 
@@ -59,7 +55,7 @@ export default function VideosPage() {
               return (
                 <div
                   key={v.id}
-                  className="rounded-2xl overflow-hidden border border-white/10 bg-white/5"
+                  className="rounded-2xl overflow-hidden border border-gray-200 bg-white shadow-sm"
                 >
                   <div className="relative aspect-video bg-black">
                     {isPlaying && ytId ? (
@@ -105,13 +101,13 @@ export default function VideosPage() {
                     )}
                   </div>
                   <div className="p-4">
-                    <p className="text-white font-semibold text-sm">
+                    <p className="text-gray-900 font-semibold text-sm">
                       {v.title}
                     </p>
                     {isPlaying && (
                       <button
                         onClick={() => setPlayingId(null)}
-                        className="mt-1 text-xs text-gray-400"
+                        className="mt-1 text-xs text-gray-500"
                       >
                         Close
                       </button>

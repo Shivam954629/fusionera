@@ -31,25 +31,21 @@ export default function PodcastPage() {
   };
 
   return (
-    <div className="min-h-screen" style={{ background: "var(--app-bg)" }}>
+    <div className="min-h-screen">
       <div className="mx-auto w-full max-w-7xl px-4 py-10 sm:px-6 lg:px-10">
         <div className="mb-10 text-center">
-          <h1 className="text-3xl font-bold text-white"></h1>
-          <p className="mt-3 text-sm text-gray-300 max-w-2xl mx-auto">
-
-          </p>
+          <h1 className="text-3xl font-bold text-gray-900">Podcasts</h1>
         </div>
 
         {loading && (
           <div className="py-20 text-center">
-            <div className="w-10 h-10 border-4 border-white/20 border-t-white rounded-full animate-spin mx-auto" />
+            <div className="w-10 h-10 border-4 border-blue-200 border-t-blue-600 rounded-full animate-spin mx-auto" />
           </div>
         )}
 
         {!loading && podcasts.length === 0 && (
-          <div className="py-20 text-center text-gray-400">
-            <p className="text-5xl mb-3"></p>
-            <p className="font-medium"></p>
+          <div className="py-20 text-center text-gray-500">
+            <p className="font-medium">No podcasts available yet.</p>
           </div>
         )}
 
@@ -61,7 +57,7 @@ export default function PodcastPage() {
               return (
                 <div
                   key={p.id}
-                  className="rounded-2xl border border-white/10 bg-white/5 overflow-hidden"
+                  className="rounded-2xl border border-gray-200 bg-white shadow-sm overflow-hidden"
                 >
                   <div className="flex flex-col md:flex-row">
                     <div className="md:w-64 flex-shrink-0">
@@ -92,11 +88,11 @@ export default function PodcastPage() {
                         >
                           {p.platform}
                         </span>
-                        <h3 className="text-white font-bold text-lg mt-2">
+                        <h3 className="text-gray-900 font-bold text-lg mt-2">
                           {p.title}
                         </h3>
                         {p.description ? (
-                          <p className="text-gray-400 text-sm mt-1">
+                          <p className="text-gray-600 text-sm mt-1">
                             {p.description}
                           </p>
                         ) : null}
@@ -118,7 +114,7 @@ export default function PodcastPage() {
                             </div>
                             <button
                               onClick={() => setPlayingId(null)}
-                              className="text-xs text-gray-400"
+                              className="text-xs text-gray-500"
                             >
                               Close
                             </button>
@@ -136,7 +132,7 @@ export default function PodcastPage() {
                               href={p.url}
                               target="_blank"
                               rel="noopener noreferrer"
-                              className="px-4 py-2 rounded-xl text-gray-300 text-sm border border-white/10"
+                              className="px-4 py-2 rounded-xl text-gray-600 text-sm border border-gray-200"
                             >
                               Open ↗
                             </a>

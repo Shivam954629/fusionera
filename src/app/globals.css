@@ -6,12 +6,12 @@
   --brand-yellow: #F9C11A;
   --brand-green: #2ECC71;
   --brand-navy: #1A1464;
-  --app-bg: #070b34;
-  --app-text: #ffffff;
-  --app-panel: rgba(255, 255, 255, 0.06);
-  --app-panel-soft: rgba(255, 255, 255, 0.1);
-  --app-border: rgba(255, 255, 255, 0.12);
-  --app-muted: rgba(229, 231, 235, 0.78);
+  --app-bg: #eef2ff;
+  --app-text: #1a1a2e;
+  --app-panel: #ffffff;
+  --app-panel-soft: #f4f6ff;
+  --app-border: #dde6ff;
+  --app-muted: #6b7280;
   --app-header: rgba(17, 12, 65, 0.9);
   --app-bg-radial-1: rgba(232, 39, 75, 0.13);
   --app-bg-radial-2: rgba(244, 130, 42, 0.11);
