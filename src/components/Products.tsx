@@ -63,16 +63,14 @@ export default function Products() {
         className="mx-auto w-full max-w-7xl px-4 py-6 sm:px-6 md:py-10 lg:px-10"
         data-reveal-delay="0"
       >
-        <div className="relative overflow-hidden rounded-2xl border border-white/10 bg-[linear-gradient(135deg,rgba(7,11,52,0.92)_0%,rgba(11,30,91,0.9)_48%,rgba(17,45,122,0.88)_100%)] p-4 shadow-[0_0_40px_rgba(0,0,0,0.25)] backdrop-blur-xl sm:p-6 md:p-8">
-          <div className="pointer-events-none absolute -right-8 -top-8 h-36 w-36 rounded-full bg-[#7dc8ff]/30 blur-2xl"></div>
-          <div className="pointer-events-none absolute -bottom-8 -left-8 h-36 w-36 rounded-full bg-[#ffd59f]/40 blur-2xl"></div>
+        <div className="relative overflow-hidden rounded-2xl border border-[#dde6ff] bg-[#eef2ff] p-4 shadow-sm sm:p-6 md:p-8">
 
           <div className="mb-6 flex flex-wrap items-end justify-between gap-4">
             <div className="max-w-3xl">
-              <h2 className="text-3xl font-bold text-white sm:text-4xl lg:text-5xl">
+              <h2 className="text-3xl font-bold text-gray-900 sm:text-4xl lg:text-5xl">
                 Product Portfolio
               </h2>
-              <p className="mt-3 text-sm leading-7 text-gray-300 md:text-base">
+              <p className="mt-3 text-sm leading-7 text-gray-600 md:text-base">
                 Indian and International brands, importers, manufacturers and
                 distributors, private label suppliers, startup brands and
                 specialized producers.
@@ -84,7 +82,7 @@ export default function Products() {
             {productList.map((p1, i1) => (
               <article
                 key={i1}
-                className="group cursor-pointer rounded-xl border border-white/10 bg-white/5 p-4 shadow-[0_0_30px_rgba(0,0,0,0.22)] backdrop-blur-xl transition duration-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-[#8fb8ff]/30"
+                className="group cursor-pointer rounded-xl border border-gray-200 bg-white p-4 shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-md"
               >
                 <button
                   type="button"
@@ -123,10 +121,10 @@ export default function Products() {
                     </span>
                   </div>
                 </button>
-                <h3 className="mt-3 text-lg font-semibold text-white">
+                <h3 className="mt-3 text-lg font-semibold text-gray-900">
                   {p1.title}
                 </h3>
-                <p className="mt-2 text-sm text-gray-300">{p1.desc}</p>
+                <p className="mt-2 text-sm text-gray-600">{p1.desc}</p>
               </article>
             ))}
           </div>
@@ -143,23 +141,23 @@ export default function Products() {
           aria-label={`${portfolioModal.title} gallery`}
         >
           <div
-            className="relative w-full max-w-5xl overflow-hidden rounded-2xl border border-white/20 bg-[#070B34] shadow-[0_28px_65px_rgba(0,0,0,0.7)]"
+            className="relative w-full max-w-5xl overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-2xl"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Header */}
-            <div className="flex items-center justify-between px-5 py-3 border-b border-white/10">
-              <h3 className="text-white font-bold text-lg">
+            <div className="flex items-center justify-between px-5 py-3 border-b border-gray-200">
+              <h3 className="text-gray-900 font-bold text-lg">
                 {portfolioModal.title}
               </h3>
               <div className="flex items-center gap-3">
-                <span className="text-gray-400 text-sm">
+                <span className="text-gray-500 text-sm">
                   {portfolioModal.activeIndex + 1} /{" "}
                   {portfolioModal.images.length}
                 </span>
                 <button
                   type="button"
                   onClick={() => setPortfolioModal(null)}
-                  className="rounded-full bg-white/10 hover:bg-white/20 px-3 py-1.5 text-sm font-semibold text-white transition"
+                  className="rounded-full bg-gray-100 hover:bg-gray-200 px-3 py-1.5 text-sm font-semibold text-gray-700 transition"
                   aria-label="Close gallery"
                 >
                   ✕
@@ -168,7 +166,7 @@ export default function Products() {
             </div>
 
             {/* Main Image */}
-            <div className="relative bg-[#071239]">
+            <div className="relative bg-gray-50">
               <img
                 src={portfolioModal.images[portfolioModal.activeIndex]}
                 alt={`${portfolioModal.title} - image ${portfolioModal.activeIndex + 1}`}
@@ -217,7 +215,7 @@ export default function Products() {
 
             {/* Thumbnails */}
             {portfolioModal.images.length > 1 && (
-              <div className="flex gap-2 p-3 overflow-x-auto bg-[#050820]">
+              <div className="flex gap-2 p-3 overflow-x-auto bg-gray-100">
                 {portfolioModal.images.map((img, idx) => (
                   <button
                     key={idx}

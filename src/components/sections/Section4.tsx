@@ -4,7 +4,7 @@ export default function Section4() {
   return (
     <section id="why" className="mx-auto w-full max-w-7xl px-4 py-8 sm:px-6 md:py-12 lg:px-10 reveal-on-scroll"
       data-reveal-delay="0">
-      <div className="relative overflow-hidden rounded-2xl border border-gray-100 bg-white p-4 shadow-sm sm:p-5 md:p-8 lg:rounded-3xl">
+      <div className="relative overflow-hidden rounded-2xl border border-[#dde6ff] bg-[#eef2ff] p-4 shadow-sm sm:p-5 md:p-8 lg:rounded-3xl">
 
         <div className="relative mb-6 flex flex-col gap-3 md:mb-8">
           <h2 className="text-3xl font-bold leading-tight text-[#1a1464] sm:text-4xl lg:text-5xl">
