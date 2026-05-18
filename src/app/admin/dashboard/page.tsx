@@ -1844,7 +1844,9 @@ export default function AdminDashboard() {
                 </div>
               )}
             </div>
-            {/* ── CONTENT ── */}
+          )}
+
+          {/* ── CONTENT ── */}
           {activeTab === "content" && (
             <div className="space-y-5">
               <div className="rounded-2xl border border-white/10 bg-white/5 backdrop-blur-xl p-5">
@@ -1917,7 +1919,7 @@ export default function AdminDashboard() {
               )}
 
           {/* ── PODCASTS ── */}
-          {activeTab === "content" && (
+          {activeTab === "podcasts" && (
             <div className="space-y-5">
               <div className="rounded-2xl border border-white/10 bg-white/5 backdrop-blur-xl p-5">
                 <h3 className="text-white font-bold mb-4">
