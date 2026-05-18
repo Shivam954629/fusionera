@@ -22,14 +22,44 @@ interface Stats {
   recentVisitors: Visitor[];
 }
 
+interface Exhibitor {
+  id: number;
+  company_name: string;
+  contact_name: string;
+  email: string;
+  phone: string;
+  city: string;
+  product_category: string;
+  stall_type: string;
+  message: string;
+  status: string;
+  created_at: string;
+}
+
+interface Video {
+  id: number;
+  title: string;
+  url: string;
+  thumbnail: string;
+  category: string;
+  is_published: boolean;
+  sort_order: number;
+  created_at: string;
+}
+
+type TabType =
+  | "dashboard"
+  | "visitors"
+  | "newsletter"
+  | "exhibitors"
+  | "videos";
+
 export default function AdminDashboard() {
   const router = useRouter();
   const [stats, setStats] = useState<Stats | null>(null);
   const [visitors, setVisitors] = useState<Visitor[]>([]);
   const [loading, setLoading] = useState(true);
-  const [activeTab, setActiveTab] = useState<
-    "dashboard" | "visitors" | "newsletter"
-  >("dashboard");
+  const [activeTab, setActiveTab] = useState<TabType>("dashboard");
   const [search, setSearch] = useState("");
   const [filterStatus, setFilterStatus] = useState<
     "all" | "active" | "blocked"
@@ -39,16 +69,37 @@ export default function AdminDashboard() {
   const [deletingId, setDeletingId] = useState<number | null>(null);
   const [confirmDeleteId, setConfirmDeleteId] = useState<number | null>(null);
   const [sidebarOpen, setSidebarOpen] = useState(false);
+
+  // Newsletter state
   const [nlTitle, setNlTitle] = useState("");
   const [nlSubtitle, setNlSubtitle] = useState("");
   const [nlContent, setNlContent] = useState("");
   const [nlPublished, setNlPublished] = useState(false);
   const [nlLoading, setNlLoading] = useState(false);
   const [nlSaved, setNlSaved] = useState(false);
-  const [nlFetched, setNlFetched] = useState(false);
+
+  // Exhibitors state
+  const [exhibitors, setExhibitors] = useState<Exhibitor[]>([]);
+  const [exhibitorSearch, setExhibitorSearch] = useState("");
+  const [exhibitorFilter, setExhibitorFilter] = useState("all");
+  const [exhibitorLoading, setExhibitorLoading] = useState(false);
+
+  // Videos state
+  const [videos, setVideos] = useState<Video[]>([]);
+  const [videoLoading, setVideoLoading] = useState(false);
+  const [videoForm, setVideoForm] = useState({
+    title: "",
+    url: "",
+    category: "general",
+    is_published: true,
+  });
+  const [editingVideo, setEditingVideo] = useState<Video | null>(null);
+  const [videoSaved, setVideoSaved] = useState(false);
+
   const PER_PAGE = 15;
 
-  const fetchNewsletter = async () => {
+  // ── Newsletter ──
+  const fetchNewsletter = useCallback(async () => {
     try {
       const res = await fetch("/api/newsletter");
       const data = await res.json();
@@ -58,9 +109,8 @@ export default function AdminDashboard() {
         setNlContent(data.data.content || "");
         setNlPublished(data.data.is_published || false);
       }
-      setNlFetched(true);
     } catch {}
-  };
+  }, []);
 
   const saveNewsletter = async () => {
     setNlLoading(true);
@@ -82,6 +132,124 @@ export default function AdminDashboard() {
     setNlLoading(false);
   };
 
+  // ── Exhibitors ──
+  const fetchExhibitors = useCallback(async () => {
+    setExhibitorLoading(true);
+    try {
+      const res = await fetch("/api/admin/exhibitors", {
+        credentials: "include",
+      });
+      if (res.status === 401) return;
+      const data = await res.json();
+      setExhibitors(data.data || []);
+    } catch {
+    } finally {
+      setExhibitorLoading(false);
+    }
+  }, []);
+
+  const updateExhibitorStatus = async (id: number, status: string) => {
+    try {
+      await fetch("/api/admin/exhibitors", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+        body: JSON.stringify({ id, status }),
+      });
+      setExhibitors((prev) =>
+        prev.map((e) => (e.id === id ? { ...e, status } : e)),
+      );
+    } catch {}
+  };
+
+  const deleteExhibitor = async (id: number) => {
+    try {
+      await fetch("/api/admin/exhibitors", {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+        body: JSON.stringify({ id }),
+      });
+      setExhibitors((prev) => prev.filter((e) => e.id !== id));
+    } catch {}
+  };
+
+  // ── Videos ──
+  const fetchVideos = useCallback(async () => {
+    setVideoLoading(true);
+    try {
+      const res = await fetch("/api/admin/videos", { credentials: "include" });
+      const data = await res.json();
+      setVideos(data.data || []);
+    } catch {
+    } finally {
+      setVideoLoading(false);
+    }
+  }, []);
+
+  const getYouTubeId = (url: string) => {
+    const match = url.match(
+      /(?:youtube\.com\/watch\?v=|youtu\.be\/)([^&\n?#]+)/,
+    );
+    return match ? match[1] : null;
+  };
+
+  const saveVideo = async () => {
+    if (!videoForm.title.trim() || !videoForm.url.trim()) return;
+    setVideoLoading(true);
+    try {
+      const ytId = getYouTubeId(videoForm.url);
+      const thumbnail = ytId
+        ? `https://img.youtube.com/vi/${ytId}/hqdefault.jpg`
+        : "";
+      if (editingVideo) {
+        await fetch("/api/admin/videos", {
+          method: "PATCH",
+          headers: { "Content-Type": "application/json" },
+          credentials: "include",
+          body: JSON.stringify({
+            id: editingVideo.id,
+            ...videoForm,
+            thumbnail,
+          }),
+        });
+        setEditingVideo(null);
+      } else {
+        await fetch("/api/admin/videos", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          credentials: "include",
+          body: JSON.stringify({ ...videoForm, thumbnail }),
+        });
+      }
+      setVideoForm({
+        title: "",
+        url: "",
+        category: "general",
+        is_published: true,
+      });
+      setVideoSaved(true);
+      setTimeout(() => setVideoSaved(false), 3000);
+      await fetchVideos();
+    } catch {
+    } finally {
+      setVideoLoading(false);
+    }
+  };
+
+  const deleteVideo = async (id: number) => {
+    try {
+      await fetch("/api/admin/videos", {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+        body: JSON.stringify({ id }),
+      });
+      setVideos((prev) => prev.filter((v) => v.id !== id));
+    } catch {}
+  };
+
+  // ── Main data ──
   const fetchData = useCallback(async () => {
     try {
       const [statsRes, visitorsRes] = await Promise.all([
@@ -104,25 +272,33 @@ export default function AdminDashboard() {
 
   useEffect(() => {
     fetchData();
+    fetchNewsletter();
     const interval = setInterval(fetchData, 30000);
-
-    // ✅ Instant refresh — same tab (add these 2 lines in your registration form on success)
-    // window.dispatchEvent(new Event("visitor-registered"));
-    // localStorage.setItem("last-registration", Date.now().toString());
     const handleNewVisitor = () => fetchData();
     window.addEventListener("visitor-registered", handleNewVisitor);
-
     const handleStorage = (e: StorageEvent) => {
       if (e.key === "last-registration") fetchData();
     };
     window.addEventListener("storage", handleStorage);
-
     return () => {
       clearInterval(interval);
       window.removeEventListener("visitor-registered", handleNewVisitor);
       window.removeEventListener("storage", handleStorage);
     };
-  }, [fetchData]);
+  }, [fetchData, fetchNewsletter]);
+
+  useEffect(() => {
+    if (activeTab === "exhibitors") fetchExhibitors();
+    if (activeTab === "videos") fetchVideos();
+    if (editingVideo) {
+      setVideoForm({
+        title: editingVideo.title,
+        url: editingVideo.url,
+        category: editingVideo.category,
+        is_published: editingVideo.is_published,
+      });
+    }
+  }, [activeTab, fetchExhibitors, fetchVideos, editingVideo]);
 
   const handleLogout = async () => {
     await fetch("/api/admin/auth", {
@@ -134,8 +310,6 @@ export default function AdminDashboard() {
 
   const toggleBlock = async (visitor: Visitor) => {
     const newBlocked = !visitor.is_blocked;
-
-    // ✅ Optimistic UI — visitors list + dashboard recentVisitors dono turant update
     const updateList = (list: Visitor[]) =>
       list.map((v) =>
         v.id === visitor.id ? { ...v, is_blocked: newBlocked } : v,
@@ -144,7 +318,6 @@ export default function AdminDashboard() {
       list.map((v) =>
         v.id === visitor.id ? { ...v, is_blocked: visitor.is_blocked } : v,
       );
-
     setVisitors((prev) => updateList(prev));
     setStats((prev) =>
       prev
@@ -152,7 +325,6 @@ export default function AdminDashboard() {
         : prev,
     );
     setBlockingId(visitor.id);
-
     try {
       const res = await fetch(`/api/visitors/${visitor.id}`, {
         method: "PATCH",
@@ -170,11 +342,6 @@ export default function AdminDashboard() {
       }
     } catch {
       setVisitors((prev) => revertList(prev));
-      setStats((prev) =>
-        prev
-          ? { ...prev, recentVisitors: revertList(prev.recentVisitors) }
-          : prev,
-      );
     } finally {
       setBlockingId(null);
     }
@@ -222,6 +389,16 @@ export default function AdminDashboard() {
     return matchSearch && matchStatus;
   });
 
+  const filteredExhibitors = exhibitors.filter((e) => {
+    const matchSearch =
+      e.company_name?.toLowerCase().includes(exhibitorSearch.toLowerCase()) ||
+      e.contact_name?.toLowerCase().includes(exhibitorSearch.toLowerCase()) ||
+      e.phone?.includes(exhibitorSearch);
+    const matchStatus =
+      exhibitorFilter === "all" ? true : e.status === exhibitorFilter;
+    return matchSearch && matchStatus;
+  });
+
   const paginated = filtered.slice((page - 1) * PER_PAGE, page * PER_PAGE);
   const totalPages = Math.ceil(filtered.length / PER_PAGE);
   const blockedCount = visitors.filter((v) => v.is_blocked).length;
@@ -253,6 +430,40 @@ export default function AdminDashboard() {
     a.click();
   };
 
+  const navItems: {
+    id: TabType;
+    icon: string;
+    label: string;
+    count?: number;
+  }[] = [
+    { id: "dashboard", icon: "📊", label: "Dashboard" },
+    {
+      id: "visitors",
+      icon: "👥",
+      label: "Visitor Details",
+      count: visitors.length,
+    },
+    {
+      id: "exhibitors",
+      icon: "🏢",
+      label: "Exhibitor Registrations",
+      count: exhibitors.length || undefined,
+    },
+    { id: "newsletter", icon: "📰", label: "Newsletter" },
+    {
+      id: "videos",
+      icon: "🎬",
+      label: "Videos",
+      count: videos.length || undefined,
+    },
+  ];
+
+  const statusColor = (status: string) => {
+    if (status === "approved") return "bg-green-100 text-green-700";
+    if (status === "rejected") return "bg-red-100 text-red-600";
+    return "bg-yellow-100 text-yellow-700";
+  };
+
   if (loading)
     return (
       <div className="min-h-screen flex items-center justify-center bg-[#070B34]">
@@ -272,7 +483,7 @@ export default function AdminDashboard() {
         />
       )}
 
-      {/* ✅ Delete Modal — clean English */}
+      {/* Delete Modal */}
       {confirmDeleteId && (
         <div className="fixed inset-0 bg-black/60 z-50 flex items-center justify-center px-4">
           <div className="rounded-2xl border border-white/10 bg-[#0B1E5B]/90 p-6 max-w-sm w-full shadow-[0_0_40px_rgba(0,0,0,0.35)] backdrop-blur-xl">
@@ -327,13 +538,11 @@ export default function AdminDashboard() {
 
       {/* Sidebar */}
       <aside
-        className={`fixed md:static inset-y-0 left-0 z-30 w-64 flex flex-col transition-transform duration-300 shadow-2xl
-        ${sidebarOpen ? "translate-x-0" : "-translate-x-full md:translate-x-0"}`}
+        className={`fixed md:static inset-y-0 left-0 z-30 w-64 flex flex-col transition-transform duration-300 shadow-2xl ${sidebarOpen ? "translate-x-0" : "-translate-x-full md:translate-x-0"}`}
         style={{
           background: "linear-gradient(180deg, #110c41 0%, #1a1560 100%)",
         }}
       >
-        {/* ✅ Logo — horizontal banner, same as actual logo style */}
         <div className="border-b border-white/10 px-3 py-3 flex items-center justify-between gap-2">
           <img
             src="/images/logo.jpeg"
@@ -343,13 +552,6 @@ export default function AdminDashboard() {
             onError={(e) => {
               const t = e.target as HTMLImageElement;
               t.style.display = "none";
-              if (t.parentElement) {
-                const fallback = document.createElement("div");
-                fallback.style.cssText =
-                  "color:white;font-weight:bold;font-size:18px;letter-spacing:1px";
-                fallback.textContent = "fusionera";
-                t.parentElement.prepend(fallback);
-              }
             }}
           />
           <button
@@ -360,33 +562,20 @@ export default function AdminDashboard() {
           </button>
         </div>
 
-        {/* Nav */}
-        <nav className="flex-1 px-3 py-4 space-y-1">
-          {[
-            { id: "dashboard", icon: "📊", label: "Dashboard" },
-            {
-              id: "visitors",
-              icon: "👥",
-              label: "Visitor Details",
-              count: visitors.length,
-            },
-          ].map((item) => (
+        <nav className="flex-1 px-3 py-4 space-y-1 overflow-y-auto">
+          {navItems.map((item) => (
             <button
               key={item.id}
               onClick={() => {
-                setActiveTab(item.id as "dashboard" | "visitors");
+                setActiveTab(item.id);
                 setSidebarOpen(false);
               }}
-              className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all ${
-                activeTab === item.id
-                  ? "bg-white/15 text-white"
-                  : "text-blue-200 hover:bg-white/10 hover:text-white"
-              }`}
+              className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all ${activeTab === item.id ? "bg-white/15 text-white" : "text-blue-200 hover:bg-white/10 hover:text-white"}`}
             >
               <span>{item.icon}</span>
-              <span>{item.label}</span>
-              {item.count !== undefined && (
-                <span className="ml-auto bg-white/20 text-white text-xs px-2 py-0.5 rounded-full">
+              <span className="flex-1 text-left">{item.label}</span>
+              {item.count !== undefined && item.count > 0 && (
+                <span className="bg-white/20 text-white text-xs px-2 py-0.5 rounded-full">
                   {item.count}
                 </span>
               )}
@@ -436,9 +625,8 @@ export default function AdminDashboard() {
             </button>
             <div>
               <h1 className="text-lg font-bold text-white">
-                {activeTab === "dashboard"
-                  ? "📊 Dashboard"
-                  : "👥 Visitor Details"}
+                {navItems.find((n) => n.id === activeTab)?.icon}{" "}
+                {navItems.find((n) => n.id === activeTab)?.label}
               </h1>
               <p className="text-xs text-gray-400 hidden sm:block">
                 {new Date().toLocaleDateString("en-IN", {
@@ -452,7 +640,7 @@ export default function AdminDashboard() {
           </div>
           <button
             onClick={fetchData}
-            title="Refresh data"
+            title="Refresh"
             className="p-2 rounded-lg hover:bg-white/10 text-gray-400 hover:text-white transition"
           >
             <svg
@@ -472,7 +660,7 @@ export default function AdminDashboard() {
         </header>
 
         <div className="flex-1 p-4 md:p-6 overflow-auto">
-          {/* DASHBOARD */}
+          {/* ── DASHBOARD ── */}
           {activeTab === "dashboard" && stats && (
             <div className="space-y-5">
               <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4">
@@ -529,7 +717,7 @@ export default function AdminDashboard() {
                   </h3>
                   <button
                     onClick={() => setActiveTab("visitors")}
-                    className="text-xs text-indigo-600 hover:text-indigo-800 font-medium"
+                    className="text-xs text-indigo-400 hover:text-indigo-300 font-medium"
                   >
                     View all →
                   </button>
@@ -613,142 +801,7 @@ export default function AdminDashboard() {
             </div>
           )}
 
-          {/* VISITORS TAB */}
-
-          {activeTab === "newsletter" && (
-            <div className="space-y-4">
-              <div
-                className="rounded-2xl overflow-hidden shadow"
-                style={{
-                  background: "var(--app-panel)",
-                  border: "1px solid var(--app-border)",
-                }}
-              >
-                <div
-                  className="px-6 py-4 border-b"
-                  style={{
-                    borderColor: "var(--app-border)",
-                    background: "var(--app-panel-soft)",
-                  }}
-                >
-                  <h2
-                    className="text-lg font-bold"
-                    style={{ color: "var(--app-text)" }}
-                  >
-                    Newsletter Editor
-                  </h2>
-                  <p
-                    className="text-xs mt-0.5"
-                    style={{ color: "var(--app-muted)" }}
-                  >
-                    Yahan se newsletter ka content manage karo. Publish toggle
-                    on karne se visitors ko dikhega.
-                  </p>
-                </div>
-                <div className="px-6 py-6 space-y-4">
-                  {nlSaved && (
-                    <div className="rounded-xl px-4 py-3 text-sm text-green-700 bg-green-50 border border-green-200">
-                      ✅ Newsletter saved successfully!
-                    </div>
-                  )}
-
-                  <div>
-                    <label
-                      className="block text-sm font-semibold mb-1.5"
-                      style={{ color: "var(--app-text)" }}
-                    >
-                      Title
-                    </label>
-                    <input
-                      value={nlTitle}
-                      onChange={(e) => setNlTitle(e.target.value)}
-                      className="w-full px-4 py-2.5 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-                      style={{
-                        background: "var(--app-panel-soft)",
-                        border: "1px solid var(--app-border)",
-                        color: "var(--app-text)",
-                      }}
-                      placeholder="Newsletter title..."
-                    />
-                  </div>
-
-                  <div>
-                    <label
-                      className="block text-sm font-semibold mb-1.5"
-                      style={{ color: "var(--app-text)" }}
-                    >
-                      Subtitle
-                    </label>
-                    <input
-                      value={nlSubtitle}
-                      onChange={(e) => setNlSubtitle(e.target.value)}
-                      className="w-full px-4 py-2.5 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-                      style={{
-                        background: "var(--app-panel-soft)",
-                        border: "1px solid var(--app-border)",
-                        color: "var(--app-text)",
-                      }}
-                      placeholder="Short description..."
-                    />
-                  </div>
-
-                  <div>
-                    <label
-                      className="block text-sm font-semibold mb-1.5"
-                      style={{ color: "var(--app-text)" }}
-                    >
-                      Content
-                    </label>
-                    <textarea
-                      value={nlContent}
-                      onChange={(e) => setNlContent(e.target.value)}
-                      rows={12}
-                      className="w-full px-4 py-2.5 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
-                      style={{
-                        background: "var(--app-panel-soft)",
-                        border: "1px solid var(--app-border)",
-                        color: "var(--app-text)",
-                      }}
-                      placeholder="Newsletter ka content yahan likho..."
-                    />
-                  </div>
-
-                  <div className="flex items-center justify-between">
-                    <label className="flex items-center gap-3 cursor-pointer">
-                      <div
-                        onClick={() => setNlPublished((p) => !p)}
-                        className={`w-12 h-6 rounded-full transition-colors relative ${nlPublished ? "bg-blue-600" : "bg-white/20"}`}
-                      >
-                        <div
-                          className={`absolute top-0.5 w-5 h-5 rounded-full bg-white shadow transition-transform ${nlPublished ? "translate-x-6" : "translate-x-0.5"}`}
-                        />
-                      </div>
-                      <span
-                        className="text-sm font-medium"
-                        style={{ color: "var(--app-text)" }}
-                      >
-                        {nlPublished
-                          ? "Published — visitors ko dikh raha hai"
-                          : "Unpublished — visitors ko nahi dikhega"}
-                      </span>
-                    </label>
-                  </div>
-
-                  <button
-                    onClick={saveNewsletter}
-                    disabled={nlLoading}
-                    className="w-full py-3 rounded-xl text-white font-bold text-sm transition hover:opacity-90 disabled:opacity-60"
-                    style={{
-                      background: "linear-gradient(135deg,#1d4ed8,#2563eb)",
-                    }}
-                  >
-                    {nlLoading ? "Saving..." : "Save Newsletter"}
-                  </button>
-                </div>
-              </div>
-            </div>
-          )}
-
+          {/* ── VISITORS ── */}
           {activeTab === "visitors" && (
             <div className="space-y-4">
               <div className="flex flex-col gap-3">
@@ -850,7 +903,7 @@ export default function AdminDashboard() {
                             <td className="py-3.5 px-4">
                               <a
                                 href={`tel:${v.phone_number}`}
-                                className="text-indigo-600 hover:text-indigo-800 font-medium"
+                                className="text-indigo-400 hover:text-indigo-300 font-medium"
                               >
                                 {v.phone_number}
                               </a>
@@ -904,7 +957,6 @@ export default function AdminDashboard() {
                     </tbody>
                   </table>
                 </div>
-
                 {totalPages > 1 && (
                   <div className="px-4 py-3 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-2">
                     <p className="text-xs text-gray-400">
@@ -949,6 +1001,422 @@ export default function AdminDashboard() {
                   </div>
                 )}
               </div>
+            </div>
+          )}
+
+          {/* ── EXHIBITOR REGISTRATIONS ── */}
+          {activeTab === "exhibitors" && (
+            <div className="space-y-4">
+              <div className="flex flex-col sm:flex-row gap-3">
+                <div className="relative flex-1">
+                  <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
+                    🔍
+                  </span>
+                  <input
+                    type="text"
+                    value={exhibitorSearch}
+                    onChange={(e) => setExhibitorSearch(e.target.value)}
+                    placeholder="Search company, name, phone..."
+                    className="w-full pl-9 pr-4 py-2.5 bg-white/10 border border-white/10 rounded-xl text-white placeholder-gray-400 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-400"
+                  />
+                </div>
+                <div className="flex gap-2 flex-wrap">
+                  {["all", "pending", "approved", "rejected"].map((f) => (
+                    <button
+                      key={f}
+                      onClick={() => setExhibitorFilter(f)}
+                      className={`px-3 py-2 text-xs rounded-xl font-medium transition capitalize ${exhibitorFilter === f ? "bg-indigo-600 text-white" : "border border-white/10 bg-white/10 text-gray-300 hover:bg-white/15"}`}
+                    >
+                      {f === "all" ? `All (${exhibitors.length})` : f}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {exhibitorLoading ? (
+                <div className="py-20 text-center text-gray-400">
+                  <div className="w-8 h-8 border-4 border-indigo-200 border-t-indigo-600 rounded-full animate-spin mx-auto mb-3" />
+                  Loading...
+                </div>
+              ) : filteredExhibitors.length === 0 ? (
+                <div className="py-20 text-center text-gray-400 rounded-2xl border border-white/10 bg-white/5">
+                  <p className="text-4xl mb-2">🏢</p>
+                  <p className="font-medium">No exhibitor registrations yet</p>
+                </div>
+              ) : (
+                <div className="space-y-3">
+                  {filteredExhibitors.map((e) => (
+                    <div
+                      key={e.id}
+                      className="rounded-2xl border border-white/10 bg-white/5 p-4 md:p-5 backdrop-blur-xl"
+                    >
+                      <div className="flex flex-wrap items-start justify-between gap-3">
+                        <div className="flex-1 min-w-0">
+                          <div className="flex items-center gap-2 flex-wrap">
+                            <h3 className="text-white font-bold text-base">
+                              {e.company_name || "—"}
+                            </h3>
+                            <span
+                              className={`text-xs px-2.5 py-0.5 rounded-full font-medium capitalize ${statusColor(e.status)}`}
+                            >
+                              {e.status}
+                            </span>
+                          </div>
+                          <div className="mt-2 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-1.5 text-sm">
+                            <span className="text-gray-300">
+                              👤 {e.contact_name || "—"}
+                            </span>
+                            <span className="text-gray-300">
+                              📞 {e.phone || "—"}
+                            </span>
+                            <span className="text-gray-300">
+                              📧 {e.email || "—"}
+                            </span>
+                            <span className="text-gray-300">
+                              🏙️ {e.city || "—"}
+                            </span>
+                            <span className="text-gray-300">
+                              📦 {e.product_category || "—"}
+                            </span>
+                            <span className="text-gray-300">
+                              🏷️ {e.stall_type || "—"}
+                            </span>
+                          </div>
+                          {e.message && (
+                            <p className="mt-2 text-xs text-gray-400 bg-white/5 rounded-lg px-3 py-2">
+                              {e.message}
+                            </p>
+                          )}
+                          <p className="mt-2 text-xs text-gray-500">
+                            {new Date(e.created_at).toLocaleDateString(
+                              "en-IN",
+                              {
+                                day: "2-digit",
+                                month: "short",
+                                year: "numeric",
+                                hour: "2-digit",
+                                minute: "2-digit",
+                              },
+                            )}
+                          </p>
+                        </div>
+                        <div className="flex flex-col gap-2">
+                          <div className="flex gap-2">
+                            <button
+                              onClick={() =>
+                                updateExhibitorStatus(e.id, "approved")
+                              }
+                              className="px-3 py-1.5 text-xs rounded-lg bg-green-100 text-green-700 hover:bg-green-200 font-semibold transition"
+                            >
+                              ✅ Approve
+                            </button>
+                            <button
+                              onClick={() =>
+                                updateExhibitorStatus(e.id, "rejected")
+                              }
+                              className="px-3 py-1.5 text-xs rounded-lg bg-red-100 text-red-600 hover:bg-red-200 font-semibold transition"
+                            >
+                              ❌ Reject
+                            </button>
+                          </div>
+                          <button
+                            onClick={() => deleteExhibitor(e.id)}
+                            className="px-3 py-1.5 text-xs rounded-lg bg-white/10 text-gray-300 hover:bg-white/20 font-medium transition text-center"
+                          >
+                            🗑️ Delete
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          )}
+
+          {/* ── NEWSLETTER ── */}
+          {activeTab === "newsletter" && (
+            <div className="space-y-4 max-w-2xl">
+              <div className="rounded-2xl overflow-hidden shadow border border-white/10 bg-white/5 backdrop-blur-xl">
+                <div className="px-6 py-4 border-b border-white/10 bg-white/5">
+                  <h2 className="text-lg font-bold text-white">
+                    📰 Newsletter Editor
+                  </h2>
+                  <p className="text-xs mt-0.5 text-gray-400">
+                    Publish toggle on karne se visitors ko dikhega.
+                  </p>
+                </div>
+                <div className="px-6 py-6 space-y-4">
+                  {nlSaved && (
+                    <div className="rounded-xl px-4 py-3 text-sm text-green-700 bg-green-50 border border-green-200">
+                      ✅ Newsletter saved successfully!
+                    </div>
+                  )}
+                  {[
+                    {
+                      label: "Title",
+                      val: nlTitle,
+                      set: setNlTitle,
+                      ph: "Newsletter title...",
+                    },
+                    {
+                      label: "Subtitle",
+                      val: nlSubtitle,
+                      set: setNlSubtitle,
+                      ph: "Short description...",
+                    },
+                  ].map(({ label, val, set, ph }) => (
+                    <div key={label}>
+                      <label className="block text-sm font-semibold mb-1.5 text-white">
+                        {label}
+                      </label>
+                      <input
+                        value={val}
+                        onChange={(e) => set(e.target.value)}
+                        className="w-full px-4 py-2.5 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white/10 border border-white/10 text-white placeholder-gray-400"
+                        placeholder={ph}
+                      />
+                    </div>
+                  ))}
+                  <div>
+                    <label className="block text-sm font-semibold mb-1.5 text-white">
+                      Content
+                    </label>
+                    <textarea
+                      value={nlContent}
+                      onChange={(e) => setNlContent(e.target.value)}
+                      rows={10}
+                      className="w-full px-4 py-2.5 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none bg-white/10 border border-white/10 text-white placeholder-gray-400"
+                      placeholder="Newsletter ka content yahan likho..."
+                    />
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <div
+                      onClick={() => setNlPublished((p) => !p)}
+                      className={`w-12 h-6 rounded-full transition-colors relative cursor-pointer ${nlPublished ? "bg-blue-600" : "bg-white/20"}`}
+                    >
+                      <div
+                        className={`absolute top-0.5 w-5 h-5 rounded-full bg-white shadow transition-transform ${nlPublished ? "translate-x-6" : "translate-x-0.5"}`}
+                      />
+                    </div>
+                    <span className="text-sm font-medium text-white">
+                      {nlPublished
+                        ? "Published — visitors ko dikh raha hai"
+                        : "Unpublished — visitors ko nahi dikhega"}
+                    </span>
+                  </div>
+                  <button
+                    onClick={saveNewsletter}
+                    disabled={nlLoading}
+                    className="w-full py-3 rounded-xl text-white font-bold text-sm transition hover:opacity-90 disabled:opacity-60"
+                    style={{
+                      background: "linear-gradient(135deg,#1d4ed8,#2563eb)",
+                    }}
+                  >
+                    {nlLoading ? "Saving..." : "Save Newsletter"}
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* ── VIDEOS ── */}
+          {activeTab === "videos" && (
+            <div className="space-y-5">
+              {/* Add/Edit Form */}
+              <div className="rounded-2xl border border-white/10 bg-white/5 backdrop-blur-xl p-5">
+                <h3 className="text-white font-bold mb-4">
+                  {editingVideo ? "✏️ Edit Video" : "➕ Add New Video"}
+                </h3>
+                {videoSaved && (
+                  <div className="mb-3 rounded-xl px-4 py-3 text-sm text-green-700 bg-green-50 border border-green-200">
+                    ✅ Video saved!
+                  </div>
+                )}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <div>
+                    <label className="block text-xs font-semibold mb-1 text-gray-300">
+                      Title *
+                    </label>
+                    <input
+                      value={videoForm.title}
+                      onChange={(e) =>
+                        setVideoForm((f) => ({ ...f, title: e.target.value }))
+                      }
+                      className="w-full px-4 py-2.5 rounded-xl text-sm bg-white/10 border border-white/10 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      placeholder="Video title..."
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-xs font-semibold mb-1 text-gray-300">
+                      YouTube URL *
+                    </label>
+                    <input
+                      value={videoForm.url}
+                      onChange={(e) =>
+                        setVideoForm((f) => ({ ...f, url: e.target.value }))
+                      }
+                      className="w-full px-4 py-2.5 rounded-xl text-sm bg-white/10 border border-white/10 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      placeholder="https://youtube.com/watch?v=..."
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-xs font-semibold mb-1 text-gray-300">
+                      Category
+                    </label>
+                    <select
+                      value={videoForm.category}
+                      onChange={(e) =>
+                        setVideoForm((f) => ({
+                          ...f,
+                          category: e.target.value,
+                        }))
+                      }
+                      className="w-full px-4 py-2.5 rounded-xl text-sm bg-white/10 border border-white/10 text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    >
+                      {[
+                        "general",
+                        "exhibition",
+                        "products",
+                        "testimonials",
+                        "highlights",
+                      ].map((c) => (
+                        <option key={c} value={c} className="bg-[#0B1E5B]">
+                          {c.charAt(0).toUpperCase() + c.slice(1)}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                  <div className="flex items-center gap-3 pt-5">
+                    <div
+                      onClick={() =>
+                        setVideoForm((f) => ({
+                          ...f,
+                          is_published: !f.is_published,
+                        }))
+                      }
+                      className={`w-10 h-5 rounded-full transition-colors relative cursor-pointer ${videoForm.is_published ? "bg-blue-600" : "bg-white/20"}`}
+                    >
+                      <div
+                        className={`absolute top-0.5 w-4 h-4 rounded-full bg-white shadow transition-transform ${videoForm.is_published ? "translate-x-5" : "translate-x-0.5"}`}
+                      />
+                    </div>
+                    <span className="text-sm text-gray-300">
+                      {videoForm.is_published ? "Published" : "Draft"}
+                    </span>
+                  </div>
+                </div>
+                <div className="flex gap-3 mt-4">
+                  <button
+                    onClick={saveVideo}
+                    disabled={
+                      videoLoading || !videoForm.title || !videoForm.url
+                    }
+                    className="px-6 py-2.5 rounded-xl text-white font-bold text-sm hover:opacity-90 disabled:opacity-50 transition"
+                    style={{
+                      background: "linear-gradient(135deg,#1d4ed8,#2563eb)",
+                    }}
+                  >
+                    {videoLoading
+                      ? "Saving..."
+                      : editingVideo
+                        ? "Update Video"
+                        : "Add Video"}
+                  </button>
+                  {editingVideo && (
+                    <button
+                      onClick={() => {
+                        setEditingVideo(null);
+                        setVideoForm({
+                          title: "",
+                          url: "",
+                          category: "general",
+                          is_published: true,
+                        });
+                      }}
+                      className="px-6 py-2.5 rounded-xl border border-white/10 text-gray-300 text-sm hover:bg-white/10 transition"
+                    >
+                      Cancel
+                    </button>
+                  )}
+                </div>
+              </div>
+
+              {/* Videos List */}
+              {videoLoading && !videos.length ? (
+                <div className="py-20 text-center text-gray-400">
+                  <div className="w-8 h-8 border-4 border-indigo-200 border-t-indigo-600 rounded-full animate-spin mx-auto mb-3" />
+                  Loading...
+                </div>
+              ) : videos.length === 0 ? (
+                <div className="py-20 text-center text-gray-400 rounded-2xl border border-white/10 bg-white/5">
+                  <p className="text-4xl mb-2">🎬</p>
+                  <p className="font-medium">No videos added yet</p>
+                </div>
+              ) : (
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                  {videos.map((v) => {
+                    const ytId = getYouTubeId(v.url);
+                    return (
+                      <div
+                        key={v.id}
+                        className="rounded-xl border border-white/10 bg-white/5 overflow-hidden"
+                      >
+                        <div className="relative">
+                          {ytId ? (
+                            <img
+                              src={`https://img.youtube.com/vi/${ytId}/hqdefault.jpg`}
+                              alt={v.title}
+                              className="w-full h-36 object-cover"
+                            />
+                          ) : (
+                            <div className="w-full h-36 bg-white/10 flex items-center justify-center text-gray-400">
+                              🎬
+                            </div>
+                          )}
+                          <div className="absolute top-2 right-2">
+                            <span
+                              className={`text-xs px-2 py-0.5 rounded-full font-medium ${v.is_published ? "bg-green-100 text-green-700" : "bg-gray-100 text-gray-600"}`}
+                            >
+                              {v.is_published ? "Published" : "Draft"}
+                            </span>
+                          </div>
+                          <div className="absolute top-2 left-2">
+                            <span className="text-xs px-2 py-0.5 rounded-full bg-black/60 text-white capitalize">
+                              {v.category}
+                            </span>
+                          </div>
+                        </div>
+                        <div className="p-3">
+                          <p className="text-white text-sm font-semibold truncate">
+                            {v.title}
+                          </p>
+                          <p className="text-gray-400 text-xs truncate mt-0.5">
+                            {v.url}
+                          </p>
+                          <div className="flex gap-2 mt-3">
+                            <button
+                              onClick={() => {
+                                setEditingVideo(v);
+                                window.scrollTo({ top: 0, behavior: "smooth" });
+                              }}
+                              className="flex-1 py-1.5 text-xs rounded-lg bg-indigo-500/20 text-indigo-300 hover:bg-indigo-500/30 transition font-medium"
+                            >
+                              ✏️ Edit
+                            </button>
+                            <button
+                              onClick={() => deleteVideo(v.id)}
+                              className="flex-1 py-1.5 text-xs rounded-lg bg-red-500/10 text-red-400 hover:bg-red-500/20 transition font-medium"
+                            >
+                              🗑️ Delete
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
             </div>
           )}
         </div>
