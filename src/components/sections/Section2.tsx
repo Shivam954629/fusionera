@@ -36,7 +36,7 @@ export default function Section2() {
             </div>
             <Link
               href="/products"
-              className="inline-flex w-full items-center justify-center rounded-full border border-gray-200 bg-white px-5 py-2.5 text-sm font-semibold text-gray-700 shadow-sm transition hover:-translate-y-0.5 hover:bg-gray-50 sm:w-auto"
+              className="inline-flex w-full items-center justify-center rounded-full border border-gray-200 bg-white px-5 py-2.5 text-sm font-semibold text-gray-700 shadow-sm transition hover:-translate-y-0.5 hover:bg-gray-50 focus:outline-none sm:w-auto"
             >
               Browse All
             </Link>

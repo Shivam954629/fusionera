@@ -260,10 +260,12 @@ export default function VisitorRegistrationPage() {
       case 2:
         if (!formData.address1.trim()) return "Address Line 1 is required.";
         if (!formData.city.trim()) return "City is required.";
-        if (!formData.state) return "Please select State.";
-        if (!formData.pincode.trim()) return "PIN Code is required.";
-        if (!/^\d{6}$/.test(formData.pincode))
-          return "PIN Code must be 6 digits.";
+        if (visitorType === "indian") {
+          if (!formData.state) return "Please select State.";
+          if (!formData.pincode.trim()) return "PIN Code is required.";
+          if (!/^\d{6}$/.test(formData.pincode))
+            return "PIN Code must be 6 digits.";
+        }
         return null;
       case 3:
         if (!formData.business_type) return "Please select Business Type.";
@@ -358,6 +360,9 @@ export default function VisitorRegistrationPage() {
       const data = await res.json();
       if (!res.ok) throw new Error(data.error);
       setVisitorId(data.visitorId);
+      if (visitorType === "international") {
+        setFormData((p) => ({ ...p, email: intlEmail }));
+      }
       setStage("form");
       setSuccess("");
     } catch (err: unknown) {
@@ -1181,41 +1186,78 @@ export default function VisitorRegistrationPage() {
                         <label className={labelCls} style={labelStyle}>
                           Country Code {reqStar}
                         </label>
-                        <input
-                          value={visitorType === "indian" ? "+91" : countryCode}
-                          disabled
-                          className={inputCls}
-                          style={{ ...inputStyle, opacity: 0.7 }}
-                        />
+                        {visitorType === "international" ? (
+                          <select
+                            value={countryCode}
+                            onChange={(e) => setCountryCode(e.target.value)}
+                            className={inputCls}
+                            style={inputStyle}
+                          >
+                            {COUNTRY_CODES.map((c) => (
+                              <option key={c.code} value={c.code}>{c.label}</option>
+                            ))}
+                          </select>
+                        ) : (
+                          <input
+                            value="+91"
+                            disabled
+                            className={inputCls}
+                            style={{ ...inputStyle, opacity: 0.7 }}
+                          />
+                        )}
                       </div>
                       <div>
                         <label className={labelCls} style={labelStyle}>
-                          Mobile No. 1 {reqStar}
+                          Mobile No. 1{visitorType === "indian" ? <> {reqStar}</> : " (optional)"}
                         </label>
-                        <input
-                          value={phone}
-                          disabled
-                          className={inputCls}
-                          style={{ ...inputStyle, opacity: 0.7 }}
-                        />
+                        {visitorType === "international" ? (
+                          <input
+                            type="tel"
+                            value={phone}
+                            onChange={(e) =>
+                              setPhone(e.target.value.replace(/\D/g, "").slice(0, 15))
+                            }
+                            className={inputCls}
+                            style={inputStyle}
+                            placeholder="Mobile number"
+                          />
+                        ) : (
+                          <input
+                            value={phone}
+                            disabled
+                            className={inputCls}
+                            style={{ ...inputStyle, opacity: 0.7 }}
+                          />
+                        )}
                       </div>
                       <div>
                         <label className={labelCls} style={labelStyle}>
                           Email ID 1 {reqStar}
                         </label>
-                        <input
-                          type="email"
-                          value={formData.email}
-                          onChange={(e) =>
-                            setFormData((p) => ({
-                              ...p,
-                              email: e.target.value,
-                            }))
-                          }
-                          className={inputCls}
-                          style={inputStyle}
-                          placeholder="email@example.com"
-                        />
+                        {visitorType === "international" ? (
+                          <input
+                            type="email"
+                            value={formData.email}
+                            disabled
+                            className={inputCls}
+                            style={{ ...inputStyle, opacity: 0.85 }}
+                            title="Verified email address"
+                          />
+                        ) : (
+                          <input
+                            type="email"
+                            value={formData.email}
+                            onChange={(e) =>
+                              setFormData((p) => ({
+                                ...p,
+                                email: e.target.value,
+                              }))
+                            }
+                            className={inputCls}
+                            style={inputStyle}
+                            placeholder="email@example.com"
+                          />
+                        )}
                       </div>
                     </div>
 
@@ -1372,43 +1414,52 @@ export default function VisitorRegistrationPage() {
                       </div>
                       <div>
                         <label className={labelCls} style={labelStyle}>
-                          State {reqStar}
+                          State{visitorType === "indian" ? <> {reqStar}</> : ""}
                         </label>
-                        <select
-                          value={formData.state}
-                          onChange={(e) =>
-                            setFormData((p) => ({
-                              ...p,
-                              state: e.target.value,
-                            }))
-                          }
-                          className={inputCls}
-                          style={inputStyle}
-                        >
-                          <option value="">Select State</option>
-                          {INDIA_STATES.map((s) => (
-                            <option key={s}>{s}</option>
-                          ))}
-                        </select>
+                        {visitorType === "indian" ? (
+                          <select
+                            value={formData.state}
+                            onChange={(e) =>
+                              setFormData((p) => ({ ...p, state: e.target.value }))
+                            }
+                            className={inputCls}
+                            style={inputStyle}
+                          >
+                            <option value="">Select State</option>
+                            {INDIA_STATES.map((s) => (
+                              <option key={s}>{s}</option>
+                            ))}
+                          </select>
+                        ) : (
+                          <input
+                            value={formData.state}
+                            onChange={(e) =>
+                              setFormData((p) => ({ ...p, state: e.target.value }))
+                            }
+                            className={inputCls}
+                            style={inputStyle}
+                            placeholder="State / Province / Region"
+                          />
+                        )}
                       </div>
                       <div>
                         <label className={labelCls} style={labelStyle}>
-                          PIN Code {reqStar}
+                          {visitorType === "indian" ? <>PIN Code {reqStar}</> : "Postal Code"}
                         </label>
                         <input
                           value={formData.pincode}
                           onChange={(e) =>
                             setFormData((p) => ({
                               ...p,
-                              pincode: e.target.value
-                                .replace(/\D/g, "")
-                                .slice(0, 6),
+                              pincode: visitorType === "indian"
+                                ? e.target.value.replace(/\D/g, "").slice(0, 6)
+                                : e.target.value.slice(0, 10),
                             }))
                           }
                           className={inputCls}
                           style={inputStyle}
-                          placeholder="6-digit PIN"
-                          maxLength={6}
+                          placeholder={visitorType === "indian" ? "6-digit PIN" : "Postal code"}
+                          maxLength={visitorType === "indian" ? 6 : 10}
                         />
                       </div>
                     </div>

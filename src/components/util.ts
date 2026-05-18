@@ -58,10 +58,9 @@ export const productList = [
     desc: "Advanced home appliance collections developed to support smart, efficient, and comfortable everyday living experiences. Food Preparation Appliances · Kitchen Electronics · Utility Devices · Everyday Convenience Products",
   },
   {
-    src: "/images/catalogue/plastic-ware-1.jpg",
+    src: "/images/catalogue/plastic-ware.jpg",
     gallery: [
-      "/images/catalogue/plastic-ware-1.jpg",
-      "/images/catalogue/plastic-ware-2.jpg",
+      "/images/catalogue/plastic-ware.jpg",
     ],
     title: "Plastic Ware",
     desc: "Smart and adaptable plasticware collections offering practical storage and organization solutions for homes and commercial spaces. Household Organizers · Utility Containers · Kitchen Accessories · Functional Storage Products",
