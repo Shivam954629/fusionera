@@ -741,16 +741,16 @@ export default function AdminDashboard() {
 
   if (loading)
     return (
-      <div className="min-h-screen flex items-center justify-center bg-[#070B34]">
+      <div className="min-h-screen flex items-center justify-center bg-[#eef2ff]">
         <div className="text-center">
-          <div className="w-12 h-12 border-4 border-indigo-200 border-t-indigo-600 rounded-full animate-spin mx-auto" />
-          <p className="mt-4 text-gray-400 text-sm">Loading...</p>
+          <div className="w-12 h-12 border-4 border-blue-200 border-t-blue-600 rounded-full animate-spin mx-auto" />
+          <p className="mt-4 text-gray-500 text-sm">Loading...</p>
         </div>
       </div>
     );
 
   return (
-    <div className="min-h-screen bg-[#070B34] flex">
+    <div className="min-h-screen bg-[#eef2ff] flex">
       {sidebarOpen && (
         <div
           className="fixed inset-0 bg-black/50 z-20 md:hidden"
@@ -760,9 +760,9 @@ export default function AdminDashboard() {
 
       {/* Delete Modal */}
       {confirmDeleteId && (
-        <div className="fixed inset-0 bg-black/60 z-50 flex items-center justify-center px-4">
-          <div className="rounded-2xl border border-white/10 bg-[#0B1E5B]/90 p-6 max-w-sm w-full shadow-[0_0_40px_rgba(0,0,0,0.35)] backdrop-blur-xl">
-            <div className="w-16 h-16 bg-red-500/15 rounded-full flex items-center justify-center mx-auto mb-4 border-4 border-red-400/20">
+        <div className="fixed inset-0 bg-black/40 z-50 flex items-center justify-center px-4">
+          <div className="rounded-2xl border border-gray-200 bg-white p-6 max-w-sm w-full shadow-lg">
+            <div className="w-16 h-16 bg-red-50 rounded-full flex items-center justify-center mx-auto mb-4 border-4 border-red-100">
               <svg
                 className="w-8 h-8 text-red-500"
                 fill="none"
@@ -777,10 +777,10 @@ export default function AdminDashboard() {
                 />
               </svg>
             </div>
-            <h3 className="text-lg font-bold text-white text-center mb-1">
+            <h3 className="text-lg font-bold text-gray-900 text-center mb-1">
               Delete Visitor?
             </h3>
-            <p className="text-sm text-gray-400 text-center mb-6">
+            <p className="text-sm text-gray-500 text-center mb-6">
               This action is permanent and{" "}
               <span className="text-red-500 font-medium">cannot be undone</span>
               .
@@ -788,7 +788,7 @@ export default function AdminDashboard() {
             <div className="flex gap-3">
               <button
                 onClick={() => setConfirmDeleteId(null)}
-                className="flex-1 py-2.5 rounded-xl border border-white/10 text-gray-300 text-sm font-medium hover:bg-white/10 transition"
+                className="flex-1 py-2.5 rounded-xl border border-gray-200 text-gray-600 text-sm font-medium hover:bg-gray-50 transition"
               >
                 Cancel
               </button>
@@ -813,12 +813,9 @@ export default function AdminDashboard() {
 
       {/* Sidebar */}
       <aside
-        className={`fixed md:static inset-y-0 left-0 z-30 w-64 flex flex-col transition-transform duration-300 shadow-2xl ${sidebarOpen ? "translate-x-0" : "-translate-x-full md:translate-x-0"}`}
-        style={{
-          background: "linear-gradient(180deg, #110c41 0%, #1a1560 100%)",
-        }}
+        className={`fixed md:static inset-y-0 left-0 z-30 w-64 flex flex-col transition-transform duration-300 bg-white border-r border-gray-200 shadow-sm ${sidebarOpen ? "translate-x-0" : "-translate-x-full md:translate-x-0"}`}
       >
-        <div className="border-b border-white/10 px-3 py-3 flex items-center justify-between gap-2">
+        <div className="border-b border-gray-200 px-3 py-3 flex items-center justify-between gap-2">
           <img
             src="/images/logo.jpeg"
             alt="Fusionera Logo"
@@ -831,7 +828,7 @@ export default function AdminDashboard() {
           />
           <button
             onClick={() => setSidebarOpen(false)}
-            className="md:hidden text-white/60 hover:text-white flex-shrink-0 text-lg leading-none"
+            className="md:hidden text-gray-400 hover:text-gray-600 flex-shrink-0 text-lg leading-none"
           >
             ✕
           </button>
@@ -845,12 +842,12 @@ export default function AdminDashboard() {
                 setActiveTab(item.id);
                 setSidebarOpen(false);
               }}
-              className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all ${activeTab === item.id ? "bg-white/15 text-white" : "text-blue-200 hover:bg-white/10 hover:text-white"}`}
+              className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all ${activeTab === item.id ? "bg-blue-50 text-blue-700 border-r-2 border-blue-600" : "text-gray-600 hover:bg-gray-50"}`}
             >
               <span>{item.icon}</span>
               <span className="flex-1 text-left">{item.label}</span>
               {item.count !== undefined && item.count > 0 && (
-                <span className="bg-white/20 text-white text-xs px-2 py-0.5 rounded-full">
+                <span className="bg-gray-100 text-gray-600 text-xs px-2 py-0.5 rounded-full">
                   {item.count}
                 </span>
               )}
@@ -859,17 +856,17 @@ export default function AdminDashboard() {
         </nav>
 
         {blockedCount > 0 && (
-          <div className="mx-3 mb-2 px-4 py-2.5 rounded-xl bg-red-500/20 border border-red-400/20">
-            <p className="text-xs text-red-300">
+          <div className="mx-3 mb-2 px-4 py-2.5 rounded-xl bg-red-50 border border-red-200">
+            <p className="text-xs text-red-600">
               🚫 {blockedCount} blocked visitor{blockedCount > 1 ? "s" : ""}
             </p>
           </div>
         )}
 
-        <div className="px-3 pb-5 pt-2 border-t border-white/10">
+        <div className="px-3 pb-5 pt-2 border-t border-gray-200">
           <button
             onClick={handleLogout}
-            className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm text-red-300 hover:bg-red-500/20 transition"
+            className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm text-red-500 hover:bg-red-50 transition"
           >
             <span>🚪</span> Logout
           </button>
@@ -878,11 +875,11 @@ export default function AdminDashboard() {
 
       {/* Main */}
       <div className="flex-1 flex flex-col min-w-0">
-        <header className="border-b border-white/10 bg-[#0B1E5B]/90 backdrop-blur-xl px-4 md:px-6 py-4 flex items-center justify-between gap-3 sticky top-0 z-10">
+        <header className="border-b border-gray-200 bg-white px-4 md:px-6 py-4 flex items-center justify-between gap-3 sticky top-0 z-10">
           <div className="flex items-center gap-3">
             <button
               onClick={() => setSidebarOpen(true)}
-              className="md:hidden p-2 rounded-lg hover:bg-white/10 text-gray-300"
+              className="md:hidden p-2 rounded-lg hover:bg-gray-100 text-gray-500"
             >
               <svg
                 className="w-5 h-5"
@@ -899,11 +896,11 @@ export default function AdminDashboard() {
               </svg>
             </button>
             <div>
-              <h1 className="text-lg font-bold text-white">
+              <h1 className="text-lg font-bold text-gray-900">
                 {navItems.find((n) => n.id === activeTab)?.icon}{" "}
                 {navItems.find((n) => n.id === activeTab)?.label}
               </h1>
-              <p className="text-xs text-gray-400 hidden sm:block">
+              <p className="text-xs text-gray-500 hidden sm:block">
                 {new Date().toLocaleDateString("en-IN", {
                   weekday: "long",
                   year: "numeric",
@@ -916,7 +913,7 @@ export default function AdminDashboard() {
           <button
             onClick={fetchData}
             title="Refresh"
-            className="p-2 rounded-lg hover:bg-white/10 text-gray-400 hover:text-white transition"
+            className="p-2 rounded-lg hover:bg-gray-100 text-gray-500 hover:text-gray-700 transition"
           >
             <svg
               className="w-4 h-4"
@@ -967,7 +964,7 @@ export default function AdminDashboard() {
                 ].map((card) => (
                   <div
                     key={card.label}
-                    className="rounded-2xl border border-white/10 bg-white/5 p-4 md:p-5 shadow-[0_0_30px_rgba(0,0,0,0.22)] backdrop-blur-xl flex items-center gap-3"
+                    className="rounded-2xl border border-gray-200 bg-white p-4 md:p-5 shadow-sm flex items-center gap-3"
                   >
                     <div
                       className="w-11 h-11 rounded-xl flex items-center justify-center text-xl flex-shrink-0"
@@ -976,8 +973,8 @@ export default function AdminDashboard() {
                       {card.icon}
                     </div>
                     <div>
-                      <p className="text-xs text-gray-400">{card.label}</p>
-                      <p className="text-2xl font-bold text-white">
+                      <p className="text-xs text-gray-500">{card.label}</p>
+                      <p className="text-2xl font-bold text-gray-900">
                         {card.value}
                       </p>
                     </div>
@@ -985,27 +982,27 @@ export default function AdminDashboard() {
                 ))}
               </div>
 
-              <div className="overflow-hidden rounded-2xl border border-white/10 bg-white/5 shadow-[0_0_30px_rgba(0,0,0,0.22)] backdrop-blur-xl">
-                <div className="flex items-center justify-between px-5 py-4 border-b border-white/10">
-                  <h3 className="font-bold text-white">
+              <div className="overflow-hidden rounded-2xl border border-[#dde6ff] bg-[#eef2ff] shadow-sm">
+                <div className="flex items-center justify-between px-5 py-4 border-b border-[#dde6ff]">
+                  <h3 className="font-bold text-gray-900">
                     🕐 Recent Registrations
                   </h3>
                   <button
                     onClick={() => setActiveTab("visitors")}
-                    className="text-xs text-indigo-400 hover:text-indigo-300 font-medium"
+                    className="text-xs text-blue-700 hover:text-blue-800 font-medium"
                   >
                     View all →
                   </button>
                 </div>
                 <div className="overflow-x-auto">
                   <table className="w-full text-sm min-w-[500px]">
-                    <thead className="bg-white/5">
+                    <thead className="bg-white">
                       <tr>
                         {["Name", "Phone", "Email", "Status", "Actions"].map(
                           (h) => (
                             <th
                               key={h}
-                              className="text-left py-3 px-4 text-xs font-semibold text-gray-400 uppercase tracking-wider"
+                              className="text-left py-3 px-4 text-xs font-semibold text-gray-500 uppercase tracking-wider"
                             >
                               {h}
                             </th>
@@ -1018,7 +1015,7 @@ export default function AdminDashboard() {
                         <tr>
                           <td
                             colSpan={5}
-                            className="py-10 text-center text-gray-400 text-sm"
+                            className="py-10 text-center text-gray-500 text-sm"
                           >
                             No registrations yet
                           </td>
@@ -1027,15 +1024,15 @@ export default function AdminDashboard() {
                         stats.recentVisitors.map((v) => (
                           <tr
                             key={v.id}
-                            className={`border-t border-white/10 ${v.is_blocked ? "bg-red-500/10" : "hover:bg-white/5"}`}
+                            className={`border-t border-gray-200 ${v.is_blocked ? "bg-red-50" : "bg-white hover:bg-gray-50"}`}
                           >
-                            <td className="py-3 px-4 font-medium text-white">
+                            <td className="py-3 px-4 font-medium text-gray-900">
                               {v.full_name}
                             </td>
-                            <td className="py-3 px-4 text-gray-300 text-xs">
+                            <td className="py-3 px-4 text-gray-600 text-xs">
                               {v.phone_number}
                             </td>
-                            <td className="py-3 px-4 text-gray-400 text-xs">
+                            <td className="py-3 px-4 text-gray-500 text-xs">
                               {v.email || "—"}
                             </td>
                             <td className="py-3 px-4">
@@ -1093,7 +1090,7 @@ export default function AdminDashboard() {
                         setPage(1);
                       }}
                       placeholder="Search name, phone, email..."
-                      className="w-full pl-9 pr-4 py-2.5 bg-white/10 border border-white/10 rounded-xl text-white placeholder-gray-400 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-400"
+                      className="w-full pl-9 pr-4 py-2.5 bg-white border border-gray-200 rounded-xl text-gray-900 placeholder-gray-400 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
                     />
                   </div>
                   <button
@@ -1118,21 +1115,21 @@ export default function AdminDashboard() {
                         setFilterStatus(f.id as "all" | "active" | "blocked");
                         setPage(1);
                       }}
-                      className={`px-3 py-2 text-xs rounded-xl font-medium transition ${filterStatus === f.id ? "bg-indigo-600 text-white" : "border border-white/10 bg-white/10 text-gray-300 hover:bg-white/15"}`}
+                      className={`px-3 py-2 text-xs rounded-xl font-medium transition ${filterStatus === f.id ? "bg-blue-600 text-white" : "border border-gray-200 bg-white text-gray-600 hover:bg-gray-50"}`}
                     >
                       {f.label}
                     </button>
                   ))}
-                  <span className="text-xs text-gray-400 ml-auto">
+                  <span className="text-xs text-gray-500 ml-auto">
                     {filtered.length} results
                   </span>
                 </div>
               </div>
 
-              <div className="overflow-hidden rounded-2xl border border-white/10 bg-white/5 shadow-[0_0_30px_rgba(0,0,0,0.22)] backdrop-blur-xl">
+              <div className="overflow-hidden rounded-2xl border border-[#dde6ff] bg-[#eef2ff] shadow-sm">
                 <div className="overflow-x-auto">
                   <table className="w-full text-sm min-w-[600px]">
-                    <thead className="bg-white/5 border-b border-white/10">
+                    <thead className="bg-white border-b border-gray-200">
                       <tr>
                         {[
                           "#",
@@ -1145,7 +1142,7 @@ export default function AdminDashboard() {
                         ].map((h) => (
                           <th
                             key={h}
-                            className="text-left py-3.5 px-4 text-xs font-semibold text-gray-400 uppercase tracking-wider whitespace-nowrap"
+                            className="text-left py-3.5 px-4 text-xs font-semibold text-gray-500 uppercase tracking-wider whitespace-nowrap"
                           >
                             {h}
                           </th>
@@ -1157,7 +1154,7 @@ export default function AdminDashboard() {
                         <tr>
                           <td
                             colSpan={7}
-                            className="py-16 text-center text-gray-400"
+                            className="py-16 text-center text-gray-500"
                           >
                             <p className="text-4xl mb-2">🔍</p>
                             <p className="font-medium">No visitors found</p>
@@ -1167,25 +1164,25 @@ export default function AdminDashboard() {
                         paginated.map((v, i) => (
                           <tr
                             key={v.id}
-                            className={`border-t border-white/10 transition ${v.is_blocked ? "bg-red-500/10" : "hover:bg-[#070B34]"}`}
+                            className={`border-t border-gray-200 transition ${v.is_blocked ? "bg-red-50" : i % 2 === 0 ? "bg-white hover:bg-gray-50" : "bg-gray-50 hover:bg-gray-100"}`}
                           >
-                            <td className="py-3.5 px-4 text-gray-400 text-xs font-mono">
+                            <td className="py-3.5 px-4 text-gray-500 text-xs font-mono">
                               {(page - 1) * PER_PAGE + i + 1}
                             </td>
-                            <td className="py-3.5 px-4 font-semibold text-white">
+                            <td className="py-3.5 px-4 font-semibold text-gray-900">
                               {v.full_name}
                             </td>
                             <td className="py-3.5 px-4">
                               <a
                                 href={`tel:${v.phone_number}`}
-                                className="text-indigo-400 hover:text-indigo-300 font-medium"
+                                className="text-blue-700 hover:text-blue-800 font-medium"
                               >
                                 {v.phone_number}
                               </a>
                             </td>
-                            <td className="py-3.5 px-4 text-gray-400 text-xs">
+                            <td className="py-3.5 px-4 text-gray-500 text-xs">
                               {v.email || (
-                                <span className="text-gray-300">—</span>
+                                <span className="text-gray-400">—</span>
                               )}
                             </td>
                             <td className="py-3.5 px-4">
@@ -1195,7 +1192,7 @@ export default function AdminDashboard() {
                                 {v.is_blocked ? "🚫 Blocked" : "✅ Active"}
                               </span>
                             </td>
-                            <td className="py-3.5 px-4 text-xs text-gray-400 whitespace-nowrap">
+                            <td className="py-3.5 px-4 text-xs text-gray-500 whitespace-nowrap">
                               {new Date(v.created_at).toLocaleDateString(
                                 "en-IN",
                                 {
@@ -1233,8 +1230,8 @@ export default function AdminDashboard() {
                   </table>
                 </div>
                 {totalPages > 1 && (
-                  <div className="px-4 py-3 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-2">
-                    <p className="text-xs text-gray-400">
+                  <div className="px-4 py-3 border-t border-gray-200 bg-white flex flex-col sm:flex-row items-center justify-between gap-2">
+                    <p className="text-xs text-gray-500">
                       Showing {(page - 1) * PER_PAGE + 1}–
                       {Math.min(page * PER_PAGE, filtered.length)} of{" "}
                       {filtered.length}
@@ -1243,7 +1240,7 @@ export default function AdminDashboard() {
                       <button
                         onClick={() => setPage((p) => Math.max(1, p - 1))}
                         disabled={page === 1}
-                        className="px-3 py-1.5 text-xs rounded-lg border border-white/10 text-gray-300 hover:bg-white/10 disabled:opacity-40"
+                        className="px-3 py-1.5 text-xs rounded-lg border border-gray-200 text-gray-600 hover:bg-gray-50 disabled:opacity-40"
                       >
                         ← Prev
                       </button>
@@ -1256,7 +1253,7 @@ export default function AdminDashboard() {
                             <button
                               key={p}
                               onClick={() => setPage(p)}
-                              className={`px-3 py-1.5 text-xs rounded-lg ${p === page ? "bg-indigo-600 text-white" : "border border-white/10 text-gray-300 hover:bg-white/10"}`}
+                              className={`px-3 py-1.5 text-xs rounded-lg ${p === page ? "bg-blue-600 text-white" : "border border-gray-200 text-gray-600 hover:bg-gray-50"}`}
                             >
                               {p}
                             </button>
@@ -1268,7 +1265,7 @@ export default function AdminDashboard() {
                           setPage((p) => Math.min(totalPages, p + 1))
                         }
                         disabled={page === totalPages}
-                        className="px-3 py-1.5 text-xs rounded-lg border border-white/10 text-gray-300 hover:bg-white/10 disabled:opacity-40"
+                        className="px-3 py-1.5 text-xs rounded-lg border border-gray-200 text-gray-600 hover:bg-gray-50 disabled:opacity-40"
                       >
                         Next →
                       </button>
@@ -1292,7 +1289,7 @@ export default function AdminDashboard() {
                     value={exhibitorSearch}
                     onChange={(e) => setExhibitorSearch(e.target.value)}
                     placeholder="Search company, name, phone..."
-                    className="w-full pl-9 pr-4 py-2.5 bg-white/10 border border-white/10 rounded-xl text-white placeholder-gray-400 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-400"
+                    className="w-full pl-9 pr-4 py-2.5 bg-white border border-gray-200 rounded-xl text-gray-900 placeholder-gray-400 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
                   />
                 </div>
                 <div className="flex gap-2 flex-wrap">
@@ -1300,7 +1297,7 @@ export default function AdminDashboard() {
                     <button
                       key={f}
                       onClick={() => setExhibitorFilter(f)}
-                      className={`px-3 py-2 text-xs rounded-xl font-medium transition capitalize ${exhibitorFilter === f ? "bg-indigo-600 text-white" : "border border-white/10 bg-white/10 text-gray-300 hover:bg-white/15"}`}
+                      className={`px-3 py-2 text-xs rounded-xl font-medium transition capitalize ${exhibitorFilter === f ? "bg-blue-600 text-white" : "border border-gray-200 bg-white text-gray-600 hover:bg-gray-50"}`}
                     >
                       {f === "all" ? `All (${exhibitors.length})` : f}
                     </button>
@@ -1309,12 +1306,12 @@ export default function AdminDashboard() {
               </div>
 
               {exhibitorLoading ? (
-                <div className="py-20 text-center text-gray-400">
-                  <div className="w-8 h-8 border-4 border-indigo-200 border-t-indigo-600 rounded-full animate-spin mx-auto mb-3" />
+                <div className="py-20 text-center text-gray-500">
+                  <div className="w-8 h-8 border-4 border-blue-200 border-t-blue-600 rounded-full animate-spin mx-auto mb-3" />
                   Loading...
                 </div>
               ) : filteredExhibitors.length === 0 ? (
-                <div className="py-20 text-center text-gray-400 rounded-2xl border border-white/10 bg-white/5">
+                <div className="py-20 text-center text-gray-500 rounded-2xl border border-[#dde6ff] bg-[#eef2ff]">
                   <p className="text-4xl mb-2">🏢</p>
                   <p className="font-medium">No exhibitor registrations yet</p>
                 </div>
@@ -1323,12 +1320,12 @@ export default function AdminDashboard() {
                   {filteredExhibitors.map((e) => (
                     <div
                       key={e.id}
-                      className="rounded-2xl border border-white/10 bg-white/5 p-4 md:p-5 backdrop-blur-xl"
+                      className="rounded-2xl border border-gray-200 bg-white p-4 md:p-5 shadow-sm"
                     >
                       <div className="flex flex-wrap items-start justify-between gap-3">
                         <div className="flex-1 min-w-0">
                           <div className="flex items-center gap-2 flex-wrap">
-                            <h3 className="text-white font-bold text-base">
+                            <h3 className="text-gray-900 font-bold text-base">
                               {e.company_name || "—"}
                             </h3>
                             <span
@@ -1338,27 +1335,27 @@ export default function AdminDashboard() {
                             </span>
                           </div>
                           <div className="mt-2 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-1.5 text-sm">
-                            <span className="text-gray-300">
+                            <span className="text-gray-600">
                               👤 {e.contact_name || "—"}
                             </span>
-                            <span className="text-gray-300">
+                            <span className="text-gray-600">
                               📞 {e.phone || "—"}
                             </span>
-                            <span className="text-gray-300">
+                            <span className="text-gray-600">
                               📧 {e.email || "—"}
                             </span>
-                            <span className="text-gray-300">
+                            <span className="text-gray-600">
                               🏙️ {e.city || "—"}
                             </span>
-                            <span className="text-gray-300">
+                            <span className="text-gray-600">
                               📦 {e.product_category || "—"}
                             </span>
-                            <span className="text-gray-300">
+                            <span className="text-gray-600">
                               🏷️ {e.stall_type || "—"}
                             </span>
                           </div>
                           {e.message && (
-                            <p className="mt-2 text-xs text-gray-400 bg-white/5 rounded-lg px-3 py-2">
+                            <p className="mt-2 text-xs text-gray-500 bg-gray-50 rounded-lg px-3 py-2">
                               {e.message}
                             </p>
                           )}
@@ -1396,7 +1393,7 @@ export default function AdminDashboard() {
                           </div>
                           <button
                             onClick={() => deleteExhibitor(e.id)}
-                            className="px-3 py-1.5 text-xs rounded-lg bg-white/10 text-gray-300 hover:bg-white/20 font-medium transition text-center"
+                            className="px-3 py-1.5 text-xs rounded-lg bg-gray-100 text-gray-600 hover:bg-gray-200 font-medium transition text-center"
                           >
                             🗑️ Delete
                           </button>
@@ -1412,12 +1409,12 @@ export default function AdminDashboard() {
           {/* ── NEWSLETTER ── */}
           {activeTab === "newsletter" && (
             <div className="space-y-4 max-w-2xl">
-              <div className="rounded-2xl overflow-hidden shadow border border-white/10 bg-white/5 backdrop-blur-xl">
-                <div className="px-6 py-4 border-b border-white/10 bg-white/5">
-                  <h2 className="text-lg font-bold text-white">
+              <div className="rounded-2xl overflow-hidden shadow-sm border border-[#dde6ff] bg-[#eef2ff]">
+                <div className="px-6 py-4 border-b border-[#dde6ff] bg-white">
+                  <h2 className="text-lg font-bold text-gray-900">
                     📰 Newsletter Editor
                   </h2>
-                  <p className="text-xs mt-0.5 text-gray-400">
+                  <p className="text-xs mt-0.5 text-gray-500">
                     Publish toggle on karne se visitors ko dikhega.
                   </p>
                 </div>
@@ -1442,39 +1439,39 @@ export default function AdminDashboard() {
                     },
                   ].map(({ label, val, set, ph }) => (
                     <div key={label}>
-                      <label className="block text-sm font-semibold mb-1.5 text-white">
+                      <label className="block text-sm font-semibold mb-1.5 text-gray-900">
                         {label}
                       </label>
                       <input
                         value={val}
                         onChange={(e) => set(e.target.value)}
-                        className="w-full px-4 py-2.5 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white/10 border border-white/10 text-white placeholder-gray-400"
+                        className="w-full px-4 py-2.5 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white border border-gray-200 text-gray-900 placeholder-gray-400"
                         placeholder={ph}
                       />
                     </div>
                   ))}
                   <div>
-                    <label className="block text-sm font-semibold mb-1.5 text-white">
+                    <label className="block text-sm font-semibold mb-1.5 text-gray-900">
                       Content
                     </label>
                     <textarea
                       value={nlContent}
                       onChange={(e) => setNlContent(e.target.value)}
                       rows={10}
-                      className="w-full px-4 py-2.5 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none bg-white/10 border border-white/10 text-white placeholder-gray-400"
+                      className="w-full px-4 py-2.5 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none bg-white border border-gray-200 text-gray-900 placeholder-gray-400"
                       placeholder="Newsletter ka content yahan likho..."
                     />
                   </div>
                   <div className="flex items-center gap-3">
                     <div
                       onClick={() => setNlPublished((p) => !p)}
-                      className={`w-12 h-6 rounded-full transition-colors relative cursor-pointer ${nlPublished ? "bg-blue-600" : "bg-white/20"}`}
+                      className={`w-12 h-6 rounded-full transition-colors relative cursor-pointer ${nlPublished ? "bg-blue-600" : "bg-gray-200"}`}
                     >
                       <div
                         className={`absolute top-0.5 w-5 h-5 rounded-full bg-white shadow transition-transform ${nlPublished ? "translate-x-6" : "translate-x-0.5"}`}
                       />
                     </div>
-                    <span className="text-sm font-medium text-white">
+                    <span className="text-sm font-medium text-gray-900">
                       {nlPublished
                         ? "Published — visitors ko dikh raha hai"
                         : "Unpublished — visitors ko nahi dikhega"}
@@ -1499,8 +1496,8 @@ export default function AdminDashboard() {
           {activeTab === "videos" && (
             <div className="space-y-5">
               {/* Add/Edit Form */}
-              <div className="rounded-2xl border border-white/10 bg-white/5 backdrop-blur-xl p-5">
-                <h3 className="text-white font-bold mb-4">
+              <div className="rounded-2xl border border-gray-200 bg-white shadow-sm p-5">
+                <h3 className="text-gray-900 font-bold mb-4">
                   {editingVideo ? "✏️ Edit Video" : "➕ Add New Video"}
                 </h3>
                 {videoSaved && (
@@ -1510,7 +1507,7 @@ export default function AdminDashboard() {
                 )}
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   <div>
-                    <label className="block text-xs font-semibold mb-1 text-gray-300">
+                    <label className="block text-xs font-semibold mb-1 text-gray-600">
                       Title *
                     </label>
                     <input
@@ -1518,12 +1515,12 @@ export default function AdminDashboard() {
                       onChange={(e) =>
                         setVideoForm((f) => ({ ...f, title: e.target.value }))
                       }
-                      className="w-full px-4 py-2.5 rounded-xl text-sm bg-white/10 border border-white/10 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      className="w-full px-4 py-2.5 rounded-xl text-sm bg-white border border-gray-200 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
                       placeholder="Video title..."
                     />
                   </div>
                   <div>
-                    <label className="block text-xs font-semibold mb-1 text-gray-300">
+                    <label className="block text-xs font-semibold mb-1 text-gray-600">
                       YouTube URL *
                     </label>
                     <input
@@ -1531,12 +1528,12 @@ export default function AdminDashboard() {
                       onChange={(e) =>
                         setVideoForm((f) => ({ ...f, url: e.target.value }))
                       }
-                      className="w-full px-4 py-2.5 rounded-xl text-sm bg-white/10 border border-white/10 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      className="w-full px-4 py-2.5 rounded-xl text-sm bg-white border border-gray-200 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
                       placeholder="https://youtube.com/watch?v=..."
                     />
                   </div>
                   <div>
-                    <label className="block text-xs font-semibold mb-1 text-gray-300">
+                    <label className="block text-xs font-semibold mb-1 text-gray-600">
                       Category
                     </label>
                     <select
@@ -1547,7 +1544,7 @@ export default function AdminDashboard() {
                           category: e.target.value,
                         }))
                       }
-                      className="w-full px-4 py-2.5 rounded-xl text-sm bg-white/10 border border-white/10 text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      className="w-full px-4 py-2.5 rounded-xl text-sm bg-white border border-gray-200 text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500"
                     >
                       {[
                         "general",
@@ -1556,7 +1553,7 @@ export default function AdminDashboard() {
                         "testimonials",
                         "highlights",
                       ].map((c) => (
-                        <option key={c} value={c} className="bg-[#0B1E5B]">
+                        <option key={c} value={c}>
                           {c.charAt(0).toUpperCase() + c.slice(1)}
                         </option>
                       ))}
@@ -1570,13 +1567,13 @@ export default function AdminDashboard() {
                           is_published: !f.is_published,
                         }))
                       }
-                      className={`w-10 h-5 rounded-full transition-colors relative cursor-pointer ${videoForm.is_published ? "bg-blue-600" : "bg-white/20"}`}
+                      className={`w-10 h-5 rounded-full transition-colors relative cursor-pointer ${videoForm.is_published ? "bg-blue-600" : "bg-gray-200"}`}
                     >
                       <div
                         className={`absolute top-0.5 w-4 h-4 rounded-full bg-white shadow transition-transform ${videoForm.is_published ? "translate-x-5" : "translate-x-0.5"}`}
                       />
                     </div>
-                    <span className="text-sm text-gray-300">
+                    <span className="text-sm text-gray-600">
                       {videoForm.is_published ? "Published" : "Draft"}
                     </span>
                   </div>
@@ -1609,7 +1606,7 @@ export default function AdminDashboard() {
                           is_published: true,
                         });
                       }}
-                      className="px-6 py-2.5 rounded-xl border border-white/10 text-gray-300 text-sm hover:bg-white/10 transition"
+                      className="px-6 py-2.5 rounded-xl border border-gray-200 text-gray-600 text-sm hover:bg-gray-50 transition"
                     >
                       Cancel
                     </button>
@@ -1619,12 +1616,12 @@ export default function AdminDashboard() {
 
               {/* Videos List */}
               {videoLoading && !videos.length ? (
-                <div className="py-20 text-center text-gray-400">
-                  <div className="w-8 h-8 border-4 border-indigo-200 border-t-indigo-600 rounded-full animate-spin mx-auto mb-3" />
+                <div className="py-20 text-center text-gray-500">
+                  <div className="w-8 h-8 border-4 border-blue-200 border-t-blue-600 rounded-full animate-spin mx-auto mb-3" />
                   Loading...
                 </div>
               ) : videos.length === 0 ? (
-                <div className="py-20 text-center text-gray-400 rounded-2xl border border-white/10 bg-white/5">
+                <div className="py-20 text-center text-gray-500 rounded-2xl border border-[#dde6ff] bg-[#eef2ff]">
                   <p className="text-4xl mb-2">🎬</p>
                   <p className="font-medium">No videos added yet</p>
                 </div>
@@ -1635,7 +1632,7 @@ export default function AdminDashboard() {
                     return (
                       <div
                         key={v.id}
-                        className="rounded-xl border border-white/10 bg-white/5 overflow-hidden"
+                        className="rounded-xl border border-gray-200 bg-white shadow-sm overflow-hidden"
                       >
                         <div className="relative">
                           {ytId ? (
@@ -1645,7 +1642,7 @@ export default function AdminDashboard() {
                               className="w-full h-36 object-cover"
                             />
                           ) : (
-                            <div className="w-full h-36 bg-white/10 flex items-center justify-center text-gray-400">
+                            <div className="w-full h-36 bg-gray-100 flex items-center justify-center text-gray-400">
                               🎬
                             </div>
                           )}
@@ -1663,10 +1660,10 @@ export default function AdminDashboard() {
                           </div>
                         </div>
                         <div className="p-3">
-                          <p className="text-white text-sm font-semibold truncate">
+                          <p className="text-gray-900 text-sm font-semibold truncate">
                             {v.title}
                           </p>
-                          <p className="text-gray-400 text-xs truncate mt-0.5">
+                          <p className="text-gray-500 text-xs truncate mt-0.5">
                             {v.url}
                           </p>
                           <div className="flex gap-2 mt-3">
@@ -1675,13 +1672,13 @@ export default function AdminDashboard() {
                                 setEditingVideo(v);
                                 window.scrollTo({ top: 0, behavior: "smooth" });
                               }}
-                              className="flex-1 py-1.5 text-xs rounded-lg bg-indigo-500/20 text-indigo-300 hover:bg-indigo-500/30 transition font-medium"
+                              className="flex-1 py-1.5 text-xs rounded-lg bg-blue-50 text-blue-700 hover:bg-blue-100 transition font-medium"
                             >
                               ✏️ Edit
                             </button>
                             <button
                               onClick={() => deleteVideo(v.id)}
-                              className="flex-1 py-1.5 text-xs rounded-lg bg-red-500/10 text-red-400 hover:bg-red-500/20 transition font-medium"
+                              className="flex-1 py-1.5 text-xs rounded-lg bg-red-50 text-red-500 hover:bg-red-100 transition font-medium"
                             >
                               🗑️ Delete
                             </button>
@@ -1697,8 +1694,8 @@ export default function AdminDashboard() {
           {/* ── IMAGES ── */}
           {activeTab === "images" && (
             <div className="space-y-5">
-              <div className="rounded-2xl border border-white/10 bg-white/5 backdrop-blur-xl p-5">
-                <h3 className="text-white font-bold mb-4">{editingImage ? "✏️ Edit Image" : "➕ Add New Image"}</h3>
+              <div className="rounded-2xl border border-gray-200 bg-white shadow-sm p-5">
+                <h3 className="text-gray-900 font-bold mb-4">{editingImage ? "✏️ Edit Image" : "➕ Add New Image"}</h3>
                 {imageSaved && (
                   <div className="mb-3 rounded-xl px-4 py-3 text-sm text-green-700 bg-green-50 border border-green-200">
                     ✅ Image saved!
@@ -1706,7 +1703,7 @@ export default function AdminDashboard() {
                 )}
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   <div>
-                    <label className="block text-xs font-semibold mb-1 text-gray-300">
+                    <label className="block text-xs font-semibold mb-1 text-gray-600">
                       Title
                     </label>
                     <input
@@ -1714,12 +1711,12 @@ export default function AdminDashboard() {
                       onChange={(e) =>
                         setImageForm((f) => ({ ...f, title: e.target.value }))
                       }
-                      className="w-full px-4 py-2.5 rounded-xl text-sm bg-white/10 border border-white/10 text-white placeholder-gray-400 focus:outline-none"
+                      className="w-full px-4 py-2.5 rounded-xl text-sm bg-white border border-gray-200 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
                       placeholder="Image title..."
                     />
                   </div>
                   <div>
-                    <label className="block text-xs font-semibold mb-1 text-gray-300">
+                    <label className="block text-xs font-semibold mb-1 text-gray-600">
                       Image URL *
                     </label>
                     <input
@@ -1727,12 +1724,12 @@ export default function AdminDashboard() {
                       onChange={(e) =>
                         setImageForm((f) => ({ ...f, url: e.target.value }))
                       }
-                      className="w-full px-4 py-2.5 rounded-xl text-sm bg-white/10 border border-white/10 text-white placeholder-gray-400 focus:outline-none"
+                      className="w-full px-4 py-2.5 rounded-xl text-sm bg-white border border-gray-200 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
                       placeholder="https://..."
                     />
                   </div>
                   <div>
-                    <label className="block text-xs font-semibold mb-1 text-gray-300">
+                    <label className="block text-xs font-semibold mb-1 text-gray-600">
                       Category
                     </label>
                     <select
@@ -1743,7 +1740,7 @@ export default function AdminDashboard() {
                           category: e.target.value,
                         }))
                       }
-                      className="w-full px-4 py-2.5 rounded-xl text-sm bg-white/10 border border-white/10 text-white focus:outline-none"
+                      className="w-full px-4 py-2.5 rounded-xl text-sm bg-white border border-gray-200 text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500"
                     >
                       {[
                         "general",
@@ -1752,14 +1749,14 @@ export default function AdminDashboard() {
                         "venue",
                         "team",
                       ].map((c) => (
-                        <option key={c} value={c} className="bg-[#0B1E5B]">
+                        <option key={c} value={c}>
                           {c.charAt(0).toUpperCase() + c.slice(1)}
                         </option>
                       ))}
                     </select>
                   </div>
                   <div>
-                    <label className="block text-xs font-semibold mb-1 text-gray-300">
+                    <label className="block text-xs font-semibold mb-1 text-gray-600">
                       Type
                     </label>
                     <select
@@ -1767,10 +1764,10 @@ export default function AdminDashboard() {
                       onChange={(e) =>
                         setImageForm((f) => ({ ...f, type: e.target.value }))
                       }
-                      className="w-full px-4 py-2.5 rounded-xl text-sm bg-white/10 border border-white/10 text-white focus:outline-none"
+                      className="w-full px-4 py-2.5 rounded-xl text-sm bg-white border border-gray-200 text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500"
                     >
                       {["gallery", "catalogue", "banner", "slider"].map((t) => (
-                        <option key={t} value={t} className="bg-[#0B1E5B]">
+                        <option key={t} value={t}>
                           {t.charAt(0).toUpperCase() + t.slice(1)}
                         </option>
                       ))}
@@ -1785,13 +1782,13 @@ export default function AdminDashboard() {
                         is_published: !f.is_published,
                       }))
                     }
-                    className={`w-10 h-5 rounded-full transition-colors relative cursor-pointer ${imageForm.is_published ? "bg-blue-600" : "bg-white/20"}`}
+                    className={`w-10 h-5 rounded-full transition-colors relative cursor-pointer ${imageForm.is_published ? "bg-blue-600" : "bg-gray-200"}`}
                   >
                     <div
                       className={`absolute top-0.5 w-4 h-4 rounded-full bg-white shadow transition-transform ${imageForm.is_published ? "translate-x-5" : "translate-x-0.5"}`}
                     />
                   </div>
-                  <span className="text-sm text-gray-300">
+                  <span className="text-sm text-gray-600">
                     {imageForm.is_published ? "Published" : "Draft"}
                   </span>
                 </div>
@@ -1810,7 +1807,7 @@ export default function AdminDashboard() {
                         setEditingImage(null);
                         setImageForm({ title: "", url: "", category: "general", type: "gallery", is_published: true });
                       }}
-                      className="px-6 py-2.5 rounded-xl border border-white/10 text-gray-300 text-sm hover:bg-white/10 transition"
+                      className="px-6 py-2.5 rounded-xl border border-gray-200 text-gray-600 text-sm hover:bg-gray-50 transition"
                     >
                       Cancel
                     </button>
@@ -1819,12 +1816,12 @@ export default function AdminDashboard() {
               </div>
 
               {imageLoading && !images.length ? (
-                <div className="py-20 text-center text-gray-400">
-                  <div className="w-8 h-8 border-4 border-white/20 border-t-white rounded-full animate-spin mx-auto mb-3" />
+                <div className="py-20 text-center text-gray-500">
+                  <div className="w-8 h-8 border-4 border-blue-200 border-t-blue-600 rounded-full animate-spin mx-auto mb-3" />
                   Loading...
                 </div>
               ) : images.length === 0 ? (
-                <div className="py-20 text-center text-gray-400 rounded-2xl border border-white/10 bg-white/5">
+                <div className="py-20 text-center text-gray-500 rounded-2xl border border-[#dde6ff] bg-[#eef2ff]">
                   <p className="text-4xl mb-2">🖼️</p>
                   <p className="font-medium">No images added yet</p>
                 </div>
@@ -1833,7 +1830,7 @@ export default function AdminDashboard() {
                   {images.map((img) => (
                     <div
                       key={img.id}
-                      className="rounded-xl border border-white/10 bg-white/5 overflow-hidden"
+                      className="rounded-xl border border-gray-200 bg-white shadow-sm overflow-hidden"
                     >
                       <img
                         src={img.url}
@@ -1844,11 +1841,11 @@ export default function AdminDashboard() {
                         }}
                       />
                       <div className="p-2">
-                        <p className="text-white text-xs font-semibold truncate">
+                        <p className="text-gray-900 text-xs font-semibold truncate">
                           {img.title || "—"}
                         </p>
                         <div className="flex items-center justify-between mt-1">
-                          <span className="text-xs text-gray-400 capitalize">
+                          <span className="text-xs text-gray-500 capitalize">
                             {img.type}
                           </span>
                           <div className="flex gap-1">
@@ -1858,13 +1855,13 @@ export default function AdminDashboard() {
                                 setImageForm({ title: img.title, url: img.url, category: img.category, type: img.type, is_published: img.is_published });
                                 window.scrollTo({ top: 0, behavior: "smooth" });
                               }}
-                              className="text-xs text-indigo-400 hover:text-indigo-300 px-1"
+                              className="text-xs text-blue-600 hover:text-blue-700 px-1"
                             >
                               ✏️
                             </button>
                             <button
                               onClick={() => deleteImage(img.id)}
-                              className="text-xs text-red-400 hover:text-red-300 px-1"
+                              className="text-xs text-red-500 hover:text-red-600 px-1"
                             >
                               🗑️
                             </button>
@@ -1881,41 +1878,41 @@ export default function AdminDashboard() {
           {/* ── CONTENT ── */}
           {activeTab === "content" && (
             <div className="space-y-5">
-              <div className="rounded-2xl border border-white/10 bg-white/5 backdrop-blur-xl p-5">
-                <h3 className="text-white font-bold mb-4">➕ Add / Update Content</h3>
+              <div className="rounded-2xl border border-gray-200 bg-white shadow-sm p-5">
+                <h3 className="text-gray-900 font-bold mb-4">➕ Add / Update Content</h3>
                 {contentSaved && <div className="mb-3 rounded-xl px-4 py-3 text-sm text-green-700 bg-green-50 border border-green-200">✅ Content saved!</div>}
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   <div>
-                    <label className="block text-xs font-semibold mb-1 text-gray-300">Key * (unique identifier)</label>
-                    <select value={contentForm.key} onChange={(e) => setContentForm((f) => ({ ...f, key: e.target.value }))} className="w-full px-4 py-2.5 rounded-xl text-sm bg-white/10 border border-white/10 text-white focus:outline-none">
-                      <option value="" className="bg-[#0B1E5B]">Select content type...</option>
+                    <label className="block text-xs font-semibold mb-1 text-gray-600">Key * (unique identifier)</label>
+                    <select value={contentForm.key} onChange={(e) => setContentForm((f) => ({ ...f, key: e.target.value }))} className="w-full px-4 py-2.5 rounded-xl text-sm bg-white border border-gray-200 text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                      <option value="">Select content type...</option>
                       {["about_us", "announcement", "banner_main", "banner_secondary", "hero_title", "hero_subtitle", "footer_text", "contact_info"].map((k) => (
-                        <option key={k} value={k} className="bg-[#0B1E5B]">{k.replace(/_/g, " ").replace(/\b\w/g, l => l.toUpperCase())}</option>
+                        <option key={k} value={k}>{k.replace(/_/g, " ").replace(/\b\w/g, l => l.toUpperCase())}</option>
                       ))}
                     </select>
                   </div>
                   <div>
-                    <label className="block text-xs font-semibold mb-1 text-gray-300">Title *</label>
-                    <input value={contentForm.title} onChange={(e) => setContentForm((f) => ({ ...f, title: e.target.value }))} className="w-full px-4 py-2.5 rounded-xl text-sm bg-white/10 border border-white/10 text-white placeholder-gray-400 focus:outline-none" placeholder="Title..." />
+                    <label className="block text-xs font-semibold mb-1 text-gray-600">Title *</label>
+                    <input value={contentForm.title} onChange={(e) => setContentForm((f) => ({ ...f, title: e.target.value }))} className="w-full px-4 py-2.5 rounded-xl text-sm bg-white border border-gray-200 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Title..." />
                   </div>
                   <div>
-                    <label className="block text-xs font-semibold mb-1 text-gray-300">Subtitle</label>
-                    <input value={contentForm.subtitle} onChange={(e) => setContentForm((f) => ({ ...f, subtitle: e.target.value }))} className="w-full px-4 py-2.5 rounded-xl text-sm bg-white/10 border border-white/10 text-white placeholder-gray-400 focus:outline-none" placeholder="Subtitle..." />
+                    <label className="block text-xs font-semibold mb-1 text-gray-600">Subtitle</label>
+                    <input value={contentForm.subtitle} onChange={(e) => setContentForm((f) => ({ ...f, subtitle: e.target.value }))} className="w-full px-4 py-2.5 rounded-xl text-sm bg-white border border-gray-200 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Subtitle..." />
                   </div>
                   <div>
-                    <label className="block text-xs font-semibold mb-1 text-gray-300">Image URL</label>
-                    <input value={contentForm.image_url} onChange={(e) => setContentForm((f) => ({ ...f, image_url: e.target.value }))} className="w-full px-4 py-2.5 rounded-xl text-sm bg-white/10 border border-white/10 text-white placeholder-gray-400 focus:outline-none" placeholder="https://..." />
+                    <label className="block text-xs font-semibold mb-1 text-gray-600">Image URL</label>
+                    <input value={contentForm.image_url} onChange={(e) => setContentForm((f) => ({ ...f, image_url: e.target.value }))} className="w-full px-4 py-2.5 rounded-xl text-sm bg-white border border-gray-200 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="https://..." />
                   </div>
                 </div>
                 <div className="mt-3">
-                  <label className="block text-xs font-semibold mb-1 text-gray-300">Content</label>
-                  <textarea value={contentForm.content} onChange={(e) => setContentForm((f) => ({ ...f, content: e.target.value }))} rows={5} className="w-full px-4 py-2.5 rounded-xl text-sm bg-white/10 border border-white/10 text-white placeholder-gray-400 focus:outline-none resize-none" placeholder="Content text..." />
+                  <label className="block text-xs font-semibold mb-1 text-gray-600">Content</label>
+                  <textarea value={contentForm.content} onChange={(e) => setContentForm((f) => ({ ...f, content: e.target.value }))} rows={5} className="w-full px-4 py-2.5 rounded-xl text-sm bg-white border border-gray-200 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none" placeholder="Content text..." />
                 </div>
                 <div className="flex items-center gap-3 mt-3">
-                  <div onClick={() => setContentForm((f) => ({ ...f, is_published: !f.is_published }))} className={`w-10 h-5 rounded-full transition-colors relative cursor-pointer ${contentForm.is_published ? "bg-blue-600" : "bg-white/20"}`}>
+                  <div onClick={() => setContentForm((f) => ({ ...f, is_published: !f.is_published }))} className={`w-10 h-5 rounded-full transition-colors relative cursor-pointer ${contentForm.is_published ? "bg-blue-600" : "bg-gray-200"}`}>
                     <div className={`absolute top-0.5 w-4 h-4 rounded-full bg-white shadow transition-transform ${contentForm.is_published ? "translate-x-5" : "translate-x-0.5"}`} />
                   </div>
-                  <span className="text-sm text-gray-300">{contentForm.is_published ? "Published" : "Draft"}</span>
+                  <span className="text-sm text-gray-600">{contentForm.is_published ? "Published" : "Draft"}</span>
                 </div>
                 <button onClick={saveContent} disabled={contentLoading || !contentForm.key || !contentForm.title} className="mt-4 px-6 py-2.5 rounded-xl text-white font-bold text-sm hover:opacity-90 disabled:opacity-50 transition" style={{ background: "#E8274B" }}>
                   {contentLoading ? "Saving..." : "Save Content"}
@@ -1923,26 +1920,26 @@ export default function AdminDashboard() {
               </div>
 
               {contentLoading && !contents.length ? (
-                <div className="py-20 text-center text-gray-400"><div className="w-8 h-8 border-4 border-white/20 border-t-white rounded-full animate-spin mx-auto mb-3" />Loading...</div>
+                <div className="py-20 text-center text-gray-500"><div className="w-8 h-8 border-4 border-blue-200 border-t-blue-600 rounded-full animate-spin mx-auto mb-3" />Loading...</div>
               ) : contents.length === 0 ? (
-                <div className="py-20 text-center text-gray-400 rounded-2xl border border-white/10 bg-white/5"><p className="text-4xl mb-2">📝</p><p className="font-medium">No content added yet</p></div>
+                <div className="py-20 text-center text-gray-500 rounded-2xl border border-[#dde6ff] bg-[#eef2ff]"><p className="text-4xl mb-2">📝</p><p className="font-medium">No content added yet</p></div>
               ) : (
                 <div className="space-y-3">
                   {contents.map((c) => (
-                    <div key={c.id} className="rounded-xl border border-white/10 bg-white/5 p-4">
+                    <div key={c.id} className="rounded-xl border border-gray-200 bg-white shadow-sm p-4">
                       <div className="flex items-start justify-between gap-4">
                         <div className="flex-1 min-w-0">
                           <div className="flex items-center gap-2 flex-wrap mb-1">
                             <span className="text-xs px-2 py-0.5 rounded-full text-white" style={{ background: "#F4822A" }}>{c.key.replace(/_/g, " ")}</span>
                             <span className={`text-xs px-2 py-0.5 rounded-full ${c.is_published ? "bg-green-100 text-green-700" : "bg-gray-100 text-gray-600"}`}>{c.is_published ? "Published" : "Draft"}</span>
                           </div>
-                          <p className="text-white font-semibold">{c.title}</p>
-                          {c.subtitle && <p className="text-gray-400 text-sm">{c.subtitle}</p>}
+                          <p className="text-gray-900 font-semibold">{c.title}</p>
+                          {c.subtitle && <p className="text-gray-500 text-sm">{c.subtitle}</p>}
                           {c.content && <p className="text-gray-500 text-xs mt-1 line-clamp-2">{c.content}</p>}
                         </div>
                         <div className="flex gap-2 flex-shrink-0">
                           <button onClick={() => setContentForm({ key: c.key, title: c.title, subtitle: c.subtitle, content: c.content, image_url: c.image_url, is_published: c.is_published })} className="px-3 py-1.5 text-xs rounded-lg text-white font-medium" style={{ background: "#E8274B" }}>✏️ Edit</button>
-                          <button onClick={() => deleteContent(c.id)} className="px-3 py-1.5 text-xs rounded-lg bg-red-500/10 text-red-400 hover:bg-red-500/20 transition">🗑️</button>
+                          <button onClick={() => deleteContent(c.id)} className="px-3 py-1.5 text-xs rounded-lg bg-red-50 text-red-500 hover:bg-red-100 transition">🗑️</button>
                         </div>
                       </div>
                     </div>
@@ -1955,8 +1952,8 @@ export default function AdminDashboard() {
           {/* ── PODCASTS ── */}
           {activeTab === "podcasts" && (
             <div className="space-y-5">
-              <div className="rounded-2xl border border-white/10 bg-white/5 backdrop-blur-xl p-5">
-                <h3 className="text-white font-bold mb-4">
+              <div className="rounded-2xl border border-gray-200 bg-white shadow-sm p-5">
+                <h3 className="text-gray-900 font-bold mb-4">
                   {editingPodcast ? "✏️ Edit Podcast" : "➕ Add New Podcast"}
                 </h3>
                 {podcastSaved && (
@@ -1966,7 +1963,7 @@ export default function AdminDashboard() {
                 )}
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   <div>
-                    <label className="block text-xs font-semibold mb-1 text-gray-300">
+                    <label className="block text-xs font-semibold mb-1 text-gray-600">
                       Title *
                     </label>
                     <input
@@ -1974,12 +1971,12 @@ export default function AdminDashboard() {
                       onChange={(e) =>
                         setPodcastForm((f) => ({ ...f, title: e.target.value }))
                       }
-                      className="w-full px-4 py-2.5 rounded-xl text-sm bg-white/10 border border-white/10 text-white placeholder-gray-400 focus:outline-none"
+                      className="w-full px-4 py-2.5 rounded-xl text-sm bg-white border border-gray-200 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
                       placeholder="Episode title..."
                     />
                   </div>
                   <div>
-                    <label className="block text-xs font-semibold mb-1 text-gray-300">
+                    <label className="block text-xs font-semibold mb-1 text-gray-600">
                       URL * (YouTube/Spotify)
                     </label>
                     <input
@@ -1987,12 +1984,12 @@ export default function AdminDashboard() {
                       onChange={(e) =>
                         setPodcastForm((f) => ({ ...f, url: e.target.value }))
                       }
-                      className="w-full px-4 py-2.5 rounded-xl text-sm bg-white/10 border border-white/10 text-white placeholder-gray-400 focus:outline-none"
+                      className="w-full px-4 py-2.5 rounded-xl text-sm bg-white border border-gray-200 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
                       placeholder="https://youtube.com/watch?v=..."
                     />
                   </div>
                   <div>
-                    <label className="block text-xs font-semibold mb-1 text-gray-300">
+                    <label className="block text-xs font-semibold mb-1 text-gray-600">
                       Description
                     </label>
                     <input
@@ -2003,12 +2000,12 @@ export default function AdminDashboard() {
                           description: e.target.value,
                         }))
                       }
-                      className="w-full px-4 py-2.5 rounded-xl text-sm bg-white/10 border border-white/10 text-white placeholder-gray-400 focus:outline-none"
+                      className="w-full px-4 py-2.5 rounded-xl text-sm bg-white border border-gray-200 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
                       placeholder="Short description..."
                     />
                   </div>
                   <div>
-                    <label className="block text-xs font-semibold mb-1 text-gray-300">
+                    <label className="block text-xs font-semibold mb-1 text-gray-600">
                       Platform
                     </label>
                     <select
@@ -2019,10 +2016,10 @@ export default function AdminDashboard() {
                           platform: e.target.value,
                         }))
                       }
-                      className="w-full px-4 py-2.5 rounded-xl text-sm bg-white/10 border border-white/10 text-white focus:outline-none"
+                      className="w-full px-4 py-2.5 rounded-xl text-sm bg-white border border-gray-200 text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500"
                     >
                       {["youtube", "spotify", "other"].map((p) => (
-                        <option key={p} value={p} className="bg-[#0B1E5B]">
+                        <option key={p} value={p}>
                           {p.charAt(0).toUpperCase() + p.slice(1)}
                         </option>
                       ))}
@@ -2037,13 +2034,13 @@ export default function AdminDashboard() {
                         is_published: !f.is_published,
                       }))
                     }
-                    className={`w-10 h-5 rounded-full transition-colors relative cursor-pointer ${podcastForm.is_published ? "bg-blue-600" : "bg-white/20"}`}
+                    className={`w-10 h-5 rounded-full transition-colors relative cursor-pointer ${podcastForm.is_published ? "bg-blue-600" : "bg-gray-200"}`}
                   >
                     <div
                       className={`absolute top-0.5 w-4 h-4 rounded-full bg-white shadow transition-transform ${podcastForm.is_published ? "translate-x-5" : "translate-x-0.5"}`}
                     />
                   </div>
-                  <span className="text-sm text-gray-300">
+                  <span className="text-sm text-gray-600">
                     {podcastForm.is_published ? "Published" : "Draft"}
                   </span>
                 </div>
@@ -2074,7 +2071,7 @@ export default function AdminDashboard() {
                           is_published: true,
                         });
                       }}
-                      className="px-6 py-2.5 rounded-xl border border-white/10 text-gray-300 text-sm hover:bg-white/10 transition"
+                      className="px-6 py-2.5 rounded-xl border border-gray-200 text-gray-600 text-sm hover:bg-gray-50 transition"
                     >
                       Cancel
                     </button>
@@ -2083,12 +2080,12 @@ export default function AdminDashboard() {
               </div>
 
               {podcastLoading && !podcasts.length ? (
-                <div className="py-20 text-center text-gray-400">
-                  <div className="w-8 h-8 border-4 border-white/20 border-t-white rounded-full animate-spin mx-auto mb-3" />
+                <div className="py-20 text-center text-gray-500">
+                  <div className="w-8 h-8 border-4 border-blue-200 border-t-blue-600 rounded-full animate-spin mx-auto mb-3" />
                   Loading...
                 </div>
               ) : podcasts.length === 0 ? (
-                <div className="py-20 text-center text-gray-400 rounded-2xl border border-white/10 bg-white/5">
+                <div className="py-20 text-center text-gray-500 rounded-2xl border border-[#dde6ff] bg-[#eef2ff]">
                   <p className="text-4xl mb-2">🎙️</p>
                   <p className="font-medium">No podcasts added yet</p>
                 </div>
@@ -2097,11 +2094,11 @@ export default function AdminDashboard() {
                   {podcasts.map((p) => (
                     <div
                       key={p.id}
-                      className="rounded-xl border border-white/10 bg-white/5 p-4 flex items-center justify-between gap-4"
+                      className="rounded-xl border border-gray-200 bg-white shadow-sm p-4 flex items-center justify-between gap-4"
                     >
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center gap-2 mb-1 flex-wrap">
-                          <p className="text-white font-semibold truncate">
+                          <p className="text-gray-900 font-semibold truncate">
                             {p.title}
                           </p>
                           <span
@@ -2117,7 +2114,7 @@ export default function AdminDashboard() {
                           </span>
                         </div>
                         {p.description && (
-                          <p className="text-gray-400 text-xs truncate">
+                          <p className="text-gray-500 text-xs truncate">
                             {p.description}
                           </p>
                         )}
@@ -2145,7 +2142,7 @@ export default function AdminDashboard() {
                         </button>
                         <button
                           onClick={() => deletePodcast(p.id)}
-                          className="px-3 py-1.5 text-xs rounded-lg bg-red-500/10 text-red-400 hover:bg-red-500/20 transition font-medium"
+                          className="px-3 py-1.5 text-xs rounded-lg bg-red-50 text-red-500 hover:bg-red-100 transition font-medium"
                         >
                           🗑️
                         </button>

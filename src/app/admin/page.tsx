@@ -30,26 +30,8 @@ export default function AdminLoginPage() {
   return (
     <div
       className="min-h-screen flex items-center justify-center px-4"
-      style={{
-        background:
-          "linear-gradient(135deg, #110c41 0%, #1a1560 60%, #0d0a3e 100%)",
-      }}
+      style={{ background: "#eef2ff" }}
     >
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div
-          className="absolute top-1/4 left-1/4 w-96 h-96 rounded-full opacity-10"
-          style={{
-            background: "radial-gradient(circle, #E8274B, transparent)",
-          }}
-        />
-        <div
-          className="absolute bottom-1/4 right-1/4 w-72 h-72 rounded-full opacity-10"
-          style={{
-            background: "radial-gradient(circle, #F4822A, transparent)",
-          }}
-        />
-      </div>
-
       <div className="relative w-full max-w-md">
         <div className="text-center mb-8">
           <div className="flex justify-center mb-4">
@@ -59,11 +41,11 @@ export default function AdminLoginPage() {
               className="h-14 w-auto object-contain"
             />
           </div>
-          <h1 className="text-2xl font-bold text-white">Admin Panel</h1>
+          <h1 className="text-2xl font-bold text-gray-900">Admin Panel</h1>
         </div>
 
-        <div className="bg-white/10 backdrop-blur-md rounded-2xl border border-white/20 p-8 shadow-2xl">
-          <h2 className="text-lg font-semibold text-white mb-6">
+        <div className="bg-white rounded-2xl border border-[#dde6ff] p-8 shadow-sm">
+          <h2 className="text-lg font-semibold text-gray-900 mb-6">
             Sign in to continue
           </h2>
 
@@ -73,7 +55,7 @@ export default function AdminLoginPage() {
             autoComplete="off"
           >
             <div>
-              <label className="block text-xs font-medium text-blue-200 uppercase tracking-wider mb-1.5">
+              <label className="block text-xs font-medium text-gray-500 uppercase tracking-wider mb-1.5">
                 Username
               </label>
               <input
@@ -85,12 +67,11 @@ export default function AdminLoginPage() {
                 }
                 placeholder="Enter username"
                 required
-                className="w-full px-4 py-3 rounded-xl bg-white/10 border border-white/20 text-white placeholder-blue-300/50 text-sm focus:outline-none focus:ring-2 focus:border-transparent transition"
-                style={{ "--tw-ring-color": "#E8274B" } as React.CSSProperties}
+                className="w-full px-4 py-3 rounded-xl bg-white border border-gray-200 text-gray-900 placeholder-gray-400 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
               />
             </div>
             <div>
-              <label className="block text-xs font-medium text-blue-200 uppercase tracking-wider mb-1.5">
+              <label className="block text-xs font-medium text-gray-500 uppercase tracking-wider mb-1.5">
                 Password
               </label>
               <input
@@ -102,12 +83,12 @@ export default function AdminLoginPage() {
                 }
                 placeholder="Enter password"
                 required
-                className="w-full px-4 py-3 rounded-xl bg-white/10 border border-white/20 text-white placeholder-blue-300/50 text-sm focus:outline-none focus:ring-2 focus:border-transparent transition"
+                className="w-full px-4 py-3 rounded-xl bg-white border border-gray-200 text-gray-900 placeholder-gray-400 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
               />
             </div>
 
             {status === "error" && (
-              <div className="bg-red-500/20 border border-red-400/30 rounded-lg px-4 py-3 text-sm text-red-200">
+              <div className="bg-red-50 border border-red-200 rounded-lg px-4 py-3 text-sm text-red-600">
                 {errMsg}
               </div>
             )}
