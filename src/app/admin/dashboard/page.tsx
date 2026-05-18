@@ -52,7 +52,10 @@ type TabType =
   | "visitors"
   | "newsletter"
   | "exhibitors"
-  | "videos";
+  | "videos"
+  | "podcasts"
+  | "images"
+  | "content";
 
 export default function AdminDashboard() {
   const router = useRouter();
@@ -95,6 +98,77 @@ export default function AdminDashboard() {
   });
   const [editingVideo, setEditingVideo] = useState<Video | null>(null);
   const [videoSaved, setVideoSaved] = useState(false);
+  // Podcasts state
+  const [podcasts, setPodcasts] = useState<
+    {
+      id: number;
+      title: string;
+      description: string;
+      url: string;
+      platform: string;
+      is_published: boolean;
+    }[]
+  >([]);
+  const [podcastLoading, setPodcastLoading] = useState(false);
+  const [podcastForm, setPodcastForm] = useState({
+    title: "",
+    description: "",
+    url: "",
+    platform: "youtube",
+    is_published: true,
+  });
+  const [editingPodcast, setEditingPodcast] = useState<{
+    id: number;
+    title: string;
+    description: string;
+    url: string;
+    platform: string;
+    is_published: boolean;
+  } | null>(null);
+  const [podcastSaved, setPodcastSaved] = useState(false);
+  // Images state
+  const [images, setImages] = useState<
+    {
+      id: number;
+      title: string;
+      url: string;
+      category: string;
+      type: string;
+      is_published: boolean;
+    }[]
+  >([]);
+  const [imageLoading, setImageLoading] = useState(false);
+  const [imageForm, setImageForm] = useState({
+    title: "",
+    url: "",
+    category: "general",
+    type: "gallery",
+    is_published: true,
+  });
+  const [imageSaved, setImageSaved] = useState(false);
+
+  // Content state
+  const [contents, setContents] = useState<
+    {
+      id: number;
+      key: string;
+      title: string;
+      subtitle: string;
+      content: string;
+      image_url: string;
+      is_published: boolean;
+    }[]
+  >([]);
+  const [contentLoading, setContentLoading] = useState(false);
+  const [contentForm, setContentForm] = useState({
+    key: "",
+    title: "",
+    subtitle: "",
+    content: "",
+    image_url: "",
+    is_published: true,
+  });
+  const [contentSaved, setContentSaved] = useState(false);
 
   const PER_PAGE = 15;
 
@@ -249,6 +323,172 @@ export default function AdminDashboard() {
     } catch {}
   };
 
+  // ── Images ──
+  const fetchImages = useCallback(async () => {
+    setImageLoading(true);
+    try {
+      const res = await fetch("/api/admin/images", { credentials: "include" });
+      const data = await res.json();
+      setImages(data.data || []);
+    } catch {
+    } finally {
+      setImageLoading(false);
+    }
+  }, []);
+
+  const saveImage = async () => {
+    if (!imageForm.url.trim()) return;
+    setImageLoading(true);
+    try {
+      await fetch("/api/admin/images", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+        body: JSON.stringify(imageForm),
+      });
+      setImageForm({
+        title: "",
+        url: "",
+        category: "general",
+        type: "gallery",
+        is_published: true,
+      });
+      setImageSaved(true);
+      setTimeout(() => setImageSaved(false), 3000);
+      await fetchImages();
+    } catch {
+    } finally {
+      setImageLoading(false);
+    }
+  };
+
+  const deleteImage = async (id: number) => {
+    try {
+      await fetch("/api/admin/images", {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+        body: JSON.stringify({ id }),
+      });
+      setImages((prev) => prev.filter((img) => img.id !== id));
+    } catch {}
+  };
+
+  // ── Content ──
+  const fetchContent = useCallback(async () => {
+    setContentLoading(true);
+    try {
+      const res = await fetch("/api/admin/content", { credentials: "include" });
+      const data = await res.json();
+      setContents(data.data || []);
+    } catch {
+    } finally {
+      setContentLoading(false);
+    }
+  }, []);
+
+  const saveContent = async () => {
+    if (!contentForm.key.trim() || !contentForm.title.trim()) return;
+    setContentLoading(true);
+    try {
+      await fetch("/api/admin/content", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+        body: JSON.stringify(contentForm),
+      });
+      setContentForm({
+        key: "",
+        title: "",
+        subtitle: "",
+        content: "",
+        image_url: "",
+        is_published: true,
+      });
+      setContentSaved(true);
+      setTimeout(() => setContentSaved(false), 3000);
+      await fetchContent();
+    } catch {
+    } finally {
+      setContentLoading(false);
+    }
+  };
+
+  const deleteContent = async (id: number) => {
+    try {
+      await fetch("/api/admin/content", {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+        body: JSON.stringify({ id }),
+      });
+      setContents((prev) => prev.filter((c) => c.id !== id));
+    } catch {}
+  };
+
+  // ── Podcasts ──
+  const fetchPodcasts = useCallback(async () => {
+    setPodcastLoading(true);
+    try {
+      const res = await fetch("/api/admin/podcasts", {
+        credentials: "include",
+      });
+      const data = await res.json();
+      setPodcasts(data.data || []);
+    } catch {
+    } finally {
+      setPodcastLoading(false);
+    }
+  }, []);
+
+  const savePodcast = async () => {
+    if (!podcastForm.title.trim() || !podcastForm.url.trim()) return;
+    setPodcastLoading(true);
+    try {
+      if (editingPodcast) {
+        await fetch("/api/admin/podcasts", {
+          method: "PATCH",
+          headers: { "Content-Type": "application/json" },
+          credentials: "include",
+          body: JSON.stringify({ id: editingPodcast.id, ...podcastForm }),
+        });
+        setEditingPodcast(null);
+      } else {
+        await fetch("/api/admin/podcasts", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          credentials: "include",
+          body: JSON.stringify(podcastForm),
+        });
+      }
+      setPodcastForm({
+        title: "",
+        description: "",
+        url: "",
+        platform: "youtube",
+        is_published: true,
+      });
+      setPodcastSaved(true);
+      setTimeout(() => setPodcastSaved(false), 3000);
+      await fetchPodcasts();
+    } catch {
+    } finally {
+      setPodcastLoading(false);
+    }
+  };
+
+  const deletePodcast = async (id: number) => {
+    try {
+      await fetch("/api/admin/podcasts", {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+        body: JSON.stringify({ id }),
+      });
+      setPodcasts((prev) => prev.filter((p) => p.id !== id));
+    } catch {}
+  };
+
   // ── Main data ──
   const fetchData = useCallback(async () => {
     try {
@@ -290,6 +530,9 @@ export default function AdminDashboard() {
   useEffect(() => {
     if (activeTab === "exhibitors") fetchExhibitors();
     if (activeTab === "videos") fetchVideos();
+    if (activeTab === "podcasts") fetchPodcasts();
+    if (activeTab === "images") fetchImages();
+    if (activeTab === "content") fetchContent();
     if (editingVideo) {
       setVideoForm({
         title: editingVideo.title,
@@ -298,7 +541,15 @@ export default function AdminDashboard() {
         is_published: editingVideo.is_published,
       });
     }
-  }, [activeTab, fetchExhibitors, fetchVideos, editingVideo]);
+  }, [
+    activeTab,
+    fetchExhibitors,
+    fetchVideos,
+    fetchPodcasts,
+    fetchImages,
+    fetchContent,
+    editingVideo,
+  ]);
 
   const handleLogout = async () => {
     await fetch("/api/admin/auth", {
@@ -455,6 +706,23 @@ export default function AdminDashboard() {
       icon: "🎬",
       label: "Videos",
       count: videos.length || undefined,
+    },
+    {
+      id: "podcasts",
+      icon: "🎙️",
+      label: "Podcasts",
+    },
+    {
+      id: "images",
+      icon: "🖼️",
+      label: "Images",
+      count: images.length || undefined,
+    },
+    {
+      id: "content",
+      icon: "📝",
+      label: "Content",
+      count: contents.length || undefined,
     },
   ];
 
@@ -1415,6 +1683,439 @@ export default function AdminDashboard() {
                       </div>
                     );
                   })}
+                </div>
+              )}
+            </div>
+          )}
+          {/* ── IMAGES ── */}
+          {activeTab === "images" && (
+            <div className="space-y-5">
+              <div className="rounded-2xl border border-white/10 bg-white/5 backdrop-blur-xl p-5">
+                <h3 className="text-white font-bold mb-4">➕ Add New Image</h3>
+                {imageSaved && (
+                  <div className="mb-3 rounded-xl px-4 py-3 text-sm text-green-700 bg-green-50 border border-green-200">
+                    ✅ Image saved!
+                  </div>
+                )}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <div>
+                    <label className="block text-xs font-semibold mb-1 text-gray-300">
+                      Title
+                    </label>
+                    <input
+                      value={imageForm.title}
+                      onChange={(e) =>
+                        setImageForm((f) => ({ ...f, title: e.target.value }))
+                      }
+                      className="w-full px-4 py-2.5 rounded-xl text-sm bg-white/10 border border-white/10 text-white placeholder-gray-400 focus:outline-none"
+                      placeholder="Image title..."
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-xs font-semibold mb-1 text-gray-300">
+                      Image URL *
+                    </label>
+                    <input
+                      value={imageForm.url}
+                      onChange={(e) =>
+                        setImageForm((f) => ({ ...f, url: e.target.value }))
+                      }
+                      className="w-full px-4 py-2.5 rounded-xl text-sm bg-white/10 border border-white/10 text-white placeholder-gray-400 focus:outline-none"
+                      placeholder="https://..."
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-xs font-semibold mb-1 text-gray-300">
+                      Category
+                    </label>
+                    <select
+                      value={imageForm.category}
+                      onChange={(e) =>
+                        setImageForm((f) => ({
+                          ...f,
+                          category: e.target.value,
+                        }))
+                      }
+                      className="w-full px-4 py-2.5 rounded-xl text-sm bg-white/10 border border-white/10 text-white focus:outline-none"
+                    >
+                      {[
+                        "general",
+                        "exhibition",
+                        "products",
+                        "venue",
+                        "team",
+                      ].map((c) => (
+                        <option key={c} value={c} className="bg-[#0B1E5B]">
+                          {c.charAt(0).toUpperCase() + c.slice(1)}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                  <div>
+                    <label className="block text-xs font-semibold mb-1 text-gray-300">
+                      Type
+                    </label>
+                    <select
+                      value={imageForm.type}
+                      onChange={(e) =>
+                        setImageForm((f) => ({ ...f, type: e.target.value }))
+                      }
+                      className="w-full px-4 py-2.5 rounded-xl text-sm bg-white/10 border border-white/10 text-white focus:outline-none"
+                    >
+                      {["gallery", "catalogue", "banner", "slider"].map((t) => (
+                        <option key={t} value={t} className="bg-[#0B1E5B]">
+                          {t.charAt(0).toUpperCase() + t.slice(1)}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                </div>
+                <div className="flex items-center gap-3 mt-3">
+                  <div
+                    onClick={() =>
+                      setImageForm((f) => ({
+                        ...f,
+                        is_published: !f.is_published,
+                      }))
+                    }
+                    className={`w-10 h-5 rounded-full transition-colors relative cursor-pointer ${imageForm.is_published ? "bg-blue-600" : "bg-white/20"}`}
+                  >
+                    <div
+                      className={`absolute top-0.5 w-4 h-4 rounded-full bg-white shadow transition-transform ${imageForm.is_published ? "translate-x-5" : "translate-x-0.5"}`}
+                    />
+                  </div>
+                  <span className="text-sm text-gray-300">
+                    {imageForm.is_published ? "Published" : "Draft"}
+                  </span>
+                </div>
+                <button
+                  onClick={saveImage}
+                  disabled={imageLoading || !imageForm.url}
+                  className="mt-4 px-6 py-2.5 rounded-xl text-white font-bold text-sm hover:opacity-90 disabled:opacity-50 transition"
+                  style={{ background: "#E8274B" }}
+                >
+                  {imageLoading ? "Saving..." : "Add Image"}
+                </button>
+              </div>
+
+              {imageLoading && !images.length ? (
+                <div className="py-20 text-center text-gray-400">
+                  <div className="w-8 h-8 border-4 border-white/20 border-t-white rounded-full animate-spin mx-auto mb-3" />
+                  Loading...
+                </div>
+              ) : images.length === 0 ? (
+                <div className="py-20 text-center text-gray-400 rounded-2xl border border-white/10 bg-white/5">
+                  <p className="text-4xl mb-2">🖼️</p>
+                  <p className="font-medium">No images added yet</p>
+                </div>
+              ) : (
+                <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
+                  {images.map((img) => (
+                    <div
+                      key={img.id}
+                      className="rounded-xl border border-white/10 bg-white/5 overflow-hidden"
+                    >
+                      <img
+                        src={img.url}
+                        alt={img.title}
+                        className="w-full h-32 object-cover"
+                        onError={(e) => {
+                          (e.target as HTMLImageElement).src = "";
+                        }}
+                      />
+                      <div className="p-2">
+                        <p className="text-white text-xs font-semibold truncate">
+                          {img.title || "—"}
+                        </p>
+                        <div className="flex items-center justify-between mt-1">
+                          <span className="text-xs text-gray-400 capitalize">
+                            {img.type}
+                          </span>
+                          <button
+                            onClick={() => deleteImage(img.id)}
+                            className="text-xs text-red-400 hover:text-red-300"
+                          >
+                            🗑️
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+            {/* ── CONTENT ── */}
+          {activeTab === "content" && (
+            <div className="space-y-5">
+              <div className="rounded-2xl border border-white/10 bg-white/5 backdrop-blur-xl p-5">
+                <h3 className="text-white font-bold mb-4">➕ Add / Update Content</h3>
+                {contentSaved && <div className="mb-3 rounded-xl px-4 py-3 text-sm text-green-700 bg-green-50 border border-green-200">✅ Content saved!</div>}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <div>
+                    <label className="block text-xs font-semibold mb-1 text-gray-300">Key * (unique identifier)</label>
+                    <select value={contentForm.key} onChange={(e) => setContentForm((f) => ({ ...f, key: e.target.value }))} className="w-full px-4 py-2.5 rounded-xl text-sm bg-white/10 border border-white/10 text-white focus:outline-none">
+                      <option value="" className="bg-[#0B1E5B]">Select content type...</option>
+                      {["about_us", "announcement", "banner_main", "banner_secondary", "hero_title", "hero_subtitle", "footer_text", "contact_info"].map((k) => (
+                        <option key={k} value={k} className="bg-[#0B1E5B]">{k.replace(/_/g, " ").replace(/\b\w/g, l => l.toUpperCase())}</option>
+                      ))}
+                    </select>
+                  </div>
+                  <div>
+                    <label className="block text-xs font-semibold mb-1 text-gray-300">Title *</label>
+                    <input value={contentForm.title} onChange={(e) => setContentForm((f) => ({ ...f, title: e.target.value }))} className="w-full px-4 py-2.5 rounded-xl text-sm bg-white/10 border border-white/10 text-white placeholder-gray-400 focus:outline-none" placeholder="Title..." />
+                  </div>
+                  <div>
+                    <label className="block text-xs font-semibold mb-1 text-gray-300">Subtitle</label>
+                    <input value={contentForm.subtitle} onChange={(e) => setContentForm((f) => ({ ...f, subtitle: e.target.value }))} className="w-full px-4 py-2.5 rounded-xl text-sm bg-white/10 border border-white/10 text-white placeholder-gray-400 focus:outline-none" placeholder="Subtitle..." />
+                  </div>
+                  <div>
+                    <label className="block text-xs font-semibold mb-1 text-gray-300">Image URL</label>
+                    <input value={contentForm.image_url} onChange={(e) => setContentForm((f) => ({ ...f, image_url: e.target.value }))} className="w-full px-4 py-2.5 rounded-xl text-sm bg-white/10 border border-white/10 text-white placeholder-gray-400 focus:outline-none" placeholder="https://..." />
+                  </div>
+                </div>
+                <div className="mt-3">
+                  <label className="block text-xs font-semibold mb-1 text-gray-300">Content</label>
+                  <textarea value={contentForm.content} onChange={(e) => setContentForm((f) => ({ ...f, content: e.target.value }))} rows={5} className="w-full px-4 py-2.5 rounded-xl text-sm bg-white/10 border border-white/10 text-white placeholder-gray-400 focus:outline-none resize-none" placeholder="Content text..." />
+                </div>
+                <div className="flex items-center gap-3 mt-3">
+                  <div onClick={() => setContentForm((f) => ({ ...f, is_published: !f.is_published }))} className={`w-10 h-5 rounded-full transition-colors relative cursor-pointer ${contentForm.is_published ? "bg-blue-600" : "bg-white/20"}`}>
+                    <div className={`absolute top-0.5 w-4 h-4 rounded-full bg-white shadow transition-transform ${contentForm.is_published ? "translate-x-5" : "translate-x-0.5"}`} />
+                  </div>
+                  <span className="text-sm text-gray-300">{contentForm.is_published ? "Published" : "Draft"}</span>
+                </div>
+                <button onClick={saveContent} disabled={contentLoading || !contentForm.key || !contentForm.title} className="mt-4 px-6 py-2.5 rounded-xl text-white font-bold text-sm hover:opacity-90 disabled:opacity-50 transition" style={{ background: "#E8274B" }}>
+                  {contentLoading ? "Saving..." : "Save Content"}
+                </button>
+              </div>
+
+              {contentLoading && !contents.length ? (
+                <div className="py-20 text-center text-gray-400"><div className="w-8 h-8 border-4 border-white/20 border-t-white rounded-full animate-spin mx-auto mb-3" />Loading...</div>
+              ) : contents.length === 0 ? (
+                <div className="py-20 text-center text-gray-400 rounded-2xl border border-white/10 bg-white/5"><p className="text-4xl mb-2">📝</p><p className="font-medium">No content added yet</p></div>
+              ) : (
+                <div className="space-y-3">
+                  {contents.map((c) => (
+                    <div key={c.id} className="rounded-xl border border-white/10 bg-white/5 p-4">
+                      <div className="flex items-start justify-between gap-4">
+                        <div className="flex-1 min-w-0">
+                          <div className="flex items-center gap-2 flex-wrap mb-1">
+                            <span className="text-xs px-2 py-0.5 rounded-full text-white" style={{ background: "#F4822A" }}>{c.key.replace(/_/g, " ")}</span>
+                            <span className={`text-xs px-2 py-0.5 rounded-full ${c.is_published ? "bg-green-100 text-green-700" : "bg-gray-100 text-gray-600"}`}>{c.is_published ? "Published" : "Draft"}</span>
+                          </div>
+                          <p className="text-white font-semibold">{c.title}</p>
+                          {c.subtitle && <p className="text-gray-400 text-sm">{c.subtitle}</p>}
+                          {c.content && <p className="text-gray-500 text-xs mt-1 line-clamp-2">{c.content}</p>}
+                        </div>
+                        <div className="flex gap-2 flex-shrink-0">
+                          <button onClick={() => setContentForm({ key: c.key, title: c.title, subtitle: c.subtitle, content: c.content, image_url: c.image_url, is_published: c.is_published })} className="px-3 py-1.5 text-xs rounded-lg text-white font-medium" style={{ background: "#E8274B" }}>✏️ Edit</button>
+                          <button onClick={() => deleteContent(c.id)} className="px-3 py-1.5 text-xs rounded-lg bg-red-500/10 text-red-400 hover:bg-red-500/20 transition">🗑️</button>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+
+          {/* ── PODCASTS ── */}
+          {activeTab === "content" && (
+            <div className="space-y-5">
+              <div className="rounded-2xl border border-white/10 bg-white/5 backdrop-blur-xl p-5">
+                <h3 className="text-white font-bold mb-4">
+                  {editingPodcast ? "✏️ Edit Podcast" : "➕ Add New Podcast"}
+                </h3>
+                {podcastSaved && (
+                  <div className="mb-3 rounded-xl px-4 py-3 text-sm text-green-700 bg-green-50 border border-green-200">
+                    ✅ Podcast saved!
+                  </div>
+                )}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <div>
+                    <label className="block text-xs font-semibold mb-1 text-gray-300">
+                      Title *
+                    </label>
+                    <input
+                      value={podcastForm.title}
+                      onChange={(e) =>
+                        setPodcastForm((f) => ({ ...f, title: e.target.value }))
+                      }
+                      className="w-full px-4 py-2.5 rounded-xl text-sm bg-white/10 border border-white/10 text-white placeholder-gray-400 focus:outline-none"
+                      placeholder="Episode title..."
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-xs font-semibold mb-1 text-gray-300">
+                      URL * (YouTube/Spotify)
+                    </label>
+                    <input
+                      value={podcastForm.url}
+                      onChange={(e) =>
+                        setPodcastForm((f) => ({ ...f, url: e.target.value }))
+                      }
+                      className="w-full px-4 py-2.5 rounded-xl text-sm bg-white/10 border border-white/10 text-white placeholder-gray-400 focus:outline-none"
+                      placeholder="https://youtube.com/watch?v=..."
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-xs font-semibold mb-1 text-gray-300">
+                      Description
+                    </label>
+                    <input
+                      value={podcastForm.description}
+                      onChange={(e) =>
+                        setPodcastForm((f) => ({
+                          ...f,
+                          description: e.target.value,
+                        }))
+                      }
+                      className="w-full px-4 py-2.5 rounded-xl text-sm bg-white/10 border border-white/10 text-white placeholder-gray-400 focus:outline-none"
+                      placeholder="Short description..."
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-xs font-semibold mb-1 text-gray-300">
+                      Platform
+                    </label>
+                    <select
+                      value={podcastForm.platform}
+                      onChange={(e) =>
+                        setPodcastForm((f) => ({
+                          ...f,
+                          platform: e.target.value,
+                        }))
+                      }
+                      className="w-full px-4 py-2.5 rounded-xl text-sm bg-white/10 border border-white/10 text-white focus:outline-none"
+                    >
+                      {["youtube", "spotify", "other"].map((p) => (
+                        <option key={p} value={p} className="bg-[#0B1E5B]">
+                          {p.charAt(0).toUpperCase() + p.slice(1)}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                </div>
+                <div className="flex items-center gap-3 mt-3">
+                  <div
+                    onClick={() =>
+                      setPodcastForm((f) => ({
+                        ...f,
+                        is_published: !f.is_published,
+                      }))
+                    }
+                    className={`w-10 h-5 rounded-full transition-colors relative cursor-pointer ${podcastForm.is_published ? "bg-blue-600" : "bg-white/20"}`}
+                  >
+                    <div
+                      className={`absolute top-0.5 w-4 h-4 rounded-full bg-white shadow transition-transform ${podcastForm.is_published ? "translate-x-5" : "translate-x-0.5"}`}
+                    />
+                  </div>
+                  <span className="text-sm text-gray-300">
+                    {podcastForm.is_published ? "Published" : "Draft"}
+                  </span>
+                </div>
+                <div className="flex gap-3 mt-4">
+                  <button
+                    onClick={savePodcast}
+                    disabled={
+                      podcastLoading || !podcastForm.title || !podcastForm.url
+                    }
+                    className="px-6 py-2.5 rounded-xl text-white font-bold text-sm hover:opacity-90 disabled:opacity-50 transition"
+                    style={{ background: "#E8274B" }}
+                  >
+                    {podcastLoading
+                      ? "Saving..."
+                      : editingPodcast
+                        ? "Update"
+                        : "Add Podcast"}
+                  </button>
+                  {editingPodcast && (
+                    <button
+                      onClick={() => {
+                        setEditingPodcast(null);
+                        setPodcastForm({
+                          title: "",
+                          description: "",
+                          url: "",
+                          platform: "youtube",
+                          is_published: true,
+                        });
+                      }}
+                      className="px-6 py-2.5 rounded-xl border border-white/10 text-gray-300 text-sm hover:bg-white/10 transition"
+                    >
+                      Cancel
+                    </button>
+                  )}
+                </div>
+              </div>
+
+              {podcastLoading && !podcasts.length ? (
+                <div className="py-20 text-center text-gray-400">
+                  <div className="w-8 h-8 border-4 border-white/20 border-t-white rounded-full animate-spin mx-auto mb-3" />
+                  Loading...
+                </div>
+              ) : podcasts.length === 0 ? (
+                <div className="py-20 text-center text-gray-400 rounded-2xl border border-white/10 bg-white/5">
+                  <p className="text-4xl mb-2">🎙️</p>
+                  <p className="font-medium">No podcasts added yet</p>
+                </div>
+              ) : (
+                <div className="space-y-3">
+                  {podcasts.map((p) => (
+                    <div
+                      key={p.id}
+                      className="rounded-xl border border-white/10 bg-white/5 p-4 flex items-center justify-between gap-4"
+                    >
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-center gap-2 mb-1 flex-wrap">
+                          <p className="text-white font-semibold truncate">
+                            {p.title}
+                          </p>
+                          <span
+                            className={`text-xs px-2 py-0.5 rounded-full ${p.is_published ? "bg-green-100 text-green-700" : "bg-gray-100 text-gray-600"}`}
+                          >
+                            {p.is_published ? "Published" : "Draft"}
+                          </span>
+                          <span
+                            className="text-xs px-2 py-0.5 rounded-full text-white capitalize"
+                            style={{ background: "#F4822A" }}
+                          >
+                            {p.platform}
+                          </span>
+                        </div>
+                        {p.description && (
+                          <p className="text-gray-400 text-xs truncate">
+                            {p.description}
+                          </p>
+                        )}
+                        <p className="text-gray-500 text-xs truncate mt-0.5">
+                          {p.url}
+                        </p>
+                      </div>
+                      <div className="flex gap-2 flex-shrink-0">
+                        <button
+                          onClick={() => {
+                            setEditingPodcast(p);
+                            setPodcastForm({
+                              title: p.title,
+                              description: p.description,
+                              url: p.url,
+                              platform: p.platform,
+                              is_published: p.is_published,
+                            });
+                            window.scrollTo({ top: 0, behavior: "smooth" });
+                          }}
+                          className="px-3 py-1.5 text-xs rounded-lg text-white font-medium"
+                          style={{ background: "#E8274B" }}
+                        >
+                          ✏️ Edit
+                        </button>
+                        <button
+                          onClick={() => deletePodcast(p.id)}
+                          className="px-3 py-1.5 text-xs rounded-lg bg-red-500/10 text-red-400 hover:bg-red-500/20 transition font-medium"
+                        >
+                          🗑️
+                        </button>
+                      </div>
+                    </div>
+                  ))}
                 </div>
               )}
             </div>

@@ -28,7 +28,7 @@ export default function NewsletterPage() {
         className="min-h-screen flex items-center justify-center"
         style={{ background: "var(--app-bg)" }}
       >
-        <div className="w-8 h-8 rounded-full border-4 border-blue-500 border-t-transparent animate-spin" />
+        <div className="w-8 h-8 rounded-full border-4 border-red-500 border-t-transparent animate-spin" />
       </section>
     );
   }
@@ -53,7 +53,7 @@ export default function NewsletterPage() {
         <div className="text-center mb-10">
           <div
             className="w-14 h-14 rounded-full flex items-center justify-center mx-auto mb-4"
-            style={{ background: "linear-gradient(135deg,#1d4ed8,#2563eb)" }}
+            style={{ background: "#E8274B" }}
           >
             <svg
               className="w-7 h-7 text-white"

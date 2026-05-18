@@ -215,6 +215,13 @@ export default function Header() {
             </div>
           </div>
 
+          <Link href="/videos" className="nav-link hover:text-brand-amber">
+            Videos
+          </Link>
+          <Link href="/podcast" className="nav-link hover:text-brand-amber">
+            Podcast
+          </Link>
+
           <Link href="/newsletter" className="nav-link hover:text-brand-amber">
             Newsletter
           </Link>
@@ -403,6 +410,19 @@ export default function Header() {
                 </button>
               </div>
             </details>
+
+            <button
+              onClick={() => handleMobileNav("/videos")}
+              className="mt-1 block rounded px-2 py-2 hover:bg-white/10 text-left w-full"
+            >
+              Videos
+            </button>
+            <button
+              onClick={() => handleMobileNav("/podcast")}
+              className="mt-1 block rounded px-2 py-2 hover:bg-white/10 text-left w-full"
+            >
+              Podcast
+            </button>
 
             <button
               onClick={() => handleMobileNav("/newsletter")}

@@ -1,6 +1,11 @@
 @import "tailwindcss";
 
 :root {
+  --brand-red: #E8274B;
+  --brand-orange: #F4822A;
+  --brand-yellow: #F9C11A;
+  --brand-green: #2ECC71;
+  --brand-navy: #1A1464;
   --app-bg: #070b34;
   --app-text: #ffffff;
   --app-panel: rgba(255, 255, 255, 0.06);
@@ -8,41 +13,30 @@
   --app-border: rgba(255, 255, 255, 0.12);
   --app-muted: rgba(229, 231, 235, 0.78);
   --app-header: rgba(17, 12, 65, 0.9);
-  --app-bg-radial-1: rgba(38, 209, 255, 0.16);
-  --app-bg-radial-2: rgba(124, 199, 255, 0.14);
-  --app-bg-radial-3: rgba(255, 178, 90, 0.12);
-}
-
-body.light {
-  --app-bg: #070b34;
-  --app-text: #ffffff;
-  --app-panel: rgba(255, 255, 255, 0.06);
-  --app-panel-soft: rgba(255, 255, 255, 0.1);
-  --app-border: rgba(255, 255, 255, 0.12);
-  --app-muted: rgba(229, 231, 235, 0.78);
-  --app-header: rgba(17, 12, 65, 0.9);
-  --app-bg-radial-1: rgba(38, 209, 255, 0.16);
-  --app-bg-radial-2: rgba(124, 199, 255, 0.14);
-  --app-bg-radial-3: rgba(255, 178, 90, 0.12);
+  --app-bg-radial-1: rgba(232, 39, 75, 0.13);
+  --app-bg-radial-2: rgba(244, 130, 42, 0.11);
+  --app-bg-radial-3: rgba(249, 193, 26, 0.09);
+  --app-bg-radial-4: rgba(46, 204, 113, 0.07);
 }
 
 body {
   font-family: var(--font-body), "Segoe UI", sans-serif;
   background:
-    radial-gradient(circle at 12% 18%, rgba(38, 209, 255, 0.16), transparent 36%),
-    radial-gradient(circle at 88% 12%, rgba(124, 199, 255, 0.14), transparent 34%),
-    radial-gradient(circle at 55% 80%, rgba(255, 178, 90, 0.12), transparent 42%),
-    linear-gradient(120deg, #090f2d 0%, #0f1a4f 48%, #1a2f7f 100%);
+    radial-gradient(circle at 10% 15%, rgba(232, 39, 75, 0.13), transparent 38%),
+    radial-gradient(circle at 90% 10%, rgba(244, 130, 42, 0.11), transparent 36%),
+    radial-gradient(circle at 50% 85%, rgba(249, 193, 26, 0.09), transparent 44%),
+    radial-gradient(circle at 75% 50%, rgba(46, 204, 113, 0.07), transparent 30%),
+    linear-gradient(135deg, #080d35 0%, #0f1550 45%, #1a1f6b 100%);
   background-attachment: fixed;
   color: var(--app-text);
 }
 
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
+body.light {
+  --app-bg: #070b34;
+  --app-text: #ffffff;
+}
+
+h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-heading), Georgia, serif;
   letter-spacing: 0.01em;
 }
@@ -66,13 +60,11 @@ body {
   overflow-x: hidden;
 }
 
-img,
-video,
-canvas,
-svg {
+img, video, canvas, svg {
   max-width: 100%;
 }
 
+/* Nav underline — Red */
 .nav-link {
   position: relative;
   transition: color 220ms ease, transform 220ms ease;
@@ -86,7 +78,7 @@ svg {
   width: 100%;
   height: 2px;
   border-radius: 999px;
-  background: linear-gradient(90deg, #76d7ff, #ffffff);
+  background: #E8274B;
   transform: scaleX(0);
   transform-origin: left;
   transition: transform 240ms ease;
@@ -171,36 +163,20 @@ svg {
 }
 
 @keyframes mobileMenuIn {
-  from {
-    opacity: 0;
-    transform: translateY(-8px) scaleY(0.95);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0) scaleY(1);
-  }
+  from { opacity: 0; transform: translateY(-8px) scaleY(0.95); }
+  to { opacity: 1; transform: translateY(0) scaleY(1); }
 }
 
 .reveal-on-scroll {
   opacity: 0;
   transform: translateY(28px);
-  transition:
-    opacity 700ms ease,
-    transform 700ms cubic-bezier(0.22, 1, 0.36, 1);
+  transition: opacity 700ms ease, transform 700ms cubic-bezier(0.22, 1, 0.36, 1);
   will-change: opacity, transform;
 }
 
-.reveal-on-scroll.reveal-left {
-  transform: translateX(-44px);
-}
-
-.reveal-on-scroll.reveal-right {
-  transform: translateX(44px);
-}
-
-.reveal-on-scroll.reveal-zoom {
-  transform: scale(0.94);
-}
+.reveal-on-scroll.reveal-left { transform: translateX(-44px); }
+.reveal-on-scroll.reveal-right { transform: translateX(44px); }
+.reveal-on-scroll.reveal-zoom { transform: scale(0.94); }
 
 .reveal-on-scroll.is-visible {
   opacity: 1;
@@ -208,25 +184,13 @@ svg {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  html {
-    scroll-behavior: auto;
-  }
-
-  .reveal-on-scroll {
-    opacity: 1;
-    transform: none;
-    transition: none;
-  }
-
-  .mobile-menu {
-    animation: none;
-  }
-
-  .mobile-submenu-content {
-    transition: none;
-  }
+  html { scroll-behavior: auto; }
+  .reveal-on-scroll { opacity: 1; transform: none; transition: none; }
+  .mobile-menu { animation: none; }
+  .mobile-submenu-content { transition: none; }
 }
 
+/* WhatsApp — Green */
 .whatsapp-float {
   position: fixed;
   right: 20px;
@@ -255,10 +219,7 @@ svg {
   outline-offset: 2px;
 }
 
-.whatsapp-float__icon {
-  width: 22px;
-  height: 22px;
-}
+.whatsapp-float__icon { width: 22px; height: 22px; }
 
 .whatsapp-float__label {
   font-size: 0.92rem;
@@ -274,13 +235,12 @@ svg {
     padding: 11px;
     border-radius: 50%;
   }
-
-  .whatsapp-float__label {
-    display: none;
-  }
-
-  .whatsapp-float__icon {
-    width: 24px;
-    height: 24px;
-  }
+  .whatsapp-float__label { display: none; }
+  .whatsapp-float__icon { width: 24px; height: 24px; }
 }
+
+/* Scrollbar — Red to Orange */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: #080d35; }
+::-webkit-scrollbar-thumb { background: #E8274B; border-radius: 999px; }
+::-webkit-scrollbar-thumb:hover { background: #F4822A; }
