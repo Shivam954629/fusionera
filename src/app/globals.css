@@ -21,19 +21,8 @@
 
 body {
   font-family: var(--font-body), "Segoe UI", sans-serif;
-  background:
-    radial-gradient(circle at 10% 15%, rgba(232, 39, 75, 0.13), transparent 38%),
-    radial-gradient(circle at 90% 10%, rgba(244, 130, 42, 0.11), transparent 36%),
-    radial-gradient(circle at 50% 85%, rgba(249, 193, 26, 0.09), transparent 44%),
-    radial-gradient(circle at 75% 50%, rgba(46, 204, 113, 0.07), transparent 30%),
-    linear-gradient(135deg, #080d35 0%, #0f1550 45%, #1a1f6b 100%);
-  background-attachment: fixed;
-  color: var(--app-text);
-}
-
-body.light {
-  --app-bg: #070b34;
-  --app-text: #ffffff;
+  background: #ffffff;
+  color: #1a1a2e;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -239,8 +228,8 @@ img, video, canvas, svg {
   .whatsapp-float__icon { width: 24px; height: 24px; }
 }
 
-/* Scrollbar — Red to Orange */
+/* Scrollbar */
 ::-webkit-scrollbar { width: 6px; }
-::-webkit-scrollbar-track { background: #080d35; }
-::-webkit-scrollbar-thumb { background: #E8274B; border-radius: 999px; }
-::-webkit-scrollbar-thumb:hover { background: #F4822A; }
+::-webkit-scrollbar-track { background: #f1f1f1; }
+::-webkit-scrollbar-thumb { background: #1A1464; border-radius: 999px; }
+::-webkit-scrollbar-thumb:hover { background: #E8274B; }

@@ -146,6 +146,9 @@ export default function AdminDashboard() {
     is_published: true,
   });
   const [imageSaved, setImageSaved] = useState(false);
+  const [editingImage, setEditingImage] = useState<{
+    id: number; title: string; url: string; category: string; type: string; is_published: boolean;
+  } | null>(null);
 
   // Content state
   const [contents, setContents] = useState<
@@ -340,19 +343,23 @@ export default function AdminDashboard() {
     if (!imageForm.url.trim()) return;
     setImageLoading(true);
     try {
-      await fetch("/api/admin/images", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        credentials: "include",
-        body: JSON.stringify(imageForm),
-      });
-      setImageForm({
-        title: "",
-        url: "",
-        category: "general",
-        type: "gallery",
-        is_published: true,
-      });
+      if (editingImage) {
+        await fetch("/api/admin/images", {
+          method: "PATCH",
+          headers: { "Content-Type": "application/json" },
+          credentials: "include",
+          body: JSON.stringify({ id: editingImage.id, ...imageForm }),
+        });
+        setEditingImage(null);
+      } else {
+        await fetch("/api/admin/images", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          credentials: "include",
+          body: JSON.stringify(imageForm),
+        });
+      }
+      setImageForm({ title: "", url: "", category: "general", type: "gallery", is_published: true });
       setImageSaved(true);
       setTimeout(() => setImageSaved(false), 3000);
       await fetchImages();
@@ -1691,7 +1698,7 @@ export default function AdminDashboard() {
           {activeTab === "images" && (
             <div className="space-y-5">
               <div className="rounded-2xl border border-white/10 bg-white/5 backdrop-blur-xl p-5">
-                <h3 className="text-white font-bold mb-4">➕ Add New Image</h3>
+                <h3 className="text-white font-bold mb-4">{editingImage ? "✏️ Edit Image" : "➕ Add New Image"}</h3>
                 {imageSaved && (
                   <div className="mb-3 rounded-xl px-4 py-3 text-sm text-green-700 bg-green-50 border border-green-200">
                     ✅ Image saved!
@@ -1788,14 +1795,27 @@ export default function AdminDashboard() {
                     {imageForm.is_published ? "Published" : "Draft"}
                   </span>
                 </div>
-                <button
-                  onClick={saveImage}
-                  disabled={imageLoading || !imageForm.url}
-                  className="mt-4 px-6 py-2.5 rounded-xl text-white font-bold text-sm hover:opacity-90 disabled:opacity-50 transition"
-                  style={{ background: "#E8274B" }}
-                >
-                  {imageLoading ? "Saving..." : "Add Image"}
-                </button>
+                <div className="flex gap-3 mt-4">
+                  <button
+                    onClick={saveImage}
+                    disabled={imageLoading || !imageForm.url}
+                    className="px-6 py-2.5 rounded-xl text-white font-bold text-sm hover:opacity-90 disabled:opacity-50 transition"
+                    style={{ background: "#E8274B" }}
+                  >
+                    {imageLoading ? "Saving..." : editingImage ? "Update Image" : "Add Image"}
+                  </button>
+                  {editingImage && (
+                    <button
+                      onClick={() => {
+                        setEditingImage(null);
+                        setImageForm({ title: "", url: "", category: "general", type: "gallery", is_published: true });
+                      }}
+                      className="px-6 py-2.5 rounded-xl border border-white/10 text-gray-300 text-sm hover:bg-white/10 transition"
+                    >
+                      Cancel
+                    </button>
+                  )}
+                </div>
               </div>
 
               {imageLoading && !images.length ? (
@@ -1831,12 +1851,24 @@ export default function AdminDashboard() {
                           <span className="text-xs text-gray-400 capitalize">
                             {img.type}
                           </span>
-                          <button
-                            onClick={() => deleteImage(img.id)}
-                            className="text-xs text-red-400 hover:text-red-300"
-                          >
-                            🗑️
-                          </button>
+                          <div className="flex gap-1">
+                            <button
+                              onClick={() => {
+                                setEditingImage(img);
+                                setImageForm({ title: img.title, url: img.url, category: img.category, type: img.type, is_published: img.is_published });
+                                window.scrollTo({ top: 0, behavior: "smooth" });
+                              }}
+                              className="text-xs text-indigo-400 hover:text-indigo-300 px-1"
+                            >
+                              ✏️
+                            </button>
+                            <button
+                              onClick={() => deleteImage(img.id)}
+                              className="text-xs text-red-400 hover:text-red-300 px-1"
+                            >
+                              🗑️
+                            </button>
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -1917,6 +1949,8 @@ export default function AdminDashboard() {
                   ))}
                 </div>
               )}
+            </div>
+          )}
 
           {/* ── PODCASTS ── */}
           {activeTab === "podcasts" && (

@@ -5,7 +5,6 @@ import Section2 from "@/components/sections/Section2";
 import Section3 from "@/components/sections/Section3";
 import Section4 from "@/components/sections/Section4";
 import VideosSection from "@/components/VideosSection";
-import Feedback from "@/components/Feedback";
 
 export default function Home() {
   return (
@@ -15,7 +14,6 @@ export default function Home() {
       <Section3 />
       <Section4 />
       <VideosSection />
-      <Feedback />
     </main>
   );
 }

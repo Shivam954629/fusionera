@@ -20,7 +20,7 @@ export default function Footer() {
           <p className="mt-4 text-sm leading-6 text-[#d8e6ff]">
             India&apos;s business-first platform for Houseware, HORECA,
             Stainless Steel and Home Appliances. India&apos;s premier B2B trade
-            show for Houseware, HoReCa, Home Décor & Kitchen. Organized by
+            show for Houseware, HoReCa, Home Décor &amp; Kitchen. Organized by
             V-Tech Innovation Services.
           </p>
 
@@ -112,7 +112,7 @@ export default function Footer() {
           </div>
         </div>
 
-        {/* QUICK LINKS — ✅ FIXED */}
+        {/* QUICK LINKS */}
         <div>
           <h3 className="text-sm font-semibold uppercase tracking-[0.16em] text-[#8cecff]">
             Quick Links

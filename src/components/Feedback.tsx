@@ -40,7 +40,7 @@ export default function Feedback() {
 
   return (
     <section className="mx-auto w-full max-w-7xl px-4 py-6 sm:px-6 md:py-10 lg:px-10">
-      <div className="rounded-2xl border border-white/10 bg-white/5 p-6 md:p-8 backdrop-blur-xl">
+      <div className="rounded-2xl border border-gray-100 bg-white p-6 shadow-sm md:p-8">
         <div className="mb-6 text-center">
           <div
             className="w-14 h-14 rounded-full flex items-center justify-center mx-auto mb-3"
@@ -60,8 +60,8 @@ export default function Feedback() {
               />
             </svg>
           </div>
-          <h2 className="text-3xl font-bold text-white">Share Your Feedback</h2>
-          <p className="mt-2 text-sm text-gray-300">
+          <h2 className="text-3xl font-bold text-gray-900">Share Your Feedback</h2>
+          <p className="mt-2 text-sm text-gray-500">
             We value your opinion — help us improve!
           </p>
         </div>
@@ -86,8 +86,8 @@ export default function Feedback() {
                 />
               </svg>
             </div>
-            <h3 className="text-white font-bold text-xl mb-2">Thank You!</h3>
-            <p className="text-gray-300 text-sm">
+            <h3 className="text-gray-900 font-bold text-xl mb-2">Thank You!</h3>
+            <p className="text-gray-500 text-sm">
               Your feedback has been submitted successfully.
             </p>
             <button
@@ -102,7 +102,7 @@ export default function Feedback() {
           <form onSubmit={handleSubmit} className="space-y-4">
             {/* Rating */}
             <div>
-              <label className="block text-sm font-semibold text-white mb-2">
+              <label className="block text-sm font-semibold text-gray-700 mb-2">
                 Rating
               </label>
               <div className="flex gap-2">
@@ -127,7 +127,7 @@ export default function Feedback() {
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-semibold text-white mb-1.5">
+                <label className="block text-sm font-semibold text-gray-700 mb-1.5">
                   Name *
                 </label>
                 <input
@@ -137,12 +137,12 @@ export default function Feedback() {
                   onChange={(e) =>
                     setForm((f) => ({ ...f, name: e.target.value }))
                   }
-                  className="w-full px-4 py-2.5 rounded-xl text-sm bg-white/10 border border-white/10 text-white placeholder-gray-400 focus:outline-none"
+                  className="w-full px-4 py-2.5 rounded-xl text-sm bg-gray-50 border border-gray-200 text-gray-900 placeholder-gray-400 focus:outline-none"
                   placeholder="Your name"
                 />
               </div>
               <div>
-                <label className="block text-sm font-semibold text-white mb-1.5">
+                <label className="block text-sm font-semibold text-gray-700 mb-1.5">
                   Email
                 </label>
                 <input
@@ -151,14 +151,14 @@ export default function Feedback() {
                   onChange={(e) =>
                     setForm((f) => ({ ...f, email: e.target.value }))
                   }
-                  className="w-full px-4 py-2.5 rounded-xl text-sm bg-white/10 border border-white/10 text-white placeholder-gray-400 focus:outline-none"
+                  className="w-full px-4 py-2.5 rounded-xl text-sm bg-gray-50 border border-gray-200 text-gray-900 placeholder-gray-400 focus:outline-none"
                   placeholder="your@email.com"
                 />
               </div>
             </div>
 
             <div>
-              <label className="block text-sm font-semibold text-white mb-1.5">
+              <label className="block text-sm font-semibold text-gray-700 mb-1.5">
                 Phone
               </label>
               <input
@@ -167,13 +167,13 @@ export default function Feedback() {
                 onChange={(e) =>
                   setForm((f) => ({ ...f, phone: e.target.value }))
                 }
-                className="w-full px-4 py-2.5 rounded-xl text-sm bg-white/10 border border-white/10 text-white placeholder-gray-400 focus:outline-none"
+                className="w-full px-4 py-2.5 rounded-xl text-sm bg-gray-50 border border-gray-200 text-gray-900 placeholder-gray-400 focus:outline-none"
                 placeholder="+91 XXXXX XXXXX"
               />
             </div>
 
             <div>
-              <label className="block text-sm font-semibold text-white mb-1.5">
+              <label className="block text-sm font-semibold text-gray-700 mb-1.5">
                 Message *
               </label>
               <textarea

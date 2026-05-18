@@ -25,21 +25,18 @@ export default function Section2() {
     <>
       <section id="houseware" className="mx-auto w-full max-w-7xl px-4 py-6 sm:px-6 md:py-10 lg:px-10 reveal-on-scroll"
         data-reveal-delay="0">
-        <div className="relative overflow-hidden rounded-2xl border border-white/10 bg-[linear-gradient(135deg,rgba(7,11,52,0.92)_0%,rgba(11,30,91,0.9)_48%,rgba(17,45,122,0.88)_100%)] p-4 shadow-[0_0_40px_rgba(0,0,0,0.25)] backdrop-blur-xl sm:p-6 md:p-8">
-          <div className="pointer-events-none absolute -right-8 -top-8 h-36 w-36 rounded-full bg-[#7dc8ff]/30 blur-2xl"></div>
-          <div className="pointer-events-none absolute -bottom-8 -left-8 h-36 w-36 rounded-full bg-[#ffd59f]/40 blur-2xl"></div>
+        <div className="relative overflow-hidden rounded-2xl border border-gray-100 bg-white p-4 shadow-sm sm:p-6 md:p-8">
 
           <div className="mb-6 flex flex-wrap items-end justify-between gap-4">
             <div className="max-w-3xl">
-              
-              <h2 className="text-3xl font-bold text-white sm:text-4xl lg:text-5xl">Product Portfolio</h2>
-              <p className="mt-3 text-sm leading-7 text-gray-300 md:text-base">
+              <h2 className="text-3xl font-bold text-gray-900 sm:text-4xl lg:text-5xl">Product Portfolio</h2>
+              <p className="mt-3 text-sm leading-7 text-gray-500 md:text-base">
                 Indian and International brands, importers, manufacturers and distributors, private label suppliers, startup brands and specialized producers.
               </p>
             </div>
             <Link
               href="/products"
-              className="inline-flex w-full items-center justify-center rounded-full border border-white/20 bg-white/10 px-5 py-2.5 text-sm font-semibold text-white shadow-[0_10px_30px_rgba(52,123,255,0.22)] backdrop-blur transition hover:-translate-y-0.5 hover:bg-white/15 sm:w-auto"
+              className="inline-flex w-full items-center justify-center rounded-full border border-gray-200 bg-white px-5 py-2.5 text-sm font-semibold text-gray-700 shadow-sm transition hover:-translate-y-0.5 hover:bg-gray-50 sm:w-auto"
             >
               Browse All
             </Link>
@@ -50,19 +47,19 @@ export default function Section2() {
               productList.filter((p, i) => i < 8).map((p1, i1) =>
                 <article
                   key={i1}
-                  className="group cursor-pointer rounded-xl border border-white/10 bg-white/5 p-4 shadow-[0_0_30px_rgba(0,0,0,0.22)] backdrop-blur-xl transition duration-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-[#8fb8ff]/30">
+                  className="group cursor-pointer rounded-xl border border-gray-200 bg-white p-4 shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-md">
                   <button
                     type="button"
-                    onClick={() => setPortfolioModal({ src: p1.src, alt: 'Premium glass ware set on dining table', title: 'Home Appliances' })}
+                    onClick={() => setPortfolioModal({ src: p1.src, alt: p1.title, title: p1.title })}
                     className="block w-full overflow-hidden rounded-lg"
-                    aria-label="Open Home Appliances image in full view"
+                    aria-label={`Open ${p1.title} image in full view`}
                   >
                     <img src={p1.src}
-                      alt="Premium glass ware set on dining table"
+                      alt={p1.title}
                       className="h-44 w-full rounded-lg object-cover transition duration-300 group-hover:scale-105 cursor-pointer" />
                   </button>
-                  <h3 className="mt-3 text-lg font-semibold text-white">{p1.title}</h3>
-                  <p className="mt-2 text-sm text-gray-300">{p1.desc}</p>
+                  <h3 className="mt-3 text-lg font-semibold text-gray-900">{p1.title}</h3>
+                  <p className="mt-2 text-sm text-gray-500">{p1.desc}</p>
                 </article>
               )
             }
@@ -72,20 +69,20 @@ export default function Section2() {
 
       {portfolioModal && (
         <div
-          className="fixed inset-0 z-[110] flex items-center justify-center bg-[#02071f]/85 p-4 backdrop-blur-sm"
+          className="fixed inset-0 z-[110] flex items-center justify-center bg-black/60 p-4 backdrop-blur-sm"
           onClick={() => setPortfolioModal(null)}
           role="dialog"
           aria-modal="true"
           aria-label={`${portfolioModal.title} full image preview`}
         >
           <div
-            className="relative w-full max-w-5xl overflow-hidden rounded-2xl border border-white/30 bg-white/10 shadow-[0_28px_65px_rgba(0,0,0,0.6)]"
+            className="relative w-full max-w-5xl overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-2xl"
             onClick={(event) => event.stopPropagation()}
           >
             <button
               type="button"
               onClick={() => setPortfolioModal(null)}
-              className="absolute right-3 top-3 z-10 rounded-full bg-black/55 px-3 py-1.5 text-sm font-semibold text-white transition hover:bg-black/75"
+              className="absolute right-3 top-3 z-10 rounded-full bg-gray-900/70 px-3 py-1.5 text-sm font-semibold text-white transition hover:bg-gray-900"
               aria-label="Close full image preview"
             >
               ✕
@@ -93,7 +90,7 @@ export default function Section2() {
             <img
               src={portfolioModal.src}
               alt={portfolioModal.alt}
-              className="max-h-[85vh] w-full object-contain bg-[#071239]"
+              className="max-h-[85vh] w-full object-contain bg-gray-50"
             />
           </div>
         </div>

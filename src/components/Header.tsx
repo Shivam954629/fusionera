@@ -91,28 +91,24 @@ export default function Header() {
                 >
                   About Fusion The Era
                 </Link>
-                {/* FIXED: was /about */}
                 <Link
                   href="/show"
                   className="block rounded px-3 py-2 text-xs text-white hover:bg-white/10"
                 >
                   About The Show
                 </Link>
-                {/* FIXED: was /about */}
                 <Link
                   href="/organizer"
                   className="block rounded px-3 py-2 text-xs text-white hover:bg-white/10"
                 >
                   About Organiser
                 </Link>
-                {/* FIXED: was /about */}
                 <Link
                   href="/trade"
                   className="block rounded px-3 py-2 text-xs text-white hover:bg-white/10"
                 >
                   Trade Show Facts
                 </Link>
-                {/* FIXED: was /about */}
                 <Link
                   href="/report"
                   className="block rounded px-3 py-2 text-xs text-white hover:bg-white/10"
@@ -140,21 +136,18 @@ export default function Header() {
             </Link>
             <div className="nav-dropdown invisible absolute left-0 top-full z-40 w-52 pt-2 opacity-0 transition duration-300 group-hover:visible group-hover:opacity-100 group-focus-within:visible group-focus-within:opacity-100">
               <div className="rounded-md border border-white/15 bg-[#191452] p-2 shadow-lg">
-                {/* FIXED: was href="#featured" */}
                 <Link
                   href="/whoshouldvisit"
                   className="block rounded px-3 py-2 text-xs text-white hover:bg-white/10"
                 >
                   Who Should Visit
                 </Link>
-                {/* FIXED: was href="#categories" */}
                 <Link
                   href="/benefits"
                   className="block rounded px-3 py-2 text-xs text-white hover:bg-white/10"
                 >
                   Benefits
                 </Link>
-                {/* FIXED: was href="#about" */}
                 <Link
                   href="/comments"
                   className="block rounded px-3 py-2 text-xs text-white hover:bg-white/10"
@@ -176,35 +169,30 @@ export default function Header() {
             </Link>
             <div className="nav-dropdown invisible absolute left-0 top-full z-40 w-52 pt-2 opacity-0 transition duration-300 group-hover:visible group-hover:opacity-100 group-focus-within:visible group-focus-within:opacity-100">
               <div className="rounded-md border border-white/15 bg-[#191452] p-2 shadow-lg">
-                {/* FIXED: was /about */}
                 <Link
                   href="/whoshouldexhibit"
                   className="block rounded px-3 py-2 text-xs text-white hover:bg-white/10"
                 >
                   Who Should Exhibit?
                 </Link>
-                {/* FIXED: was /about */}
                 <Link
                   href="/exhibitorbenefits"
                   className="block rounded px-3 py-2 text-xs text-white hover:bg-white/10"
                 >
                   Benefits
                 </Link>
-                {/* FIXED: was /about */}
                 <Link
                   href="/exhibitorprofile"
                   className="block rounded px-3 py-2 text-xs text-white hover:bg-white/10"
                 >
                   Exhibitor Profile
                 </Link>
-                {/* FIXED: was /about */}
                 <Link
                   href="/exhibitorcomments"
                   className="block rounded px-3 py-2 text-xs text-white hover:bg-white/10"
                 >
                   Exhibitor Comments
                 </Link>
-                {/* FIXED: was /about */}
                 <Link
                   href="/exhibitorlist"
                   className="block rounded px-3 py-2 text-xs text-white hover:bg-white/10"

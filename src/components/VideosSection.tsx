@@ -32,9 +32,9 @@ export default function VideosSection() {
 
   return (
     <section className="mx-auto w-full max-w-7xl px-4 py-6 sm:px-6 md:py-10 lg:px-10">
-      <div className="rounded-2xl border border-white/10 bg-white/5 p-6 md:p-8">
+      <div className="rounded-2xl border border-gray-100 bg-white p-6 shadow-sm md:p-8">
         <div className="mb-6 flex items-center justify-between">
-          <h2 className="text-3xl font-bold text-white">Videos</h2>
+          <h2 className="text-3xl font-bold text-gray-900">Videos</h2>
           <Link href="/videos" className="text-sm font-medium" style={{ color: "#E8274B" }}>
             View all →
           </Link>
@@ -45,7 +45,7 @@ export default function VideosSection() {
             const ytId = getYouTubeId(v.url);
             const isPlaying = playingId === v.id;
             return (
-              <div key={v.id} className="rounded-xl overflow-hidden border border-white/10 bg-white/5">
+              <div key={v.id} className="rounded-xl overflow-hidden border border-gray-200 bg-white">
                 <div className="relative aspect-video bg-black">
                   {isPlaying && ytId ? (
                     <iframe
@@ -78,7 +78,7 @@ export default function VideosSection() {
                   )}
                 </div>
                 <div className="p-3">
-                  <p className="text-white text-sm font-semibold">{v.title}</p>
+                  <p className="text-gray-900 text-sm font-semibold">{v.title}</p>
                   {isPlaying && (
                     <button onClick={() => setPlayingId(null)} className="mt-1 text-xs text-gray-400">Close</button>
                   )}
