@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(rm src/app/global-error.tsx)",
+      "Bash(npm run *)"
+    ]
+  }
+}
