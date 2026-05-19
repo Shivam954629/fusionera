@@ -2100,42 +2100,116 @@ export default function AdminDashboard() {
                 </button>
               </div>
 
-              {/* Change Password */}
+              {/* Password Management */}
               <div className="rounded-2xl border border-gray-200 bg-white shadow-sm p-5">
-                <h3 className="text-gray-900 font-bold mb-1">🔐 Change Admin Password</h3>
-                <p className="text-xs text-gray-500 mb-4">Use a strong password with at least 8 characters.</p>
+                <h3 className="text-gray-900 font-bold mb-1">🔐 Password Management</h3>
+                <p className="text-xs text-gray-500 mb-4">Set or reset your admin login password.</p>
                 {pwMsg && (
                   <div className={`mb-4 rounded-xl px-4 py-3 text-sm border ${pwMsg.type === "success" ? "text-green-700 bg-green-50 border-green-200" : "text-red-600 bg-red-50 border-red-200"}`}>
                     {pwMsg.text}
                   </div>
                 )}
-                <div className="space-y-3">
-                  {[
-                    { key: "current" as const, label: "Current Password", ph: "Enter current password" },
-                    { key: "next" as const, label: "New Password", ph: "Min 8 characters" },
-                    { key: "confirm" as const, label: "Confirm New Password", ph: "Repeat new password" },
-                  ].map(({ key, label, ph }) => (
-                    <div key={key}>
-                      <label className="block text-xs font-semibold mb-1 text-gray-600">{label}</label>
-                      <input
-                        type="password"
-                        value={pwForm[key]}
-                        onChange={(e) => setPwForm((f) => ({ ...f, [key]: e.target.value }))}
-                        className="w-full px-4 py-2.5 rounded-xl text-sm bg-white border border-gray-200 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#E8274B]"
-                        placeholder={ph}
-                        autoComplete="new-password"
-                      />
-                    </div>
+
+                {/* Tab switcher */}
+                <div className="flex border border-gray-200 rounded-xl overflow-hidden mb-4">
+                  {(["change", "set", "reset"] as const).map((mode) => (
+                    <button
+                      key={mode}
+                      onClick={() => { setPwForm({ current: "", next: "", confirm: "" }); setPwMsg(null); setSettings((s) => ({ ...s, _pwMode: mode })); }}
+                      className={`flex-1 py-2 text-xs font-semibold transition ${(settings._pwMode ?? "change") === mode ? "text-white" : "text-gray-500 hover:bg-gray-50"}`}
+                      style={{ background: (settings._pwMode ?? "change") === mode ? "#E8274B" : "transparent" }}
+                    >
+                      {mode === "change" ? "Change" : mode === "set" ? "Force Set" : "Reset Default"}
+                    </button>
                   ))}
                 </div>
-                <button
-                  onClick={changePassword}
-                  disabled={pwLoading}
-                  className="mt-4 w-full py-3 rounded-xl text-white font-bold text-sm transition hover:opacity-90 disabled:opacity-60"
-                  style={{ background: "#E8274B" }}
-                >
-                  {pwLoading ? "Changing..." : "Change Password"}
-                </button>
+
+                {/* Change (requires current) */}
+                {(settings._pwMode ?? "change") === "change" && (
+                  <div className="space-y-3">
+                    <p className="text-xs text-gray-500 mb-2">Enter current password + new password to change.</p>
+                    {[
+                      { key: "current" as const, label: "Current Password", ph: "Your current password" },
+                      { key: "next" as const, label: "New Password", ph: "Min 8 characters" },
+                      { key: "confirm" as const, label: "Confirm New Password", ph: "Repeat new password" },
+                    ].map(({ key, label, ph }) => (
+                      <div key={key}>
+                        <label className="block text-xs font-semibold mb-1 text-gray-600">{label}</label>
+                        <input type="password" value={pwForm[key]} onChange={(e) => setPwForm((f) => ({ ...f, [key]: e.target.value }))} className="w-full px-4 py-2.5 rounded-xl text-sm bg-white border border-gray-200 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#E8274B]" placeholder={ph} autoComplete="new-password" />
+                      </div>
+                    ))}
+                    <button onClick={changePassword} disabled={pwLoading} className="w-full py-3 rounded-xl text-white font-bold text-sm transition hover:opacity-90 disabled:opacity-60 mt-1" style={{ background: "#E8274B" }}>
+                      {pwLoading ? "Changing..." : "Change Password"}
+                    </button>
+                  </div>
+                )}
+
+                {/* Force Set (no current password needed — admin already logged in) */}
+                {settings._pwMode === "set" && (
+                  <div className="space-y-3">
+                    <div className="rounded-xl px-4 py-3 text-xs text-amber-700 bg-amber-50 border border-amber-200 mb-3">
+                      ⚠️ Force set skips current password verification. Use only if you cannot remember your current password.
+                    </div>
+                    {[
+                      { key: "next" as const, label: "New Password", ph: "Min 8 characters" },
+                      { key: "confirm" as const, label: "Confirm New Password", ph: "Repeat new password" },
+                    ].map(({ key, label, ph }) => (
+                      <div key={key}>
+                        <label className="block text-xs font-semibold mb-1 text-gray-600">{label}</label>
+                        <input type="password" value={pwForm[key]} onChange={(e) => setPwForm((f) => ({ ...f, [key]: e.target.value }))} className="w-full px-4 py-2.5 rounded-xl text-sm bg-white border border-gray-200 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#E8274B]" placeholder={ph} autoComplete="new-password" />
+                      </div>
+                    ))}
+                    <button
+                      onClick={async () => {
+                        if (!pwForm.next || !pwForm.confirm) { setPwMsg({ type: "error", text: "Both fields required." }); return; }
+                        if (pwForm.next !== pwForm.confirm) { setPwMsg({ type: "error", text: "Passwords do not match." }); return; }
+                        if (pwForm.next.length < 8) { setPwMsg({ type: "error", text: "Min 8 characters required." }); return; }
+                        setPwLoading(true); setPwMsg(null);
+                        try {
+                          const res = await fetch("/api/admin/settings", { method: "PATCH", headers: { "Content-Type": "application/json" }, credentials: "include", body: JSON.stringify({ action: "force_set", newPassword: pwForm.next }) });
+                          const data = await res.json();
+                          if (!res.ok) throw new Error(data.error);
+                          setPwMsg({ type: "success", text: "Password set successfully!" });
+                          setPwForm({ current: "", next: "", confirm: "" });
+                        } catch (e: unknown) { setPwMsg({ type: "error", text: e instanceof Error ? e.message : "Failed." }); }
+                        finally { setPwLoading(false); }
+                      }}
+                      disabled={pwLoading}
+                      className="w-full py-3 rounded-xl text-white font-bold text-sm transition hover:opacity-90 disabled:opacity-60"
+                      style={{ background: "#E8274B" }}
+                    >
+                      {pwLoading ? "Setting..." : "Set Password"}
+                    </button>
+                  </div>
+                )}
+
+                {/* Reset to default (env ADMIN_PASSWORD) */}
+                {settings._pwMode === "reset" && (
+                  <div>
+                    <div className="rounded-xl px-4 py-3 text-sm text-gray-600 bg-gray-50 border border-gray-200 mb-4">
+                      <p className="font-semibold text-gray-900 mb-1">Reset to Default</p>
+                      <p className="text-xs">This will reset your admin password to the default value set in the server environment (<code>ADMIN_PASSWORD</code>). Use this if you are locked out.</p>
+                    </div>
+                    <button
+                      onClick={async () => {
+                        if (!confirm("Reset password to default? You will need to use the ADMIN_PASSWORD from server env to login.")) return;
+                        setPwLoading(true); setPwMsg(null);
+                        try {
+                          const res = await fetch("/api/admin/settings", { method: "PATCH", headers: { "Content-Type": "application/json" }, credentials: "include", body: JSON.stringify({ action: "reset_default" }) });
+                          const data = await res.json();
+                          if (!res.ok) throw new Error(data.error);
+                          setPwMsg({ type: "success", text: "Password reset to default. Use your ADMIN_PASSWORD env value to login." });
+                        } catch (e: unknown) { setPwMsg({ type: "error", text: e instanceof Error ? e.message : "Failed." }); }
+                        finally { setPwLoading(false); }
+                      }}
+                      disabled={pwLoading}
+                      className="w-full py-3 rounded-xl text-white font-bold text-sm transition hover:opacity-90 disabled:opacity-60"
+                      style={{ background: "#1a1a2e" }}
+                    >
+                      {pwLoading ? "Resetting..." : "Reset to Default Password"}
+                    </button>
+                  </div>
+                )}
               </div>
             </div>
           )}

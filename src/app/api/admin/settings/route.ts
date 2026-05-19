@@ -49,15 +49,37 @@ export async function PATCH(req: NextRequest) {
   if (!user)
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
-  const { currentPassword, newPassword } = await req.json();
-  if (!currentPassword || !newPassword)
-    return NextResponse.json({ error: "Current and new password required." }, { status: 400 });
-  if (newPassword.length < 8)
-    return NextResponse.json({ error: "New password must be at least 8 characters." }, { status: 400 });
+  const body = await req.json();
+  const { action, currentPassword, newPassword } = body;
 
   const adminRes = await pool.query(`SELECT * FROM admins WHERE id = $1`, [user.id]);
   if (!adminRes.rows[0])
     return NextResponse.json({ error: "Admin not found." }, { status: 404 });
+
+  // Reset to env default
+  if (action === "reset_default") {
+    const envPass = process.env.ADMIN_PASSWORD;
+    if (!envPass)
+      return NextResponse.json({ error: "Default password not configured in environment." }, { status: 400 });
+    const hash = await bcrypt.hash(envPass, 10);
+    await pool.query(`UPDATE admins SET password_hash = $1 WHERE id = $2`, [hash, user.id]);
+    return NextResponse.json({ success: true, message: "Password reset to default successfully." });
+  }
+
+  // Force set (authenticated admin, no current password needed)
+  if (action === "force_set") {
+    if (!newPassword || newPassword.length < 8)
+      return NextResponse.json({ error: "Password must be at least 8 characters." }, { status: 400 });
+    const hash = await bcrypt.hash(newPassword, 10);
+    await pool.query(`UPDATE admins SET password_hash = $1 WHERE id = $2`, [hash, user.id]);
+    return NextResponse.json({ success: true, message: "Password set successfully." });
+  }
+
+  // Change with current password verification
+  if (!currentPassword || !newPassword)
+    return NextResponse.json({ error: "Current and new password required." }, { status: 400 });
+  if (newPassword.length < 8)
+    return NextResponse.json({ error: "New password must be at least 8 characters." }, { status: 400 });
 
   const valid = await bcrypt.compare(currentPassword, adminRes.rows[0].password_hash);
   if (!valid)
