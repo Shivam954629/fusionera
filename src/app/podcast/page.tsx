@@ -15,14 +15,21 @@ export default function PodcastPage() {
   const [loading, setLoading] = useState(true);
   const [playingId, setPlayingId] = useState<number | null>(null);
 
-  useEffect(() => {
-    fetch("/api/admin/podcasts")
+  const loadPodcasts = () => {
+    fetch("/api/admin/podcasts", { cache: "no-store" })
       .then((r) => r.json())
       .then((res) => {
         setPodcasts((res.data ?? []).filter((p: Podcast) => p.is_published));
         setLoading(false);
       })
       .catch(() => setLoading(false));
+  };
+
+  useEffect(() => {
+    loadPodcasts();
+    const onVisible = () => { if (!document.hidden) loadPodcasts(); };
+    document.addEventListener("visibilitychange", onVisible);
+    return () => document.removeEventListener("visibilitychange", onVisible);
   }, []);
 
   const getYouTubeId = (url: string): string | null => {

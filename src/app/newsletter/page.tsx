@@ -12,14 +12,21 @@ export default function NewsletterPage() {
   const [data, setData] = useState<NewsletterData | null>(null);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    fetch("/api/newsletter")
+  const loadNewsletter = () => {
+    fetch("/api/newsletter", { cache: "no-store" })
       .then((r) => r.json())
       .then((res) => {
         setData(res.data);
         setLoading(false);
       })
       .catch(() => setLoading(false));
+  };
+
+  useEffect(() => {
+    loadNewsletter();
+    const onVisible = () => { if (!document.hidden) loadNewsletter(); };
+    document.addEventListener("visibilitychange", onVisible);
+    return () => document.removeEventListener("visibilitychange", onVisible);
   }, []);
 
   if (loading) {

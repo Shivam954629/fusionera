@@ -38,7 +38,10 @@ export async function GET() {
     const result = await pool.query(
       `SELECT * FROM gallery_images ORDER BY sort_order ASC, created_at DESC`,
     );
-    return NextResponse.json({ success: true, data: result.rows });
+    return NextResponse.json(
+      { success: true, data: result.rows },
+      { headers: { "Cache-Control": "no-store" } },
+    );
   } catch {
     return NextResponse.json({ error: "Failed to fetch." }, { status: 500 });
   }

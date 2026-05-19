@@ -38,7 +38,10 @@ export async function GET() {
     const result = await pool.query(
       `SELECT * FROM site_content ORDER BY key ASC`,
     );
-    return NextResponse.json({ success: true, data: result.rows });
+    return NextResponse.json(
+      { success: true, data: result.rows },
+      { headers: { "Cache-Control": "no-store" } },
+    );
   } catch {
     return NextResponse.json({ error: "Failed to fetch." }, { status: 500 });
   }

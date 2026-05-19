@@ -23,7 +23,10 @@ export async function GET() {
     const result = await pool.query(
       `SELECT * FROM newsletter_content ORDER BY id LIMIT 1`,
     );
-    return NextResponse.json({ success: true, data: result.rows[0] || null });
+    return NextResponse.json(
+      { success: true, data: result.rows[0] || null },
+      { headers: { "Cache-Control": "no-store" } },
+    );
   } catch (err: any) {
     return NextResponse.json({ error: "Failed to fetch." }, { status: 500 });
   }

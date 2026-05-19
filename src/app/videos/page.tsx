@@ -13,14 +13,21 @@ export default function VideosPage() {
   const [loading, setLoading] = useState(true);
   const [playingId, setPlayingId] = useState<number | null>(null);
 
-  useEffect(() => {
-    fetch("/api/admin/videos")
+  const loadVideos = () => {
+    fetch("/api/admin/videos", { cache: "no-store" })
       .then((r) => r.json())
       .then((res) => {
         setVideos((res.data ?? []).filter((v: Video) => v.is_published));
         setLoading(false);
       })
       .catch(() => setLoading(false));
+  };
+
+  useEffect(() => {
+    loadVideos();
+    const onVisible = () => { if (!document.hidden) loadVideos(); };
+    document.addEventListener("visibilitychange", onVisible);
+    return () => document.removeEventListener("visibilitychange", onVisible);
   }, []);
 
   const getYouTubeId = (url: string): string | null => {

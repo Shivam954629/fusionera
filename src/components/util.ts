@@ -28,7 +28,6 @@ export const productList = [
       "/images/catalogue/houseware-1.jpg",
       "/images/catalogue/houseware-2.jpg",
       "/images/catalogue/houseware-3.jpg",
-      "/images/catalogue/houseware.jpg",
     ],
     title: "House Ware",
     desc: "Premium lifestyle-driven houseware products combining comfort, utility, and refined aesthetics for modern living. Tableware · Kitchenware · Dining Collections · Lifestyle Accessories",
@@ -40,7 +39,6 @@ export const productList = [
       "/images/catalogue/horeca-1.jpg",
       "/images/catalogue/horeca-3.jpg",
       "/images/catalogue/horeca-cocktails.jpg",
-      "/images/catalogue/horeca.jpg",
     ],
     title: "Horeca",
     desc: "Curated hospitality solutions for luxury hotels, fine dining, cafés, resorts and commercial spaces. Guest Comfort · Hospitality Furnishings · Hotel Linen · Professional Dining",
@@ -50,7 +48,6 @@ export const productList = [
     gallery: [
       "/images/catalogue/stainless-steel-1.jpg",
       "/images/catalogue/stainless-steel-2.jpg",
-      "/images/catalogue/stainless-steel.jpg",
     ],
     title: "Stainless Steel",
     desc: "Modern stainless steel products designed for reliability and seamless integration in residential and commercial kitchens. Serving · Storage · Utility Accessories · Kitchen Essentials",
@@ -59,7 +56,6 @@ export const productList = [
     src: "/images/catalogue/home-appliances-1.jpg",
     gallery: [
       "/images/catalogue/home-appliances-1.jpg",
-      "/images/catalogue/home-appliances.jpg",
     ],
     title: "Home Appliances",
     desc: "Advanced home appliance collections for smart, efficient and comfortable everyday living. Food Preparation · Kitchen Electronics · Utility Devices · Convenience Products",
@@ -94,7 +90,6 @@ export const productList = [
     gallery: [
       "/images/catalogue/brass-silver-1.jpg",
       "/images/catalogue/brass-silver-2.jpg",
-      "/images/catalogue/brass-silver.jpg",
       "/images/catalogue/brass-hotpots.jpg",
     ],
     title: "Brass & Silver",
@@ -105,7 +100,6 @@ export const productList = [
     gallery: [
       "/images/catalogue/glassware-1.jpg",
       "/images/catalogue/glassware-2.jpg",
-      "/images/catalogue/glassware.jpg",
     ],
     title: "Glassware",
     desc: "Sophisticated glassware for contemporary dining, hospitality, and luxury lifestyle. Dining Glassware · Beverage Accessories · Decorative Glass · Premium Serving Pieces",
@@ -115,7 +109,6 @@ export const productList = [
     gallery: [
       "/images/catalogue/baking-1.jpg",
       "/images/catalogue/baking-2.jpg",
-      "/images/catalogue/baking.jpg",
     ],
     title: "Baking & Aluminium",
     desc: "Professionally crafted baking and aluminium cookware for performance and culinary excellence. Professional Bakeware · Cooking Essentials · Culinary Accessories · Kitchen Performance",
@@ -124,7 +117,6 @@ export const productList = [
     src: "/images/catalogue/cooking-range-1.jpg",
     gallery: [
       "/images/catalogue/cooking-range-1.jpg",
-      "/images/catalogue/cooking-range.jpg",
     ],
     title: "Cooking Range & Chimney",
     desc: "Modern kitchen essentials for efficient cooking. Gas Stoves · Electric Ranges · Kitchen Chimneys · Built-in Hobs · Induction Cooktops",
@@ -133,7 +125,6 @@ export const productList = [
     src: "/images/catalogue/ro-water-1.jpg",
     gallery: [
       "/images/catalogue/ro-water-1.jpg",
-      "/images/catalogue/ro-water.jpg",
     ],
     title: "RO Water & Aerated Water",
     desc: "Pure water solutions for modern needs. RO Purifiers · UV Filters · Water Dispensers · Aerated Water Systems · Smart Water Appliances",
@@ -142,7 +133,6 @@ export const productList = [
     src: "/images/catalogue/home-decor-1.jpg",
     gallery: [
       "/images/catalogue/home-decor-1.jpg",
-      "/images/catalogue/home-decor.jpg",
       "/images/catalogue/vases.jpg",
     ],
     title: "Home Décor",
