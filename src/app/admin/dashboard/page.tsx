@@ -1510,7 +1510,7 @@ export default function AdminDashboard() {
 
           {/* ── NEWSLETTER ── */}
           {activeTab === "newsletter" && (
-            <div className="space-y-4 max-w-2xl">
+            <div className="space-y-4 w-full">
               <div className="rounded-2xl overflow-hidden shadow-sm border border-[#dde6ff] bg-[#eef2ff]">
                 <div className="px-6 py-4 border-b border-[#dde6ff] bg-white">
                   <h2 className="text-lg font-bold text-gray-900">
@@ -2053,7 +2053,7 @@ export default function AdminDashboard() {
 
           {/* ── SETTINGS ── */}
           {activeTab === "settings" && (
-            <div className="space-y-5 max-w-2xl">
+            <div className="space-y-5 w-full">
               {/* Contact Details */}
               <div className="rounded-2xl border border-gray-200 bg-white shadow-sm p-5">
                 <h3 className="text-gray-900 font-bold mb-1">📞 Contact Information</h3>
