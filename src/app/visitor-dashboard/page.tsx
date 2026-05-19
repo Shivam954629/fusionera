@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import { useSiteSettings } from "@/lib/useSiteSettings";
 
 interface VisitorInfo {
   id: number;
@@ -12,6 +13,7 @@ interface VisitorInfo {
 
 export default function VisitorDashboardPage() {
   const router = useRouter();
+  const siteSettings = useSiteSettings();
   const [visitor, setVisitor] = useState<VisitorInfo | null>(null);
   const [loading, setLoading] = useState(true);
 
@@ -68,7 +70,7 @@ export default function VisitorDashboardPage() {
           </p>
           <h1 className="text-4xl md:text-5xl font-black text-white">Your Entry Pass</h1>
           <p className="mt-3 text-white/60 text-sm">
-            Bharat Mandapam, Pragati Maidan, New Delhi · July 4–7, 2026
+            {siteSettings.event_venue} · {siteSettings.event_date}
           </p>
           <div className="mt-5 flex justify-center">
             <span
@@ -144,7 +146,7 @@ export default function VisitorDashboardPage() {
               style={{ background: "linear-gradient(135deg,#E8274B,#F4822A)" }}
             >
               <p className="text-sm font-semibold text-white">
-                📅 July 4–7, 2026 &nbsp;·&nbsp; 📍 New Delhi &nbsp;·&nbsp; 🎟️ Free Entry
+                📅 {siteSettings.event_date} &nbsp;·&nbsp; 📍 {siteSettings.event_venue} &nbsp;·&nbsp; 🎟️ Free Entry
               </p>
             </div>
 

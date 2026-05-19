@@ -1,26 +1,29 @@
 "use client";
 import React from "react";
-
-const contacts = [
-  {
-    city: "Delhi",
-    name: "Mr. Pawan Singh",
-    mobile: "+91 93157 00590",
-    email: "pawan.singh@fusiontheera.com",
-    color: "#E8274B",
-    gradient: "linear-gradient(135deg,#E8274B,#F4822A)",
-  },
-  {
-    city: "Mumbai",
-    name: "Mr. Jasvinder Singh Chaudhary",
-    mobile: "+91 85888 92885",
-    email: "jasvinder.chaudhary@fusiontheera.com",
-    color: "#7B2FBE",
-    gradient: "linear-gradient(135deg,#7B2FBE,#E91E8C)",
-  },
-];
+import { useSiteSettings } from "@/lib/useSiteSettings";
 
 export default function PayStallAdvancePage() {
+  const siteSettings = useSiteSettings();
+
+  const contacts = [
+    {
+      city: "Delhi",
+      name: siteSettings.contact_delhi_name,
+      mobile: siteSettings.contact_delhi_mobile,
+      email: siteSettings.contact_delhi_email,
+      color: "#E8274B",
+      gradient: "linear-gradient(135deg,#E8274B,#F4822A)",
+    },
+    {
+      city: "Mumbai",
+      name: siteSettings.contact_mumbai_name,
+      mobile: siteSettings.contact_mumbai_mobile,
+      email: siteSettings.contact_mumbai_email,
+      color: "#7B2FBE",
+      gradient: "linear-gradient(135deg,#7B2FBE,#E91E8C)",
+    },
+  ];
+
   return (
     <div className="min-h-screen">
       {/* HERO BANNER */}

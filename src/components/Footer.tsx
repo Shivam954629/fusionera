@@ -147,6 +147,9 @@ export default function Footer() {
             >
               Newsletter
             </Link>
+            <Link href="/gallery" className="transition hover:text-[#8cecff]">
+              Gallery
+            </Link>
           </div>
         </div>
 

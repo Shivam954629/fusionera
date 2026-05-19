@@ -239,6 +239,9 @@ export default function Header() {
           >
             Reaching The Venue
           </Link>
+          <Link href="/gallery" className="nav-link hover:text-brand-amber">
+            Gallery
+          </Link>
         </nav>
 
         {/* HAMBURGER BUTTON */}
@@ -443,6 +446,12 @@ export default function Header() {
               className="mt-1 block rounded px-2 py-2 hover:bg-white/10 text-left w-full"
             >
               Reaching The Venue
+            </button>
+            <button
+              onClick={() => handleMobileNav("/gallery")}
+              className="mt-1 block rounded px-2 py-2 hover:bg-white/10 text-left w-full"
+            >
+              Gallery
             </button>
           </nav>
         )}
