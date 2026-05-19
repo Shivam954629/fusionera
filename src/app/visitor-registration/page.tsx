@@ -426,14 +426,14 @@ export default function VisitorRegistrationPage() {
   };
 
   const inputCls =
-    "w-full px-4 py-2.5 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 transition";
+    "w-full px-4 py-2.5 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#E8274B] transition";
   const inputStyle = {
-    background: "var(--app-panel-soft)",
-    border: "1px solid var(--app-border)",
-    color: "var(--app-text)",
+    background: "#f4f6ff",
+    border: "1px solid #dde6ff",
+    color: "#1a1a2e",
   };
   const labelCls = "block text-sm font-semibold mb-1.5";
-  const labelStyle = { color: "var(--app-text)" };
+  const labelStyle = { color: "#1a1a2e" };
   const reqStar = <span className="text-red-500">*</span>;
 
   const ClearSelect = ({
@@ -463,8 +463,8 @@ export default function VisitorRegistrationPage() {
           onClick={() => onChange("")}
           className="px-3 rounded-xl text-sm font-bold text-gray-500 hover:text-red-500 flex-shrink-0"
           style={{
-            background: "var(--app-panel-soft)",
-            border: "1px solid var(--app-border)",
+            background: "#f4f6ff",
+            border: "1px solid #dde6ff",
           }}
         >
           ×
@@ -487,8 +487,8 @@ export default function VisitorRegistrationPage() {
     <div
       className="rounded-xl p-4 text-center"
       style={{
-        background: "var(--app-panel-soft)",
-        border: "2px dashed var(--app-border)",
+        background: "#f4f6ff",
+        border: "2px dashed #dde6ff",
       }}
     >
       {value ? (
@@ -519,7 +519,7 @@ export default function VisitorRegistrationPage() {
           </svg>
           <span
             className="text-sm font-medium"
-            style={{ color: "var(--app-text)" }}
+            style={{ color: "#1a1a2e" }}
           >
             {label}
           </span>
@@ -543,12 +543,12 @@ export default function VisitorRegistrationPage() {
         <div className="text-center mb-6 md:mb-8">
           <h1
             className="text-2xl md:text-3xl font-bold mb-2"
-            style={{ color: "var(--app-text)" }}
+            style={{ color: "#1a1a2e" }}
           >
             Visitor Registration
           </h1>
           {stage === "otp-phone" && (
-            <p className="text-sm" style={{ color: "var(--app-muted)" }}>
+            <p className="text-sm" style={{ color: "#6b7280" }}>
               Choose how you want to receive your OTP to continue
             </p>
           )}
@@ -560,22 +560,22 @@ export default function VisitorRegistrationPage() {
             <div
               className="rounded-2xl overflow-hidden shadow-xl"
               style={{
-                background: "var(--app-panel)",
-                border: "1px solid var(--app-border)",
+                background: "#ffffff",
+                border: "1px solid #dde6ff",
               }}
             >
               <div
                 className="flex border-b"
-                style={{ borderColor: "var(--app-border)" }}
+                style={{ borderColor: "#dde6ff" }}
               >
                 {(["indian", "international"] as const).map((t) => (
                   <button
                     key={t}
                     onClick={() => setVisitorType(t)}
-                    className={`flex-1 py-3.5 text-sm font-semibold transition ${visitorType === t ? "border-b-2 border-blue-500" : "hover:bg-gray-50"}`}
+                    className={`flex-1 py-3.5 text-sm font-semibold transition ${visitorType === t ? "border-b-2 border-[#E8274B]" : "hover:bg-gray-50"}`}
                     style={{
-                      background: visitorType === t ? "var(--app-panel)" : "var(--app-panel-soft)",
-                      color: visitorType === t ? "#1d4ed8" : "var(--app-muted)",
+                      background: visitorType === t ? "#ffffff" : "#f4f6ff",
+                      color: visitorType === t ? "#E8274B" : "#6b7280",
                     }}
                   >
                     {t === "indian"
@@ -590,7 +590,7 @@ export default function VisitorRegistrationPage() {
                     <div
                       className="w-14 h-14 rounded-full flex items-center justify-center mx-auto mb-4"
                       style={{
-                        background: "linear-gradient(135deg,#1d4ed8,#2563eb)",
+                        background: "linear-gradient(135deg,#E8274B,#F4822A)",
                       }}
                     >
                       <svg
@@ -609,7 +609,7 @@ export default function VisitorRegistrationPage() {
                     </div>
                     <h2
                       className="text-xl font-bold mb-6"
-                      style={{ color: "var(--app-text)" }}
+                      style={{ color: "#1a1a2e" }}
                     >
                       Verify Mobile
                     </h2>
@@ -621,10 +621,10 @@ export default function VisitorRegistrationPage() {
                     <div
                       className="px-4 py-2.5 rounded-l-xl text-sm font-semibold flex-shrink-0 flex items-center"
                       style={{
-                        background: "var(--app-panel-soft)",
-                        border: "1px solid var(--app-border)",
+                        background: "#f4f6ff",
+                        border: "1px solid #dde6ff",
                         borderRight: "none",
-                        color: "var(--app-text)",
+                        color: "#1a1a2e",
                       }}
                     >
                       +91
@@ -638,10 +638,10 @@ export default function VisitorRegistrationPage() {
                       placeholder="Mobile Number"
                       className="flex-1 px-4 py-2.5 rounded-r-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
                       style={{
-                        background: "var(--app-panel-soft)",
-                        border: "1px solid var(--app-border)",
+                        background: "#f4f6ff",
+                        border: "1px solid #dde6ff",
                         borderLeft: "none",
-                        color: "var(--app-text)",
+                        color: "#1a1a2e",
                       }}
                     />
                   </div>
@@ -650,7 +650,7 @@ export default function VisitorRegistrationPage() {
                     <div
                       className="w-14 h-14 rounded-full flex items-center justify-center mx-auto mb-3"
                       style={{
-                        background: "linear-gradient(135deg,#1d4ed8,#2563eb)",
+                        background: "linear-gradient(135deg,#E8274B,#F4822A)",
                       }}
                     >
                       <svg
@@ -669,7 +669,7 @@ export default function VisitorRegistrationPage() {
                     </div>
                     <h2
                       className="text-xl font-bold mb-4 text-center"
-                      style={{ color: "var(--app-text)" }}
+                      style={{ color: "#1a1a2e" }}
                     >
                       Verify Email
                     </h2>
@@ -680,9 +680,9 @@ export default function VisitorRegistrationPage() {
                       placeholder="Provide Email Address"
                       className="w-full px-4 py-2.5 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
                       style={{
-                        background: "var(--app-panel-soft)",
-                        border: "1px solid var(--app-border)",
-                        color: "var(--app-text)",
+                        background: "#f4f6ff",
+                        border: "1px solid #dde6ff",
+                        color: "#1a1a2e",
                       }}
                     />
                   </div>
@@ -693,11 +693,11 @@ export default function VisitorRegistrationPage() {
                     type="checkbox"
                     checked={agreed}
                     onChange={(e) => setAgreed(e.target.checked)}
-                    className="mt-0.5 w-4 h-4 accent-blue-600 flex-shrink-0"
+                    className="mt-0.5 w-4 h-4 accent-[#E8274B] flex-shrink-0"
                   />
                   <span
                     className="text-xs"
-                    style={{ color: "var(--app-muted)" }}
+                    style={{ color: "#6b7280" }}
                   >
                     I agree to receive updates via WhatsApp, RCS, SMS &amp;
                     Email
@@ -713,7 +713,7 @@ export default function VisitorRegistrationPage() {
                   disabled={loading}
                   className="w-full py-3.5 rounded-xl text-white font-semibold text-sm transition hover:opacity-90 disabled:opacity-60"
                   style={{
-                    background: "linear-gradient(135deg,#1d4ed8,#2563eb)",
+                    background: "linear-gradient(135deg,#E8274B,#F4822A)",
                   }}
                 >
                   {loading ? "Sending..." : "Generate OTP"}
@@ -729,8 +729,8 @@ export default function VisitorRegistrationPage() {
             <div
               className="rounded-2xl overflow-hidden shadow-xl"
               style={{
-                background: "var(--app-panel)",
-                border: "1px solid var(--app-border)",
+                background: "#ffffff",
+                border: "1px solid #dde6ff",
               }}
             >
               <div className="px-5 md:px-8 py-6 md:py-8">
@@ -747,7 +747,7 @@ export default function VisitorRegistrationPage() {
                       setSuccess("");
                     }}
                     className="text-sm font-medium"
-                    style={{ color: "var(--app-text)" }}
+                    style={{ color: "#1a1a2e" }}
                   >
                     ← Use a different number
                   </button>
@@ -758,7 +758,7 @@ export default function VisitorRegistrationPage() {
                       setSuccess("");
                     }}
                     className="text-sm"
-                    style={{ color: "var(--app-muted)" }}
+                    style={{ color: "#6b7280" }}
                   >
                     Start over
                   </button>
@@ -767,7 +767,7 @@ export default function VisitorRegistrationPage() {
                   <div
                     className="w-14 h-14 rounded-full flex items-center justify-center mx-auto mb-4"
                     style={{
-                      background: "linear-gradient(135deg,#1d4ed8,#2563eb)",
+                      background: "linear-gradient(135deg,#E8274B,#F4822A)",
                     }}
                   >
                     <svg
@@ -786,11 +786,11 @@ export default function VisitorRegistrationPage() {
                   </div>
                   <h2
                     className="text-xl font-bold mb-1"
-                    style={{ color: "var(--app-text)" }}
+                    style={{ color: "#1a1a2e" }}
                   >
                     Enter OTP
                   </h2>
-                  <p className="text-sm" style={{ color: "var(--app-muted)" }}>
+                  <p className="text-sm" style={{ color: "#6b7280" }}>
                     Sent to{" "}
                     <strong>
                       {visitorType === "international"
@@ -820,21 +820,21 @@ export default function VisitorRegistrationPage() {
                   disabled={loading}
                   className="w-full py-3.5 rounded-xl text-white font-semibold text-sm transition hover:opacity-90 disabled:opacity-60 mb-4"
                   style={{
-                    background: "linear-gradient(135deg,#1d4ed8,#2563eb)",
+                    background: "linear-gradient(135deg,#E8274B,#F4822A)",
                   }}
                 >
                   {loading ? "Verifying..." : "Verify and continue"}
                 </button>
                 <p
                   className="text-center text-xs"
-                  style={{ color: "var(--app-muted)" }}
+                  style={{ color: "#6b7280" }}
                 >
                   {otpTimer > 0 ? (
                     `Didn't get the OTP? You can resend after ${String(Math.floor(otpTimer / 60)).padStart(2, "0")}:${String(otpTimer % 60).padStart(2, "0")} (1 min wait)`
                   ) : (
                     <button
                       onClick={sendOTP}
-                      className="text-blue-600 font-medium"
+                      className="text-[#E8274B] font-medium"
                     >
                       Resend OTP
                     </button>
@@ -861,11 +861,11 @@ export default function VisitorRegistrationPage() {
                             i + 1 < currentStep
                               ? "#10b981"
                               : i + 1 === currentStep
-                                ? "linear-gradient(135deg,#1d4ed8,#2563eb)"
-                                : "var(--app-panel-soft)",
+                                ? "linear-gradient(135deg,#E8274B,#F4822A)"
+                                : "#f4f6ff",
                           border:
                             i + 1 > currentStep
-                              ? "2px solid var(--app-border)"
+                              ? "2px solid #dde6ff"
                               : "none",
                         }}
                       >
@@ -876,8 +876,8 @@ export default function VisitorRegistrationPage() {
                         style={{
                           color:
                             i + 1 === currentStep
-                              ? "#1d4ed8"
-                              : "var(--app-muted)",
+                              ? "#E8274B"
+                              : "#6b7280",
                           fontWeight: i + 1 === currentStep ? 700 : 400,
                         }}
                       >
@@ -891,7 +891,7 @@ export default function VisitorRegistrationPage() {
                           background:
                             i + 1 < currentStep
                               ? "#10b981"
-                              : "var(--app-border)",
+                              : "#dde6ff",
                         }}
                       />
                     )}
@@ -901,7 +901,7 @@ export default function VisitorRegistrationPage() {
               {/* Mobile step label */}
               <p
                 className="text-center text-xs font-semibold mt-2 md:hidden"
-                style={{ color: "#1d4ed8" }}
+                style={{ color: "#E8274B" }}
               >
                 {STEPS[currentStep - 1]}
               </p>
@@ -910,26 +910,26 @@ export default function VisitorRegistrationPage() {
             <div
               className="rounded-2xl overflow-hidden shadow-xl"
               style={{
-                background: "var(--app-panel)",
-                border: "1px solid var(--app-border)",
+                background: "#ffffff",
+                border: "1px solid #dde6ff",
               }}
             >
               <div
                 className="px-4 md:px-6 py-4 md:py-5 border-b"
                 style={{
-                  borderColor: "var(--app-border)",
-                  background: "var(--app-panel-soft)",
+                  borderColor: "#dde6ff",
+                  background: "#f4f6ff",
                 }}
               >
                 <p
                   className="text-xs font-medium mb-1"
-                  style={{ color: "var(--app-muted)" }}
+                  style={{ color: "#6b7280" }}
                 >
                   Step {currentStep} of 9
                 </p>
                 <h2
                   className="text-lg md:text-xl font-bold"
-                  style={{ color: "var(--app-text)" }}
+                  style={{ color: "#1a1a2e" }}
                 >
                   {STEPS[currentStep - 1]}
                 </h2>
@@ -958,7 +958,7 @@ export default function VisitorRegistrationPage() {
                           {formData.photo_url ? (
                             <div
                               className="rounded-xl overflow-hidden"
-                              style={{ border: "1px solid var(--app-border)" }}
+                              style={{ border: "1px solid #dde6ff" }}
                             >
                               <img
                                 src={formData.photo_url}
@@ -984,8 +984,8 @@ export default function VisitorRegistrationPage() {
                             <label
                               className="cursor-pointer block rounded-xl p-6 text-center"
                               style={{
-                                background: "var(--app-panel-soft)",
-                                border: "2px dashed var(--app-border)",
+                                background: "#f4f6ff",
+                                border: "2px dashed #dde6ff",
                               }}
                             >
                               <div className="mx-auto mb-3 flex h-24 w-20 items-center justify-center rounded-lg border border-white/10 bg-white/10">
@@ -1001,7 +1001,7 @@ export default function VisitorRegistrationPage() {
                                 className="px-4 py-2 rounded-lg text-white text-sm font-medium"
                                 style={{
                                   background:
-                                    "linear-gradient(135deg,#1d4ed8,#2563eb)",
+                                    "linear-gradient(135deg,#E8274B,#F4822A)",
                                 }}
                               >
                                 Upload photo
@@ -1306,9 +1306,9 @@ export default function VisitorRegistrationPage() {
                         <span
                           className="inline-block px-3 py-2.5 rounded-xl text-sm font-medium"
                           style={{
-                            background: "var(--app-panel-soft)",
-                            border: "1px solid var(--app-border)",
-                            color: "var(--app-text)",
+                            background: "#f4f6ff",
+                            border: "1px solid #dde6ff",
+                            color: "#1a1a2e",
                           }}
                         >
                           {visitorType === "indian"
@@ -1323,7 +1323,7 @@ export default function VisitorRegistrationPage() {
                         Upload your business card {reqStar}
                         <span
                           className="font-normal text-xs ml-1"
-                          style={{ color: "var(--app-muted)" }}
+                          style={{ color: "#6b7280" }}
                         >
                           (front required; back optional. Max 10MB)
                         </span>
@@ -1343,7 +1343,7 @@ export default function VisitorRegistrationPage() {
                         <div>
                           <p
                             className="text-xs font-semibold mb-2"
-                            style={{ color: "var(--app-muted)" }}
+                            style={{ color: "#6b7280" }}
                           >
                             Back Side
                           </p>
@@ -1526,7 +1526,7 @@ export default function VisitorRegistrationPage() {
                   <div>
                     <p
                       className="text-sm mb-4"
-                      style={{ color: "var(--app-muted)" }}
+                      style={{ color: "#6b7280" }}
                     >
                       Select all product categories you are interested in{" "}
                       {reqStar}:
@@ -1538,9 +1538,9 @@ export default function VisitorRegistrationPage() {
                           className="flex items-center gap-2 p-2.5 md:p-3 rounded-xl cursor-pointer transition"
                           style={{
                             background: formData.product_interests.includes(p)
-                              ? "#eff6ff"
-                              : "var(--app-panel-soft)",
-                            border: `1px solid ${formData.product_interests.includes(p) ? "#3b82f6" : "var(--app-border)"}`,
+                              ? "#fff5f5"
+                              : "#f4f6ff",
+                            border: `1px solid ${formData.product_interests.includes(p) ? "#E8274B" : "#dde6ff"}`,
                           }}
                         >
                           <input
@@ -1555,11 +1555,11 @@ export default function VisitorRegistrationPage() {
                                 ),
                               }))
                             }
-                            className="w-4 h-4 accent-blue-600 flex-shrink-0"
+                            className="w-4 h-4 accent-[#E8274B] flex-shrink-0"
                           />
                           <span
                             className="text-xs md:text-sm"
-                            style={{ color: "var(--app-text)" }}
+                            style={{ color: "#1a1a2e" }}
                           >
                             {p}
                           </span>
@@ -1574,7 +1574,7 @@ export default function VisitorRegistrationPage() {
                   <div>
                     <p
                       className="text-sm mb-4"
-                      style={{ color: "var(--app-muted)" }}
+                      style={{ color: "#6b7280" }}
                     >
                       What is the purpose of your visit? {reqStar}
                     </p>
@@ -1585,9 +1585,9 @@ export default function VisitorRegistrationPage() {
                           className="flex items-center gap-2 p-2.5 md:p-3 rounded-xl cursor-pointer transition"
                           style={{
                             background: formData.visit_purpose.includes(p)
-                              ? "#eff6ff"
-                              : "var(--app-panel-soft)",
-                            border: `1px solid ${formData.visit_purpose.includes(p) ? "#3b82f6" : "var(--app-border)"}`,
+                              ? "#fff5f5"
+                              : "#f4f6ff",
+                            border: `1px solid ${formData.visit_purpose.includes(p) ? "#E8274B" : "#dde6ff"}`,
                           }}
                         >
                           <input
@@ -1602,11 +1602,11 @@ export default function VisitorRegistrationPage() {
                                 ),
                               }))
                             }
-                            className="w-4 h-4 accent-blue-600 flex-shrink-0"
+                            className="w-4 h-4 accent-[#E8274B] flex-shrink-0"
                           />
                           <span
                             className="text-xs md:text-sm"
-                            style={{ color: "var(--app-text)" }}
+                            style={{ color: "#1a1a2e" }}
                           >
                             {p}
                           </span>
@@ -1630,9 +1630,9 @@ export default function VisitorRegistrationPage() {
                           style={{
                             background:
                               formData.annual_buying === a
-                                ? "#eff6ff"
-                                : "var(--app-panel-soft)",
-                            border: `1px solid ${formData.annual_buying === a ? "#3b82f6" : "var(--app-border)"}`,
+                                ? "#fff5f5"
+                                : "#f4f6ff",
+                            border: `1px solid ${formData.annual_buying === a ? "#E8274B" : "#dde6ff"}`,
                           }}
                         >
                           <input
@@ -1641,11 +1641,11 @@ export default function VisitorRegistrationPage() {
                             onChange={() =>
                               setFormData((p) => ({ ...p, annual_buying: a }))
                             }
-                            className="w-4 h-4 accent-blue-600 flex-shrink-0"
+                            className="w-4 h-4 accent-[#E8274B] flex-shrink-0"
                           />
                           <span
                             className="text-sm"
-                            style={{ color: "var(--app-text)" }}
+                            style={{ color: "#1a1a2e" }}
                           >
                             {a}
                           </span>
@@ -1756,13 +1756,13 @@ export default function VisitorRegistrationPage() {
                     <div
                       className="rounded-xl p-4"
                       style={{
-                        background: "var(--app-panel-soft)",
-                        border: "1px solid var(--app-border)",
+                        background: "#f4f6ff",
+                        border: "1px solid #dde6ff",
                       }}
                     >
                       <p
                         className="text-sm font-bold mb-3"
-                        style={{ color: "var(--app-text)" }}
+                        style={{ color: "#1a1a2e" }}
                       >
                         Registration Summary
                       </p>
@@ -1792,17 +1792,17 @@ export default function VisitorRegistrationPage() {
                                 <tr
                                   key={k}
                                   className="border-b"
-                                  style={{ borderColor: "var(--app-border)" }}
+                                  style={{ borderColor: "#dde6ff" }}
                                 >
                                   <td
                                     className="py-1.5 pr-4 font-medium w-28 md:w-32"
-                                    style={{ color: "var(--app-muted)" }}
+                                    style={{ color: "#6b7280" }}
                                   >
                                     {k}
                                   </td>
                                   <td
                                     className="py-1.5"
-                                    style={{ color: "var(--app-text)" }}
+                                    style={{ color: "#1a1a2e" }}
                                   >
                                     {v}
                                   </td>
@@ -1818,7 +1818,7 @@ export default function VisitorRegistrationPage() {
                 {/* Navigation */}
                 <div
                   className="mt-5 flex flex-col gap-3 pt-4 sm:flex-row md:mt-6"
-                  style={{ borderTop: "1px solid var(--app-border)" }}
+                  style={{ borderTop: "1px solid #dde6ff" }}
                 >
                   {currentStep > 1 && (
                     <button
@@ -1828,9 +1828,9 @@ export default function VisitorRegistrationPage() {
                       }}
                       className="w-full rounded-xl border px-5 py-2.5 text-sm font-semibold transition hover:opacity-80 sm:w-auto md:px-6"
                       style={{
-                        color: "var(--app-text)",
-                        borderColor: "var(--app-border)",
-                        background: "var(--app-panel-soft)",
+                        color: "#1a1a2e",
+                        borderColor: "#dde6ff",
+                        background: "#f4f6ff",
                       }}
                     >
                       ← Back
@@ -1841,7 +1841,7 @@ export default function VisitorRegistrationPage() {
                     disabled={loading}
                     className="w-full rounded-xl px-6 py-2.5 text-sm font-semibold text-white transition hover:opacity-90 disabled:opacity-60 sm:ml-auto sm:w-auto md:px-8"
                     style={{
-                      background: "linear-gradient(135deg,#1d4ed8,#2563eb)",
+                      background: "linear-gradient(135deg,#E8274B,#F4822A)",
                     }}
                   >
                     {loading
@@ -1858,7 +1858,7 @@ export default function VisitorRegistrationPage() {
             <div className="mt-8 md:mt-10">
               <h3
                 className="text-base md:text-lg font-bold mb-4"
-                style={{ color: "var(--app-text)" }}
+                style={{ color: "#1a1a2e" }}
               >
                 Need Assistance?
               </h3>
@@ -1885,28 +1885,28 @@ export default function VisitorRegistrationPage() {
                     key={card.title}
                     className="rounded-xl p-4 md:p-5 text-center"
                     style={{
-                      background: "var(--app-panel)",
-                      border: "1px solid var(--app-border)",
+                      background: "#ffffff",
+                      border: "1px solid #dde6ff",
                     }}
                   >
                     <div className="text-2xl mb-2">{card.icon}</div>
                     <p
                       className="text-xs font-bold mb-1"
-                      style={{ color: "#1d4ed8" }}
+                      style={{ color: "#E8274B" }}
                     >
                       {card.title}
                     </p>
                     {card.link ? (
                       <a
                         href={`mailto:${card.sub}`}
-                        className="text-sm text-blue-600 break-all"
+                        className="text-sm text-[#E8274B] break-all"
                       >
                         {card.sub}
                       </a>
                     ) : (
                       <p
                         className="text-sm whitespace-pre-line"
-                        style={{ color: "var(--app-text)" }}
+                        style={{ color: "#1a1a2e" }}
                       >
                         {card.sub}
                       </p>
@@ -1924,8 +1924,8 @@ export default function VisitorRegistrationPage() {
             <div
               className="rounded-2xl overflow-hidden shadow-xl"
               style={{
-                background: "var(--app-panel)",
-                border: "1px solid var(--app-border)",
+                background: "#ffffff",
+                border: "1px solid #dde6ff",
               }}
             >
               <div className="px-5 md:px-8 py-8 md:py-10 text-center">
@@ -1951,23 +1951,23 @@ export default function VisitorRegistrationPage() {
                 </div>
                 <h2
                   className="text-xl md:text-2xl font-bold mb-2"
-                  style={{ color: "var(--app-text)" }}
+                  style={{ color: "#1a1a2e" }}
                 >
                   Registration Complete!
                 </h2>
                 <p
                   className="text-sm mb-6"
-                  style={{ color: "var(--app-muted)" }}
+                  style={{ color: "#6b7280" }}
                 >
                   Your entry pass and QR code have been sent to your email.
                 </p>
                 <div
                   className="rounded-xl p-4 mb-6"
                   style={{
-                    background: "linear-gradient(135deg,#110c41,#1a1560)",
+                    background: "linear-gradient(135deg,#E8274B,#F4822A)",
                   }}
                 >
-                  <p className="text-xs text-blue-300 uppercase tracking-widest mb-1">
+                  <p className="text-xs text-white/70 uppercase tracking-widest mb-1">
                     Registration Number
                   </p>
                   <p className="text-xl md:text-2xl font-bold text-white tracking-widest">
@@ -1978,7 +1978,7 @@ export default function VisitorRegistrationPage() {
                   <div className="mb-6">
                     <p
                       className="text-sm font-semibold mb-3"
-                      style={{ color: "var(--app-text)" }}
+                      style={{ color: "#1a1a2e" }}
                     >
                       🔳 Your Entry QR Code
                     </p>
@@ -1986,7 +1986,7 @@ export default function VisitorRegistrationPage() {
                       className="inline-block p-4 rounded-2xl"
                       style={{
                         background: "white",
-                        border: "2px solid var(--app-border)",
+                        border: "2px solid #dde6ff",
                       }}
                     >
                       <img
@@ -1997,7 +1997,7 @@ export default function VisitorRegistrationPage() {
                     </div>
                     <p
                       className="text-xs mt-2"
-                      style={{ color: "var(--app-muted)" }}
+                      style={{ color: "#6b7280" }}
                     >
                       Present this at the venue entrance
                     </p>
@@ -2016,13 +2016,13 @@ export default function VisitorRegistrationPage() {
                 <div
                   className="rounded-xl p-4"
                   style={{
-                    background: "var(--app-panel-soft)",
-                    border: "1px solid var(--app-border)",
+                    background: "#f4f6ff",
+                    border: "1px solid #dde6ff",
                   }}
                 >
                   <p
                     className="text-xs md:text-sm font-medium"
-                    style={{ color: "var(--app-text)" }}
+                    style={{ color: "#1a1a2e" }}
                   >
                     📅 July 4–7, 2026 · 📍 Bharat Mandapam, Pragati Maidan, New
                     Delhi

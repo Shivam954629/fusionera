@@ -86,11 +86,11 @@ export default function ExhibitorRegistrationPage() {
   const inputCls =
     "w-full px-4 py-2.5 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 transition";
   const inputStyle = {
-    background: "var(--app-panel-soft)",
-    border: "1px solid var(--app-border)",
-    color: "var(--app-text)",
+    background: "#f4f6ff",
+    border: "1px solid #dde6ff",
+    color: "#1a1a2e",
   };
-  const blueBg = { background: "linear-gradient(135deg,#1d4ed8,#2563eb)" };
+  const blueBg = { background: "linear-gradient(135deg,#E8274B,#F4822A)" };
 
   return (
     <section className="min-h-screen px-4 py-8 sm:px-6 md:py-12 lg:px-10">
@@ -98,13 +98,13 @@ export default function ExhibitorRegistrationPage() {
         <div className="text-center mb-6 md:mb-8">
           <h1
             className="text-2xl md:text-3xl font-bold mb-2"
-            style={{ color: "var(--app-text)" }}
+            style={{ color: "#1a1a2e" }}
           >
             Exhibitors Registration
           </h1>
           <p
             className="text-xs md:text-sm"
-            style={{ color: "var(--app-muted)" }}
+            style={{ color: "#6b7280" }}
           >
             JULY 4 - JULY 7, 2026 · Bharat Mandapam, Pragati Maidan, New Delhi,
             India
@@ -117,33 +117,33 @@ export default function ExhibitorRegistrationPage() {
             <div
               className="rounded-2xl overflow-hidden shadow-xl"
               style={{
-                background: "var(--app-panel)",
-                border: "1px solid var(--app-border)",
+                background: "#ffffff",
+                border: "1px solid #dde6ff",
               }}
             >
               <div className="px-6 md:px-8 py-10 md:py-12 text-center space-y-5">
                 <div>
                   <p
                     className="text-xs font-bold uppercase tracking-widest mb-3"
-                    style={{ color: "var(--app-muted)" }}
+                    style={{ color: "#6b7280" }}
                   >
                     EXHIBITOR REGISTRATION
                   </p>
                   <h2
                     className="text-2xl md:text-3xl font-black mb-2"
-                    style={{ color: "#1d4ed8" }}
+                    style={{ color: "#E8274B" }}
                   >
                     JULY 4 - JULY 7, 2026
                   </h2>
                   <p
                     className="text-sm font-medium"
-                    style={{ color: "var(--app-muted)" }}
+                    style={{ color: "#6b7280" }}
                   >
                     Bharat Mandapam, Pragati Maidan
                   </p>
                   <p
                     className="text-sm font-bold"
-                    style={{ color: "var(--app-text)" }}
+                    style={{ color: "#1a1a2e" }}
                   >
                     New Delhi, India
                   </p>
@@ -166,27 +166,27 @@ export default function ExhibitorRegistrationPage() {
             <div
               className="rounded-2xl overflow-hidden shadow-xl"
               style={{
-                background: "var(--app-panel)",
-                border: "1px solid var(--app-border)",
+                background: "#ffffff",
+                border: "1px solid #dde6ff",
               }}
             >
               <div className="px-6 md:px-8 py-8 md:py-10 text-center space-y-5">
                 <div>
                   <h2
                     className="text-xl md:text-2xl font-black mb-1"
-                    style={{ color: "#1d4ed8" }}
+                    style={{ color: "#E8274B" }}
                   >
                     JULY 4 - JULY 7, 2026
                   </h2>
                   <p
                     className="text-xs md:text-sm"
-                    style={{ color: "var(--app-muted)" }}
+                    style={{ color: "#6b7280" }}
                   >
                     Bharat Mandapam, Pragati Maidan
                   </p>
                   <p
                     className="text-xs md:text-sm font-bold"
-                    style={{ color: "var(--app-text)" }}
+                    style={{ color: "#1a1a2e" }}
                   >
                     New Delhi, India
                   </p>
@@ -208,13 +208,13 @@ export default function ExhibitorRegistrationPage() {
                       key={item.type}
                       className="rounded-xl p-4 md:p-5"
                       style={{
-                        background: "var(--app-panel-soft)",
-                        border: "1px solid var(--app-border)",
+                        background: "#f4f6ff",
+                        border: "1px solid #dde6ff",
                       }}
                     >
                       <p
                         className="text-xs md:text-sm mb-3"
-                        style={{ color: "var(--app-muted)" }}
+                        style={{ color: "#6b7280" }}
                       >
                         {item.desc}
                       </p>
@@ -239,27 +239,27 @@ export default function ExhibitorRegistrationPage() {
             <div
               className="rounded-2xl overflow-hidden shadow-xl"
               style={{
-                background: "var(--app-panel)",
-                border: "1px solid var(--app-border)",
+                background: "#ffffff",
+                border: "1px solid #dde6ff",
               }}
             >
               <div
                 className="px-5 py-4 border-b"
                 style={{
-                  borderColor: "var(--app-border)",
-                  background: "var(--app-panel-soft)",
+                  borderColor: "#dde6ff",
+                  background: "#f4f6ff",
                 }}
               >
                 <button
                   onClick={() => setStage("selection")}
                   className="text-sm mb-2 flex items-center gap-1 hover:opacity-70"
-                  style={{ color: "var(--app-muted)" }}
+                  style={{ color: "#6b7280" }}
                 >
                   ← Back
                 </button>
                 <h2
                   className="text-lg md:text-xl font-bold"
-                  style={{ color: "var(--app-text)" }}
+                  style={{ color: "#1a1a2e" }}
                 >
                   Regular Exhibitor Login
                 </h2>
@@ -267,7 +267,7 @@ export default function ExhibitorRegistrationPage() {
               <div className="px-5 md:px-6 py-5 md:py-6">
                 <p
                   className="text-xs md:text-sm mb-5"
-                  style={{ color: "var(--app-muted)" }}
+                  style={{ color: "#6b7280" }}
                 >
                   To book your Exhibition space for FusionEra 2026, please login
                   below by using the same Exhibitor ID and Password which has
@@ -287,7 +287,7 @@ export default function ExhibitorRegistrationPage() {
                   <div>
                     <label
                       className="block text-sm font-semibold mb-1.5"
-                      style={{ color: "var(--app-text)" }}
+                      style={{ color: "#1a1a2e" }}
                     >
                       Exhibitor Name:
                     </label>
@@ -304,7 +304,7 @@ export default function ExhibitorRegistrationPage() {
                   <div>
                     <label
                       className="block text-sm font-semibold mb-1.5"
-                      style={{ color: "var(--app-text)" }}
+                      style={{ color: "#1a1a2e" }}
                     >
                       Exhibitor ID:
                     </label>
@@ -330,7 +330,7 @@ export default function ExhibitorRegistrationPage() {
                   <div>
                     <label
                       className="block text-sm font-semibold mb-1.5"
-                      style={{ color: "var(--app-text)" }}
+                      style={{ color: "#1a1a2e" }}
                     >
                       Password:
                     </label>
@@ -374,9 +374,9 @@ export default function ExhibitorRegistrationPage() {
                       }}
                       className="w-full rounded-xl px-8 py-2.5 text-sm font-bold transition hover:opacity-80 sm:w-auto sm:flex-1 md:flex-none"
                       style={{
-                        background: "var(--app-panel-soft)",
-                        border: "1px solid var(--app-border)",
-                        color: "var(--app-text)",
+                        background: "#f4f6ff",
+                        border: "1px solid #dde6ff",
+                        color: "#1a1a2e",
                       }}
                     >
                       Reset
@@ -384,11 +384,11 @@ export default function ExhibitorRegistrationPage() {
                   </div>
                   <div
                     className="pt-3"
-                    style={{ borderTop: "1px solid var(--app-border)" }}
+                    style={{ borderTop: "1px solid #dde6ff" }}
                   >
                     <p
                       className="text-xs md:text-sm mb-3"
-                      style={{ color: "var(--app-muted)" }}
+                      style={{ color: "#6b7280" }}
                     >
                       If you don&apos;t have Exhibitor ID and Password, please
                       contact:
@@ -399,25 +399,25 @@ export default function ExhibitorRegistrationPage() {
                           key={c.city}
                           className="rounded-xl p-3"
                           style={{
-                            background: "var(--app-panel-soft)",
-                            border: "1px solid var(--app-border)",
+                            background: "#f4f6ff",
+                            border: "1px solid #dde6ff",
                           }}
                         >
                           <p
                             className="text-xs font-bold"
-                            style={{ color: "#1d4ed8" }}
+                            style={{ color: "#E8274B" }}
                           >
                             {c.city}:
                           </p>
                           <p
                             className="text-xs font-semibold mt-0.5"
-                            style={{ color: "var(--app-text)" }}
+                            style={{ color: "#1a1a2e" }}
                           >
                             {c.name}
                           </p>
                           <p
                             className="text-xs"
-                            style={{ color: "var(--app-muted)" }}
+                            style={{ color: "#6b7280" }}
                           >
                             {c.mobile}
                           </p>
@@ -454,8 +454,8 @@ export default function ExhibitorRegistrationPage() {
             <div
               className="rounded-2xl overflow-hidden shadow-xl text-center"
               style={{
-                background: "var(--app-panel)",
-                border: "1px solid var(--app-border)",
+                background: "#ffffff",
+                border: "1px solid #dde6ff",
               }}
             >
               <div className="px-6 md:px-8 py-10 md:py-12">
@@ -481,13 +481,13 @@ export default function ExhibitorRegistrationPage() {
                 </div>
                 <h2
                   className="text-xl md:text-2xl font-bold mb-2"
-                  style={{ color: "var(--app-text)" }}
+                  style={{ color: "#1a1a2e" }}
                 >
                   Request Submitted!
                 </h2>
                 <p
                   className="text-sm mb-6"
-                  style={{ color: "var(--app-muted)" }}
+                  style={{ color: "#6b7280" }}
                 >
                   Thank you for your interest in exhibiting at FusionEra 2026.
                   <br />
@@ -852,49 +852,49 @@ function ExhibitorRequestForm({
   };
 
   const inputCls =
-    "w-full px-4 py-2.5 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 transition";
+    "w-full px-4 py-2.5 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#E8274B] transition";
   const inputStyle = {
-    background: "var(--app-panel-soft)",
-    border: "1px solid var(--app-border)",
-    color: "var(--app-text)",
+    background: "#f4f6ff",
+    border: "1px solid #dde6ff",
+    color: "#1a1a2e",
   };
   const labelCls = "block text-sm font-semibold mb-1.5";
-  const ls = { color: "var(--app-text)" };
+  const ls = { color: "#1a1a2e" };
   const req = <span className="text-red-500">*</span>;
-  const blueBg = { background: "linear-gradient(135deg,#1d4ed8,#2563eb)" };
+  const blueBg = { background: "linear-gradient(135deg,#E8274B,#F4822A)" };
 
   return (
     <div
       className="rounded-2xl overflow-hidden shadow-xl"
       style={{
-        background: "var(--app-panel)",
-        border: "1px solid var(--app-border)",
+        background: "#ffffff",
+        border: "1px solid #dde6ff",
       }}
     >
       <div
         className="px-5 md:px-6 py-4 md:py-5 border-b"
         style={{
-          borderColor: "var(--app-border)",
-          background: "var(--app-panel-soft)",
+          borderColor: "#dde6ff",
+          background: "#f4f6ff",
         }}
       >
         <button
           onClick={onBack}
           className="text-sm mb-2 flex items-center gap-1 hover:opacity-70"
-          style={{ color: "var(--app-muted)" }}
+          style={{ color: "#6b7280" }}
         >
           ← Back
         </button>
         <h2
           className="text-lg md:text-xl font-bold"
-          style={{ color: "var(--app-text)" }}
+          style={{ color: "#1a1a2e" }}
         >
           Exhibitor Request Form
           <span
             className="ml-2 text-xs font-normal px-2 py-1 rounded-full"
             style={{
-              background: "var(--app-border)",
-              color: "var(--app-muted)",
+              background: "#dde6ff",
+              color: "#6b7280",
             }}
           >
             {exhibitorType === "regular"
@@ -904,7 +904,7 @@ function ExhibitorRequestForm({
         </h2>
         <p
           className="text-xs md:text-sm mt-1"
-          style={{ color: "var(--app-muted)" }}
+          style={{ color: "#6b7280" }}
         >
           We are interested in exhibiting at FusionEra 2026 scheduled for July
           4–7, 2026 at Bharat Mandapam, Pragati Maidan, New Delhi.
@@ -926,11 +926,11 @@ function ExhibitorRequestForm({
                 type="radio"
                 checked={participationType === t}
                 onChange={() => setParticipationType(t)}
-                className="w-4 h-4 accent-blue-600"
+                className="w-4 h-4 accent-[#E8274B]"
               />
               <span
                 className="text-sm font-medium"
-                style={{ color: "var(--app-text)" }}
+                style={{ color: "#1a1a2e" }}
               >
                 {t === "domestic" ? "Domestic" : "International"}
               </span>
@@ -951,20 +951,20 @@ function ExhibitorRequestForm({
                 style={{
                   background:
                     participationMode === mode
-                      ? "#eff6ff"
-                      : "var(--app-panel-soft)",
-                  border: `1px solid ${participationMode === mode ? "#3b82f6" : "var(--app-border)"}`,
+                      ? "#fff5f5"
+                      : "#f4f6ff",
+                  border: `1px solid ${participationMode === mode ? "#E8274B" : "#dde6ff"}`,
                 }}
               >
                 <input
                   type="radio"
                   checked={participationMode === mode}
                   onChange={() => setParticipationMode(mode)}
-                  className="mt-0.5 w-4 h-4 accent-blue-600 flex-shrink-0"
+                  className="mt-0.5 w-4 h-4 accent-[#E8274B] flex-shrink-0"
                 />
                 <span
                   className="text-xs md:text-sm"
-                  style={{ color: "var(--app-text)" }}
+                  style={{ color: "#1a1a2e" }}
                 >
                   {mode}
                 </span>
@@ -1003,7 +1003,7 @@ function ExhibitorRequestForm({
               />
               <span
                 className="text-sm whitespace-nowrap"
-                style={{ color: "var(--app-muted)" }}
+                style={{ color: "#6b7280" }}
               >
                 sq. mtrs.
               </span>
@@ -1015,8 +1015,8 @@ function ExhibitorRequestForm({
         <div
           className="grid grid-cols-1 md:grid-cols-2 gap-4 rounded-xl p-4"
           style={{
-            background: "var(--app-panel-soft)",
-            border: "1px solid var(--app-border)",
+            background: "#f4f6ff",
+            border: "1px solid #dde6ff",
           }}
         >
           <div>
@@ -1028,19 +1028,19 @@ function ExhibitorRequestForm({
                 key={b.value}
                 className="flex items-start gap-2 cursor-pointer mb-2 p-2 rounded-lg"
                 style={{
-                  background: boothType === b.value ? "#eff6ff" : "transparent",
-                  border: `1px solid ${boothType === b.value ? "#3b82f6" : "transparent"}`,
+                  background: boothType === b.value ? "#fff5f5" : "transparent",
+                  border: `1px solid ${boothType === b.value ? "#E8274B" : "transparent"}`,
                 }}
               >
                 <input
                   type="radio"
                   checked={boothType === b.value}
                   onChange={() => setBoothType(b.value)}
-                  className="mt-0.5 w-4 h-4 accent-blue-600 flex-shrink-0"
+                  className="mt-0.5 w-4 h-4 accent-[#E8274B] flex-shrink-0"
                 />
                 <span
                   className="text-xs md:text-sm"
-                  style={{ color: "var(--app-text)" }}
+                  style={{ color: "#1a1a2e" }}
                 >
                   {b.label}
                 </span>
@@ -1056,19 +1056,19 @@ function ExhibitorRequestForm({
                 key={o}
                 className="flex items-start gap-2 cursor-pointer mb-2 p-2 rounded-lg"
                 style={{
-                  background: opening === o ? "#eff6ff" : "transparent",
-                  border: `1px solid ${opening === o ? "#3b82f6" : "transparent"}`,
+                  background: opening === o ? "#fff5f5" : "transparent",
+                  border: `1px solid ${opening === o ? "#E8274B" : "transparent"}`,
                 }}
               >
                 <input
                   type="radio"
                   checked={opening === o}
                   onChange={() => setOpening(o)}
-                  className="mt-0.5 w-4 h-4 accent-blue-600 flex-shrink-0"
+                  className="mt-0.5 w-4 h-4 accent-[#E8274B] flex-shrink-0"
                 />
                 <span
                   className="text-xs md:text-sm"
-                  style={{ color: "var(--app-text)" }}
+                  style={{ color: "#1a1a2e" }}
                 >
                   {o}
                 </span>
@@ -1087,19 +1087,19 @@ function ExhibitorRequestForm({
             <div className="hidden md:grid md:grid-cols-3 gap-2 px-1">
               <span
                 className="text-xs font-semibold"
-                style={{ color: "var(--app-muted)" }}
+                style={{ color: "#6b7280" }}
               >
                 Brand Name
               </span>
               <span
                 className="text-xs font-semibold"
-                style={{ color: "var(--app-muted)" }}
+                style={{ color: "#6b7280" }}
               >
                 Products {req}
               </span>
               <span
                 className="text-xs font-semibold"
-                style={{ color: "var(--app-muted)" }}
+                style={{ color: "#6b7280" }}
               >
                 Country of Brand Origin {req}
               </span>
@@ -1110,14 +1110,14 @@ function ExhibitorRequestForm({
                 <div
                   className="md:hidden rounded-xl p-3 space-y-2"
                   style={{
-                    background: "var(--app-panel-soft)",
-                    border: "1px solid var(--app-border)",
+                    background: "#f4f6ff",
+                    border: "1px solid #dde6ff",
                   }}
                 >
                   <div>
                     <p
                       className="text-xs font-semibold mb-1"
-                      style={{ color: "var(--app-muted)" }}
+                      style={{ color: "#6b7280" }}
                     >
                       Brand Name
                     </p>
@@ -1132,7 +1132,7 @@ function ExhibitorRequestForm({
                   <div>
                     <p
                       className="text-xs font-semibold mb-1"
-                      style={{ color: "var(--app-muted)" }}
+                      style={{ color: "#6b7280" }}
                     >
                       Products {req}
                     </p>
@@ -1149,7 +1149,7 @@ function ExhibitorRequestForm({
                   <div>
                     <p
                       className="text-xs font-semibold mb-1"
-                      style={{ color: "var(--app-muted)" }}
+                      style={{ color: "#6b7280" }}
                     >
                       Country of Brand Origin {req}
                     </p>
@@ -1234,17 +1234,17 @@ function ExhibitorRequestForm({
                 className="flex items-center gap-2 p-2 md:p-2.5 rounded-xl cursor-pointer text-xs md:text-sm"
                 style={{
                   background: productCategories.includes(cat)
-                    ? "#eff6ff"
-                    : "var(--app-panel-soft)",
-                  border: `1px solid ${productCategories.includes(cat) ? "#3b82f6" : "var(--app-border)"}`,
-                  color: "var(--app-text)",
+                    ? "#fff5f5"
+                    : "#f4f6ff",
+                  border: `1px solid ${productCategories.includes(cat) ? "#E8274B" : "#dde6ff"}`,
+                  color: "#1a1a2e",
                 }}
               >
                 <input
                   type="checkbox"
                   checked={productCategories.includes(cat)}
                   onChange={() => toggleCat(cat)}
-                  className="w-3.5 h-3.5 accent-blue-600 flex-shrink-0"
+                  className="w-3.5 h-3.5 accent-[#E8274B] flex-shrink-0"
                 />
                 {cat}
               </label>
@@ -1252,14 +1252,14 @@ function ExhibitorRequestForm({
           </div>
         </div>
 
-        <div className="h-px" style={{ background: "var(--app-border)" }} />
+        <div className="h-px" style={{ background: "#dde6ff" }} />
 
         {/* Organization Head */}
         <div>
           <h3
             className="text-sm md:text-base font-bold mb-3 pb-2"
             style={{
-              color: "var(--app-text)",
+              color: "#1a1a2e",
               borderBottom: "2px solid #3b82f6",
             }}
           >
@@ -1364,14 +1364,14 @@ function ExhibitorRequestForm({
           </div>
         </div>
 
-        <div className="h-px" style={{ background: "var(--app-border)" }} />
+        <div className="h-px" style={{ background: "#dde6ff" }} />
 
         {/* Contact Person */}
         <div>
           <h3
             className="text-sm md:text-base font-bold mb-3 pb-2"
             style={{
-              color: "var(--app-text)",
+              color: "#1a1a2e",
               borderBottom: "2px solid #3b82f6",
             }}
           >
@@ -1593,7 +1593,7 @@ function ExhibitorRequestForm({
                     style={{ ...inputStyle, width: "60px" }}
                     placeholder="+91"
                   />
-                  <span style={{ color: "var(--app-muted)" }}>-</span>
+                  <span style={{ color: "#6b7280" }}>-</span>
                   <input
                     value={cpTelStd}
                     onChange={(e) => setCpTelStd(e.target.value)}
@@ -1601,7 +1601,7 @@ function ExhibitorRequestForm({
                     style={{ ...inputStyle, width: "70px" }}
                     placeholder="STD"
                   />
-                  <span style={{ color: "var(--app-muted)" }}>-</span>
+                  <span style={{ color: "#6b7280" }}>-</span>
                   <input
                     value={cpTel}
                     onChange={(e) => setCpTel(e.target.value)}
@@ -1623,7 +1623,7 @@ function ExhibitorRequestForm({
                     style={{ ...inputStyle, width: "60px" }}
                     placeholder="+91"
                   />
-                  <span style={{ color: "var(--app-muted)" }}>-</span>
+                  <span style={{ color: "#6b7280" }}>-</span>
                   <input
                     value={cpFaxStd}
                     onChange={(e) => setCpFaxStd(e.target.value)}
@@ -1631,7 +1631,7 @@ function ExhibitorRequestForm({
                     style={{ ...inputStyle, width: "70px" }}
                     placeholder="STD"
                   />
-                  <span style={{ color: "var(--app-muted)" }}>-</span>
+                  <span style={{ color: "#6b7280" }}>-</span>
                   <input
                     value={cpFax}
                     onChange={(e) => setCpFax(e.target.value)}
@@ -1675,19 +1675,19 @@ function ExhibitorRequestForm({
         <div
           className="rounded-xl p-4 space-y-2"
           style={{
-            background: "var(--app-panel-soft)",
-            border: "1px solid var(--app-border)",
+            background: "#f4f6ff",
+            border: "1px solid #dde6ff",
           }}
         >
-          <p className="text-sm font-bold" style={{ color: "var(--app-text)" }}>
+          <p className="text-sm font-bold" style={{ color: "#1a1a2e" }}>
             Please accept our request and allocate space accordingly.
           </p>
           <p className="text-sm font-bold text-red-500">Important Note:</p>
-          <p className="text-xs" style={{ color: "var(--app-muted)" }}>
+          <p className="text-xs" style={{ color: "#6b7280" }}>
             <span className="text-red-500">*</span> These fields are compulsory
             to fill.
           </p>
-          <p className="text-xs" style={{ color: "var(--app-muted)" }}>
+          <p className="text-xs" style={{ color: "#6b7280" }}>
             † This is only an Exhibitor Request Form and not Exhibitor Contract
             Form. Our team will contact you immediately with further details
             once you fill in this request form.
@@ -1701,26 +1701,26 @@ function ExhibitorRequestForm({
               key={c.city}
               className="rounded-xl p-4"
               style={{
-                background: "var(--app-panel-soft)",
-                border: "1px solid var(--app-border)",
+                background: "#f4f6ff",
+                border: "1px solid #dde6ff",
               }}
             >
               <p
                 className="font-bold text-sm mb-1"
-                style={{ color: "#1d4ed8" }}
+                style={{ color: "#E8274B" }}
               >
                 {c.city}:
               </p>
               <p
                 className="font-bold text-sm"
-                style={{ color: "var(--app-text)" }}
+                style={{ color: "#1a1a2e" }}
               >
                 {c.name}
               </p>
-              <p className="text-xs mt-1" style={{ color: "var(--app-muted)" }}>
+              <p className="text-xs mt-1" style={{ color: "#6b7280" }}>
                 Mobile: {c.mobile}
               </p>
-              <p className="text-xs" style={{ color: "var(--app-muted)" }}>
+              <p className="text-xs" style={{ color: "#6b7280" }}>
                 Tel: {c.tel}
               </p>
               <a
@@ -1738,7 +1738,7 @@ function ExhibitorRequestForm({
           onClick={handleSubmit}
           disabled={loading}
           className="w-full py-3.5 rounded-xl text-white font-bold text-sm transition hover:opacity-90 disabled:opacity-60"
-          style={{ background: "linear-gradient(135deg,#1d4ed8,#2563eb)" }}
+          style={{ background: "linear-gradient(135deg,#E8274B,#F4822A)" }}
         >
           {loading ? "Submitting..." : "SUBMIT"}
         </button>

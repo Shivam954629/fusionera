@@ -52,18 +52,18 @@ export default function VisitorDashboardPage() {
         <div
           className="rounded-2xl overflow-hidden shadow-xl"
           style={{
-            background: "var(--app-panel)",
-            border: "1px solid var(--app-border)",
+            background: "#ffffff",
+            border: "1px solid #dde6ff",
           }}
         >
           <div className="px-8 pt-8 pb-4">
             <h1
               className="text-2xl font-bold mb-1"
-              style={{ color: "var(--app-text)" }}
+              style={{ color: "#1a1a2e" }}
             >
               🎟️ Your Entry Pass
             </h1>
-            <p className="text-sm" style={{ color: "var(--app-muted)" }}>
+            <p className="text-sm" style={{ color: "#6b7280" }}>
               Fusionera 2026 — New Delhi, India
             </p>
           </div>
@@ -87,19 +87,19 @@ export default function VisitorDashboardPage() {
               <div
                 className="rounded-xl p-3"
                 style={{
-                  background: "var(--app-panel-soft)",
-                  border: "1px solid var(--app-border)",
+                  background: "#f4f6ff",
+                  border: "1px solid #dde6ff",
                 }}
               >
                 <p
                   className="text-xs mb-0.5"
-                  style={{ color: "var(--app-muted)" }}
+                  style={{ color: "#6b7280" }}
                 >
                   Name
                 </p>
                 <p
                   className="text-sm font-semibold"
-                  style={{ color: "var(--app-text)" }}
+                  style={{ color: "#1a1a2e" }}
                 >
                   {visitor?.fullName}
                 </p>
@@ -107,19 +107,19 @@ export default function VisitorDashboardPage() {
               <div
                 className="rounded-xl p-3"
                 style={{
-                  background: "var(--app-panel-soft)",
-                  border: "1px solid var(--app-border)",
+                  background: "#f4f6ff",
+                  border: "1px solid #dde6ff",
                 }}
               >
                 <p
                   className="text-xs mb-0.5"
-                  style={{ color: "var(--app-muted)" }}
+                  style={{ color: "#6b7280" }}
                 >
                   Phone
                 </p>
                 <p
                   className="text-sm font-semibold"
-                  style={{ color: "var(--app-text)" }}
+                  style={{ color: "#1a1a2e" }}
                 >
                   {visitor?.phone}
                 </p>
@@ -128,19 +128,19 @@ export default function VisitorDashboardPage() {
                 <div
                   className="rounded-xl p-3 col-span-2"
                   style={{
-                    background: "var(--app-panel-soft)",
-                    border: "1px solid var(--app-border)",
+                    background: "#f4f6ff",
+                    border: "1px solid #dde6ff",
                   }}
                 >
                   <p
                     className="text-xs mb-0.5"
-                    style={{ color: "var(--app-muted)" }}
+                    style={{ color: "#6b7280" }}
                   >
                     Email
                   </p>
                   <p
                     className="text-sm font-semibold"
-                    style={{ color: "var(--app-text)" }}
+                    style={{ color: "#1a1a2e" }}
                   >
                     {visitor.email}
                   </p>
@@ -152,13 +152,13 @@ export default function VisitorDashboardPage() {
             <div
               className="rounded-xl p-4 text-center"
               style={{
-                background: "var(--app-panel-soft)",
-                border: "1px solid var(--app-border)",
+                background: "#f4f6ff",
+                border: "1px solid #dde6ff",
               }}
             >
               <p
                 className="text-sm font-medium"
-                style={{ color: "var(--app-text)" }}
+                style={{ color: "#1a1a2e" }}
               >
                 📅 July 4–7, 2026 &nbsp;·&nbsp; 📍 New Delhi, India
                 &nbsp;·&nbsp; 🎟️ Free Entry
@@ -169,8 +169,8 @@ export default function VisitorDashboardPage() {
               onClick={handleLogout}
               className="w-full py-3 rounded-xl text-sm font-medium border transition hover:opacity-80"
               style={{
-                color: "var(--app-muted)",
-                borderColor: "var(--app-border)",
+                color: "#6b7280",
+                borderColor: "#dde6ff",
                 background: "transparent",
               }}
             >
