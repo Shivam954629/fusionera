@@ -16,31 +16,77 @@ export default function VisitorDashboardPage() {
   const siteSettings = useSiteSettings();
   const [visitor, setVisitor] = useState<VisitorInfo | null>(null);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
 
   useEffect(() => {
-    fetch("/api/visitor-me", { credentials: "include" })
-      .then((res) => {
-        if (!res.ok) {
-          router.push("/visitor-registration");
-          return null;
+    const controller = new AbortController();
+
+    const loadVisitor = async () => {
+      setLoading(true);
+      setError("");
+
+      try {
+        const res = await fetch("/api/visitor-me", {
+          credentials: "include",
+          signal: controller.signal,
+        });
+
+        if (res.status === 401) {
+          router.replace("/visitor-registration");
+          return;
         }
-        return res.json();
-      })
-      .then((data) => {
-        if (data) setVisitor(data.visitor);
-      })
-      .finally(() => setLoading(false));
+
+        const data = await res.json();
+        if (!res.ok) throw new Error(data?.error || "Unable to load visitor pass.");
+
+        setVisitor(data?.visitor ?? null);
+        if (!data?.visitor) setError("Visitor details were not found.");
+      } catch (err: unknown) {
+        if (err instanceof Error && err.name === "AbortError") return;
+        setError(err instanceof Error ? err.message : "Unable to load visitor pass.");
+      } finally {
+        if (!controller.signal.aborted) setLoading(false);
+      }
+    };
+
+    loadVisitor();
+
+    return () => controller.abort();
   }, [router]);
 
   const handleLogout = async () => {
     await fetch("/api/visitor-login", { method: "DELETE", credentials: "include" });
-    router.push("/visitor-registration");
+    router.replace("/visitor-registration");
   };
 
   if (loading)
     return (
       <section className="min-h-screen flex items-center justify-center">
-        <div className="w-10 h-10 border-4 border-red-100 border-t-[#E8274B] rounded-full animate-spin" />
+        <div className="w-10 h-10 border-4 border-blue-100 border-t-[#3B82F6] rounded-full animate-spin" />
+      </section>
+    );
+
+  if (error || !visitor)
+    return (
+      <section className="min-h-screen flex items-center justify-center px-4">
+        <div
+          className="w-full max-w-md rounded-2xl bg-white p-6 text-center shadow-sm"
+          style={{ border: "1px solid #dde6ff" }}
+        >
+          <h1 className="text-xl font-bold" style={{ color: "#1a1a2e" }}>
+            Unable to load your pass
+          </h1>
+          <p className="mt-2 text-sm" style={{ color: "#6b7280" }}>
+            {error || "Please sign in again to continue."}
+          </p>
+          <button
+            onClick={() => router.replace("/visitor-registration")}
+            className="mt-5 rounded-xl px-5 py-2.5 text-sm font-semibold text-white"
+            style={{ background: "linear-gradient(135deg,#3B82F6,#60A5FA)" }}
+          >
+            Go to registration
+          </button>
+        </div>
       </section>
     );
 
@@ -55,7 +101,7 @@ export default function VisitorDashboardPage() {
         <div className="absolute inset-0 -z-10 bg-black/30" />
         <div
           className="pointer-events-none absolute -left-10 top-0 h-48 w-48 rounded-full blur-3xl"
-          style={{ background: "rgba(232,39,75,0.2)" }}
+          style={{ background: "rgba(96,165,250,0.25)" }}
         />
         <div
           className="pointer-events-none absolute right-0 bottom-0 h-40 w-40 rounded-full blur-3xl"
@@ -75,7 +121,7 @@ export default function VisitorDashboardPage() {
           <div className="mt-5 flex justify-center">
             <span
               className="h-1 w-20 rounded-full"
-              style={{ background: "linear-gradient(90deg,#E8274B,#F4822A)" }}
+              style={{ background: "linear-gradient(90deg,#3B82F6,#60A5FA)" }}
             />
           </div>
         </div>
@@ -87,7 +133,7 @@ export default function VisitorDashboardPage() {
           {/* Colorful top strip */}
           <div
             className="h-2"
-            style={{ background: "linear-gradient(90deg,#E8274B,#F4822A,#FFAA00,#00C8D4,#7B2FBE,#E91E8C)" }}
+            style={{ background: "linear-gradient(90deg,#3B82F6,#60A5FA,#7DD3FC,#00C8D4,#3B82F6,#60A5FA)" }}
           />
 
           <div className="bg-white px-6 pt-6 pb-8 space-y-4">
@@ -143,7 +189,7 @@ export default function VisitorDashboardPage() {
             {/* Event Info */}
             <div
               className="rounded-xl p-4 text-center"
-              style={{ background: "linear-gradient(135deg,#E8274B,#F4822A)" }}
+              style={{ background: "linear-gradient(135deg,#3B82F6,#60A5FA)" }}
             >
               <p className="text-sm font-semibold text-white">
                 📅 {siteSettings.event_date} &nbsp;·&nbsp; 📍 {siteSettings.event_venue} &nbsp;·&nbsp; 🎟️ Free Entry

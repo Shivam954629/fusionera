@@ -63,6 +63,7 @@ export default function AdminDashboard() {
   const [stats, setStats] = useState<Stats | null>(null);
   const [visitors, setVisitors] = useState<Visitor[]>([]);
   const [loading, setLoading] = useState(true);
+  const [loadError, setLoadError] = useState("");
   const [activeTab, setActiveTab] = useState<TabType>("dashboard");
   const [search, setSearch] = useState("");
   const [filterStatus, setFilterStatus] = useState<
@@ -564,28 +565,35 @@ export default function AdminDashboard() {
   };
 
   // ── Main data ──
-  const fetchData = useCallback(async () => {
+  const fetchData = useCallback(async (signal?: AbortSignal) => {
+    setLoadError("");
     try {
       const [statsRes, visitorsRes] = await Promise.all([
-        fetch("/api/admin/stats", { credentials: "include" }),
-        fetch("/api/visitors", { credentials: "include" }),
+        fetch("/api/admin/stats", { credentials: "include", signal }),
+        fetch("/api/visitors", { credentials: "include", signal }),
       ]);
       if (statsRes.status === 401 || visitorsRes.status === 401) {
-        router.push("/admin");
+        router.replace("/admin");
         return;
+      }
+      if (!statsRes.ok || !visitorsRes.ok) {
+        throw new Error("Unable to load dashboard data.");
       }
       setStats(await statsRes.json());
       const vd = await visitorsRes.json();
-      setVisitors(vd.visitors || []);
-    } catch {
-      router.push("/admin");
+      setVisitors(vd?.visitors || []);
+    } catch (err: unknown) {
+      if (err instanceof Error && err.name === "AbortError") return;
+      setLoadError(err instanceof Error ? err.message : "Unable to load dashboard data.");
     } finally {
-      setLoading(false);
+      if (!signal?.aborted) setLoading(false);
     }
   }, [router]);
 
   useEffect(() => {
-    fetchData();
+    const controller = new AbortController();
+
+    fetchData(controller.signal);
     fetchNewsletter();
     const interval = setInterval(fetchData, 30000);
     const handleNewVisitor = () => fetchData();
@@ -595,6 +603,7 @@ export default function AdminDashboard() {
     };
     window.addEventListener("storage", handleStorage);
     return () => {
+      controller.abort();
       clearInterval(interval);
       window.removeEventListener("visitor-registered", handleNewVisitor);
       window.removeEventListener("storage", handleStorage);
@@ -806,15 +815,35 @@ export default function AdminDashboard() {
   const statusColor = (status: string) => {
     if (status === "approved") return "bg-green-100 text-green-700";
     if (status === "rejected") return "bg-red-100 text-red-600";
-    return "bg-yellow-100 text-yellow-700";
+    return "bg-sky-100 text-sky-700";
   };
 
   if (loading)
     return (
       <div className="min-h-screen flex items-center justify-center bg-[#eef2ff]">
         <div className="text-center">
-          <div className="w-12 h-12 border-4 border-red-100 border-t-[#E8274B] rounded-full animate-spin mx-auto" />
+          <div className="w-12 h-12 border-4 border-blue-100 border-t-[#3B82F6] rounded-full animate-spin mx-auto" />
           <p className="mt-4 text-gray-500 text-sm">Loading...</p>
+        </div>
+      </div>
+    );
+
+  if (loadError)
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-[#eef2ff] px-4">
+        <div className="w-full max-w-md rounded-2xl border border-[#dde6ff] bg-white p-6 text-center shadow-sm">
+          <h1 className="text-xl font-bold text-gray-900">Dashboard could not load</h1>
+          <p className="mt-2 text-sm text-gray-500">{loadError}</p>
+          <button
+            onClick={() => {
+              setLoading(true);
+              fetchData();
+            }}
+            className="mt-5 rounded-xl px-5 py-2.5 text-sm font-semibold text-white"
+            style={{ background: "linear-gradient(135deg,#3B82F6,#60A5FA)" }}
+          >
+            Try again
+          </button>
         </div>
       </div>
     );
@@ -912,7 +941,7 @@ export default function AdminDashboard() {
                 setActiveTab(item.id);
                 setSidebarOpen(false);
               }}
-              className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all ${activeTab === item.id ? "bg-red-50 text-[#E8274B] border-r-2 border-[#E8274B] font-semibold" : "text-gray-600 hover:bg-gray-50"}`}
+              className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all ${activeTab === item.id ? "bg-blue-50 text-[#3B82F6] border-r-2 border-[#3B82F6] font-semibold" : "text-gray-600 hover:bg-gray-50"}`}
             >
               <span>{item.icon}</span>
               <span className="flex-1 text-left">{item.label}</span>
@@ -981,7 +1010,7 @@ export default function AdminDashboard() {
             </div>
           </div>
           <button
-            onClick={fetchData}
+            onClick={() => fetchData()}
             title="Refresh"
             className="p-2 rounded-lg hover:bg-gray-100 text-gray-500 hover:text-gray-700 transition"
           >
@@ -1059,7 +1088,7 @@ export default function AdminDashboard() {
                   </h3>
                   <button
                     onClick={() => setActiveTab("visitors")}
-                    className="text-xs text-[#E8274B] hover:opacity-80 font-medium"
+                    className="text-xs text-[#3B82F6] hover:opacity-80 font-medium"
                   >
                     View all →
                   </button>
@@ -1117,7 +1146,7 @@ export default function AdminDashboard() {
                                 <button
                                   onClick={() => toggleBlock(v)}
                                   disabled={blockingId === v.id}
-                                  className={`px-2.5 py-1.5 text-xs rounded-lg font-medium transition disabled:opacity-50 ${v.is_blocked ? "bg-green-100 text-green-700 hover:bg-green-200" : "bg-orange-100 text-orange-700 hover:bg-orange-200"}`}
+                                  className={`px-2.5 py-1.5 text-xs rounded-lg font-medium transition disabled:opacity-50 ${v.is_blocked ? "bg-green-100 text-green-700 hover:bg-green-200" : "bg-sky-100 text-sky-700 hover:bg-sky-200"}`}
                                 >
                                   {blockingId === v.id
                                     ? "..."
@@ -1160,7 +1189,7 @@ export default function AdminDashboard() {
                         setPage(1);
                       }}
                       placeholder="Search name, phone, email..."
-                      className="w-full pl-9 pr-4 py-2.5 bg-white border border-gray-200 rounded-xl text-gray-900 placeholder-gray-400 text-sm focus:outline-none focus:ring-2 focus:ring-[#E8274B]"
+                      className="w-full pl-9 pr-4 py-2.5 bg-white border border-gray-200 rounded-xl text-gray-900 placeholder-gray-400 text-sm focus:outline-none focus:ring-2 focus:ring-[#3B82F6]"
                     />
                   </div>
                   <button
@@ -1185,7 +1214,7 @@ export default function AdminDashboard() {
                         setFilterStatus(f.id as "all" | "active" | "blocked");
                         setPage(1);
                       }}
-                      className={`px-3 py-2 text-xs rounded-xl font-medium transition ${filterStatus === f.id ? "bg-[#E8274B] text-white" : "border border-gray-200 bg-white text-gray-600 hover:bg-gray-50"}`}
+                      className={`px-3 py-2 text-xs rounded-xl font-medium transition ${filterStatus === f.id ? "bg-[#3B82F6] text-white" : "border border-gray-200 bg-white text-gray-600 hover:bg-gray-50"}`}
                     >
                       {f.label}
                     </button>
@@ -1245,7 +1274,7 @@ export default function AdminDashboard() {
                             <td className="py-3.5 px-4">
                               <a
                                 href={`tel:${v.phone_number}`}
-                                className="text-[#E8274B] hover:opacity-80 font-medium"
+                                className="text-[#3B82F6] hover:opacity-80 font-medium"
                               >
                                 {v.phone_number}
                               </a>
@@ -1277,7 +1306,7 @@ export default function AdminDashboard() {
                                 <button
                                   onClick={() => toggleBlock(v)}
                                   disabled={blockingId === v.id}
-                                  className={`px-3 py-1.5 text-xs rounded-lg font-semibold transition disabled:opacity-50 border ${v.is_blocked ? "bg-green-50 text-green-700 border-green-200 hover:bg-green-100" : "bg-orange-50 text-orange-700 border-orange-200 hover:bg-orange-100"}`}
+                                  className={`px-3 py-1.5 text-xs rounded-lg font-semibold transition disabled:opacity-50 border ${v.is_blocked ? "bg-green-50 text-green-700 border-green-200 hover:bg-green-100" : "bg-sky-50 text-sky-700 border-sky-200 hover:bg-sky-100"}`}
                                 >
                                   {blockingId === v.id
                                     ? "..."
@@ -1323,7 +1352,7 @@ export default function AdminDashboard() {
                             <button
                               key={p}
                               onClick={() => setPage(p)}
-                              className={`px-3 py-1.5 text-xs rounded-lg ${p === page ? "bg-[#E8274B] text-white" : "border border-gray-200 text-gray-600 hover:bg-gray-50"}`}
+                              className={`px-3 py-1.5 text-xs rounded-lg ${p === page ? "bg-[#3B82F6] text-white" : "border border-gray-200 text-gray-600 hover:bg-gray-50"}`}
                             >
                               {p}
                             </button>
@@ -1359,7 +1388,7 @@ export default function AdminDashboard() {
                     value={exhibitorSearch}
                     onChange={(e) => setExhibitorSearch(e.target.value)}
                     placeholder="Search company, name, phone..."
-                    className="w-full pl-9 pr-4 py-2.5 bg-white border border-gray-200 rounded-xl text-gray-900 placeholder-gray-400 text-sm focus:outline-none focus:ring-2 focus:ring-[#E8274B]"
+                    className="w-full pl-9 pr-4 py-2.5 bg-white border border-gray-200 rounded-xl text-gray-900 placeholder-gray-400 text-sm focus:outline-none focus:ring-2 focus:ring-[#3B82F6]"
                   />
                 </div>
                 <div className="flex gap-2 flex-wrap">
@@ -1367,7 +1396,7 @@ export default function AdminDashboard() {
                     <button
                       key={f}
                       onClick={() => setExhibitorFilter(f)}
-                      className={`px-3 py-2 text-xs rounded-xl font-medium transition capitalize ${exhibitorFilter === f ? "bg-[#E8274B] text-white" : "border border-gray-200 bg-white text-gray-600 hover:bg-gray-50"}`}
+                      className={`px-3 py-2 text-xs rounded-xl font-medium transition capitalize ${exhibitorFilter === f ? "bg-[#3B82F6] text-white" : "border border-gray-200 bg-white text-gray-600 hover:bg-gray-50"}`}
                     >
                       {f === "all" ? `All (${exhibitors.length})` : f}
                     </button>
@@ -1377,7 +1406,7 @@ export default function AdminDashboard() {
 
               {exhibitorLoading ? (
                 <div className="py-20 text-center text-gray-500">
-                  <div className="w-8 h-8 border-4 border-red-100 border-t-[#E8274B] rounded-full animate-spin mx-auto mb-3" />
+                  <div className="w-8 h-8 border-4 border-blue-100 border-t-[#3B82F6] rounded-full animate-spin mx-auto mb-3" />
                   Loading...
                 </div>
               ) : filteredExhibitors.length === 0 ? (
@@ -1515,7 +1544,7 @@ export default function AdminDashboard() {
                       <input
                         value={val}
                         onChange={(e) => set(e.target.value)}
-                        className="w-full px-4 py-2.5 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#E8274B] bg-white border border-gray-200 text-gray-900 placeholder-gray-400"
+                        className="w-full px-4 py-2.5 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#3B82F6] bg-white border border-gray-200 text-gray-900 placeholder-gray-400"
                         placeholder={ph}
                       />
                     </div>
@@ -1528,14 +1557,14 @@ export default function AdminDashboard() {
                       value={nlContent}
                       onChange={(e) => setNlContent(e.target.value)}
                       rows={10}
-                      className="w-full px-4 py-2.5 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#E8274B] resize-none bg-white border border-gray-200 text-gray-900 placeholder-gray-400"
+                      className="w-full px-4 py-2.5 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#3B82F6] resize-none bg-white border border-gray-200 text-gray-900 placeholder-gray-400"
                       placeholder="Write newsletter content here..."
                     />
                   </div>
                   <div className="flex items-center gap-3">
                     <div
                       onClick={() => setNlPublished((p) => !p)}
-                      className={`w-12 h-6 rounded-full transition-colors relative cursor-pointer ${nlPublished ? "bg-[#E8274B]" : "bg-gray-200"}`}
+                      className={`w-12 h-6 rounded-full transition-colors relative cursor-pointer ${nlPublished ? "bg-[#3B82F6]" : "bg-gray-200"}`}
                     >
                       <div
                         className={`absolute top-0.5 w-5 h-5 rounded-full bg-white shadow transition-transform ${nlPublished ? "translate-x-6" : "translate-x-0.5"}`}
@@ -1552,7 +1581,7 @@ export default function AdminDashboard() {
                     disabled={nlLoading}
                     className="w-full py-3 rounded-xl text-white font-bold text-sm transition hover:opacity-90 disabled:opacity-60"
                     style={{
-                      background: "linear-gradient(135deg,#E8274B,#F4822A)",
+                      background: "linear-gradient(135deg,#3B82F6,#60A5FA)",
                     }}
                   >
                     {nlLoading ? "Saving..." : "Save Newsletter"}
@@ -1585,7 +1614,7 @@ export default function AdminDashboard() {
                       onChange={(e) =>
                         setVideoForm((f) => ({ ...f, title: e.target.value }))
                       }
-                      className="w-full px-4 py-2.5 rounded-xl text-sm bg-white border border-gray-200 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#E8274B]"
+                      className="w-full px-4 py-2.5 rounded-xl text-sm bg-white border border-gray-200 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#3B82F6]"
                       placeholder="Video title..."
                     />
                   </div>
@@ -1598,7 +1627,7 @@ export default function AdminDashboard() {
                       onChange={(e) =>
                         setVideoForm((f) => ({ ...f, url: e.target.value }))
                       }
-                      className="w-full px-4 py-2.5 rounded-xl text-sm bg-white border border-gray-200 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#E8274B]"
+                      className="w-full px-4 py-2.5 rounded-xl text-sm bg-white border border-gray-200 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#3B82F6]"
                       placeholder="https://youtube.com/watch?v=..."
                     />
                   </div>
@@ -1614,7 +1643,7 @@ export default function AdminDashboard() {
                           category: e.target.value,
                         }))
                       }
-                      className="w-full px-4 py-2.5 rounded-xl text-sm bg-white border border-gray-200 text-gray-900 focus:outline-none focus:ring-2 focus:ring-[#E8274B]"
+                      className="w-full px-4 py-2.5 rounded-xl text-sm bg-white border border-gray-200 text-gray-900 focus:outline-none focus:ring-2 focus:ring-[#3B82F6]"
                     >
                       {[
                         "general",
@@ -1637,7 +1666,7 @@ export default function AdminDashboard() {
                           is_published: !f.is_published,
                         }))
                       }
-                      className={`w-10 h-5 rounded-full transition-colors relative cursor-pointer ${videoForm.is_published ? "bg-[#E8274B]" : "bg-gray-200"}`}
+                      className={`w-10 h-5 rounded-full transition-colors relative cursor-pointer ${videoForm.is_published ? "bg-[#3B82F6]" : "bg-gray-200"}`}
                     >
                       <div
                         className={`absolute top-0.5 w-4 h-4 rounded-full bg-white shadow transition-transform ${videoForm.is_published ? "translate-x-5" : "translate-x-0.5"}`}
@@ -1656,7 +1685,7 @@ export default function AdminDashboard() {
                     }
                     className="px-6 py-2.5 rounded-xl text-white font-bold text-sm hover:opacity-90 disabled:opacity-50 transition"
                     style={{
-                      background: "linear-gradient(135deg,#E8274B,#F4822A)",
+                      background: "linear-gradient(135deg,#3B82F6,#60A5FA)",
                     }}
                   >
                     {videoLoading
@@ -1687,7 +1716,7 @@ export default function AdminDashboard() {
               {/* Videos List */}
               {videoLoading && !videos.length ? (
                 <div className="py-20 text-center text-gray-500">
-                  <div className="w-8 h-8 border-4 border-red-100 border-t-[#E8274B] rounded-full animate-spin mx-auto mb-3" />
+                  <div className="w-8 h-8 border-4 border-blue-100 border-t-[#3B82F6] rounded-full animate-spin mx-auto mb-3" />
                   Loading...
                 </div>
               ) : videos.length === 0 ? (
@@ -1742,7 +1771,7 @@ export default function AdminDashboard() {
                                 setEditingVideo(v);
                                 window.scrollTo({ top: 0, behavior: "smooth" });
                               }}
-                              className="flex-1 py-1.5 text-xs rounded-lg bg-red-50 text-[#E8274B] hover:bg-red-100 transition font-medium"
+                              className="flex-1 py-1.5 text-xs rounded-lg bg-blue-50 text-[#3B82F6] hover:bg-blue-100 transition font-medium"
                             >
                               ✏️ Edit
                             </button>
@@ -1781,7 +1810,7 @@ export default function AdminDashboard() {
                       onChange={(e) =>
                         setImageForm((f) => ({ ...f, title: e.target.value }))
                       }
-                      className="w-full px-4 py-2.5 rounded-xl text-sm bg-white border border-gray-200 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#E8274B]"
+                      className="w-full px-4 py-2.5 rounded-xl text-sm bg-white border border-gray-200 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#3B82F6]"
                       placeholder="Image title..."
                     />
                   </div>
@@ -1794,7 +1823,7 @@ export default function AdminDashboard() {
                       onChange={(e) =>
                         setImageForm((f) => ({ ...f, url: e.target.value }))
                       }
-                      className="w-full px-4 py-2.5 rounded-xl text-sm bg-white border border-gray-200 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#E8274B]"
+                      className="w-full px-4 py-2.5 rounded-xl text-sm bg-white border border-gray-200 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#3B82F6]"
                       placeholder="https://..."
                     />
                   </div>
@@ -1810,7 +1839,7 @@ export default function AdminDashboard() {
                           category: e.target.value,
                         }))
                       }
-                      className="w-full px-4 py-2.5 rounded-xl text-sm bg-white border border-gray-200 text-gray-900 focus:outline-none focus:ring-2 focus:ring-[#E8274B]"
+                      className="w-full px-4 py-2.5 rounded-xl text-sm bg-white border border-gray-200 text-gray-900 focus:outline-none focus:ring-2 focus:ring-[#3B82F6]"
                     >
                       {[
                         "general",
@@ -1834,7 +1863,7 @@ export default function AdminDashboard() {
                       onChange={(e) =>
                         setImageForm((f) => ({ ...f, type: e.target.value }))
                       }
-                      className="w-full px-4 py-2.5 rounded-xl text-sm bg-white border border-gray-200 text-gray-900 focus:outline-none focus:ring-2 focus:ring-[#E8274B]"
+                      className="w-full px-4 py-2.5 rounded-xl text-sm bg-white border border-gray-200 text-gray-900 focus:outline-none focus:ring-2 focus:ring-[#3B82F6]"
                     >
                       {["gallery", "catalogue", "banner", "slider"].map((t) => (
                         <option key={t} value={t}>
@@ -1852,7 +1881,7 @@ export default function AdminDashboard() {
                         is_published: !f.is_published,
                       }))
                     }
-                    className={`w-10 h-5 rounded-full transition-colors relative cursor-pointer ${imageForm.is_published ? "bg-[#E8274B]" : "bg-gray-200"}`}
+                    className={`w-10 h-5 rounded-full transition-colors relative cursor-pointer ${imageForm.is_published ? "bg-[#3B82F6]" : "bg-gray-200"}`}
                   >
                     <div
                       className={`absolute top-0.5 w-4 h-4 rounded-full bg-white shadow transition-transform ${imageForm.is_published ? "translate-x-5" : "translate-x-0.5"}`}
@@ -1867,7 +1896,7 @@ export default function AdminDashboard() {
                     onClick={saveImage}
                     disabled={imageLoading || !imageForm.url}
                     className="px-6 py-2.5 rounded-xl text-white font-bold text-sm hover:opacity-90 disabled:opacity-50 transition"
-                    style={{ background: "#E8274B" }}
+                    style={{ background: "#3B82F6" }}
                   >
                     {imageLoading ? "Saving..." : editingImage ? "Update Image" : "Add Image"}
                   </button>
@@ -1887,7 +1916,7 @@ export default function AdminDashboard() {
 
               {imageLoading && !images.length ? (
                 <div className="py-20 text-center text-gray-500">
-                  <div className="w-8 h-8 border-4 border-red-100 border-t-[#E8274B] rounded-full animate-spin mx-auto mb-3" />
+                  <div className="w-8 h-8 border-4 border-blue-100 border-t-[#3B82F6] rounded-full animate-spin mx-auto mb-3" />
                   Loading...
                 </div>
               ) : images.length === 0 ? (
@@ -1925,7 +1954,7 @@ export default function AdminDashboard() {
                                 setImageForm({ title: img.title, url: img.url, category: img.category, type: img.type, is_published: img.is_published });
                                 window.scrollTo({ top: 0, behavior: "smooth" });
                               }}
-                              className="text-xs text-[#E8274B] hover:opacity-80 px-1"
+                              className="text-xs text-[#3B82F6] hover:opacity-80 px-1"
                             >
                               ✏️
                             </button>
@@ -1954,7 +1983,7 @@ export default function AdminDashboard() {
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   <div>
                     <label className="block text-xs font-semibold mb-1 text-gray-600">Key * (unique identifier)</label>
-                    <select value={contentForm.key} onChange={(e) => setContentForm((f) => ({ ...f, key: e.target.value }))} className="w-full px-4 py-2.5 rounded-xl text-sm bg-white border border-gray-200 text-gray-900 focus:outline-none focus:ring-2 focus:ring-[#E8274B]">
+                    <select value={contentForm.key} onChange={(e) => setContentForm((f) => ({ ...f, key: e.target.value }))} className="w-full px-4 py-2.5 rounded-xl text-sm bg-white border border-gray-200 text-gray-900 focus:outline-none focus:ring-2 focus:ring-[#3B82F6]">
                       <option value="">Select content type...</option>
                       {["about_us", "announcement", "banner_main", "banner_secondary", "hero_title", "hero_subtitle", "footer_text", "contact_info"].map((k) => (
                         <option key={k} value={k}>{k.replace(/_/g, " ").replace(/\b\w/g, l => l.toUpperCase())}</option>
@@ -1963,34 +1992,34 @@ export default function AdminDashboard() {
                   </div>
                   <div>
                     <label className="block text-xs font-semibold mb-1 text-gray-600">Title *</label>
-                    <input value={contentForm.title} onChange={(e) => setContentForm((f) => ({ ...f, title: e.target.value }))} className="w-full px-4 py-2.5 rounded-xl text-sm bg-white border border-gray-200 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#E8274B]" placeholder="Title..." />
+                    <input value={contentForm.title} onChange={(e) => setContentForm((f) => ({ ...f, title: e.target.value }))} className="w-full px-4 py-2.5 rounded-xl text-sm bg-white border border-gray-200 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#3B82F6]" placeholder="Title..." />
                   </div>
                   <div>
                     <label className="block text-xs font-semibold mb-1 text-gray-600">Subtitle</label>
-                    <input value={contentForm.subtitle} onChange={(e) => setContentForm((f) => ({ ...f, subtitle: e.target.value }))} className="w-full px-4 py-2.5 rounded-xl text-sm bg-white border border-gray-200 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#E8274B]" placeholder="Subtitle..." />
+                    <input value={contentForm.subtitle} onChange={(e) => setContentForm((f) => ({ ...f, subtitle: e.target.value }))} className="w-full px-4 py-2.5 rounded-xl text-sm bg-white border border-gray-200 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#3B82F6]" placeholder="Subtitle..." />
                   </div>
                   <div>
                     <label className="block text-xs font-semibold mb-1 text-gray-600">Image URL</label>
-                    <input value={contentForm.image_url} onChange={(e) => setContentForm((f) => ({ ...f, image_url: e.target.value }))} className="w-full px-4 py-2.5 rounded-xl text-sm bg-white border border-gray-200 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#E8274B]" placeholder="https://..." />
+                    <input value={contentForm.image_url} onChange={(e) => setContentForm((f) => ({ ...f, image_url: e.target.value }))} className="w-full px-4 py-2.5 rounded-xl text-sm bg-white border border-gray-200 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#3B82F6]" placeholder="https://..." />
                   </div>
                 </div>
                 <div className="mt-3">
                   <label className="block text-xs font-semibold mb-1 text-gray-600">Content</label>
-                  <textarea value={contentForm.content} onChange={(e) => setContentForm((f) => ({ ...f, content: e.target.value }))} rows={5} className="w-full px-4 py-2.5 rounded-xl text-sm bg-white border border-gray-200 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#E8274B] resize-none" placeholder="Content text..." />
+                  <textarea value={contentForm.content} onChange={(e) => setContentForm((f) => ({ ...f, content: e.target.value }))} rows={5} className="w-full px-4 py-2.5 rounded-xl text-sm bg-white border border-gray-200 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#3B82F6] resize-none" placeholder="Content text..." />
                 </div>
                 <div className="flex items-center gap-3 mt-3">
-                  <div onClick={() => setContentForm((f) => ({ ...f, is_published: !f.is_published }))} className={`w-10 h-5 rounded-full transition-colors relative cursor-pointer ${contentForm.is_published ? "bg-[#E8274B]" : "bg-gray-200"}`}>
+                  <div onClick={() => setContentForm((f) => ({ ...f, is_published: !f.is_published }))} className={`w-10 h-5 rounded-full transition-colors relative cursor-pointer ${contentForm.is_published ? "bg-[#3B82F6]" : "bg-gray-200"}`}>
                     <div className={`absolute top-0.5 w-4 h-4 rounded-full bg-white shadow transition-transform ${contentForm.is_published ? "translate-x-5" : "translate-x-0.5"}`} />
                   </div>
                   <span className="text-sm text-gray-600">{contentForm.is_published ? "Published" : "Draft"}</span>
                 </div>
-                <button onClick={saveContent} disabled={contentLoading || !contentForm.key || !contentForm.title} className="mt-4 px-6 py-2.5 rounded-xl text-white font-bold text-sm hover:opacity-90 disabled:opacity-50 transition" style={{ background: "#E8274B" }}>
+                <button onClick={saveContent} disabled={contentLoading || !contentForm.key || !contentForm.title} className="mt-4 px-6 py-2.5 rounded-xl text-white font-bold text-sm hover:opacity-90 disabled:opacity-50 transition" style={{ background: "#3B82F6" }}>
                   {contentLoading ? "Saving..." : "Save Content"}
                 </button>
               </div>
 
               {contentLoading && !contents.length ? (
-                <div className="py-20 text-center text-gray-500"><div className="w-8 h-8 border-4 border-red-100 border-t-[#E8274B] rounded-full animate-spin mx-auto mb-3" />Loading...</div>
+                <div className="py-20 text-center text-gray-500"><div className="w-8 h-8 border-4 border-blue-100 border-t-[#3B82F6] rounded-full animate-spin mx-auto mb-3" />Loading...</div>
               ) : contents.length === 0 ? (
                 <div className="py-20 text-center text-gray-500 rounded-2xl border border-[#dde6ff] bg-[#eef2ff]"><p className="text-4xl mb-2">📝</p><p className="font-medium">No content added yet</p></div>
               ) : (
@@ -2000,7 +2029,7 @@ export default function AdminDashboard() {
                       <div className="flex items-start justify-between gap-4">
                         <div className="flex-1 min-w-0">
                           <div className="flex items-center gap-2 flex-wrap mb-1">
-                            <span className="text-xs px-2 py-0.5 rounded-full text-white" style={{ background: "#F4822A" }}>{c.key.replace(/_/g, " ")}</span>
+                            <span className="text-xs px-2 py-0.5 rounded-full text-white" style={{ background: "#60A5FA" }}>{c.key.replace(/_/g, " ")}</span>
                             <span className={`text-xs px-2 py-0.5 rounded-full ${c.is_published ? "bg-green-100 text-green-700" : "bg-gray-100 text-gray-600"}`}>{c.is_published ? "Published" : "Draft"}</span>
                           </div>
                           <p className="text-gray-900 font-semibold">{c.title}</p>
@@ -2008,7 +2037,7 @@ export default function AdminDashboard() {
                           {c.content && <p className="text-gray-500 text-xs mt-1 line-clamp-2">{c.content}</p>}
                         </div>
                         <div className="flex gap-2 flex-shrink-0">
-                          <button onClick={() => setContentForm({ key: c.key, title: c.title, subtitle: c.subtitle, content: c.content, image_url: c.image_url, is_published: c.is_published })} className="px-3 py-1.5 text-xs rounded-lg text-white font-medium" style={{ background: "#E8274B" }}>✏️ Edit</button>
+                          <button onClick={() => setContentForm({ key: c.key, title: c.title, subtitle: c.subtitle, content: c.content, image_url: c.image_url, is_published: c.is_published })} className="px-3 py-1.5 text-xs rounded-lg text-white font-medium" style={{ background: "#3B82F6" }}>✏️ Edit</button>
                           <button onClick={() => deleteContent(c.id)} className="px-3 py-1.5 text-xs rounded-lg bg-red-50 text-red-500 hover:bg-red-100 transition">🗑️</button>
                         </div>
                       </div>
@@ -2046,7 +2075,7 @@ export default function AdminDashboard() {
                           <input
                             value={settings[key] || ""}
                             onChange={(e) => setSettings((s) => ({ ...s, [key]: e.target.value }))}
-                            className="w-full px-4 py-2.5 rounded-xl text-sm bg-white border border-gray-200 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#E8274B]"
+                            className="w-full px-4 py-2.5 rounded-xl text-sm bg-white border border-gray-200 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#3B82F6]"
                             placeholder={label}
                           />
                         </div>
@@ -2066,7 +2095,7 @@ export default function AdminDashboard() {
                         <input
                           value={settings[key] || ""}
                           onChange={(e) => setSettings((s) => ({ ...s, [key]: e.target.value }))}
-                          className="w-full px-4 py-2.5 rounded-xl text-sm bg-white border border-gray-200 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#E8274B]"
+                          className="w-full px-4 py-2.5 rounded-xl text-sm bg-white border border-gray-200 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#3B82F6]"
                           placeholder={label}
                         />
                       </div>
@@ -2080,7 +2109,7 @@ export default function AdminDashboard() {
                     <input
                       value={settings["logo_url"] || ""}
                       onChange={(e) => setSettings((s) => ({ ...s, logo_url: e.target.value }))}
-                      className="w-full px-4 py-2.5 rounded-xl text-sm bg-white border border-gray-200 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#E8274B]"
+                      className="w-full px-4 py-2.5 rounded-xl text-sm bg-white border border-gray-200 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#3B82F6]"
                       placeholder="/images/logo.jpeg"
                     />
                     {settings["logo_url"] && (
@@ -2094,7 +2123,7 @@ export default function AdminDashboard() {
                   onClick={saveSettings}
                   disabled={settingsLoading}
                   className="w-full py-3 rounded-xl text-white font-bold text-sm transition hover:opacity-90 disabled:opacity-60"
-                  style={{ background: "linear-gradient(135deg,#E8274B,#F4822A)" }}
+                  style={{ background: "linear-gradient(135deg,#3B82F6,#60A5FA)" }}
                 >
                   {settingsLoading ? "Saving..." : "Save Settings"}
                 </button>
@@ -2117,7 +2146,7 @@ export default function AdminDashboard() {
                       key={mode}
                       onClick={() => { setPwForm({ current: "", next: "", confirm: "" }); setPwMsg(null); setSettings((s) => ({ ...s, _pwMode: mode })); }}
                       className={`flex-1 py-2 text-xs font-semibold transition ${(settings._pwMode ?? "change") === mode ? "text-white" : "text-gray-500 hover:bg-gray-50"}`}
-                      style={{ background: (settings._pwMode ?? "change") === mode ? "#E8274B" : "transparent" }}
+                      style={{ background: (settings._pwMode ?? "change") === mode ? "#3B82F6" : "transparent" }}
                     >
                       {mode === "change" ? "Change" : mode === "set" ? "Force Set" : "Reset Default"}
                     </button>
@@ -2135,10 +2164,10 @@ export default function AdminDashboard() {
                     ].map(({ key, label, ph }) => (
                       <div key={key}>
                         <label className="block text-xs font-semibold mb-1 text-gray-600">{label}</label>
-                        <input type="password" value={pwForm[key]} onChange={(e) => setPwForm((f) => ({ ...f, [key]: e.target.value }))} className="w-full px-4 py-2.5 rounded-xl text-sm bg-white border border-gray-200 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#E8274B]" placeholder={ph} autoComplete="new-password" />
+                        <input type="password" value={pwForm[key]} onChange={(e) => setPwForm((f) => ({ ...f, [key]: e.target.value }))} className="w-full px-4 py-2.5 rounded-xl text-sm bg-white border border-gray-200 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#3B82F6]" placeholder={ph} autoComplete="new-password" />
                       </div>
                     ))}
-                    <button onClick={changePassword} disabled={pwLoading} className="w-full py-3 rounded-xl text-white font-bold text-sm transition hover:opacity-90 disabled:opacity-60 mt-1" style={{ background: "#E8274B" }}>
+                    <button onClick={changePassword} disabled={pwLoading} className="w-full py-3 rounded-xl text-white font-bold text-sm transition hover:opacity-90 disabled:opacity-60 mt-1" style={{ background: "#3B82F6" }}>
                       {pwLoading ? "Changing..." : "Change Password"}
                     </button>
                   </div>
@@ -2156,7 +2185,7 @@ export default function AdminDashboard() {
                     ].map(({ key, label, ph }) => (
                       <div key={key}>
                         <label className="block text-xs font-semibold mb-1 text-gray-600">{label}</label>
-                        <input type="password" value={pwForm[key]} onChange={(e) => setPwForm((f) => ({ ...f, [key]: e.target.value }))} className="w-full px-4 py-2.5 rounded-xl text-sm bg-white border border-gray-200 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#E8274B]" placeholder={ph} autoComplete="new-password" />
+                        <input type="password" value={pwForm[key]} onChange={(e) => setPwForm((f) => ({ ...f, [key]: e.target.value }))} className="w-full px-4 py-2.5 rounded-xl text-sm bg-white border border-gray-200 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#3B82F6]" placeholder={ph} autoComplete="new-password" />
                       </div>
                     ))}
                     <button
@@ -2176,7 +2205,7 @@ export default function AdminDashboard() {
                       }}
                       disabled={pwLoading}
                       className="w-full py-3 rounded-xl text-white font-bold text-sm transition hover:opacity-90 disabled:opacity-60"
-                      style={{ background: "#E8274B" }}
+                      style={{ background: "#3B82F6" }}
                     >
                       {pwLoading ? "Setting..." : "Set Password"}
                     </button>
@@ -2236,7 +2265,7 @@ export default function AdminDashboard() {
                       onChange={(e) =>
                         setPodcastForm((f) => ({ ...f, title: e.target.value }))
                       }
-                      className="w-full px-4 py-2.5 rounded-xl text-sm bg-white border border-gray-200 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#E8274B]"
+                      className="w-full px-4 py-2.5 rounded-xl text-sm bg-white border border-gray-200 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#3B82F6]"
                       placeholder="Episode title..."
                     />
                   </div>
@@ -2249,7 +2278,7 @@ export default function AdminDashboard() {
                       onChange={(e) =>
                         setPodcastForm((f) => ({ ...f, url: e.target.value }))
                       }
-                      className="w-full px-4 py-2.5 rounded-xl text-sm bg-white border border-gray-200 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#E8274B]"
+                      className="w-full px-4 py-2.5 rounded-xl text-sm bg-white border border-gray-200 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#3B82F6]"
                       placeholder="https://youtube.com/watch?v=..."
                     />
                   </div>
@@ -2265,7 +2294,7 @@ export default function AdminDashboard() {
                           description: e.target.value,
                         }))
                       }
-                      className="w-full px-4 py-2.5 rounded-xl text-sm bg-white border border-gray-200 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#E8274B]"
+                      className="w-full px-4 py-2.5 rounded-xl text-sm bg-white border border-gray-200 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#3B82F6]"
                       placeholder="Short description..."
                     />
                   </div>
@@ -2281,7 +2310,7 @@ export default function AdminDashboard() {
                           platform: e.target.value,
                         }))
                       }
-                      className="w-full px-4 py-2.5 rounded-xl text-sm bg-white border border-gray-200 text-gray-900 focus:outline-none focus:ring-2 focus:ring-[#E8274B]"
+                      className="w-full px-4 py-2.5 rounded-xl text-sm bg-white border border-gray-200 text-gray-900 focus:outline-none focus:ring-2 focus:ring-[#3B82F6]"
                     >
                       {["youtube", "spotify", "other"].map((p) => (
                         <option key={p} value={p}>
@@ -2299,7 +2328,7 @@ export default function AdminDashboard() {
                         is_published: !f.is_published,
                       }))
                     }
-                    className={`w-10 h-5 rounded-full transition-colors relative cursor-pointer ${podcastForm.is_published ? "bg-[#E8274B]" : "bg-gray-200"}`}
+                    className={`w-10 h-5 rounded-full transition-colors relative cursor-pointer ${podcastForm.is_published ? "bg-[#3B82F6]" : "bg-gray-200"}`}
                   >
                     <div
                       className={`absolute top-0.5 w-4 h-4 rounded-full bg-white shadow transition-transform ${podcastForm.is_published ? "translate-x-5" : "translate-x-0.5"}`}
@@ -2316,7 +2345,7 @@ export default function AdminDashboard() {
                       podcastLoading || !podcastForm.title || !podcastForm.url
                     }
                     className="px-6 py-2.5 rounded-xl text-white font-bold text-sm hover:opacity-90 disabled:opacity-50 transition"
-                    style={{ background: "#E8274B" }}
+                    style={{ background: "#3B82F6" }}
                   >
                     {podcastLoading
                       ? "Saving..."
@@ -2346,7 +2375,7 @@ export default function AdminDashboard() {
 
               {podcastLoading && !podcasts.length ? (
                 <div className="py-20 text-center text-gray-500">
-                  <div className="w-8 h-8 border-4 border-red-100 border-t-[#E8274B] rounded-full animate-spin mx-auto mb-3" />
+                  <div className="w-8 h-8 border-4 border-blue-100 border-t-[#3B82F6] rounded-full animate-spin mx-auto mb-3" />
                   Loading...
                 </div>
               ) : podcasts.length === 0 ? (
@@ -2373,7 +2402,7 @@ export default function AdminDashboard() {
                           </span>
                           <span
                             className="text-xs px-2 py-0.5 rounded-full text-white capitalize"
-                            style={{ background: "#F4822A" }}
+                            style={{ background: "#60A5FA" }}
                           >
                             {p.platform}
                           </span>
@@ -2401,7 +2430,7 @@ export default function AdminDashboard() {
                             window.scrollTo({ top: 0, behavior: "smooth" });
                           }}
                           className="px-3 py-1.5 text-xs rounded-lg text-white font-medium"
-                          style={{ background: "#E8274B" }}
+                          style={{ background: "#3B82F6" }}
                         >
                           ✏️ Edit
                         </button>

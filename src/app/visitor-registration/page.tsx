@@ -428,7 +428,7 @@ export default function VisitorRegistrationPage() {
   };
 
   const inputCls =
-    "w-full px-4 py-2.5 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#E8274B] transition";
+    "w-full px-4 py-2.5 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#3B82F6] transition";
   const inputStyle = {
     background: "#f4f6ff",
     border: "1px solid #dde6ff",
@@ -541,25 +541,16 @@ export default function VisitorRegistrationPage() {
 
   return (
     <div className="min-h-screen">
-      {/* HERO BANNER */}
-      <section className="relative isolate w-full overflow-hidden py-12 md:py-16">
-        <div className="absolute inset-0 -z-10" style={{ background: "linear-gradient(120deg,#090f2d 0%,#0f1a4f 48%,#1a2f7f 100%)" }} />
-        <div className="absolute inset-0 -z-10 bg-black/30" />
-        <div className="pointer-events-none absolute -left-10 top-0 h-48 w-48 rounded-full blur-3xl" style={{ background: "rgba(232,39,75,0.2)" }} />
-        <div className="pointer-events-none absolute right-0 bottom-0 h-40 w-40 rounded-full blur-3xl" style={{ background: "rgba(244,130,42,0.18)" }} />
-        <div className="relative mx-auto max-w-7xl px-4 text-center sm:px-6 lg:px-10">
-          <p className="text-xs font-extrabold uppercase tracking-[0.3em] mb-3" style={{ color: "#ffd238" }}>Fusion The Era 2026</p>
-          <h1 className="text-3xl md:text-4xl font-black text-white">Visitor Registration</h1>
-          <p className="mt-3 text-white/60 text-sm max-w-lg mx-auto">Register to get your free entry pass for July 4–7, 2026 · Bharat Mandapam, New Delhi</p>
-          <div className="mt-4 flex justify-center">
-            <span className="h-1 w-20 rounded-full" style={{ background: "linear-gradient(90deg,#E8274B,#F4822A)" }} />
-          </div>
-        </div>
-      </section>
-
+  
     <section id="contact" className="px-4 py-6 sm:px-6 md:py-8 lg:px-10">
       <div className="max-w-3xl mx-auto">
         <div className="text-center mb-6 md:mb-8">
+            <h1
+            className="text-3xl font-bold mb-2"
+            style={{ color: "var(--app-text)" }}
+          >
+            Visitor Registration
+          </h1>
           {stage === "otp-phone" && (
             <p className="text-sm" style={{ color: "#6b7280" }}>
               Choose how you want to receive your OTP to continue
@@ -585,10 +576,10 @@ export default function VisitorRegistrationPage() {
                   <button
                     key={t}
                     onClick={() => setVisitorType(t)}
-                    className={`flex-1 py-3.5 text-sm font-semibold transition ${visitorType === t ? "border-b-2 border-[#E8274B]" : "hover:bg-gray-50"}`}
+                    className={`flex-1 py-3.5 text-sm font-semibold transition ${visitorType === t ? "border-b-2 border-[#3B82F6]" : "hover:bg-gray-50"}`}
                     style={{
                       background: visitorType === t ? "#ffffff" : "#f4f6ff",
-                      color: visitorType === t ? "#E8274B" : "#6b7280",
+                      color: visitorType === t ? "#3B82F6" : "#6b7280",
                     }}
                   >
                     {t === "indian"
@@ -603,7 +594,7 @@ export default function VisitorRegistrationPage() {
                     <div
                       className="w-14 h-14 rounded-full flex items-center justify-center mx-auto mb-4"
                       style={{
-                        background: "linear-gradient(135deg,#E8274B,#F4822A)",
+                        background: "linear-gradient(135deg,#3B82F6,#60A5FA)",
                       }}
                     >
                       <svg
@@ -649,7 +640,7 @@ export default function VisitorRegistrationPage() {
                         setPhone(e.target.value.replace(/\D/g, "").slice(0, 10))
                       }
                       placeholder="Mobile Number"
-                      className="flex-1 px-4 py-2.5 rounded-r-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#E8274B] transition"
+                      className="flex-1 px-4 py-2.5 rounded-r-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#3B82F6] transition"
                       style={{
                         background: "#f4f6ff",
                         border: "1px solid #dde6ff",
@@ -663,7 +654,7 @@ export default function VisitorRegistrationPage() {
                     <div
                       className="w-14 h-14 rounded-full flex items-center justify-center mx-auto mb-3"
                       style={{
-                        background: "linear-gradient(135deg,#E8274B,#F4822A)",
+                        background: "linear-gradient(135deg,#3B82F6,#60A5FA)",
                       }}
                     >
                       <svg
@@ -691,7 +682,7 @@ export default function VisitorRegistrationPage() {
                       value={intlEmail}
                       onChange={(e) => setIntlEmail(e.target.value)}
                       placeholder="Provide Email Address"
-                      className="w-full px-4 py-2.5 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#E8274B] transition"
+                      className="w-full px-4 py-2.5 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#3B82F6] transition"
                       style={{
                         background: "#f4f6ff",
                         border: "1px solid #dde6ff",
@@ -706,7 +697,7 @@ export default function VisitorRegistrationPage() {
                     type="checkbox"
                     checked={agreed}
                     onChange={(e) => setAgreed(e.target.checked)}
-                    className="mt-0.5 w-4 h-4 accent-[#E8274B] flex-shrink-0"
+                    className="mt-0.5 w-4 h-4 accent-[#3B82F6] flex-shrink-0"
                   />
                   <span
                     className="text-xs"
@@ -726,7 +717,7 @@ export default function VisitorRegistrationPage() {
                   disabled={loading}
                   className="w-full py-3.5 rounded-xl text-white font-semibold text-sm transition hover:opacity-90 disabled:opacity-60"
                   style={{
-                    background: "linear-gradient(135deg,#E8274B,#F4822A)",
+                    background: "linear-gradient(135deg,#3B82F6,#60A5FA)",
                   }}
                 >
                   {loading ? "Sending..." : "Generate OTP"}
@@ -780,7 +771,7 @@ export default function VisitorRegistrationPage() {
                   <div
                     className="w-14 h-14 rounded-full flex items-center justify-center mx-auto mb-4"
                     style={{
-                      background: "linear-gradient(135deg,#E8274B,#F4822A)",
+                      background: "linear-gradient(135deg,#3B82F6,#60A5FA)",
                     }}
                   >
                     <svg
@@ -833,7 +824,7 @@ export default function VisitorRegistrationPage() {
                   disabled={loading}
                   className="w-full py-3.5 rounded-xl text-white font-semibold text-sm transition hover:opacity-90 disabled:opacity-60 mb-4"
                   style={{
-                    background: "linear-gradient(135deg,#E8274B,#F4822A)",
+                    background: "linear-gradient(135deg,#3B82F6,#60A5FA)",
                   }}
                 >
                   {loading ? "Verifying..." : "Verify and continue"}
@@ -847,7 +838,7 @@ export default function VisitorRegistrationPage() {
                   ) : (
                     <button
                       onClick={sendOTP}
-                      className="text-[#E8274B] font-medium"
+                      className="text-[#3B82F6] font-medium"
                     >
                       Resend OTP
                     </button>
@@ -874,7 +865,7 @@ export default function VisitorRegistrationPage() {
                             i + 1 < currentStep
                               ? "#10b981"
                               : i + 1 === currentStep
-                                ? "linear-gradient(135deg,#E8274B,#F4822A)"
+                                ? "linear-gradient(135deg,#3B82F6,#60A5FA)"
                                 : "#f4f6ff",
                           border:
                             i + 1 > currentStep
@@ -889,7 +880,7 @@ export default function VisitorRegistrationPage() {
                         style={{
                           color:
                             i + 1 === currentStep
-                              ? "#E8274B"
+                              ? "#3B82F6"
                               : "#6b7280",
                           fontWeight: i + 1 === currentStep ? 700 : 400,
                         }}
@@ -914,7 +905,7 @@ export default function VisitorRegistrationPage() {
               {/* Mobile step label */}
               <p
                 className="text-center text-xs font-semibold mt-2 md:hidden"
-                style={{ color: "#E8274B" }}
+                style={{ color: "#3B82F6" }}
               >
                 {STEPS[currentStep - 1]}
               </p>
@@ -1014,7 +1005,7 @@ export default function VisitorRegistrationPage() {
                                 className="px-4 py-2 rounded-lg text-white text-sm font-medium"
                                 style={{
                                   background:
-                                    "linear-gradient(135deg,#E8274B,#F4822A)",
+                                    "linear-gradient(135deg,#3B82F6,#60A5FA)",
                                 }}
                               >
                                 Upload photo
@@ -1553,7 +1544,7 @@ export default function VisitorRegistrationPage() {
                             background: formData.product_interests.includes(p)
                               ? "#fff5f5"
                               : "#f4f6ff",
-                            border: `1px solid ${formData.product_interests.includes(p) ? "#E8274B" : "#dde6ff"}`,
+                            border: `1px solid ${formData.product_interests.includes(p) ? "#3B82F6" : "#dde6ff"}`,
                           }}
                         >
                           <input
@@ -1568,7 +1559,7 @@ export default function VisitorRegistrationPage() {
                                 ),
                               }))
                             }
-                            className="w-4 h-4 accent-[#E8274B] flex-shrink-0"
+                            className="w-4 h-4 accent-[#3B82F6] flex-shrink-0"
                           />
                           <span
                             className="text-xs md:text-sm"
@@ -1600,7 +1591,7 @@ export default function VisitorRegistrationPage() {
                             background: formData.visit_purpose.includes(p)
                               ? "#fff5f5"
                               : "#f4f6ff",
-                            border: `1px solid ${formData.visit_purpose.includes(p) ? "#E8274B" : "#dde6ff"}`,
+                            border: `1px solid ${formData.visit_purpose.includes(p) ? "#3B82F6" : "#dde6ff"}`,
                           }}
                         >
                           <input
@@ -1615,7 +1606,7 @@ export default function VisitorRegistrationPage() {
                                 ),
                               }))
                             }
-                            className="w-4 h-4 accent-[#E8274B] flex-shrink-0"
+                            className="w-4 h-4 accent-[#3B82F6] flex-shrink-0"
                           />
                           <span
                             className="text-xs md:text-sm"
@@ -1645,7 +1636,7 @@ export default function VisitorRegistrationPage() {
                               formData.annual_buying === a
                                 ? "#fff5f5"
                                 : "#f4f6ff",
-                            border: `1px solid ${formData.annual_buying === a ? "#E8274B" : "#dde6ff"}`,
+                            border: `1px solid ${formData.annual_buying === a ? "#3B82F6" : "#dde6ff"}`,
                           }}
                         >
                           <input
@@ -1654,7 +1645,7 @@ export default function VisitorRegistrationPage() {
                             onChange={() =>
                               setFormData((p) => ({ ...p, annual_buying: a }))
                             }
-                            className="w-4 h-4 accent-[#E8274B] flex-shrink-0"
+                            className="w-4 h-4 accent-[#3B82F6] flex-shrink-0"
                           />
                           <span
                             className="text-sm"
@@ -1854,7 +1845,7 @@ export default function VisitorRegistrationPage() {
                     disabled={loading}
                     className="w-full rounded-xl px-6 py-2.5 text-sm font-semibold text-white transition hover:opacity-90 disabled:opacity-60 sm:ml-auto sm:w-auto md:px-8"
                     style={{
-                      background: "linear-gradient(135deg,#E8274B,#F4822A)",
+                      background: "linear-gradient(135deg,#3B82F6,#60A5FA)",
                     }}
                   >
                     {loading
@@ -1887,11 +1878,11 @@ export default function VisitorRegistrationPage() {
                     style={{ background: "#ffffff", border: "1px solid #dde6ff" }}
                   >
                     <div className="text-2xl mb-2">{card.icon}</div>
-                    <p className="text-xs font-bold mb-1" style={{ color: "#E8274B" }}>
+                    <p className="text-xs font-bold mb-1" style={{ color: "#3B82F6" }}>
                       {card.title}
                     </p>
                     {card.link ? (
-                      <a href={`mailto:${card.sub}`} className="text-sm text-[#E8274B] break-all">
+                      <a href={`mailto:${card.sub}`} className="text-sm text-[#3B82F6] break-all">
                         {card.sub}
                       </a>
                     ) : (
@@ -1952,7 +1943,7 @@ export default function VisitorRegistrationPage() {
                 <div
                   className="rounded-xl p-4 mb-6"
                   style={{
-                    background: "linear-gradient(135deg,#E8274B,#F4822A)",
+                    background: "linear-gradient(135deg,#3B82F6,#60A5FA)",
                   }}
                 >
                   <p className="text-xs text-white/70 uppercase tracking-widest mb-1">

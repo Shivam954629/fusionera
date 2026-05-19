@@ -224,7 +224,7 @@ export default function Products() {
                         prev ? { ...prev, activeIndex: idx } : null,
                       )
                     }
-                    className={`flex-shrink-0 w-16 h-16 rounded-lg overflow-hidden border-2 transition ${idx === portfolioModal.activeIndex ? "border-[#E8274B]" : "border-white/10 hover:border-white/30"}`}
+                    className={`flex-shrink-0 w-16 h-16 rounded-lg overflow-hidden border-2 transition ${idx === portfolioModal.activeIndex ? "border-[#3B82F6]" : "border-white/10 hover:border-white/30"}`}
                   >
                     <img
                       src={img}

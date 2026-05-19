@@ -156,7 +156,7 @@ export default function Section1() {
             {/* BUTTON */}
             <a
               href="/visitor-registration"
-              className="mt-5 inline-flex w-full items-center justify-center rounded-xl bg-gradient-to-r from-[#E8274B] to-[#F4822A] px-5 py-3 text-[clamp(0.95rem,1.5vw,1.2rem)] font-extrabold text-white shadow-[0_10px_30px_rgba(232,39,75,0.4)] transition duration-300 hover:scale-[1.01] hover:shadow-[0_14px_35px_rgba(232,39,75,0.5)]"
+              className="mt-5 inline-flex w-full items-center justify-center rounded-xl bg-gradient-to-r from-[#3B82F6] to-[#60A5FA] px-5 py-3 text-[clamp(0.95rem,1.5vw,1.2rem)] font-extrabold text-white shadow-[0_10px_30px_rgba(96,165,250,0.32)] transition duration-300 hover:scale-[1.01] hover:shadow-[0_14px_35px_rgba(96,165,250,0.35)]"
             >
               Register Now
             </a>

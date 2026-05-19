@@ -43,7 +43,7 @@ export async function POST(req: NextRequest) {
         subject: "Your Fusion The Era OTP",
         html: `
           <div style="font-family:sans-serif;max-width:480px;margin:auto;padding:32px;background:#fff;border:1px solid #dde6ff;border-radius:16px">
-            <h2 style="color:#E8274B;margin:0 0 8px">Fusion The Era Visitor Registration</h2>
+            <h2 style="color:#3B82F6;margin:0 0 8px">Fusion The Era Visitor Registration</h2>
             <p style="color:#6b7280;margin:0 0 24px">Your OTP for email verification:</p>
             <div style="background:linear-gradient(135deg,#110c41,#1a1560);border-radius:12px;padding:20px;text-align:center;margin-bottom:24px">
               <p style="color:#8cecff;font-size:12px;letter-spacing:0.2em;margin:0 0 8px;text-transform:uppercase">One-Time Password</p>

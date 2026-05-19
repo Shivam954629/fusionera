@@ -15,30 +15,54 @@ const DEFAULT_SETTINGS: Record<string, string> = {
   event_venue: "Bharat Mandapam, Pragati Maidan, New Delhi",
 };
 
+type SiteSettings = Record<string, string> & {
+  loading: boolean;
+  error: string | null;
+};
+
 let cache: Record<string, string> | null = null;
 let cacheTime = 0;
 const CACHE_TTL = 30_000; // 30 seconds
 
-export function useSiteSettings() {
+export function useSiteSettings(): SiteSettings {
   const [settings, setSettings] = useState<Record<string, string>>(cache ?? DEFAULT_SETTINGS);
+  const [loading, setLoading] = useState(!cache);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
+    const controller = new AbortController();
     const now = Date.now();
     if (cache && now - cacheTime < CACHE_TTL) {
       setSettings(cache);
+      setLoading(false);
       return;
     }
-    fetch("/api/settings")
-      .then((r) => r.json())
+
+    setLoading(true);
+    fetch("/api/settings", { signal: controller.signal })
+      .then((r) => {
+        if (!r.ok) throw new Error("Unable to load site settings.");
+        return r.json();
+      })
       .then((data) => {
-        if (data.settings) {
-          cache = { ...DEFAULT_SETTINGS, ...data.settings };
+        if (data?.settings) {
+          const nextSettings = { ...DEFAULT_SETTINGS, ...data.settings };
+          cache = nextSettings;
           cacheTime = Date.now();
-          setSettings(cache);
+          setSettings(nextSettings);
         }
       })
-      .catch(() => {});
+      .catch((err: unknown) => {
+        if (err instanceof Error && err.name === "AbortError") return;
+        setError(err instanceof Error ? err.message : "Unable to load site settings.");
+        setSettings(cache || DEFAULT_SETTINGS);
+      })
+      .finally(() => {
+        if (!controller.signal.aborted) setLoading(false);
+      });
+
+    return () => controller.abort();
   }, []);
 
-  return settings;
+  return { ...settings, loading, error } as unknown as SiteSettings;
 }

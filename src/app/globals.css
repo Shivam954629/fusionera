@@ -1,9 +1,9 @@
 @import "tailwindcss";
 
 :root {
-  --brand-red: #E8274B;
-  --brand-orange: #F4822A;
-  --brand-yellow: #F9C11A;
+  --brand-primary: #3B82F6;
+  --brand-secondary: #60A5FA;
+  --brand-accent: #7DD3FC;
   --brand-green: #2ECC71;
   --brand-navy: #1A1464;
   --app-bg: #eef2ff;
@@ -13,9 +13,9 @@
   --app-border: #dde6ff;
   --app-muted: #6b7280;
   --app-header: rgba(17, 12, 65, 0.9);
-  --app-bg-radial-1: rgba(232, 39, 75, 0.13);
-  --app-bg-radial-2: rgba(244, 130, 42, 0.11);
-  --app-bg-radial-3: rgba(249, 193, 26, 0.09);
+  --app-bg-radial-1: rgba(96, 165, 250, 0.18);
+  --app-bg-radial-2: rgba(125, 211, 252, 0.16);
+  --app-bg-radial-3: rgba(191, 219, 254, 0.14);
   --app-bg-radial-4: rgba(46, 204, 113, 0.07);
 }
 
@@ -67,7 +67,7 @@ img, video, canvas, svg {
   width: 100%;
   height: 2px;
   border-radius: 999px;
-  background: #E8274B;
+  background: #3B82F6;
   transform: scaleX(0);
   transform-origin: left;
   transition: transform 240ms ease;
@@ -232,4 +232,4 @@ img, video, canvas, svg {
 ::-webkit-scrollbar { width: 6px; }
 ::-webkit-scrollbar-track { background: #f1f1f1; }
 ::-webkit-scrollbar-thumb { background: #1A1464; border-radius: 999px; }
-::-webkit-scrollbar-thumb:hover { background: #E8274B; }
+::-webkit-scrollbar-thumb:hover { background: #3B82F6; }

@@ -11,16 +11,30 @@ type Video = {
 
 export default function VideosSection() {
   const [videos, setVideos] = useState<Video[]>([]);
+  const [loading, setLoading] = useState(true);
   const [playingId, setPlayingId] = useState<number | null>(null);
 
   useEffect(() => {
-    fetch("/api/admin/videos", { cache: "no-store" })
-      .then((r) => r.json())
+    const controller = new AbortController();
+
+    fetch("/api/admin/videos", { cache: "no-store", signal: controller.signal })
+      .then((r) => {
+        if (!r.ok) throw new Error("Unable to load videos.");
+        return r.json();
+      })
       .then((res) => {
-        const published = (res.data ?? []).filter((v: Video) => v.is_published);
+        const published = (res?.data ?? []).filter((v: Video) => v?.is_published);
         setVideos(published.slice(0, 3));
       })
-      .catch(() => {});
+      .catch((err: unknown) => {
+        if (err instanceof Error && err.name === "AbortError") return;
+        setVideos([]);
+      })
+      .finally(() => {
+        if (!controller.signal.aborted) setLoading(false);
+      });
+
+    return () => controller.abort();
   }, []);
 
   const getYouTubeId = (url: string): string | null => {
@@ -28,14 +42,14 @@ export default function VideosSection() {
     return m ? m[1] : null;
   };
 
-  if (videos.length === 0) return null;
+  if (loading || videos.length === 0) return null;
 
   return (
     <section className="mx-auto w-full max-w-7xl px-4 py-6 sm:px-6 md:py-10 lg:px-10">
       <div className="rounded-2xl border border-[#dde6ff] bg-[#eef2ff] p-6 shadow-sm md:p-8">
         <div className="mb-6 flex items-center justify-between">
           <h2 className="text-3xl font-bold text-gray-900">Videos</h2>
-          <Link href="/videos" className="text-sm font-medium" style={{ color: "#E8274B" }}>
+          <Link href="/videos" className="text-sm font-medium" style={{ color: "#3B82F6" }}>
             View all →
           </Link>
         </div>
@@ -69,7 +83,7 @@ export default function VideosSection() {
                       )}
                       <div className="absolute inset-0 bg-black/30 flex items-center justify-center">
                         <div className="w-12 h-12 rounded-full bg-white flex items-center justify-center">
-                          <svg width="20" height="20" viewBox="0 0 24 24" fill="#E8274B">
+                          <svg width="20" height="20" viewBox="0 0 24 24" fill="#3B82F6">
                             <path d="M8 5v14l11-7z" />
                           </svg>
                         </div>

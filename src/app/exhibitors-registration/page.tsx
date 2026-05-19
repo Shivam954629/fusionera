@@ -68,422 +68,436 @@ export default function ExhibitorRegistrationPage() {
   };
 
   const inputCls =
-    "w-full px-4 py-2.5 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#E8274B] transition";
+    "w-full px-4 py-2.5 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#3B82F6] transition";
   const inputStyle = {
     background: "#f4f6ff",
     border: "1px solid #dde6ff",
     color: "#1a1a2e",
   };
-  const blueBg = { background: "linear-gradient(135deg,#E8274B,#F4822A)" };
+  const blueBg = { background: "linear-gradient(135deg,#3B82F6,#60A5FA)" };
 
   return (
     <div className="min-h-screen">
       {/* HERO BANNER */}
-      <section className="relative isolate w-full overflow-hidden py-12 md:py-16">
-        <div className="absolute inset-0 -z-10" style={{ background: "linear-gradient(120deg,#090f2d 0%,#0f1a4f 48%,#1a2f7f 100%)" }} />
-        <div className="absolute inset-0 -z-10 bg-black/30" />
-        <div className="pointer-events-none absolute -left-10 top-0 h-48 w-48 rounded-full blur-3xl" style={{ background: "rgba(123,47,190,0.2)" }} />
-        <div className="pointer-events-none absolute right-0 bottom-0 h-40 w-40 rounded-full blur-3xl" style={{ background: "rgba(233,30,140,0.18)" }} />
-        <div className="relative mx-auto max-w-7xl px-4 text-center sm:px-6 lg:px-10">
-          <p className="text-xs font-extrabold uppercase tracking-[0.3em] mb-3" style={{ color: "#C084FC" }}>Fusion The Era 2026</p>
-          <h1 className="text-3xl md:text-4xl font-black text-white">Exhibitors Registration</h1>
-          <p className="mt-3 text-white/60 text-sm max-w-lg mx-auto">July 4–7, 2026 · Bharat Mandapam, Pragati Maidan, New Delhi, India</p>
-          <div className="mt-4 flex justify-center">
-            <span className="h-1 w-20 rounded-full" style={{ background: "linear-gradient(90deg,#7B2FBE,#E91E8C)" }} />
-          </div>
-        </div>
-      </section>
 
-    <section className="px-4 py-8 sm:px-6 md:py-12 lg:px-10">
-      <div className="max-w-3xl mx-auto">
-        <div className="mb-6 md:mb-8" />
+      <section className="px-4 py-8 sm:px-6 md:py-12 lg:px-10">
+        <div className="max-w-3xl mx-auto">
+          <div className="mb-6 md:mb-8" />
 
-        {/* INTRO */}
-        {stage === "intro" && (
-          <div className="max-w-2xl mx-auto">
-            <div
-              className="rounded-2xl overflow-hidden shadow-xl"
-              style={{
-                background: "#ffffff",
-                border: "1px solid #dde6ff",
-              }}
+          <div className="text-center mb-6 md:mb-8">
+            <h1
+              className="text-3xl font-bold mb-2"
+              style={{ color: "var(--app-text)" }}
             >
-              <div className="px-6 md:px-8 py-10 md:py-12 text-center space-y-5">
-                <div>
-                  <p
-                    className="text-xs font-bold uppercase tracking-widest mb-3"
-                    style={{ color: "#6b7280" }}
+              Exhibitors Registration
+            </h1>
+
+            <p className="text-sm" style={{ color: "#6b7280" }}>
+              July 4–7, 2026 · Bharat Mandapam, Pragati Maidan, New Delhi, India
+            </p>
+          </div>
+
+          {/* INTRO */}
+          {stage === "intro" && (
+            <div className="max-w-2xl mx-auto">
+              <div
+                className="rounded-2xl overflow-hidden shadow-xl"
+                style={{
+                  background: "#ffffff",
+                  border: "1px solid #dde6ff",
+                }}
+              >
+                <div className="px-6 md:px-8 py-10 md:py-12 text-center space-y-5">
+                  <div>
+                    <p
+                      className="text-xs font-bold uppercase tracking-widest mb-3"
+                      style={{ color: "#6b7280" }}
+                    >
+                      EXHIBITOR REGISTRATION
+                    </p>
+                    <h2
+                      className="text-2xl md:text-3xl font-black mb-2"
+                      style={{ color: "#3B82F6" }}
+                    >
+                      JULY 4 - JULY 7, 2026
+                    </h2>
+                    <p
+                      className="text-sm font-medium"
+                      style={{ color: "#6b7280" }}
+                    >
+                      Bharat Mandapam, Pragati Maidan
+                    </p>
+                    <p
+                      className="text-sm font-bold"
+                      style={{ color: "#1a1a2e" }}
+                    >
+                      New Delhi, India
+                    </p>
+                  </div>
+                  <button
+                    onClick={() => setStage("selection")}
+                    className="px-10 py-3 rounded-xl text-white font-bold text-sm transition hover:opacity-90 w-full md:w-auto"
+                    style={blueBg}
                   >
-                    EXHIBITOR REGISTRATION
-                  </p>
-                  <h2
-                    className="text-2xl md:text-3xl font-black mb-2"
-                    style={{ color: "#E8274B" }}
-                  >
-                    JULY 4 - JULY 7, 2026
-                  </h2>
-                  <p
-                    className="text-sm font-medium"
-                    style={{ color: "#6b7280" }}
-                  >
-                    Bharat Mandapam, Pragati Maidan
-                  </p>
-                  <p
-                    className="text-sm font-bold"
-                    style={{ color: "#1a1a2e" }}
-                  >
-                    New Delhi, India
-                  </p>
+                    Register Now
+                  </button>
                 </div>
-                <button
-                  onClick={() => setStage("selection")}
-                  className="px-10 py-3 rounded-xl text-white font-bold text-sm transition hover:opacity-90 w-full md:w-auto"
-                  style={blueBg}
-                >
-                  Register Now
-                </button>
               </div>
             </div>
-          </div>
-        )}
+          )}
 
-        {/* SELECTION */}
-        {stage === "selection" && (
-          <div className="max-w-md mx-auto">
-            <div
-              className="rounded-2xl overflow-hidden shadow-xl"
-              style={{
-                background: "#ffffff",
-                border: "1px solid #dde6ff",
-              }}
-            >
-              <div className="px-6 md:px-8 py-8 md:py-10 text-center space-y-5">
-                <div>
-                  <h2
-                    className="text-xl md:text-2xl font-black mb-1"
-                    style={{ color: "#E8274B" }}
-                  >
-                    JULY 4 - JULY 7, 2026
-                  </h2>
-                  <p
-                    className="text-xs md:text-sm"
+          {/* SELECTION */}
+          {stage === "selection" && (
+            <div className="max-w-md mx-auto">
+              <div
+                className="rounded-2xl overflow-hidden shadow-xl"
+                style={{
+                  background: "#ffffff",
+                  border: "1px solid #dde6ff",
+                }}
+              >
+                <div className="px-6 md:px-8 py-8 md:py-10 text-center space-y-5">
+                  <div>
+                    <h2
+                      className="text-xl md:text-2xl font-black mb-1"
+                      style={{ color: "#3B82F6" }}
+                    >
+                      JULY 4 - JULY 7, 2026
+                    </h2>
+                    <p
+                      className="text-xs md:text-sm"
+                      style={{ color: "#6b7280" }}
+                    >
+                      Bharat Mandapam, Pragati Maidan
+                    </p>
+                    <p
+                      className="text-xs md:text-sm font-bold"
+                      style={{ color: "#1a1a2e" }}
+                    >
+                      New Delhi, India
+                    </p>
+                  </div>
+                  <div className="space-y-4">
+                    {[
+                      {
+                        type: "regular" as const,
+                        label: "REGULAR EXHIBITOR",
+                        desc: "If you have exhibited at Fusion The Era in any of the past editions, please click below",
+                      },
+                      {
+                        type: "firsttime" as const,
+                        label: "FIRST TIME EXHIBITOR",
+                        desc: "If you are exhibiting at Fusion The Era for the first time, please click below",
+                      },
+                    ].map((item) => (
+                      <div
+                        key={item.type}
+                        className="rounded-xl p-4 md:p-5"
+                        style={{
+                          background: "#f4f6ff",
+                          border: "1px solid #dde6ff",
+                        }}
+                      >
+                        <p
+                          className="text-xs md:text-sm mb-3"
+                          style={{ color: "#6b7280" }}
+                        >
+                          {item.desc}
+                        </p>
+                        <button
+                          onClick={() => handleSelect(item.type)}
+                          className="px-6 md:px-8 py-2.5 rounded-xl text-white font-bold text-sm transition hover:opacity-90 w-full"
+                          style={blueBg}
+                        >
+                          {item.label}
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* LOGIN */}
+          {stage === "login" && (
+            <div className="max-w-lg mx-auto">
+              <div
+                className="rounded-2xl overflow-hidden shadow-xl"
+                style={{
+                  background: "#ffffff",
+                  border: "1px solid #dde6ff",
+                }}
+              >
+                <div
+                  className="px-5 py-4 border-b"
+                  style={{
+                    borderColor: "#dde6ff",
+                    background: "#f4f6ff",
+                  }}
+                >
+                  <button
+                    onClick={() => setStage("selection")}
+                    className="text-sm mb-2 flex items-center gap-1 hover:opacity-70"
                     style={{ color: "#6b7280" }}
                   >
-                    Bharat Mandapam, Pragati Maidan
-                  </p>
-                  <p
-                    className="text-xs md:text-sm font-bold"
+                    ← Back
+                  </button>
+                  <h2
+                    className="text-lg md:text-xl font-bold"
                     style={{ color: "#1a1a2e" }}
                   >
-                    New Delhi, India
-                  </p>
+                    Regular Exhibitor Login
+                  </h2>
                 </div>
-                <div className="space-y-4">
-                  {[
-                    {
-                      type: "regular" as const,
-                      label: "REGULAR EXHIBITOR",
-                      desc: "If you have exhibited at Fusion The Era in any of the past editions, please click below",
-                    },
-                    {
-                      type: "firsttime" as const,
-                      label: "FIRST TIME EXHIBITOR",
-                      desc: "If you are exhibiting at Fusion The Era for the first time, please click below",
-                    },
-                  ].map((item) => (
+                <div className="px-5 md:px-6 py-5 md:py-6">
+                  <p
+                    className="text-xs md:text-sm mb-5"
+                    style={{ color: "#6b7280" }}
+                  >
+                    To book your Exhibition space for Fusion The Era 2026,
+                    please login below by using the same Exhibitor ID and
+                    Password which has been shared with you by Fusion The Era
+                    Team.
+                  </p>
+                  {loginError && (
+                    <div className="mb-4 rounded-xl px-4 py-3 text-sm text-red-600 bg-red-50 border border-red-200">
+                      {loginError}
+                    </div>
+                  )}
+                  {resendMsg && (
+                    <div className="mb-4 rounded-xl px-4 py-3 text-sm text-green-700 bg-green-50 border border-green-200">
+                      {resendMsg}
+                    </div>
+                  )}
+                  <div className="space-y-4">
+                    <div>
+                      <label
+                        className="block text-sm font-semibold mb-1.5"
+                        style={{ color: "#1a1a2e" }}
+                      >
+                        Exhibitor Name:
+                      </label>
+                      <input
+                        value={loginData.name}
+                        onChange={(e) =>
+                          setLoginData((p) => ({ ...p, name: e.target.value }))
+                        }
+                        className={inputCls}
+                        style={inputStyle}
+                        placeholder="Enter your exhibitor name"
+                      />
+                    </div>
+                    <div>
+                      <label
+                        className="block text-sm font-semibold mb-1.5"
+                        style={{ color: "#1a1a2e" }}
+                      >
+                        Exhibitor ID:
+                      </label>
+                      <input
+                        value={loginData.id}
+                        onChange={(e) =>
+                          setLoginData((p) => ({ ...p, id: e.target.value }))
+                        }
+                        className={inputCls}
+                        style={inputStyle}
+                        placeholder="Enter your exhibitor ID"
+                      />
+                      <div className="text-right mt-1">
+                        <button
+                          onClick={() => handleResend("id")}
+                          className="text-xs font-medium hover:underline"
+                          style={{ color: "#3B82F6" }}
+                        >
+                          Resend Exhibitor ID
+                        </button>
+                      </div>
+                    </div>
+                    <div>
+                      <label
+                        className="block text-sm font-semibold mb-1.5"
+                        style={{ color: "#1a1a2e" }}
+                      >
+                        Password:
+                      </label>
+                      <input
+                        type="password"
+                        value={loginData.password}
+                        onChange={(e) =>
+                          setLoginData((p) => ({
+                            ...p,
+                            password: e.target.value,
+                          }))
+                        }
+                        className={inputCls}
+                        style={inputStyle}
+                        placeholder="Enter your password"
+                        onKeyDown={(e) => e.key === "Enter" && handleLogin()}
+                      />
+                      <div className="text-right mt-1">
+                        <button
+                          onClick={() => handleResend("password")}
+                          className="text-xs font-medium hover:underline"
+                          style={{ color: "#3B82F6" }}
+                        >
+                          Resend Password
+                        </button>
+                      </div>
+                    </div>
+                    <div className="flex flex-col gap-3 pt-1 sm:flex-row">
+                      <button
+                        onClick={handleLogin}
+                        disabled={loginLoading}
+                        className="w-full rounded-xl px-8 py-2.5 text-sm font-bold text-white transition hover:opacity-90 disabled:opacity-60 sm:w-auto sm:flex-1 md:flex-none"
+                        style={blueBg}
+                      >
+                        {loginLoading ? "Logging in..." : "Login"}
+                      </button>
+                      <button
+                        onClick={() => {
+                          setLoginData({ name: "", id: "", password: "" });
+                          setLoginError("");
+                        }}
+                        className="w-full rounded-xl px-8 py-2.5 text-sm font-bold transition hover:opacity-80 sm:w-auto sm:flex-1 md:flex-none"
+                        style={{
+                          background: "#f4f6ff",
+                          border: "1px solid #dde6ff",
+                          color: "#1a1a2e",
+                        }}
+                      >
+                        Reset
+                      </button>
+                    </div>
                     <div
-                      key={item.type}
-                      className="rounded-xl p-4 md:p-5"
-                      style={{
-                        background: "#f4f6ff",
-                        border: "1px solid #dde6ff",
-                      }}
+                      className="pt-3"
+                      style={{ borderTop: "1px solid #dde6ff" }}
                     >
                       <p
                         className="text-xs md:text-sm mb-3"
                         style={{ color: "#6b7280" }}
                       >
-                        {item.desc}
+                        If you don&apos;t have Exhibitor ID and Password, please
+                        contact:
                       </p>
-                      <button
-                        onClick={() => handleSelect(item.type)}
-                        className="px-6 md:px-8 py-2.5 rounded-xl text-white font-bold text-sm transition hover:opacity-90 w-full"
-                        style={blueBg}
-                      >
-                        {item.label}
-                      </button>
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                        {(["delhi", "mumbai"] as const).map((city) => (
+                          <div
+                            key={city}
+                            className="rounded-xl p-3"
+                            style={{
+                              background: "#f4f6ff",
+                              border: "1px solid #dde6ff",
+                            }}
+                          >
+                            <p
+                              className="text-xs font-bold"
+                              style={{ color: "#3B82F6" }}
+                            >
+                              {city === "delhi" ? "Delhi" : "Mumbai"}:
+                            </p>
+                            <p
+                              className="text-xs font-semibold mt-0.5"
+                              style={{ color: "#1a1a2e" }}
+                            >
+                              {siteSettings[`contact_${city}_name`]}
+                            </p>
+                            <p className="text-xs" style={{ color: "#6b7280" }}>
+                              {siteSettings[`contact_${city}_mobile`]}
+                            </p>
+                            <a
+                              href={`mailto:${siteSettings[`contact_${city}_email`]}`}
+                              className="text-xs text-[#3B82F6] hover:underline break-all"
+                            >
+                              {siteSettings[`contact_${city}_email`]}
+                            </a>
+                          </div>
+                        ))}
+                      </div>
                     </div>
-                  ))}
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-        )}
+          )}
 
-        {/* LOGIN */}
-        {stage === "login" && (
-          <div className="max-w-lg mx-auto">
-            <div
-              className="rounded-2xl overflow-hidden shadow-xl"
-              style={{
-                background: "#ffffff",
-                border: "1px solid #dde6ff",
-              }}
-            >
+          {/* FORM */}
+          {stage === "form" && (
+            <ExhibitorRequestForm
+              exhibitorType={exhibitorType!}
+              onBack={() =>
+                setStage(exhibitorType === "regular" ? "login" : "selection")
+              }
+              onSubmitted={() => setStage("submitted")}
+            />
+          )}
+
+          {/* SUBMITTED */}
+          {stage === "submitted" && (
+            <div className="max-w-lg mx-auto">
               <div
-                className="px-5 py-4 border-b"
+                className="rounded-2xl overflow-hidden shadow-xl text-center"
                 style={{
-                  borderColor: "#dde6ff",
-                  background: "#f4f6ff",
+                  background: "#ffffff",
+                  border: "1px solid #dde6ff",
                 }}
               >
-                <button
-                  onClick={() => setStage("selection")}
-                  className="text-sm mb-2 flex items-center gap-1 hover:opacity-70"
-                  style={{ color: "#6b7280" }}
-                >
-                  ← Back
-                </button>
-                <h2
-                  className="text-lg md:text-xl font-bold"
-                  style={{ color: "#1a1a2e" }}
-                >
-                  Regular Exhibitor Login
-                </h2>
-              </div>
-              <div className="px-5 md:px-6 py-5 md:py-6">
-                <p
-                  className="text-xs md:text-sm mb-5"
-                  style={{ color: "#6b7280" }}
-                >
-                  To book your Exhibition space for Fusion The Era 2026, please login
-                  below by using the same Exhibitor ID and Password which has
-                  been shared with you by Fusion The Era Team.
-                </p>
-                {loginError && (
-                  <div className="mb-4 rounded-xl px-4 py-3 text-sm text-red-600 bg-red-50 border border-red-200">
-                    {loginError}
-                  </div>
-                )}
-                {resendMsg && (
-                  <div className="mb-4 rounded-xl px-4 py-3 text-sm text-green-700 bg-green-50 border border-green-200">
-                    {resendMsg}
-                  </div>
-                )}
-                <div className="space-y-4">
-                  <div>
-                    <label
-                      className="block text-sm font-semibold mb-1.5"
-                      style={{ color: "#1a1a2e" }}
-                    >
-                      Exhibitor Name:
-                    </label>
-                    <input
-                      value={loginData.name}
-                      onChange={(e) =>
-                        setLoginData((p) => ({ ...p, name: e.target.value }))
-                      }
-                      className={inputCls}
-                      style={inputStyle}
-                      placeholder="Enter your exhibitor name"
-                    />
-                  </div>
-                  <div>
-                    <label
-                      className="block text-sm font-semibold mb-1.5"
-                      style={{ color: "#1a1a2e" }}
-                    >
-                      Exhibitor ID:
-                    </label>
-                    <input
-                      value={loginData.id}
-                      onChange={(e) =>
-                        setLoginData((p) => ({ ...p, id: e.target.value }))
-                      }
-                      className={inputCls}
-                      style={inputStyle}
-                      placeholder="Enter your exhibitor ID"
-                    />
-                    <div className="text-right mt-1">
-                      <button
-                        onClick={() => handleResend("id")}
-                        className="text-xs font-medium hover:underline"
-                        style={{ color: "#E8274B" }}
-                      >
-                        Resend Exhibitor ID
-                      </button>
-                    </div>
-                  </div>
-                  <div>
-                    <label
-                      className="block text-sm font-semibold mb-1.5"
-                      style={{ color: "#1a1a2e" }}
-                    >
-                      Password:
-                    </label>
-                    <input
-                      type="password"
-                      value={loginData.password}
-                      onChange={(e) =>
-                        setLoginData((p) => ({
-                          ...p,
-                          password: e.target.value,
-                        }))
-                      }
-                      className={inputCls}
-                      style={inputStyle}
-                      placeholder="Enter your password"
-                      onKeyDown={(e) => e.key === "Enter" && handleLogin()}
-                    />
-                    <div className="text-right mt-1">
-                      <button
-                        onClick={() => handleResend("password")}
-                        className="text-xs font-medium hover:underline"
-                        style={{ color: "#E8274B" }}
-                      >
-                        Resend Password
-                      </button>
-                    </div>
-                  </div>
-                  <div className="flex flex-col gap-3 pt-1 sm:flex-row">
-                    <button
-                      onClick={handleLogin}
-                      disabled={loginLoading}
-                      className="w-full rounded-xl px-8 py-2.5 text-sm font-bold text-white transition hover:opacity-90 disabled:opacity-60 sm:w-auto sm:flex-1 md:flex-none"
-                      style={blueBg}
-                    >
-                      {loginLoading ? "Logging in..." : "Login"}
-                    </button>
-                    <button
-                      onClick={() => {
-                        setLoginData({ name: "", id: "", password: "" });
-                        setLoginError("");
-                      }}
-                      className="w-full rounded-xl px-8 py-2.5 text-sm font-bold transition hover:opacity-80 sm:w-auto sm:flex-1 md:flex-none"
-                      style={{
-                        background: "#f4f6ff",
-                        border: "1px solid #dde6ff",
-                        color: "#1a1a2e",
-                      }}
-                    >
-                      Reset
-                    </button>
-                  </div>
+                <div className="px-6 md:px-8 py-10 md:py-12">
                   <div
-                    className="pt-3"
-                    style={{ borderTop: "1px solid #dde6ff" }}
+                    className="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4"
+                    style={{
+                      background: "linear-gradient(135deg,#00c9a7,#00b4d8)",
+                    }}
                   >
-                    <p
-                      className="text-xs md:text-sm mb-3"
-                      style={{ color: "#6b7280" }}
+                    <svg
+                      className="w-8 h-8 text-white"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
                     >
-                      If you don&apos;t have Exhibitor ID and Password, please
-                      contact:
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2.5}
+                        d="M5 13l4 4L19 7"
+                      />
+                    </svg>
+                  </div>
+                  <h2
+                    className="text-xl md:text-2xl font-bold mb-2"
+                    style={{ color: "#1a1a2e" }}
+                  >
+                    Request Submitted!
+                  </h2>
+                  <p className="text-sm mb-6" style={{ color: "#6b7280" }}>
+                    Thank you for your interest in exhibiting at Fusion The Era
+                    2026.
+                    <br />
+                    Our team will contact you shortly.
+                  </p>
+                  <div
+                    className="rounded-xl p-4 text-left"
+                    style={{
+                      background: "#fff8e1",
+                      border: "1px solid #f59e0b",
+                    }}
+                  >
+                    <p className="text-sm font-semibold text-amber-800 mb-2">
+                      📋 Important Note
                     </p>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                      {(["delhi", "mumbai"] as const).map((city) => (
-                        <div
-                          key={city}
-                          className="rounded-xl p-3"
-                          style={{ background: "#f4f6ff", border: "1px solid #dde6ff" }}
-                        >
-                          <p className="text-xs font-bold" style={{ color: "#E8274B" }}>
-                            {city === "delhi" ? "Delhi" : "Mumbai"}:
-                          </p>
-                          <p className="text-xs font-semibold mt-0.5" style={{ color: "#1a1a2e" }}>
-                            {siteSettings[`contact_${city}_name`]}
-                          </p>
-                          <p className="text-xs" style={{ color: "#6b7280" }}>
-                            {siteSettings[`contact_${city}_mobile`]}
-                          </p>
-                          <a href={`mailto:${siteSettings[`contact_${city}_email`]}`} className="text-xs text-[#E8274B] hover:underline break-all">
-                            {siteSettings[`contact_${city}_email`]}
-                          </a>
-                        </div>
-                      ))}
-                    </div>
+                    <p className="text-xs text-amber-700">
+                      This is an Exhibitor Request Form, not an Exhibitor
+                      Contract Form. You become an Exhibitor only after your
+                      Exhibitor Contract Form, along with payment, is accepted
+                      by us.
+                    </p>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
-        )}
-
-        {/* FORM */}
-        {stage === "form" && (
-          <ExhibitorRequestForm
-            exhibitorType={exhibitorType!}
-            onBack={() =>
-              setStage(exhibitorType === "regular" ? "login" : "selection")
-            }
-            onSubmitted={() => setStage("submitted")}
-          />
-        )}
-
-        {/* SUBMITTED */}
-        {stage === "submitted" && (
-          <div className="max-w-lg mx-auto">
-            <div
-              className="rounded-2xl overflow-hidden shadow-xl text-center"
-              style={{
-                background: "#ffffff",
-                border: "1px solid #dde6ff",
-              }}
-            >
-              <div className="px-6 md:px-8 py-10 md:py-12">
-                <div
-                  className="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4"
-                  style={{
-                    background: "linear-gradient(135deg,#00c9a7,#00b4d8)",
-                  }}
-                >
-                  <svg
-                    className="w-8 h-8 text-white"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2.5}
-                      d="M5 13l4 4L19 7"
-                    />
-                  </svg>
-                </div>
-                <h2
-                  className="text-xl md:text-2xl font-bold mb-2"
-                  style={{ color: "#1a1a2e" }}
-                >
-                  Request Submitted!
-                </h2>
-                <p
-                  className="text-sm mb-6"
-                  style={{ color: "#6b7280" }}
-                >
-                  Thank you for your interest in exhibiting at Fusion The Era 2026.
-                  <br />
-                  Our team will contact you shortly.
-                </p>
-                <div
-                  className="rounded-xl p-4 text-left"
-                  style={{ background: "#fff8e1", border: "1px solid #f59e0b" }}
-                >
-                  <p className="text-sm font-semibold text-amber-800 mb-2">
-                    📋 Important Note
-                  </p>
-                  <p className="text-xs text-amber-700">
-                    This is an Exhibitor Request Form, not an Exhibitor Contract
-                    Form. You become an Exhibitor only after your Exhibitor
-                    Contract Form, along with payment, is accepted by us.
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-        )}
-      </div>
-    </section>
+          )}
+        </div>
+      </section>
     </div>
   );
 }
@@ -664,6 +678,7 @@ function ExhibitorRequestForm({
   onBack: () => void;
   onSubmitted: () => void;
 }) {
+  const siteSettings = useSiteSettings();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [participationType, setParticipationType] = useState<
@@ -825,7 +840,7 @@ function ExhibitorRequestForm({
   };
 
   const inputCls =
-    "w-full px-4 py-2.5 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#E8274B] transition";
+    "w-full px-4 py-2.5 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#3B82F6] transition";
   const inputStyle = {
     background: "#f4f6ff",
     border: "1px solid #dde6ff",
@@ -834,7 +849,7 @@ function ExhibitorRequestForm({
   const labelCls = "block text-sm font-semibold mb-1.5";
   const ls = { color: "#1a1a2e" };
   const req = <span className="text-red-500">*</span>;
-  const blueBg = { background: "linear-gradient(135deg,#E8274B,#F4822A)" };
+  const blueBg = { background: "linear-gradient(135deg,#3B82F6,#60A5FA)" };
 
   return (
     <div
@@ -875,12 +890,9 @@ function ExhibitorRequestForm({
               : "First Time Exhibitor"}
           </span>
         </h2>
-        <p
-          className="text-xs md:text-sm mt-1"
-          style={{ color: "#6b7280" }}
-        >
-          We are interested in exhibiting at Fusion The Era 2026 scheduled for July
-          4–7, 2026 at Bharat Mandapam, Pragati Maidan, New Delhi.
+        <p className="text-xs md:text-sm mt-1" style={{ color: "#6b7280" }}>
+          We are interested in exhibiting at Fusion The Era 2026 scheduled for
+          July 4–7, 2026 at Bharat Mandapam, Pragati Maidan, New Delhi.
         </p>
       </div>
 
@@ -899,7 +911,7 @@ function ExhibitorRequestForm({
                 type="radio"
                 checked={participationType === t}
                 onChange={() => setParticipationType(t)}
-                className="w-4 h-4 accent-[#E8274B]"
+                className="w-4 h-4 accent-[#3B82F6]"
               />
               <span
                 className="text-sm font-medium"
@@ -923,17 +935,15 @@ function ExhibitorRequestForm({
                 className="flex items-start gap-2 cursor-pointer p-2.5 md:p-3 rounded-xl"
                 style={{
                   background:
-                    participationMode === mode
-                      ? "#fff5f5"
-                      : "#f4f6ff",
-                  border: `1px solid ${participationMode === mode ? "#E8274B" : "#dde6ff"}`,
+                    participationMode === mode ? "#fff5f5" : "#f4f6ff",
+                  border: `1px solid ${participationMode === mode ? "#3B82F6" : "#dde6ff"}`,
                 }}
               >
                 <input
                   type="radio"
                   checked={participationMode === mode}
                   onChange={() => setParticipationMode(mode)}
-                  className="mt-0.5 w-4 h-4 accent-[#E8274B] flex-shrink-0"
+                  className="mt-0.5 w-4 h-4 accent-[#3B82F6] flex-shrink-0"
                 />
                 <span
                   className="text-xs md:text-sm"
@@ -1002,14 +1012,14 @@ function ExhibitorRequestForm({
                 className="flex items-start gap-2 cursor-pointer mb-2 p-2 rounded-lg"
                 style={{
                   background: boothType === b.value ? "#fff5f5" : "transparent",
-                  border: `1px solid ${boothType === b.value ? "#E8274B" : "transparent"}`,
+                  border: `1px solid ${boothType === b.value ? "#3B82F6" : "transparent"}`,
                 }}
               >
                 <input
                   type="radio"
                   checked={boothType === b.value}
                   onChange={() => setBoothType(b.value)}
-                  className="mt-0.5 w-4 h-4 accent-[#E8274B] flex-shrink-0"
+                  className="mt-0.5 w-4 h-4 accent-[#3B82F6] flex-shrink-0"
                 />
                 <span
                   className="text-xs md:text-sm"
@@ -1030,14 +1040,14 @@ function ExhibitorRequestForm({
                 className="flex items-start gap-2 cursor-pointer mb-2 p-2 rounded-lg"
                 style={{
                   background: opening === o ? "#fff5f5" : "transparent",
-                  border: `1px solid ${opening === o ? "#E8274B" : "transparent"}`,
+                  border: `1px solid ${opening === o ? "#3B82F6" : "transparent"}`,
                 }}
               >
                 <input
                   type="radio"
                   checked={opening === o}
                   onChange={() => setOpening(o)}
-                  className="mt-0.5 w-4 h-4 accent-[#E8274B] flex-shrink-0"
+                  className="mt-0.5 w-4 h-4 accent-[#3B82F6] flex-shrink-0"
                 />
                 <span
                   className="text-xs md:text-sm"
@@ -1209,7 +1219,7 @@ function ExhibitorRequestForm({
                   background: productCategories.includes(cat)
                     ? "#fff5f5"
                     : "#f4f6ff",
-                  border: `1px solid ${productCategories.includes(cat) ? "#E8274B" : "#dde6ff"}`,
+                  border: `1px solid ${productCategories.includes(cat) ? "#3B82F6" : "#dde6ff"}`,
                   color: "#1a1a2e",
                 }}
               >
@@ -1217,7 +1227,7 @@ function ExhibitorRequestForm({
                   type="checkbox"
                   checked={productCategories.includes(cat)}
                   onChange={() => toggleCat(cat)}
-                  className="w-3.5 h-3.5 accent-[#E8274B] flex-shrink-0"
+                  className="w-3.5 h-3.5 accent-[#3B82F6] flex-shrink-0"
                 />
                 {cat}
               </label>
@@ -1233,7 +1243,7 @@ function ExhibitorRequestForm({
             className="text-sm md:text-base font-bold mb-3 pb-2"
             style={{
               color: "#1a1a2e",
-              borderBottom: "2px solid #E8274B",
+              borderBottom: "2px solid #3B82F6",
             }}
           >
             Organization Head
@@ -1302,7 +1312,7 @@ function ExhibitorRequestForm({
                   <select
                     value={orgCountryCode}
                     onChange={(e) => setOrgCountryCode(e.target.value)}
-                    className="px-2 py-2.5 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#E8274B]"
+                    className="px-2 py-2.5 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#3B82F6]"
                     style={{ ...inputStyle, minWidth: "75px" }}
                   >
                     {COUNTRY_CODES.map((c) => (
@@ -1345,7 +1355,7 @@ function ExhibitorRequestForm({
             className="text-sm md:text-base font-bold mb-3 pb-2"
             style={{
               color: "#1a1a2e",
-              borderBottom: "2px solid #E8274B",
+              borderBottom: "2px solid #3B82F6",
             }}
           >
             Contact Person
@@ -1414,7 +1424,7 @@ function ExhibitorRequestForm({
                   <select
                     value={cpCountryCode}
                     onChange={(e) => setCpCountryCode(e.target.value)}
-                    className="px-2 py-2.5 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#E8274B]"
+                    className="px-2 py-2.5 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#3B82F6]"
                     style={{ ...inputStyle, minWidth: "75px" }}
                   >
                     {COUNTRY_CODES.map((c) => (
@@ -1670,8 +1680,15 @@ function ExhibitorRequestForm({
         {/* Contact Info — live from admin settings */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {(["delhi", "mumbai"] as const).map((city) => (
-            <div key={city} className="rounded-xl p-4" style={{ background: "#f4f6ff", border: "1px solid #dde6ff" }}>
-              <p className="font-bold text-sm mb-1" style={{ color: "#E8274B" }}>
+            <div
+              key={city}
+              className="rounded-xl p-4"
+              style={{ background: "#f4f6ff", border: "1px solid #dde6ff" }}
+            >
+              <p
+                className="font-bold text-sm mb-1"
+                style={{ color: "#3B82F6" }}
+              >
                 {city === "delhi" ? "Delhi" : "Mumbai"}:
               </p>
               <p className="font-bold text-sm" style={{ color: "#1a1a2e" }}>
@@ -1683,7 +1700,10 @@ function ExhibitorRequestForm({
               <p className="text-xs" style={{ color: "#6b7280" }}>
                 Tel: {siteSettings[`contact_${city}_tel`]}
               </p>
-              <a href={`mailto:${siteSettings[`contact_${city}_email`]}`} className="text-xs text-[#E8274B] hover:underline break-all">
+              <a
+                href={`mailto:${siteSettings[`contact_${city}_email`]}`}
+                className="text-xs text-[#3B82F6] hover:underline break-all"
+              >
                 {siteSettings[`contact_${city}_email`]}
               </a>
             </div>
@@ -1695,7 +1715,7 @@ function ExhibitorRequestForm({
           onClick={handleSubmit}
           disabled={loading}
           className="w-full py-3.5 rounded-xl text-white font-bold text-sm transition hover:opacity-90 disabled:opacity-60"
-          style={{ background: "linear-gradient(135deg,#E8274B,#F4822A)" }}
+          style={{ background: "linear-gradient(135deg,#3B82F6,#60A5FA)" }}
         >
           {loading ? "Submitting..." : "SUBMIT"}
         </button>

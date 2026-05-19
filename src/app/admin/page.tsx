@@ -20,7 +20,8 @@ export default function AdminLoginPage() {
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "Login failed");
-      router.push("/admin/dashboard");
+      router.refresh();
+      router.replace("/admin/dashboard");
     } catch (err: unknown) {
       setStatus("error");
       setErrMsg(err instanceof Error ? err.message : "Login failed");
@@ -67,7 +68,7 @@ export default function AdminLoginPage() {
                 }
                 placeholder="Enter username"
                 required
-                className="w-full px-4 py-3 rounded-xl bg-white border border-gray-200 text-gray-900 placeholder-gray-400 text-sm focus:outline-none focus:ring-2 focus:ring-[#E8274B] focus:border-transparent transition"
+                className="w-full px-4 py-3 rounded-xl bg-white border border-gray-200 text-gray-900 placeholder-gray-400 text-sm focus:outline-none focus:ring-2 focus:ring-[#3B82F6] focus:border-transparent transition"
               />
             </div>
             <div>
@@ -83,7 +84,7 @@ export default function AdminLoginPage() {
                 }
                 placeholder="Enter password"
                 required
-                className="w-full px-4 py-3 rounded-xl bg-white border border-gray-200 text-gray-900 placeholder-gray-400 text-sm focus:outline-none focus:ring-2 focus:ring-[#E8274B] focus:border-transparent transition"
+                className="w-full px-4 py-3 rounded-xl bg-white border border-gray-200 text-gray-900 placeholder-gray-400 text-sm focus:outline-none focus:ring-2 focus:ring-[#3B82F6] focus:border-transparent transition"
               />
             </div>
 
@@ -98,7 +99,7 @@ export default function AdminLoginPage() {
               disabled={status === "loading"}
               className="w-full py-3.5 rounded-xl text-white font-semibold text-sm tracking-wide transition-all duration-200 hover:opacity-90 hover:shadow-lg disabled:opacity-50 mt-2"
               style={{
-                background: "linear-gradient(135deg, #E8274B, #F4822A)",
+                background: "linear-gradient(135deg, #3B82F6, #60A5FA)",
               }}
             >
               {status === "loading" ? (

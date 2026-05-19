@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useSiteSettings } from "@/lib/useSiteSettings";
 
 interface GalleryImage {
@@ -15,27 +15,44 @@ export default function GalleryPage() {
   const siteSettings = useSiteSettings();
   const [images, setImages] = useState<GalleryImage[]>([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
   const [activeCategory, setActiveCategory] = useState("all");
   const [lightbox, setLightbox] = useState<GalleryImage | null>(null);
 
-  const fetchImages = () => {
-    fetch("/api/admin/images", { cache: "no-store" })
-      .then((r) => r.json())
-      .then((data) => {
-        if (data.success) {
-          setImages(data.data.filter((img: GalleryImage) => img.is_published));
-        }
-      })
-      .catch(() => {})
-      .finally(() => setLoading(false));
-  };
+  const fetchImages = useCallback(async (signal?: AbortSignal) => {
+    setError("");
+    try {
+      const res = await fetch("/api/admin/images", {
+        cache: "no-store",
+        signal,
+      });
+      const data = await res.json();
+      if (!res.ok || !data?.success)
+        throw new Error(data?.error || "Unable to load gallery.");
+      setImages(
+        (data?.data ?? []).filter((img: GalleryImage) => img?.is_published),
+      );
+    } catch (err: unknown) {
+      if (err instanceof Error && err.name === "AbortError") return;
+      setError(err instanceof Error ? err.message : "Unable to load gallery.");
+      setImages([]);
+    } finally {
+      if (!signal?.aborted) setLoading(false);
+    }
+  }, []);
 
   useEffect(() => {
-    fetchImages();
-    const onVisible = () => { if (document.visibilityState === "visible") fetchImages(); };
+    const controller = new AbortController();
+    fetchImages(controller.signal);
+    const onVisible = () => {
+      if (document.visibilityState === "visible") fetchImages();
+    };
     document.addEventListener("visibilitychange", onVisible);
-    return () => document.removeEventListener("visibilitychange", onVisible);
-  }, []);
+    return () => {
+      controller.abort();
+      document.removeEventListener("visibilitychange", onVisible);
+    };
+  }, [fetchImages]);
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
@@ -45,45 +62,31 @@ export default function GalleryPage() {
     return () => window.removeEventListener("keydown", onKey);
   }, []);
 
-  const categories = ["all", ...Array.from(new Set(images.map((i) => i.category).filter(Boolean)))];
-  const filtered = activeCategory === "all" ? images : images.filter((i) => i.category === activeCategory);
+  const categories = [
+    "all",
+    ...Array.from(new Set(images.map((i) => i.category).filter(Boolean))),
+  ];
+  const filtered =
+    activeCategory === "all"
+      ? images
+      : images.filter((i) => i.category === activeCategory);
 
   return (
     <div className="min-h-screen">
       {/* HERO BANNER */}
-      <section className="relative isolate w-full overflow-hidden py-14 md:py-20">
-        <div
-          className="absolute inset-0 -z-10"
-          style={{ background: "linear-gradient(120deg,#090f2d 0%,#0f1a4f 48%,#1a2f7f 100%)" }}
-        />
-        <div className="absolute inset-0 -z-10 bg-black/30" />
-        <div
-          className="pointer-events-none absolute -left-10 top-0 h-48 w-48 rounded-full blur-3xl"
-          style={{ background: "rgba(232,39,75,0.2)" }}
-        />
-        <div
-          className="pointer-events-none absolute right-0 bottom-0 h-40 w-40 rounded-full blur-3xl"
-          style={{ background: "rgba(0,200,212,0.15)" }}
-        />
-        <div className="relative mx-auto max-w-7xl px-4 text-center sm:px-6 lg:px-10">
-          <p
-            className="text-xs font-extrabold uppercase tracking-[0.3em] mb-3"
-            style={{ color: "#8cecff" }}
-          >
-            {siteSettings.event_venue}
-          </p>
-          <h1 className="text-4xl md:text-5xl font-black text-white">Gallery</h1>
-          <p className="mt-3 text-white/60 text-sm">
-            Highlights from Fusion The Era — {siteSettings.event_date}
-          </p>
-          <div className="mt-5 flex justify-center">
-            <span
-              className="h-1 w-20 rounded-full"
-              style={{ background: "linear-gradient(90deg,#E8274B,#F4822A)" }}
-            />
-          </div>
-        </div>
-      </section>
+
+      <div className="text-center mt-6 md:mt-10 mb-6 md:mb-8">
+        <h1
+          className="text-3xl font-bold mb-2"
+          style={{ color: "var(--app-text)" }}
+        >
+          Gallery
+        </h1>
+
+        <p className="text-sm" style={{ color: "#6b7280" }}>
+          Highlights from Fusion The Era — {siteSettings.event_date}
+        </p>
+      </div>
 
       {/* CONTENT */}
       <div className="mx-auto w-full max-w-7xl px-4 py-10 sm:px-6 lg:px-10">
@@ -97,8 +100,16 @@ export default function GalleryPage() {
                 className="px-4 py-1.5 rounded-full text-sm font-semibold capitalize transition"
                 style={
                   activeCategory === cat
-                    ? { background: "linear-gradient(90deg,#E8274B,#F4822A)", color: "#fff", border: "none" }
-                    : { background: "transparent", color: "#374151", border: "1px solid #dde6ff" }
+                    ? {
+                        background: "linear-gradient(90deg,#3B82F6,#60A5FA)",
+                        color: "#fff",
+                        border: "none",
+                      }
+                    : {
+                        background: "transparent",
+                        color: "#374151",
+                        border: "1px solid #dde6ff",
+                      }
                 }
               >
                 {cat}
@@ -109,7 +120,21 @@ export default function GalleryPage() {
 
         {loading ? (
           <div className="flex justify-center py-20">
-            <div className="w-10 h-10 border-4 border-red-100 border-t-[#E8274B] rounded-full animate-spin" />
+            <div className="w-10 h-10 border-4 border-blue-100 border-t-[#3B82F6] rounded-full animate-spin" />
+          </div>
+        ) : error ? (
+          <div className="text-center py-20">
+            <p className="text-gray-500 text-lg">{error}</p>
+            <button
+              onClick={() => {
+                setLoading(true);
+                fetchImages();
+              }}
+              className="mt-4 rounded-xl px-5 py-2.5 text-sm font-semibold text-white"
+              style={{ background: "linear-gradient(135deg,#3B82F6,#60A5FA)" }}
+            >
+              Try again
+            </button>
           </div>
         ) : filtered.length === 0 ? (
           <div className="text-center py-20">
@@ -133,7 +158,9 @@ export default function GalleryPage() {
                   />
                   {img.title && (
                     <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/70 to-transparent px-3 py-3 translate-y-full group-hover:translate-y-0 transition-transform duration-300">
-                      <p className="text-white text-xs font-semibold truncate">{img.title}</p>
+                      <p className="text-white text-xs font-semibold truncate">
+                        {img.title}
+                      </p>
                     </div>
                   )}
                 </div>
@@ -165,7 +192,9 @@ export default function GalleryPage() {
               className="max-h-[80vh] max-w-full rounded-xl object-contain shadow-2xl"
             />
             {lightbox.title && (
-              <p className="mt-3 text-white/80 text-sm text-center">{lightbox.title}</p>
+              <p className="mt-3 text-white/80 text-sm text-center">
+                {lightbox.title}
+              </p>
             )}
           </div>
         </div>

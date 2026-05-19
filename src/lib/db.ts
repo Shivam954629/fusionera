@@ -1,15 +1,35 @@
 import { Pool } from "pg";
 
-const globalForPg = globalThis as unknown as { pool: Pool };
+const globalForPg = globalThis as unknown as {
+  pool?: Pool;
+  poolConnectionString?: string;
+};
+
+const connectionString = process.env.DATABASE_URL;
+const isLocalConnection =
+  !connectionString ||
+  connectionString.includes("localhost") ||
+  connectionString.includes("127.0.0.1") ||
+  connectionString.includes("[::1]");
+
+if (globalForPg.pool && globalForPg.poolConnectionString !== connectionString) {
+  void globalForPg.pool.end().catch(() => {});
+  globalForPg.pool = undefined;
+}
 
 export const pool =
   globalForPg.pool ??
   new Pool({
-    connectionString: process.env.DATABASE_URL,
-    ssl: { rejectUnauthorized: false, checkServerIdentity: () => undefined },
+    connectionString,
+    ssl: isLocalConnection
+      ? undefined
+      : { rejectUnauthorized: false, checkServerIdentity: () => undefined },
   });
 
-if (process.env.NODE_ENV !== "production") globalForPg.pool = pool;
+if (process.env.NODE_ENV !== "production") {
+  globalForPg.pool = pool;
+  globalForPg.poolConnectionString = connectionString;
+}
 
 export async function initDB() {
   await pool.query(`
@@ -26,6 +46,16 @@ export async function initDB() {
       created_at TIMESTAMP DEFAULT NOW()
     );
   `);
+
+  await pool.query(`
+    CREATE TABLE IF NOT EXISTS admins (
+      id SERIAL PRIMARY KEY,
+      username VARCHAR(100) UNIQUE NOT NULL,
+      password_hash TEXT NOT NULL,
+      created_at TIMESTAMP DEFAULT NOW()
+    );
+  `);
+
   // Expand phone_number column if it was created with VARCHAR(20)
   await pool.query(`ALTER TABLE visitors ALTER COLUMN phone_number TYPE VARCHAR(255);`).catch(() => {});
   // Expand otps phone_number too (used as email key for international visitors)

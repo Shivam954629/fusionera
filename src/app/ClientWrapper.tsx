@@ -1,5 +1,6 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
+import { usePathname } from "next/navigation";
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 import WhatsAppFloat from "@/components/WhatsAppFloat";
@@ -9,47 +10,60 @@ export default function ClientWrapper({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  // Read pathname client-side only to avoid useContext(null) during static pre-rendering
-  const [isAdmin, setIsAdmin] = useState(true); // default to true to avoid SSR flash on admin
+  const pathname = usePathname();
+  const isAdmin = pathname?.startsWith("/admin") ?? false;
 
   useEffect(() => {
-    const check = () => {
-      setIsAdmin(window.location.pathname.startsWith("/admin"));
-    };
-    check();
-    window.addEventListener("popstate", check);
-    return () => window.removeEventListener("popstate", check);
-  }, []);
+    const timers = new Set<ReturnType<typeof setTimeout>>();
 
-  useEffect(() => {
     const show = (el: HTMLElement) => {
       const delay = Number(el.dataset.revealDelay ?? 0);
-      setTimeout(() => el.classList.add("is-visible"), delay);
+      const timer = setTimeout(() => {
+        el.classList.add("is-visible");
+        timers.delete(timer);
+      }, Number.isFinite(delay) ? delay : 0);
+      timers.add(timer);
     };
 
-    const observer = new IntersectionObserver(
+    const revealNow = () => {
+      const elements = document.querySelectorAll<HTMLElement>(
+        ".reveal-on-scroll:not(.is-visible)",
+      );
+
+      elements.forEach((el) => {
+        const rect = el.getBoundingClientRect();
+        if (rect.top < window.innerHeight && rect.bottom > 0) {
+          show(el);
+        } else {
+          intersectionObserver.observe(el);
+        }
+      });
+    };
+
+    const intersectionObserver = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           if (!entry.isIntersecting) return;
           show(entry.target as HTMLElement);
-          observer.unobserve(entry.target);
+          intersectionObserver.unobserve(entry.target);
         });
       },
       { threshold: 0.08, rootMargin: "0px 0px 0px 0px" },
     );
 
-    const elements = document.querySelectorAll<HTMLElement>(".reveal-on-scroll:not(.is-visible)");
-    elements.forEach((el) => {
-      const rect = el.getBoundingClientRect();
-      if (rect.top < window.innerHeight && rect.bottom > 0) {
-        show(el);
-      } else {
-        observer.observe(el);
-      }
+    const mutationObserver = new MutationObserver(() => {
+      requestAnimationFrame(revealNow);
     });
 
-    return () => observer.disconnect();
-  });
+    requestAnimationFrame(() => requestAnimationFrame(revealNow));
+    mutationObserver.observe(document.body, { childList: true, subtree: true });
+
+    return () => {
+      intersectionObserver.disconnect();
+      mutationObserver.disconnect();
+      timers.forEach((timer) => clearTimeout(timer));
+    };
+  }, [pathname]);
 
   return (
     <div id="app-shell">
