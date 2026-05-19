@@ -78,9 +78,17 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const verification = await twilioClient.verify.v2
-      .services(process.env.TWILIO_VERIFY_SERVICE_SID!)
-      .verifications.create({ to: fullPhone, channel: "sms" });
+    let verification;
+    try {
+      verification = await twilioClient.verify.v2
+        .services(process.env.TWILIO_VERIFY_SERVICE_SID!)
+        .verifications.create({ to: fullPhone, channel: "sms" });
+    } catch (twilioErr: any) {
+      console.error("Twilio error:", twilioErr?.message || twilioErr);
+      // Surface Twilio's own message so unverified-number errors are clear
+      const msg = twilioErr?.message || "Failed to send OTP. Please try again.";
+      return NextResponse.json({ error: msg }, { status: 500 });
+    }
 
     if (verification.status !== "pending") {
       return NextResponse.json({ error: "Failed to send OTP. Please try again." }, { status: 500 });
@@ -95,6 +103,6 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ success: true, message: "OTP sent successfully.", phone: cleanPhone, visitorType });
   } catch (err: any) {
     console.error("OTP send error:", err?.message || err);
-    return NextResponse.json({ error: "Server error. Please try again." }, { status: 500 });
+    return NextResponse.json({ error: err?.message || "Server error. Please try again." }, { status: 500 });
   }
 }

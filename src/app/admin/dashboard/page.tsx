@@ -1129,10 +1129,11 @@ export default function AdminDashboard() {
                               {v.full_name}
                             </td>
                             <td className="py-3 px-4 text-gray-600 text-xs">
-                              {v.phone_number}
+                              {/* International visitors have email stored in phone_number */}
+                              {v.phone_number?.includes("@") ? "—" : v.phone_number}
                             </td>
                             <td className="py-3 px-4 text-gray-500 text-xs">
-                              {v.email || "—"}
+                              {v.email || (v.phone_number?.includes("@") ? v.phone_number : "—")}
                             </td>
                             <td className="py-3 px-4">
                               <span
@@ -1272,17 +1273,19 @@ export default function AdminDashboard() {
                               {v.full_name}
                             </td>
                             <td className="py-3.5 px-4">
-                              <a
-                                href={`tel:${v.phone_number}`}
-                                className="text-[#3B82F6] hover:opacity-80 font-medium"
-                              >
-                                {v.phone_number}
-                              </a>
+                              {v.phone_number?.includes("@") ? (
+                                <span className="text-gray-400 text-xs">—</span>
+                              ) : (
+                                <a
+                                  href={`tel:${v.phone_number}`}
+                                  className="text-[#3B82F6] hover:opacity-80 font-medium"
+                                >
+                                  {v.phone_number}
+                                </a>
+                              )}
                             </td>
                             <td className="py-3.5 px-4 text-gray-500 text-xs">
-                              {v.email || (
-                                <span className="text-gray-400">—</span>
-                              )}
+                              {v.email || (v.phone_number?.includes("@") ? v.phone_number : "—")}
                             </td>
                             <td className="py-3.5 px-4">
                               <span

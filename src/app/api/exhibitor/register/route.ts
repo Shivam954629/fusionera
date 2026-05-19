@@ -38,7 +38,7 @@ export async function POST(req: NextRequest) {
       return NextResponse.json(
         {
           error:
-            "Invalid Exhibitor ID or Password. Please contact FusionEra team.",
+            "Invalid Exhibitor ID or Password. Please contact Fusion The Era team.",
         },
         { status: 401 },
       );
@@ -50,7 +50,7 @@ export async function POST(req: NextRequest) {
     if (exhibitor.exhibitor_name.toLowerCase() !== name.trim().toLowerCase()) {
       return NextResponse.json(
         {
-          error: "Invalid Exhibitor Name or ID. Please contact FusionEra team.",
+          error: "Invalid Exhibitor Name or ID. Please contact Fusion The Era team.",
         },
         { status: 401 },
       );

@@ -43,6 +43,17 @@ export async function POST(req: NextRequest) {
 
     await pool.query(`UPDATE visitors SET ${setClause} WHERE id=$1`, values);
 
+    // Keep full_name in sync whenever first_name or last_name is saved (step 1)
+    if (step === 1 && (data.first_name !== undefined || data.last_name !== undefined)) {
+      const row = await pool.query(`SELECT first_name, last_name FROM visitors WHERE id=$1`, [visitorId]);
+      if (row.rows.length > 0) {
+        const fullName = `${row.rows[0].first_name || ""} ${row.rows[0].last_name || ""}`.trim();
+        if (fullName) {
+          await pool.query(`UPDATE visitors SET full_name=$1 WHERE id=$2`, [fullName, visitorId]);
+        }
+      }
+    }
+
     return NextResponse.json({ success: true });
   } catch (err) {
     console.error("Save step error:", err);
