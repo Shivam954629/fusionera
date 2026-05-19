@@ -166,11 +166,11 @@ export default function Products() {
             </div>
 
             {/* Main Image */}
-            <div className="relative bg-gray-50 flex items-center justify-center" style={{ height: "60vh" }}>
+            <div className="relative bg-gray-50" style={{ height: "60vh", width: "100%" }}>
               <img
                 src={portfolioModal.images[portfolioModal.activeIndex]}
                 alt={`${portfolioModal.title} - image ${portfolioModal.activeIndex + 1}`}
-                className="max-h-full max-w-full object-contain"
+                className="absolute inset-0 w-full h-full object-contain"
               />
 
               {/* Prev/Next Arrows */}

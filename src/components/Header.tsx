@@ -138,24 +138,13 @@ export default function Header() {
             </Link>
             <div className="nav-dropdown invisible absolute left-0 top-full z-40 w-52 pt-2 opacity-0 transition duration-300 group-hover:visible group-hover:opacity-100 group-focus-within:visible group-focus-within:opacity-100">
               <div className="rounded-md border border-white/15 bg-[#191452] p-2 shadow-lg">
-                <Link
-                  href="/whoshouldvisit"
-                  className="block rounded px-3 py-2 text-xs text-white hover:bg-white/10"
-                >
-                  Who Should Visit
-                </Link>
-                <Link
-                  href="/benefits"
-                  className="block rounded px-3 py-2 text-xs text-white hover:bg-white/10"
-                >
-                  Benefits
-                </Link>
-                <Link
-                  href="/comments"
-                  className="block rounded px-3 py-2 text-xs text-white hover:bg-white/10"
-                >
-                  Visitor Comments
-                </Link>
+                <Link href="/whoshouldvisit" className="block rounded px-3 py-2 text-xs text-white hover:bg-white/10">Who Should Visit</Link>
+                <Link href="/benefits" className="block rounded px-3 py-2 text-xs text-white hover:bg-white/10">Benefits</Link>
+                <Link href="/comments" className="block rounded px-3 py-2 text-xs text-white hover:bg-white/10">Visitor Comments</Link>
+                <Link href="/visiting-hours" className="block rounded px-3 py-2 text-xs text-white hover:bg-white/10">Visiting Hours</Link>
+                <Link href="/visitor-facilities" className="block rounded px-3 py-2 text-xs text-white hover:bg-white/10">Visitor Facilities</Link>
+                <Link href="/travel-stay" className="block rounded px-3 py-2 text-xs text-white hover:bg-white/10">Travel &amp; Stay</Link>
+                <Link href="/reaching-the-venue" className="block rounded px-3 py-2 text-xs text-white hover:bg-white/10">Reaching The Venue</Link>
               </div>
             </div>
           </div>
@@ -171,36 +160,13 @@ export default function Header() {
             </Link>
             <div className="nav-dropdown invisible absolute left-0 top-full z-40 w-52 pt-2 opacity-0 transition duration-300 group-hover:visible group-hover:opacity-100 group-focus-within:visible group-focus-within:opacity-100">
               <div className="rounded-md border border-white/15 bg-[#191452] p-2 shadow-lg">
-                <Link
-                  href="/whoshouldexhibit"
-                  className="block rounded px-3 py-2 text-xs text-white hover:bg-white/10"
-                >
-                  Who Should Exhibit?
-                </Link>
-                <Link
-                  href="/exhibitorbenefits"
-                  className="block rounded px-3 py-2 text-xs text-white hover:bg-white/10"
-                >
-                  Benefits
-                </Link>
-                <Link
-                  href="/exhibitorprofile"
-                  className="block rounded px-3 py-2 text-xs text-white hover:bg-white/10"
-                >
-                  Exhibitor Profile
-                </Link>
-                <Link
-                  href="/exhibitorcomments"
-                  className="block rounded px-3 py-2 text-xs text-white hover:bg-white/10"
-                >
-                  Exhibitor Comments
-                </Link>
-                <Link
-                  href="/exhibitorlist"
-                  className="block rounded px-3 py-2 text-xs text-white hover:bg-white/10"
-                >
-                  Exhibitors List
-                </Link>
+                <Link href="/whoshouldexhibit" className="block rounded px-3 py-2 text-xs text-white hover:bg-white/10">Who Should Exhibit?</Link>
+                <Link href="/exhibitorbenefits" className="block rounded px-3 py-2 text-xs text-white hover:bg-white/10">Benefits</Link>
+                <Link href="/exhibitorprofile" className="block rounded px-3 py-2 text-xs text-white hover:bg-white/10">Exhibitor Profile</Link>
+                <Link href="/exhibitorcomments" className="block rounded px-3 py-2 text-xs text-white hover:bg-white/10">Exhibitor Comments</Link>
+                <Link href="/exhibitorlist" className="block rounded px-3 py-2 text-xs text-white hover:bg-white/10">Exhibitors List</Link>
+                <Link href="/exhibitor-facilities" className="block rounded px-3 py-2 text-xs text-white hover:bg-white/10">Exhibitor Facilities</Link>
+                <Link href="/travel-stay" className="block rounded px-3 py-2 text-xs text-white hover:bg-white/10">Travel &amp; Stay</Link>
               </div>
             </div>
           </div>
@@ -232,12 +198,6 @@ export default function Header() {
             className="nav-link hover:text-brand-amber"
           >
             Pay Stall Advance
-          </Link>
-          <Link
-            href="/reaching-the-venue"
-            className="nav-link hover:text-brand-amber"
-          >
-            Reaching The Venue
           </Link>
           <Link href="/gallery" className="nav-link hover:text-brand-amber">
             Gallery
@@ -351,13 +311,11 @@ export default function Header() {
                 >
                   Benefits
                 </button>
-                {/* FIXED: was #about */}
-                <button
-                  onClick={() => handleMobileNav("/comments")}
-                  className="rounded px-2 py-2 hover:bg-white/10 text-left w-full"
-                >
-                  Visitor Comments
-                </button>
+                <button onClick={() => handleMobileNav("/comments")} className="rounded px-2 py-2 hover:bg-white/10 text-left w-full">Visitor Comments</button>
+                <button onClick={() => handleMobileNav("/visiting-hours")} className="rounded px-2 py-2 hover:bg-white/10 text-left w-full">Visiting Hours</button>
+                <button onClick={() => handleMobileNav("/visitor-facilities")} className="rounded px-2 py-2 hover:bg-white/10 text-left w-full">Visitor Facilities</button>
+                <button onClick={() => handleMobileNav("/travel-stay")} className="rounded px-2 py-2 hover:bg-white/10 text-left w-full">Travel &amp; Stay</button>
+                <button onClick={() => handleMobileNav("/reaching-the-venue")} className="rounded px-2 py-2 hover:bg-white/10 text-left w-full">Reaching The Venue</button>
               </div>
             </details>
 
@@ -394,13 +352,9 @@ export default function Header() {
                 >
                   Exhibitor Comments
                 </button>
-                {/* FIXED: was /about */}
-                <button
-                  onClick={() => handleMobileNav("/exhibitorlist")}
-                  className="rounded px-2 py-2 hover:bg-white/10 text-left w-full"
-                >
-                  Exhibitors List
-                </button>
+                <button onClick={() => handleMobileNav("/exhibitorlist")} className="rounded px-2 py-2 hover:bg-white/10 text-left w-full">Exhibitors List</button>
+                <button onClick={() => handleMobileNav("/exhibitor-facilities")} className="rounded px-2 py-2 hover:bg-white/10 text-left w-full">Exhibitor Facilities</button>
+                <button onClick={() => handleMobileNav("/travel-stay")} className="rounded px-2 py-2 hover:bg-white/10 text-left w-full">Travel &amp; Stay</button>
               </div>
             </details>
 

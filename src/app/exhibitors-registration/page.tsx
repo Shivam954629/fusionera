@@ -183,12 +183,12 @@ export default function ExhibitorRegistrationPage() {
                     {
                       type: "regular" as const,
                       label: "REGULAR EXHIBITOR",
-                      desc: "If you have exhibited at FusionEra in any of the past editions, please click below",
+                      desc: "If you have exhibited at Fusion The Era in any of the past editions, please click below",
                     },
                     {
                       type: "firsttime" as const,
                       label: "FIRST TIME EXHIBITOR",
-                      desc: "If you are exhibiting at FusionEra for the first time, please click below",
+                      desc: "If you are exhibiting at Fusion The Era for the first time, please click below",
                     },
                   ].map((item) => (
                     <div
@@ -256,9 +256,9 @@ export default function ExhibitorRegistrationPage() {
                   className="text-xs md:text-sm mb-5"
                   style={{ color: "#6b7280" }}
                 >
-                  To book your Exhibition space for FusionEra 2026, please login
+                  To book your Exhibition space for Fusion The Era 2026, please login
                   below by using the same Exhibitor ID and Password which has
-                  been shared with you by FusionEra Team.
+                  been shared with you by Fusion The Era Team.
                 </p>
                 {loginError && (
                   <div className="mb-4 rounded-xl px-4 py-3 text-sm text-red-600 bg-red-50 border border-red-200">
@@ -461,7 +461,7 @@ export default function ExhibitorRegistrationPage() {
                   className="text-sm mb-6"
                   style={{ color: "#6b7280" }}
                 >
-                  Thank you for your interest in exhibiting at FusionEra 2026.
+                  Thank you for your interest in exhibiting at Fusion The Era 2026.
                   <br />
                   Our team will contact you shortly.
                 </p>
@@ -879,7 +879,7 @@ function ExhibitorRequestForm({
           className="text-xs md:text-sm mt-1"
           style={{ color: "#6b7280" }}
         >
-          We are interested in exhibiting at FusionEra 2026 scheduled for July
+          We are interested in exhibiting at Fusion The Era 2026 scheduled for July
           4–7, 2026 at Bharat Mandapam, Pragati Maidan, New Delhi.
         </p>
       </div>
@@ -1233,7 +1233,7 @@ function ExhibitorRequestForm({
             className="text-sm md:text-base font-bold mb-3 pb-2"
             style={{
               color: "#1a1a2e",
-              borderBottom: "2px solid #3b82f6",
+              borderBottom: "2px solid #E8274B",
             }}
           >
             Organization Head
@@ -1345,7 +1345,7 @@ function ExhibitorRequestForm({
             className="text-sm md:text-base font-bold mb-3 pb-2"
             style={{
               color: "#1a1a2e",
-              borderBottom: "2px solid #3b82f6",
+              borderBottom: "2px solid #E8274B",
             }}
           >
             Contact Person
