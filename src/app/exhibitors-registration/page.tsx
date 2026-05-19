@@ -1,27 +1,11 @@
 "use client";
 import { useState } from "react";
+import { useSiteSettings } from "@/lib/useSiteSettings";
 
 type Stage = "intro" | "selection" | "login" | "form" | "submitted";
 
-// ── CONTACT DETAILS (ek jagah update karo, sab jagah change hoga) ──
-const CONTACTS = [
-  {
-    city: "Delhi",
-    name: "Mr. Pawan Singh",
-    mobile: "+91 93157 00590",
-    tel: "+91 (11) 2571 4111",
-    email: "pawan.singh@fusiontheera.com",
-  },
-  {
-    city: "Mumbai",
-    name: "Mr. Jasvinder Singh Chaudhary",
-    mobile: "+91 85888 92885",
-    tel: "+91 (22) 6997 1122",
-    email: "jasvinder.chaudhary@fusiontheera.com",
-  },
-];
-
 export default function ExhibitorRegistrationPage() {
+  const siteSettings = useSiteSettings();
   const [stage, setStage] = useState<Stage>("intro");
   const [exhibitorType, setExhibitorType] = useState<
     "regular" | "firsttime" | null
@@ -397,38 +381,23 @@ export default function ExhibitorRegistrationPage() {
                       contact:
                     </p>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                      {CONTACTS.map((c) => (
+                      {(["delhi", "mumbai"] as const).map((city) => (
                         <div
-                          key={c.city}
+                          key={city}
                           className="rounded-xl p-3"
-                          style={{
-                            background: "#f4f6ff",
-                            border: "1px solid #dde6ff",
-                          }}
+                          style={{ background: "#f4f6ff", border: "1px solid #dde6ff" }}
                         >
-                          <p
-                            className="text-xs font-bold"
-                            style={{ color: "#E8274B" }}
-                          >
-                            {c.city}:
+                          <p className="text-xs font-bold" style={{ color: "#E8274B" }}>
+                            {city === "delhi" ? "Delhi" : "Mumbai"}:
                           </p>
-                          <p
-                            className="text-xs font-semibold mt-0.5"
-                            style={{ color: "#1a1a2e" }}
-                          >
-                            {c.name}
+                          <p className="text-xs font-semibold mt-0.5" style={{ color: "#1a1a2e" }}>
+                            {siteSettings[`contact_${city}_name`]}
                           </p>
-                          <p
-                            className="text-xs"
-                            style={{ color: "#6b7280" }}
-                          >
-                            {c.mobile}
+                          <p className="text-xs" style={{ color: "#6b7280" }}>
+                            {siteSettings[`contact_${city}_mobile`]}
                           </p>
-                          <a
-                            href={`mailto:${c.email}`}
-                            className="text-xs text-[#E8274B] hover:underline break-all"
-                          >
-                            {c.email}
+                          <a href={`mailto:${siteSettings[`contact_${city}_email`]}`} className="text-xs text-[#E8274B] hover:underline break-all">
+                            {siteSettings[`contact_${city}_email`]}
                           </a>
                         </div>
                       ))}
@@ -1698,40 +1667,24 @@ function ExhibitorRequestForm({
           </p>
         </div>
 
-        {/* Contact Info — from CONTACTS constant */}
+        {/* Contact Info — live from admin settings */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {CONTACTS.map((c) => (
-            <div
-              key={c.city}
-              className="rounded-xl p-4"
-              style={{
-                background: "#f4f6ff",
-                border: "1px solid #dde6ff",
-              }}
-            >
-              <p
-                className="font-bold text-sm mb-1"
-                style={{ color: "#E8274B" }}
-              >
-                {c.city}:
+          {(["delhi", "mumbai"] as const).map((city) => (
+            <div key={city} className="rounded-xl p-4" style={{ background: "#f4f6ff", border: "1px solid #dde6ff" }}>
+              <p className="font-bold text-sm mb-1" style={{ color: "#E8274B" }}>
+                {city === "delhi" ? "Delhi" : "Mumbai"}:
               </p>
-              <p
-                className="font-bold text-sm"
-                style={{ color: "#1a1a2e" }}
-              >
-                {c.name}
+              <p className="font-bold text-sm" style={{ color: "#1a1a2e" }}>
+                {siteSettings[`contact_${city}_name`]}
               </p>
               <p className="text-xs mt-1" style={{ color: "#6b7280" }}>
-                Mobile: {c.mobile}
+                Mobile: {siteSettings[`contact_${city}_mobile`]}
               </p>
               <p className="text-xs" style={{ color: "#6b7280" }}>
-                Tel: {c.tel}
+                Tel: {siteSettings[`contact_${city}_tel`]}
               </p>
-              <a
-                href={`mailto:${c.email}`}
-                className="text-xs text-[#E8274B] hover:underline break-all"
-              >
-                {c.email}
+              <a href={`mailto:${siteSettings[`contact_${city}_email`]}`} className="text-xs text-[#E8274B] hover:underline break-all">
+                {siteSettings[`contact_${city}_email`]}
               </a>
             </div>
           ))}

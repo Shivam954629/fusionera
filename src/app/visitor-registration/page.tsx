@@ -1,5 +1,6 @@
 "use client";
 import { useState, useEffect } from "react";
+import { useSiteSettings } from "@/lib/useSiteSettings";
 
 type Stage = "otp-phone" | "otp-verify" | "form" | "complete";
 
@@ -169,6 +170,7 @@ const COUNTRY_CODES = [
 ];
 
 export default function VisitorRegistrationPage() {
+  const siteSettings = useSiteSettings();
   const [stage, setStage] = useState<Stage>("otp-phone");
   const [visitorType, setVisitorType] = useState<"indian" | "international">(
     "indian",
@@ -1875,50 +1877,25 @@ export default function VisitorRegistrationPage() {
               </h3>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-3 md:gap-4">
                 {[
-                  {
-                    icon: "👤",
-                    title: "VISITOR SERVICES TEAM",
-                    sub: "Fusion The Era Events",
-                  },
-                  {
-                    icon: "📞",
-                    title: "PHONE",
-                    sub: "+91 93157 00590\n+91 85888 92885",
-                  },
-                  {
-                    icon: "📧",
-                    title: "EMAIL",
-                    sub: "info@fusiontheera.com",
-                    link: true,
-                  },
+                  { icon: "👤", title: "VISITOR SERVICES TEAM", sub: "Fusion The Era Events" },
+                  { icon: "📞", title: "PHONE", sub: `${siteSettings.contact_delhi_mobile}\n${siteSettings.contact_mumbai_mobile}` },
+                  { icon: "📧", title: "EMAIL", sub: siteSettings.contact_delhi_email, link: true },
                 ].map((card) => (
                   <div
                     key={card.title}
                     className="rounded-xl p-4 md:p-5 text-center"
-                    style={{
-                      background: "#ffffff",
-                      border: "1px solid #dde6ff",
-                    }}
+                    style={{ background: "#ffffff", border: "1px solid #dde6ff" }}
                   >
                     <div className="text-2xl mb-2">{card.icon}</div>
-                    <p
-                      className="text-xs font-bold mb-1"
-                      style={{ color: "#E8274B" }}
-                    >
+                    <p className="text-xs font-bold mb-1" style={{ color: "#E8274B" }}>
                       {card.title}
                     </p>
                     {card.link ? (
-                      <a
-                        href={`mailto:${card.sub}`}
-                        className="text-sm text-[#E8274B] break-all"
-                      >
+                      <a href={`mailto:${card.sub}`} className="text-sm text-[#E8274B] break-all">
                         {card.sub}
                       </a>
                     ) : (
-                      <p
-                        className="text-sm whitespace-pre-line"
-                        style={{ color: "#1a1a2e" }}
-                      >
+                      <p className="text-sm whitespace-pre-line" style={{ color: "#1a1a2e" }}>
                         {card.sub}
                       </p>
                     )}

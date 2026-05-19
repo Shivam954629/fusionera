@@ -2,8 +2,10 @@
 
 import React from "react";
 import Link from "next/link";
+import { useSiteSettings } from "@/lib/useSiteSettings";
 
 export default function Footer() {
+  const siteSettings = useSiteSettings();
   return (
     <footer className="relative mt-10 overflow-hidden border-t border-[#7cc7ff]/20 bg-[linear-gradient(120deg,#090f2d_0%,#0f1a4f_48%,#1a2f7f_100%)] py-10 text-white">
       <div className="pointer-events-none absolute -left-10 top-0 h-40 w-40 rounded-full bg-[#26d1ff]/20 blur-3xl"></div>
@@ -13,8 +15,8 @@ export default function Footer() {
         {/* LOGO + DESC */}
         <div>
           <img
-            src="/images/logo.jpeg"
-            alt="Fusionera logo"
+            src={siteSettings.logo_url || "/images/logo.jpeg"}
+            alt="Fusion The Era logo"
             className="h-10 w-auto max-w-[220px] rounded-md object-contain sm:h-12"
           />
           <p className="mt-4 text-sm leading-6 text-[#d8e6ff]">
@@ -154,9 +156,9 @@ export default function Footer() {
             Contact
           </h3>
           <div className="mt-4 grid gap-2 text-sm text-[#e7f0ff]">
-            <p>Email: info@fusiontheera.com</p>
-            <p>Phone: +91 93157 00590</p>
-            <p>Support: +91 8588892885</p>
+            <p>Email: <a href={`mailto:${siteSettings.contact_delhi_email}`} className="hover:text-[#8cecff] transition">{siteSettings.contact_delhi_email}</a></p>
+            <p>Delhi: {siteSettings.contact_delhi_mobile}</p>
+            <p>Mumbai: {siteSettings.contact_mumbai_mobile}</p>
           </div>
         </div>
 

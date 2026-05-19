@@ -3,8 +3,10 @@
 import Link from "next/link";
 import React, { useState, useEffect, useRef } from "react";
 import { useRouter, usePathname } from "next/navigation";
+import { useSiteSettings } from "@/lib/useSiteSettings";
 
 export default function Header() {
+  const siteSettings = useSiteSettings();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
@@ -66,8 +68,8 @@ export default function Header() {
         <div className="flex min-w-0 items-center gap-3">
           <Link href="/" className="min-w-0">
             <img
-              src="/images/logo.jpeg"
-              alt="Fusionera logo"
+              src={siteSettings.logo_url || "/images/logo.jpeg"}
+              alt="Fusion The Era logo"
               className="h-10 w-auto max-w-[190px] object-contain sm:h-12 sm:max-w-[250px]"
             />
           </Link>
