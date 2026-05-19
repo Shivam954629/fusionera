@@ -538,15 +538,26 @@ export default function VisitorRegistrationPage() {
   );
 
   return (
-    <section id="contact" className="min-h-screen px-4 py-6 sm:px-6 md:py-8 lg:px-10">
+    <div className="min-h-screen">
+      {/* HERO BANNER */}
+      <section className="relative isolate w-full overflow-hidden py-12 md:py-16">
+        <div className="absolute inset-0 -z-10" style={{ background: "linear-gradient(120deg,#090f2d 0%,#0f1a4f 48%,#1a2f7f 100%)" }} />
+        <div className="absolute inset-0 -z-10 bg-black/30" />
+        <div className="pointer-events-none absolute -left-10 top-0 h-48 w-48 rounded-full blur-3xl" style={{ background: "rgba(232,39,75,0.2)" }} />
+        <div className="pointer-events-none absolute right-0 bottom-0 h-40 w-40 rounded-full blur-3xl" style={{ background: "rgba(244,130,42,0.18)" }} />
+        <div className="relative mx-auto max-w-7xl px-4 text-center sm:px-6 lg:px-10">
+          <p className="text-xs font-extrabold uppercase tracking-[0.3em] mb-3" style={{ color: "#ffd238" }}>Fusion The Era 2026</p>
+          <h1 className="text-3xl md:text-4xl font-black text-white">Visitor Registration</h1>
+          <p className="mt-3 text-white/60 text-sm max-w-lg mx-auto">Register to get your free entry pass for July 4–7, 2026 · Bharat Mandapam, New Delhi</p>
+          <div className="mt-4 flex justify-center">
+            <span className="h-1 w-20 rounded-full" style={{ background: "linear-gradient(90deg,#E8274B,#F4822A)" }} />
+          </div>
+        </div>
+      </section>
+
+    <section id="contact" className="px-4 py-6 sm:px-6 md:py-8 lg:px-10">
       <div className="max-w-3xl mx-auto">
         <div className="text-center mb-6 md:mb-8">
-          <h1
-            className="text-2xl md:text-3xl font-bold mb-2"
-            style={{ color: "#1a1a2e" }}
-          >
-            Visitor Registration
-          </h1>
           {stage === "otp-phone" && (
             <p className="text-sm" style={{ color: "#6b7280" }}>
               Choose how you want to receive your OTP to continue
@@ -636,7 +647,7 @@ export default function VisitorRegistrationPage() {
                         setPhone(e.target.value.replace(/\D/g, "").slice(0, 10))
                       }
                       placeholder="Mobile Number"
-                      className="flex-1 px-4 py-2.5 rounded-r-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
+                      className="flex-1 px-4 py-2.5 rounded-r-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#E8274B] transition"
                       style={{
                         background: "#f4f6ff",
                         border: "1px solid #dde6ff",
@@ -678,7 +689,7 @@ export default function VisitorRegistrationPage() {
                       value={intlEmail}
                       onChange={(e) => setIntlEmail(e.target.value)}
                       placeholder="Provide Email Address"
-                      className="w-full px-4 py-2.5 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
+                      className="w-full px-4 py-2.5 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#E8274B] transition"
                       style={{
                         background: "#f4f6ff",
                         border: "1px solid #dde6ff",
@@ -749,7 +760,7 @@ export default function VisitorRegistrationPage() {
                     className="text-sm font-medium"
                     style={{ color: "#1a1a2e" }}
                   >
-                    ← Use a different number
+                    ← Use a different {visitorType === "international" ? "email" : "number"}
                   </button>
                   <button
                     onClick={() => {
@@ -1867,7 +1878,7 @@ export default function VisitorRegistrationPage() {
                   {
                     icon: "👤",
                     title: "VISITOR SERVICES TEAM",
-                    sub: "Fusionera Events",
+                    sub: "Fusion The Era Events",
                   },
                   {
                     icon: "📞",
@@ -2034,5 +2045,6 @@ export default function VisitorRegistrationPage() {
         )}
       </div>
     </section>
+    </div>
   );
 }

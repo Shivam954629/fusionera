@@ -40,13 +40,13 @@ async function sendVisitorEmail(
   password: string,
 ) {
   await transporter.sendMail({
-    from: `"Fusionera Events" <${process.env.GMAIL_USER}>`,
+    from: `"Fusion The Era Events" <${process.env.GMAIL_USER}>`,
     to,
-    subject: "✅ Registration Confirmed — Fusionera 2026",
+    subject: "✅ Registration Confirmed — Fusion The Era 2026",
     html: `
       <div style="font-family:Arial,sans-serif;max-width:560px;margin:0 auto;border-radius:12px;overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,0.08);">
         <div style="background:linear-gradient(135deg,#110c41,#1a1560);padding:32px 40px;text-align:center;">
-          <h1 style="color:#fff;margin:0;font-size:22px;letter-spacing:1px;">FUSIONERA 2026</h1>
+          <h1 style="color:#fff;margin:0;font-size:22px;letter-spacing:1px;">FUSION THE ERA 2026</h1>
           <p style="color:#a5b4fc;margin:6px 0 0;font-size:12px;">Perfect Business Platform</p>
         </div>
         <div style="background:#fff;padding:36px 40px;text-align:center;">
@@ -55,7 +55,7 @@ async function sendVisitorEmail(
           </div>
           <h2 style="color:#1a1560;margin:0 0 10px;font-size:20px;">Registration Confirmed!</h2>
           <p style="color:#6b7280;font-size:14px;line-height:1.6;margin:0 0 24px;">
-            Dear <strong>${fullName}</strong>, you are successfully registered for Fusionera 2026.
+            Dear <strong>${fullName}</strong>, you are successfully registered for Fusion The Era 2026.
           </p>
           <table width="100%" cellpadding="0" cellspacing="0" style="background:#f0f4ff;border-radius:10px;text-align:left;margin-bottom:20px;">
             <tr><td style="padding:20px 24px;">
@@ -78,7 +78,7 @@ async function sendVisitorEmail(
           </table>
         </div>
         <div style="background:#f8f9ff;padding:16px 40px;text-align:center;border-top:1px solid #e5e7eb;">
-          <p style="color:#9ca3af;font-size:11px;margin:0;">© 2026 Fusionera — Perfect Business Platform</p>
+          <p style="color:#9ca3af;font-size:11px;margin:0;">© 2026 Fusion The Era — Perfect Business Platform</p>
         </div>
       </div>
     `,
@@ -92,7 +92,7 @@ async function sendAdminEmail(
   regNo: string,
 ) {
   await transporter.sendMail({
-    from: `"Fusionera Events" <${process.env.GMAIL_USER}>`,
+    from: `"Fusion The Era Events" <${process.env.GMAIL_USER}>`,
     to: "info@fusionera.in",
     subject: `🔔 New Visitor — ${fullName}`,
     html: `

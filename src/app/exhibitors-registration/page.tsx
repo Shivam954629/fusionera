@@ -84,7 +84,7 @@ export default function ExhibitorRegistrationPage() {
   };
 
   const inputCls =
-    "w-full px-4 py-2.5 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 transition";
+    "w-full px-4 py-2.5 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#E8274B] transition";
   const inputStyle = {
     background: "#f4f6ff",
     border: "1px solid #dde6ff",
@@ -93,23 +93,26 @@ export default function ExhibitorRegistrationPage() {
   const blueBg = { background: "linear-gradient(135deg,#E8274B,#F4822A)" };
 
   return (
-    <section className="min-h-screen px-4 py-8 sm:px-6 md:py-12 lg:px-10">
-      <div className="max-w-3xl mx-auto">
-        <div className="text-center mb-6 md:mb-8">
-          <h1
-            className="text-2xl md:text-3xl font-bold mb-2"
-            style={{ color: "#1a1a2e" }}
-          >
-            Exhibitors Registration
-          </h1>
-          <p
-            className="text-xs md:text-sm"
-            style={{ color: "#6b7280" }}
-          >
-            JULY 4 - JULY 7, 2026 · Bharat Mandapam, Pragati Maidan, New Delhi,
-            India
-          </p>
+    <div className="min-h-screen">
+      {/* HERO BANNER */}
+      <section className="relative isolate w-full overflow-hidden py-12 md:py-16">
+        <div className="absolute inset-0 -z-10" style={{ background: "linear-gradient(120deg,#090f2d 0%,#0f1a4f 48%,#1a2f7f 100%)" }} />
+        <div className="absolute inset-0 -z-10 bg-black/30" />
+        <div className="pointer-events-none absolute -left-10 top-0 h-48 w-48 rounded-full blur-3xl" style={{ background: "rgba(123,47,190,0.2)" }} />
+        <div className="pointer-events-none absolute right-0 bottom-0 h-40 w-40 rounded-full blur-3xl" style={{ background: "rgba(233,30,140,0.18)" }} />
+        <div className="relative mx-auto max-w-7xl px-4 text-center sm:px-6 lg:px-10">
+          <p className="text-xs font-extrabold uppercase tracking-[0.3em] mb-3" style={{ color: "#C084FC" }}>Fusion The Era 2026</p>
+          <h1 className="text-3xl md:text-4xl font-black text-white">Exhibitors Registration</h1>
+          <p className="mt-3 text-white/60 text-sm max-w-lg mx-auto">July 4–7, 2026 · Bharat Mandapam, Pragati Maidan, New Delhi, India</p>
+          <div className="mt-4 flex justify-center">
+            <span className="h-1 w-20 rounded-full" style={{ background: "linear-gradient(90deg,#7B2FBE,#E91E8C)" }} />
+          </div>
         </div>
+      </section>
+
+    <section className="px-4 py-8 sm:px-6 md:py-12 lg:px-10">
+      <div className="max-w-3xl mx-auto">
+        <div className="mb-6 md:mb-8" />
 
         {/* INTRO */}
         {stage === "intro" && (
@@ -321,7 +324,7 @@ export default function ExhibitorRegistrationPage() {
                       <button
                         onClick={() => handleResend("id")}
                         className="text-xs font-medium hover:underline"
-                        style={{ color: "#2563eb" }}
+                        style={{ color: "#E8274B" }}
                       >
                         Resend Exhibitor ID
                       </button>
@@ -352,7 +355,7 @@ export default function ExhibitorRegistrationPage() {
                       <button
                         onClick={() => handleResend("password")}
                         className="text-xs font-medium hover:underline"
-                        style={{ color: "#2563eb" }}
+                        style={{ color: "#E8274B" }}
                       >
                         Resend Password
                       </button>
@@ -423,7 +426,7 @@ export default function ExhibitorRegistrationPage() {
                           </p>
                           <a
                             href={`mailto:${c.email}`}
-                            className="text-xs text-blue-500 hover:underline break-all"
+                            className="text-xs text-[#E8274B] hover:underline break-all"
                           >
                             {c.email}
                           </a>
@@ -512,6 +515,7 @@ export default function ExhibitorRegistrationPage() {
         )}
       </div>
     </section>
+    </div>
   );
 }
 
@@ -1329,7 +1333,7 @@ function ExhibitorRequestForm({
                   <select
                     value={orgCountryCode}
                     onChange={(e) => setOrgCountryCode(e.target.value)}
-                    className="px-2 py-2.5 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="px-2 py-2.5 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#E8274B]"
                     style={{ ...inputStyle, minWidth: "75px" }}
                   >
                     {COUNTRY_CODES.map((c) => (
@@ -1441,7 +1445,7 @@ function ExhibitorRequestForm({
                   <select
                     value={cpCountryCode}
                     onChange={(e) => setCpCountryCode(e.target.value)}
-                    className="px-2 py-2.5 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="px-2 py-2.5 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#E8274B]"
                     style={{ ...inputStyle, minWidth: "75px" }}
                   >
                     {COUNTRY_CODES.map((c) => (
@@ -1725,7 +1729,7 @@ function ExhibitorRequestForm({
               </p>
               <a
                 href={`mailto:${c.email}`}
-                className="text-xs text-blue-500 hover:underline break-all"
+                className="text-xs text-[#E8274B] hover:underline break-all"
               >
                 {c.email}
               </a>

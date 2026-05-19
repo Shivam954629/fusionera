@@ -177,7 +177,7 @@ export default function Footer() {
 
       {/* BOTTOM BAR */}
       <div className="mx-auto mt-8 w-full max-w-7xl border-t border-white/20 px-4 pt-4 text-xs text-[#c8d9ff] sm:px-6 md:flex md:items-center md:justify-between lg:px-10">
-        <p>© 2026 Fusionera Home. All rights reserved.</p>
+        <p>© 2026 Fusion The Era. All rights reserved.</p>
         <div className="mt-3 flex flex-wrap gap-4 md:mt-0 md:gap-5">
           <Link href="/privacy" className="transition hover:text-[#8cecff]">
             Privacy Policy

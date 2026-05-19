@@ -1,80 +1,127 @@
 "use client";
 import React from "react";
 
+const contacts = [
+  {
+    city: "Delhi",
+    name: "Mr. Pawan Singh",
+    mobile: "+91 93157 00590",
+    email: "pawan.singh@fusiontheera.com",
+    color: "#E8274B",
+    gradient: "linear-gradient(135deg,#E8274B,#F4822A)",
+  },
+  {
+    city: "Mumbai",
+    name: "Mr. Jasvinder Singh Chaudhary",
+    mobile: "+91 85888 92885",
+    email: "jasvinder.chaudhary@fusiontheera.com",
+    color: "#7B2FBE",
+    gradient: "linear-gradient(135deg,#7B2FBE,#E91E8C)",
+  },
+];
+
 export default function PayStallAdvancePage() {
   return (
-    <main className="min-h-screen py-8 md:py-12">
-      <section
-        id="pay-stall-advance"
-        className="mx-auto w-full max-w-7xl px-4 py-8 sm:px-6 md:py-12 lg:px-10 reveal-on-scroll reveal-zoom"
-        data-reveal-delay="50"
-      >
-        <div className="relative overflow-hidden rounded-2xl border border-[#dde6ff] bg-[#eef2ff] shadow-sm">
-          <div className="grid gap-6 p-4 sm:p-6 md:p-8">
-            <div>
-              <h2 className="mt-4 text-2xl font-bold text-gray-900 md:text-3xl">
-                PAY STALL ADVANCE
-              </h2>
-              <p className="mt-4 text-md leading-7 text-justify text-gray-600">
-                Confirm your participation at Fusion The Era by completing the
-                stall advance payment process. Early booking allows exhibitors
-                to secure preferred exhibition space and plan their
-                participation smoothly within a professionally managed B2B trade
-                environment.
-              </p>
-              <p className="mt-4 text-md leading-7 text-justify text-gray-600">
-                Fusion The Era offers businesses a valuable opportunity to
-                connect with trade buyers, distributors, retailers, and industry
-                professionals from across India&apos;s growing home and
-                hospitality market.
-              </p>
-              <p className="mt-4 text-md leading-7 text-justify text-gray-600">
-                For stall booking details, payment assistance, and exhibition
-                support, exhibitors may connect with the official Fusion The Era
-                team.
-              </p>
-
-              <div className="mt-6 h-px bg-gray-200" />
-
-              <div className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-4">
-                {[
-                  {
-                    city: "Delhi",
-                    name: "Mr. Pawan Singh",
-                    mobile: "+91 93157 00590",
-                    email: "pawan.singh@fusiontheera.com",
-                  },
-                  {
-                    city: "Mumbai",
-                    name: "Mr. Jasvinder Singh Chaudhary",
-                    mobile: "+91 85888 92885",
-                    email: "jasvinder.chaudhary@fusiontheera.com",
-                  },
-                ].map((c) => (
-                  <div
-                    key={c.city}
-                    className="rounded-xl border border-gray-200 bg-white p-5 shadow-sm"
-                  >
-                    <p className="mb-1 text-sm font-bold text-blue-700">
-                      {c.city}:
-                    </p>
-                    <p className="font-bold text-sm text-gray-900">{c.name}</p>
-                    <p className="text-xs mt-1 text-gray-500">
-                      Mobile: {c.mobile}
-                    </p>
-                    <a
-                      href={`mailto:${c.email}`}
-                      className="text-xs text-blue-600 hover:underline"
-                    >
-                      {c.email}
-                    </a>
-                  </div>
-                ))}
-              </div>
-            </div>
+    <div className="min-h-screen">
+      {/* HERO BANNER */}
+      <section className="relative isolate w-full overflow-hidden py-14 md:py-20">
+        <div
+          className="absolute inset-0 -z-10"
+          style={{ background: "linear-gradient(120deg,#090f2d 0%,#0f1a4f 48%,#1a2f7f 100%)" }}
+        />
+        <div className="absolute inset-0 -z-10 bg-black/30" />
+        <div
+          className="pointer-events-none absolute -left-10 top-0 h-48 w-48 rounded-full blur-3xl"
+          style={{ background: "rgba(244,130,42,0.2)" }}
+        />
+        <div
+          className="pointer-events-none absolute right-0 bottom-0 h-40 w-40 rounded-full blur-3xl"
+          style={{ background: "rgba(232,39,75,0.18)" }}
+        />
+        <div className="relative mx-auto max-w-7xl px-4 text-center sm:px-6 lg:px-10">
+          <p
+            className="text-xs font-extrabold uppercase tracking-[0.3em] mb-3"
+            style={{ color: "#F4822A" }}
+          >
+            Exhibitor Services
+          </p>
+          <h1 className="text-4xl md:text-5xl font-black text-white">Pay Stall Advance</h1>
+          <p className="mt-3 text-white/60 text-sm max-w-lg mx-auto">
+            Secure your preferred exhibition space at Fusion The Era 2026
+          </p>
+          <div className="mt-5 flex justify-center">
+            <span
+              className="h-1 w-20 rounded-full"
+              style={{ background: "linear-gradient(90deg,#E8274B,#F4822A)" }}
+            />
           </div>
         </div>
       </section>
-    </main>
+
+      {/* CONTENT */}
+      <div className="mx-auto w-full max-w-4xl px-4 py-10 sm:px-6 lg:px-10">
+        {/* Info Card */}
+        <div
+          className="rounded-2xl p-6 md:p-8 mb-8 shadow-sm"
+          style={{ border: "1px solid #dde6ff", background: "#ffffff" }}
+        >
+          <div
+            className="h-1 w-16 rounded-full mb-6"
+            style={{ background: "linear-gradient(90deg,#E8274B,#F4822A)" }}
+          />
+          <p className="text-base leading-7 text-justify mb-4" style={{ color: "#374151" }}>
+            Confirm your participation at Fusion The Era by completing the stall advance payment
+            process. Early booking allows exhibitors to secure preferred exhibition space and plan
+            their participation smoothly within a professionally managed B2B trade environment.
+          </p>
+          <p className="text-base leading-7 text-justify mb-4" style={{ color: "#374151" }}>
+            Fusion The Era offers businesses a valuable opportunity to connect with trade buyers,
+            distributors, retailers, and industry professionals from across India&apos;s growing
+            home and hospitality market.
+          </p>
+          <p className="text-base leading-7 text-justify" style={{ color: "#374151" }}>
+            For stall booking details, payment assistance, and exhibition support, exhibitors may
+            connect with the official Fusion The Era team.
+          </p>
+        </div>
+
+        {/* Contact Cards */}
+        <h2 className="text-lg font-bold mb-4" style={{ color: "#1a1a2e" }}>
+          Contact Our Team
+        </h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {contacts.map((c) => (
+            <div
+              key={c.city}
+              className="rounded-2xl overflow-hidden shadow-sm"
+              style={{ border: "1px solid #dde6ff" }}
+            >
+              <div className="h-2" style={{ background: c.gradient }} />
+              <div className="p-5 bg-white">
+                <span
+                  className="text-xs font-extrabold uppercase tracking-widest px-2 py-1 rounded-full text-white"
+                  style={{ background: c.gradient }}
+                >
+                  {c.city}
+                </span>
+                <p className="font-bold text-base mt-3" style={{ color: "#1a1a2e" }}>
+                  {c.name}
+                </p>
+                <p className="text-sm mt-1" style={{ color: "#6b7280" }}>
+                  📞 {c.mobile}
+                </p>
+                <a
+                  href={`mailto:${c.email}`}
+                  className="text-sm mt-1 block hover:underline"
+                  style={{ color: c.color }}
+                >
+                  ✉️ {c.email}
+                </a>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
   );
 }

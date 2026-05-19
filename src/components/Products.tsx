@@ -166,11 +166,11 @@ export default function Products() {
             </div>
 
             {/* Main Image */}
-            <div className="relative bg-gray-50">
+            <div className="relative bg-gray-50 flex items-center justify-center" style={{ height: "60vh" }}>
               <img
                 src={portfolioModal.images[portfolioModal.activeIndex]}
                 alt={`${portfolioModal.title} - image ${portfolioModal.activeIndex + 1}`}
-                className="max-h-[65vh] w-full object-contain"
+                className="max-h-full max-w-full object-contain"
               />
 
               {/* Prev/Next Arrows */}
@@ -224,7 +224,7 @@ export default function Products() {
                         prev ? { ...prev, activeIndex: idx } : null,
                       )
                     }
-                    className={`flex-shrink-0 w-16 h-16 rounded-lg overflow-hidden border-2 transition ${idx === portfolioModal.activeIndex ? "border-blue-400" : "border-white/10 hover:border-white/30"}`}
+                    className={`flex-shrink-0 w-16 h-16 rounded-lg overflow-hidden border-2 transition ${idx === portfolioModal.activeIndex ? "border-[#E8274B]" : "border-white/10 hover:border-white/30"}`}
                   >
                     <img
                       src={img}

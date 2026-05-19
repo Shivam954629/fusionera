@@ -14,7 +14,7 @@ export default function VideosSection() {
   const [playingId, setPlayingId] = useState<number | null>(null);
 
   useEffect(() => {
-    fetch("/api/admin/videos")
+    fetch("/api/admin/videos", { cache: "no-store" })
       .then((r) => r.json())
       .then((res) => {
         const published = (res.data ?? []).filter((v: Video) => v.is_published);

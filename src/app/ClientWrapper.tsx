@@ -1,16 +1,25 @@
 "use client";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 import WhatsAppFloat from "@/components/WhatsAppFloat";
-import { usePathname } from "next/navigation";
 
 export default function ClientWrapper({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const pathname = usePathname();
+  // Read pathname client-side only to avoid useContext(null) during static pre-rendering
+  const [isAdmin, setIsAdmin] = useState(true); // default to true to avoid SSR flash on admin
+
+  useEffect(() => {
+    const check = () => {
+      setIsAdmin(window.location.pathname.startsWith("/admin"));
+    };
+    check();
+    window.addEventListener("popstate", check);
+    return () => window.removeEventListener("popstate", check);
+  }, []);
 
   useEffect(() => {
     const frame = window.requestAnimationFrame(() => {
@@ -38,17 +47,14 @@ export default function ClientWrapper({
     });
 
     return () => window.cancelAnimationFrame(frame);
-  }, [pathname]);
+  });
 
   return (
     <div id="app-shell">
-      {!pathname.startsWith("/admin") &&
-        !pathname.startsWith("/visitor-dashboard") && <Header />}
+      {!isAdmin && <Header />}
       {children}
-      {!pathname.startsWith("/admin") &&
-        !pathname.startsWith("/visitor-dashboard") && <Footer />}
-      {!pathname.startsWith("/admin") &&
-        !pathname.startsWith("/visitor-dashboard") && <WhatsAppFloat />}
+      {!isAdmin && <Footer />}
+      {!isAdmin && <WhatsAppFloat />}
     </div>
   );
 }

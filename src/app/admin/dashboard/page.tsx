@@ -55,7 +55,8 @@ type TabType =
   | "videos"
   | "podcasts"
   | "images"
-  | "content";
+  | "content"
+  | "settings";
 
 export default function AdminDashboard() {
   const router = useRouter();
@@ -149,6 +150,14 @@ export default function AdminDashboard() {
   const [editingImage, setEditingImage] = useState<{
     id: number; title: string; url: string; category: string; type: string; is_published: boolean;
   } | null>(null);
+
+  // Settings state
+  const [settings, setSettings] = useState<Record<string, string>>({});
+  const [settingsLoading, setSettingsLoading] = useState(false);
+  const [settingsSaved, setSettingsSaved] = useState(false);
+  const [pwForm, setPwForm] = useState({ current: "", next: "", confirm: "" });
+  const [pwLoading, setPwLoading] = useState(false);
+  const [pwMsg, setPwMsg] = useState<{ type: "success" | "error"; text: string } | null>(null);
 
   // Content state
   const [contents, setContents] = useState<
@@ -381,6 +390,64 @@ export default function AdminDashboard() {
     } catch {}
   };
 
+  // ── Settings ──
+  const fetchSettings = useCallback(async () => {
+    try {
+      const res = await fetch("/api/admin/settings", { credentials: "include" });
+      const data = await res.json();
+      if (data.settings) setSettings(data.settings);
+    } catch {}
+  }, []);
+
+  const saveSettings = async () => {
+    setSettingsLoading(true);
+    setSettingsSaved(false);
+    try {
+      await fetch("/api/admin/settings", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+        body: JSON.stringify({ settings }),
+      });
+      setSettingsSaved(true);
+      setTimeout(() => setSettingsSaved(false), 3000);
+    } catch {}
+    setSettingsLoading(false);
+  };
+
+  const changePassword = async () => {
+    if (!pwForm.current || !pwForm.next || !pwForm.confirm) {
+      setPwMsg({ type: "error", text: "All fields are required." });
+      return;
+    }
+    if (pwForm.next !== pwForm.confirm) {
+      setPwMsg({ type: "error", text: "New passwords do not match." });
+      return;
+    }
+    if (pwForm.next.length < 8) {
+      setPwMsg({ type: "error", text: "Password must be at least 8 characters." });
+      return;
+    }
+    setPwLoading(true);
+    setPwMsg(null);
+    try {
+      const res = await fetch("/api/admin/settings", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+        body: JSON.stringify({ currentPassword: pwForm.current, newPassword: pwForm.next }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error);
+      setPwMsg({ type: "success", text: "Password changed successfully!" });
+      setPwForm({ current: "", next: "", confirm: "" });
+    } catch (e: unknown) {
+      setPwMsg({ type: "error", text: e instanceof Error ? e.message : "Failed to change password." });
+    } finally {
+      setPwLoading(false);
+    }
+  };
+
   // ── Content ──
   const fetchContent = useCallback(async () => {
     setContentLoading(true);
@@ -540,6 +607,7 @@ export default function AdminDashboard() {
     if (activeTab === "podcasts") fetchPodcasts();
     if (activeTab === "images") fetchImages();
     if (activeTab === "content") fetchContent();
+    if (activeTab === "settings") fetchSettings();
     if (editingVideo) {
       setVideoForm({
         title: editingVideo.title,
@@ -555,6 +623,7 @@ export default function AdminDashboard() {
     fetchPodcasts,
     fetchImages,
     fetchContent,
+    fetchSettings,
     editingVideo,
   ]);
 
@@ -731,6 +800,7 @@ export default function AdminDashboard() {
       label: "Content",
       count: contents.length || undefined,
     },
+    { id: "settings", icon: "⚙️", label: "Settings" },
   ];
 
   const statusColor = (status: string) => {
@@ -743,7 +813,7 @@ export default function AdminDashboard() {
     return (
       <div className="min-h-screen flex items-center justify-center bg-[#eef2ff]">
         <div className="text-center">
-          <div className="w-12 h-12 border-4 border-blue-200 border-t-blue-600 rounded-full animate-spin mx-auto" />
+          <div className="w-12 h-12 border-4 border-red-100 border-t-[#E8274B] rounded-full animate-spin mx-auto" />
           <p className="mt-4 text-gray-500 text-sm">Loading...</p>
         </div>
       </div>
@@ -842,7 +912,7 @@ export default function AdminDashboard() {
                 setActiveTab(item.id);
                 setSidebarOpen(false);
               }}
-              className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all ${activeTab === item.id ? "bg-blue-50 text-blue-700 border-r-2 border-blue-600" : "text-gray-600 hover:bg-gray-50"}`}
+              className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all ${activeTab === item.id ? "bg-red-50 text-[#E8274B] border-r-2 border-[#E8274B] font-semibold" : "text-gray-600 hover:bg-gray-50"}`}
             >
               <span>{item.icon}</span>
               <span className="flex-1 text-left">{item.label}</span>
@@ -989,7 +1059,7 @@ export default function AdminDashboard() {
                   </h3>
                   <button
                     onClick={() => setActiveTab("visitors")}
-                    className="text-xs text-blue-700 hover:text-blue-800 font-medium"
+                    className="text-xs text-[#E8274B] hover:opacity-80 font-medium"
                   >
                     View all →
                   </button>
@@ -1090,7 +1160,7 @@ export default function AdminDashboard() {
                         setPage(1);
                       }}
                       placeholder="Search name, phone, email..."
-                      className="w-full pl-9 pr-4 py-2.5 bg-white border border-gray-200 rounded-xl text-gray-900 placeholder-gray-400 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      className="w-full pl-9 pr-4 py-2.5 bg-white border border-gray-200 rounded-xl text-gray-900 placeholder-gray-400 text-sm focus:outline-none focus:ring-2 focus:ring-[#E8274B]"
                     />
                   </div>
                   <button
@@ -1115,7 +1185,7 @@ export default function AdminDashboard() {
                         setFilterStatus(f.id as "all" | "active" | "blocked");
                         setPage(1);
                       }}
-                      className={`px-3 py-2 text-xs rounded-xl font-medium transition ${filterStatus === f.id ? "bg-blue-600 text-white" : "border border-gray-200 bg-white text-gray-600 hover:bg-gray-50"}`}
+                      className={`px-3 py-2 text-xs rounded-xl font-medium transition ${filterStatus === f.id ? "bg-[#E8274B] text-white" : "border border-gray-200 bg-white text-gray-600 hover:bg-gray-50"}`}
                     >
                       {f.label}
                     </button>
@@ -1175,7 +1245,7 @@ export default function AdminDashboard() {
                             <td className="py-3.5 px-4">
                               <a
                                 href={`tel:${v.phone_number}`}
-                                className="text-blue-700 hover:text-blue-800 font-medium"
+                                className="text-[#E8274B] hover:opacity-80 font-medium"
                               >
                                 {v.phone_number}
                               </a>
@@ -1253,7 +1323,7 @@ export default function AdminDashboard() {
                             <button
                               key={p}
                               onClick={() => setPage(p)}
-                              className={`px-3 py-1.5 text-xs rounded-lg ${p === page ? "bg-blue-600 text-white" : "border border-gray-200 text-gray-600 hover:bg-gray-50"}`}
+                              className={`px-3 py-1.5 text-xs rounded-lg ${p === page ? "bg-[#E8274B] text-white" : "border border-gray-200 text-gray-600 hover:bg-gray-50"}`}
                             >
                               {p}
                             </button>
@@ -1289,7 +1359,7 @@ export default function AdminDashboard() {
                     value={exhibitorSearch}
                     onChange={(e) => setExhibitorSearch(e.target.value)}
                     placeholder="Search company, name, phone..."
-                    className="w-full pl-9 pr-4 py-2.5 bg-white border border-gray-200 rounded-xl text-gray-900 placeholder-gray-400 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full pl-9 pr-4 py-2.5 bg-white border border-gray-200 rounded-xl text-gray-900 placeholder-gray-400 text-sm focus:outline-none focus:ring-2 focus:ring-[#E8274B]"
                   />
                 </div>
                 <div className="flex gap-2 flex-wrap">
@@ -1297,7 +1367,7 @@ export default function AdminDashboard() {
                     <button
                       key={f}
                       onClick={() => setExhibitorFilter(f)}
-                      className={`px-3 py-2 text-xs rounded-xl font-medium transition capitalize ${exhibitorFilter === f ? "bg-blue-600 text-white" : "border border-gray-200 bg-white text-gray-600 hover:bg-gray-50"}`}
+                      className={`px-3 py-2 text-xs rounded-xl font-medium transition capitalize ${exhibitorFilter === f ? "bg-[#E8274B] text-white" : "border border-gray-200 bg-white text-gray-600 hover:bg-gray-50"}`}
                     >
                       {f === "all" ? `All (${exhibitors.length})` : f}
                     </button>
@@ -1307,7 +1377,7 @@ export default function AdminDashboard() {
 
               {exhibitorLoading ? (
                 <div className="py-20 text-center text-gray-500">
-                  <div className="w-8 h-8 border-4 border-blue-200 border-t-blue-600 rounded-full animate-spin mx-auto mb-3" />
+                  <div className="w-8 h-8 border-4 border-red-100 border-t-[#E8274B] rounded-full animate-spin mx-auto mb-3" />
                   Loading...
                 </div>
               ) : filteredExhibitors.length === 0 ? (
@@ -1445,7 +1515,7 @@ export default function AdminDashboard() {
                       <input
                         value={val}
                         onChange={(e) => set(e.target.value)}
-                        className="w-full px-4 py-2.5 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white border border-gray-200 text-gray-900 placeholder-gray-400"
+                        className="w-full px-4 py-2.5 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#E8274B] bg-white border border-gray-200 text-gray-900 placeholder-gray-400"
                         placeholder={ph}
                       />
                     </div>
@@ -1458,14 +1528,14 @@ export default function AdminDashboard() {
                       value={nlContent}
                       onChange={(e) => setNlContent(e.target.value)}
                       rows={10}
-                      className="w-full px-4 py-2.5 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none bg-white border border-gray-200 text-gray-900 placeholder-gray-400"
-                      placeholder="Newsletter ka content yahan likho..."
+                      className="w-full px-4 py-2.5 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#E8274B] resize-none bg-white border border-gray-200 text-gray-900 placeholder-gray-400"
+                      placeholder="Write newsletter content here..."
                     />
                   </div>
                   <div className="flex items-center gap-3">
                     <div
                       onClick={() => setNlPublished((p) => !p)}
-                      className={`w-12 h-6 rounded-full transition-colors relative cursor-pointer ${nlPublished ? "bg-blue-600" : "bg-gray-200"}`}
+                      className={`w-12 h-6 rounded-full transition-colors relative cursor-pointer ${nlPublished ? "bg-[#E8274B]" : "bg-gray-200"}`}
                     >
                       <div
                         className={`absolute top-0.5 w-5 h-5 rounded-full bg-white shadow transition-transform ${nlPublished ? "translate-x-6" : "translate-x-0.5"}`}
@@ -1473,8 +1543,8 @@ export default function AdminDashboard() {
                     </div>
                     <span className="text-sm font-medium text-gray-900">
                       {nlPublished
-                        ? "Published — visitors ko dikh raha hai"
-                        : "Unpublished — visitors ko nahi dikhega"}
+                        ? "Published — visible to visitors"
+                        : "Unpublished — hidden from visitors"}
                     </span>
                   </div>
                   <button
@@ -1482,7 +1552,7 @@ export default function AdminDashboard() {
                     disabled={nlLoading}
                     className="w-full py-3 rounded-xl text-white font-bold text-sm transition hover:opacity-90 disabled:opacity-60"
                     style={{
-                      background: "linear-gradient(135deg,#1d4ed8,#2563eb)",
+                      background: "linear-gradient(135deg,#E8274B,#F4822A)",
                     }}
                   >
                     {nlLoading ? "Saving..." : "Save Newsletter"}
@@ -1515,7 +1585,7 @@ export default function AdminDashboard() {
                       onChange={(e) =>
                         setVideoForm((f) => ({ ...f, title: e.target.value }))
                       }
-                      className="w-full px-4 py-2.5 rounded-xl text-sm bg-white border border-gray-200 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      className="w-full px-4 py-2.5 rounded-xl text-sm bg-white border border-gray-200 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#E8274B]"
                       placeholder="Video title..."
                     />
                   </div>
@@ -1528,7 +1598,7 @@ export default function AdminDashboard() {
                       onChange={(e) =>
                         setVideoForm((f) => ({ ...f, url: e.target.value }))
                       }
-                      className="w-full px-4 py-2.5 rounded-xl text-sm bg-white border border-gray-200 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      className="w-full px-4 py-2.5 rounded-xl text-sm bg-white border border-gray-200 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#E8274B]"
                       placeholder="https://youtube.com/watch?v=..."
                     />
                   </div>
@@ -1544,7 +1614,7 @@ export default function AdminDashboard() {
                           category: e.target.value,
                         }))
                       }
-                      className="w-full px-4 py-2.5 rounded-xl text-sm bg-white border border-gray-200 text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      className="w-full px-4 py-2.5 rounded-xl text-sm bg-white border border-gray-200 text-gray-900 focus:outline-none focus:ring-2 focus:ring-[#E8274B]"
                     >
                       {[
                         "general",
@@ -1567,7 +1637,7 @@ export default function AdminDashboard() {
                           is_published: !f.is_published,
                         }))
                       }
-                      className={`w-10 h-5 rounded-full transition-colors relative cursor-pointer ${videoForm.is_published ? "bg-blue-600" : "bg-gray-200"}`}
+                      className={`w-10 h-5 rounded-full transition-colors relative cursor-pointer ${videoForm.is_published ? "bg-[#E8274B]" : "bg-gray-200"}`}
                     >
                       <div
                         className={`absolute top-0.5 w-4 h-4 rounded-full bg-white shadow transition-transform ${videoForm.is_published ? "translate-x-5" : "translate-x-0.5"}`}
@@ -1586,7 +1656,7 @@ export default function AdminDashboard() {
                     }
                     className="px-6 py-2.5 rounded-xl text-white font-bold text-sm hover:opacity-90 disabled:opacity-50 transition"
                     style={{
-                      background: "linear-gradient(135deg,#1d4ed8,#2563eb)",
+                      background: "linear-gradient(135deg,#E8274B,#F4822A)",
                     }}
                   >
                     {videoLoading
@@ -1617,7 +1687,7 @@ export default function AdminDashboard() {
               {/* Videos List */}
               {videoLoading && !videos.length ? (
                 <div className="py-20 text-center text-gray-500">
-                  <div className="w-8 h-8 border-4 border-blue-200 border-t-blue-600 rounded-full animate-spin mx-auto mb-3" />
+                  <div className="w-8 h-8 border-4 border-red-100 border-t-[#E8274B] rounded-full animate-spin mx-auto mb-3" />
                   Loading...
                 </div>
               ) : videos.length === 0 ? (
@@ -1672,7 +1742,7 @@ export default function AdminDashboard() {
                                 setEditingVideo(v);
                                 window.scrollTo({ top: 0, behavior: "smooth" });
                               }}
-                              className="flex-1 py-1.5 text-xs rounded-lg bg-blue-50 text-blue-700 hover:bg-blue-100 transition font-medium"
+                              className="flex-1 py-1.5 text-xs rounded-lg bg-red-50 text-[#E8274B] hover:bg-red-100 transition font-medium"
                             >
                               ✏️ Edit
                             </button>
@@ -1711,7 +1781,7 @@ export default function AdminDashboard() {
                       onChange={(e) =>
                         setImageForm((f) => ({ ...f, title: e.target.value }))
                       }
-                      className="w-full px-4 py-2.5 rounded-xl text-sm bg-white border border-gray-200 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      className="w-full px-4 py-2.5 rounded-xl text-sm bg-white border border-gray-200 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#E8274B]"
                       placeholder="Image title..."
                     />
                   </div>
@@ -1724,7 +1794,7 @@ export default function AdminDashboard() {
                       onChange={(e) =>
                         setImageForm((f) => ({ ...f, url: e.target.value }))
                       }
-                      className="w-full px-4 py-2.5 rounded-xl text-sm bg-white border border-gray-200 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      className="w-full px-4 py-2.5 rounded-xl text-sm bg-white border border-gray-200 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#E8274B]"
                       placeholder="https://..."
                     />
                   </div>
@@ -1740,7 +1810,7 @@ export default function AdminDashboard() {
                           category: e.target.value,
                         }))
                       }
-                      className="w-full px-4 py-2.5 rounded-xl text-sm bg-white border border-gray-200 text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      className="w-full px-4 py-2.5 rounded-xl text-sm bg-white border border-gray-200 text-gray-900 focus:outline-none focus:ring-2 focus:ring-[#E8274B]"
                     >
                       {[
                         "general",
@@ -1764,7 +1834,7 @@ export default function AdminDashboard() {
                       onChange={(e) =>
                         setImageForm((f) => ({ ...f, type: e.target.value }))
                       }
-                      className="w-full px-4 py-2.5 rounded-xl text-sm bg-white border border-gray-200 text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      className="w-full px-4 py-2.5 rounded-xl text-sm bg-white border border-gray-200 text-gray-900 focus:outline-none focus:ring-2 focus:ring-[#E8274B]"
                     >
                       {["gallery", "catalogue", "banner", "slider"].map((t) => (
                         <option key={t} value={t}>
@@ -1782,7 +1852,7 @@ export default function AdminDashboard() {
                         is_published: !f.is_published,
                       }))
                     }
-                    className={`w-10 h-5 rounded-full transition-colors relative cursor-pointer ${imageForm.is_published ? "bg-blue-600" : "bg-gray-200"}`}
+                    className={`w-10 h-5 rounded-full transition-colors relative cursor-pointer ${imageForm.is_published ? "bg-[#E8274B]" : "bg-gray-200"}`}
                   >
                     <div
                       className={`absolute top-0.5 w-4 h-4 rounded-full bg-white shadow transition-transform ${imageForm.is_published ? "translate-x-5" : "translate-x-0.5"}`}
@@ -1817,7 +1887,7 @@ export default function AdminDashboard() {
 
               {imageLoading && !images.length ? (
                 <div className="py-20 text-center text-gray-500">
-                  <div className="w-8 h-8 border-4 border-blue-200 border-t-blue-600 rounded-full animate-spin mx-auto mb-3" />
+                  <div className="w-8 h-8 border-4 border-red-100 border-t-[#E8274B] rounded-full animate-spin mx-auto mb-3" />
                   Loading...
                 </div>
               ) : images.length === 0 ? (
@@ -1855,7 +1925,7 @@ export default function AdminDashboard() {
                                 setImageForm({ title: img.title, url: img.url, category: img.category, type: img.type, is_published: img.is_published });
                                 window.scrollTo({ top: 0, behavior: "smooth" });
                               }}
-                              className="text-xs text-blue-600 hover:text-blue-700 px-1"
+                              className="text-xs text-[#E8274B] hover:opacity-80 px-1"
                             >
                               ✏️
                             </button>
@@ -1884,7 +1954,7 @@ export default function AdminDashboard() {
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   <div>
                     <label className="block text-xs font-semibold mb-1 text-gray-600">Key * (unique identifier)</label>
-                    <select value={contentForm.key} onChange={(e) => setContentForm((f) => ({ ...f, key: e.target.value }))} className="w-full px-4 py-2.5 rounded-xl text-sm bg-white border border-gray-200 text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <select value={contentForm.key} onChange={(e) => setContentForm((f) => ({ ...f, key: e.target.value }))} className="w-full px-4 py-2.5 rounded-xl text-sm bg-white border border-gray-200 text-gray-900 focus:outline-none focus:ring-2 focus:ring-[#E8274B]">
                       <option value="">Select content type...</option>
                       {["about_us", "announcement", "banner_main", "banner_secondary", "hero_title", "hero_subtitle", "footer_text", "contact_info"].map((k) => (
                         <option key={k} value={k}>{k.replace(/_/g, " ").replace(/\b\w/g, l => l.toUpperCase())}</option>
@@ -1893,23 +1963,23 @@ export default function AdminDashboard() {
                   </div>
                   <div>
                     <label className="block text-xs font-semibold mb-1 text-gray-600">Title *</label>
-                    <input value={contentForm.title} onChange={(e) => setContentForm((f) => ({ ...f, title: e.target.value }))} className="w-full px-4 py-2.5 rounded-xl text-sm bg-white border border-gray-200 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Title..." />
+                    <input value={contentForm.title} onChange={(e) => setContentForm((f) => ({ ...f, title: e.target.value }))} className="w-full px-4 py-2.5 rounded-xl text-sm bg-white border border-gray-200 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#E8274B]" placeholder="Title..." />
                   </div>
                   <div>
                     <label className="block text-xs font-semibold mb-1 text-gray-600">Subtitle</label>
-                    <input value={contentForm.subtitle} onChange={(e) => setContentForm((f) => ({ ...f, subtitle: e.target.value }))} className="w-full px-4 py-2.5 rounded-xl text-sm bg-white border border-gray-200 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Subtitle..." />
+                    <input value={contentForm.subtitle} onChange={(e) => setContentForm((f) => ({ ...f, subtitle: e.target.value }))} className="w-full px-4 py-2.5 rounded-xl text-sm bg-white border border-gray-200 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#E8274B]" placeholder="Subtitle..." />
                   </div>
                   <div>
                     <label className="block text-xs font-semibold mb-1 text-gray-600">Image URL</label>
-                    <input value={contentForm.image_url} onChange={(e) => setContentForm((f) => ({ ...f, image_url: e.target.value }))} className="w-full px-4 py-2.5 rounded-xl text-sm bg-white border border-gray-200 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="https://..." />
+                    <input value={contentForm.image_url} onChange={(e) => setContentForm((f) => ({ ...f, image_url: e.target.value }))} className="w-full px-4 py-2.5 rounded-xl text-sm bg-white border border-gray-200 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#E8274B]" placeholder="https://..." />
                   </div>
                 </div>
                 <div className="mt-3">
                   <label className="block text-xs font-semibold mb-1 text-gray-600">Content</label>
-                  <textarea value={contentForm.content} onChange={(e) => setContentForm((f) => ({ ...f, content: e.target.value }))} rows={5} className="w-full px-4 py-2.5 rounded-xl text-sm bg-white border border-gray-200 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none" placeholder="Content text..." />
+                  <textarea value={contentForm.content} onChange={(e) => setContentForm((f) => ({ ...f, content: e.target.value }))} rows={5} className="w-full px-4 py-2.5 rounded-xl text-sm bg-white border border-gray-200 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#E8274B] resize-none" placeholder="Content text..." />
                 </div>
                 <div className="flex items-center gap-3 mt-3">
-                  <div onClick={() => setContentForm((f) => ({ ...f, is_published: !f.is_published }))} className={`w-10 h-5 rounded-full transition-colors relative cursor-pointer ${contentForm.is_published ? "bg-blue-600" : "bg-gray-200"}`}>
+                  <div onClick={() => setContentForm((f) => ({ ...f, is_published: !f.is_published }))} className={`w-10 h-5 rounded-full transition-colors relative cursor-pointer ${contentForm.is_published ? "bg-[#E8274B]" : "bg-gray-200"}`}>
                     <div className={`absolute top-0.5 w-4 h-4 rounded-full bg-white shadow transition-transform ${contentForm.is_published ? "translate-x-5" : "translate-x-0.5"}`} />
                   </div>
                   <span className="text-sm text-gray-600">{contentForm.is_published ? "Published" : "Draft"}</span>
@@ -1920,7 +1990,7 @@ export default function AdminDashboard() {
               </div>
 
               {contentLoading && !contents.length ? (
-                <div className="py-20 text-center text-gray-500"><div className="w-8 h-8 border-4 border-blue-200 border-t-blue-600 rounded-full animate-spin mx-auto mb-3" />Loading...</div>
+                <div className="py-20 text-center text-gray-500"><div className="w-8 h-8 border-4 border-red-100 border-t-[#E8274B] rounded-full animate-spin mx-auto mb-3" />Loading...</div>
               ) : contents.length === 0 ? (
                 <div className="py-20 text-center text-gray-500 rounded-2xl border border-[#dde6ff] bg-[#eef2ff]"><p className="text-4xl mb-2">📝</p><p className="font-medium">No content added yet</p></div>
               ) : (
@@ -1949,6 +2019,127 @@ export default function AdminDashboard() {
             </div>
           )}
 
+          {/* ── SETTINGS ── */}
+          {activeTab === "settings" && (
+            <div className="space-y-5 max-w-2xl">
+              {/* Contact Details */}
+              <div className="rounded-2xl border border-gray-200 bg-white shadow-sm p-5">
+                <h3 className="text-gray-900 font-bold mb-1">📞 Contact Information</h3>
+                <p className="text-xs text-gray-500 mb-4">Update office contact details shown on the website.</p>
+                {settingsSaved && (
+                  <div className="mb-4 rounded-xl px-4 py-3 text-sm text-green-700 bg-green-50 border border-green-200">✅ Settings saved!</div>
+                )}
+                {(["delhi", "mumbai"] as const).map((city) => (
+                  <div key={city} className="mb-5">
+                    <p className="text-xs font-bold uppercase tracking-wider text-gray-500 mb-3 flex items-center gap-1">
+                      <span>{city === "delhi" ? "🏛️" : "🌊"}</span> {city === "delhi" ? "Delhi" : "Mumbai"} Office
+                    </p>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                      {[
+                        { key: `contact_${city}_name`, label: "Contact Person" },
+                        { key: `contact_${city}_mobile`, label: "Mobile" },
+                        { key: `contact_${city}_tel`, label: "Telephone" },
+                        { key: `contact_${city}_email`, label: "Email" },
+                      ].map(({ key, label }) => (
+                        <div key={key}>
+                          <label className="block text-xs font-semibold mb-1 text-gray-600">{label}</label>
+                          <input
+                            value={settings[key] || ""}
+                            onChange={(e) => setSettings((s) => ({ ...s, [key]: e.target.value }))}
+                            className="w-full px-4 py-2.5 rounded-xl text-sm bg-white border border-gray-200 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#E8274B]"
+                            placeholder={label}
+                          />
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                ))}
+                <div className="mb-4">
+                  <p className="text-xs font-bold uppercase tracking-wider text-gray-500 mb-3">🎪 Event Details</p>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    {[
+                      { key: "event_date", label: "Event Date" },
+                      { key: "event_venue", label: "Venue" },
+                    ].map(({ key, label }) => (
+                      <div key={key}>
+                        <label className="block text-xs font-semibold mb-1 text-gray-600">{label}</label>
+                        <input
+                          value={settings[key] || ""}
+                          onChange={(e) => setSettings((s) => ({ ...s, [key]: e.target.value }))}
+                          className="w-full px-4 py-2.5 rounded-xl text-sm bg-white border border-gray-200 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#E8274B]"
+                          placeholder={label}
+                        />
+                      </div>
+                    ))}
+                  </div>
+                </div>
+                <div className="mb-5">
+                  <p className="text-xs font-bold uppercase tracking-wider text-gray-500 mb-3">🖼️ Logo</p>
+                  <div>
+                    <label className="block text-xs font-semibold mb-1 text-gray-600">Logo URL</label>
+                    <input
+                      value={settings["logo_url"] || ""}
+                      onChange={(e) => setSettings((s) => ({ ...s, logo_url: e.target.value }))}
+                      className="w-full px-4 py-2.5 rounded-xl text-sm bg-white border border-gray-200 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#E8274B]"
+                      placeholder="/images/logo.jpeg"
+                    />
+                    {settings["logo_url"] && (
+                      <div className="mt-2">
+                        <img src={settings["logo_url"]} alt="Logo preview" className="h-12 object-contain rounded" onError={(e) => { (e.target as HTMLImageElement).style.display = "none"; }} />
+                      </div>
+                    )}
+                  </div>
+                </div>
+                <button
+                  onClick={saveSettings}
+                  disabled={settingsLoading}
+                  className="w-full py-3 rounded-xl text-white font-bold text-sm transition hover:opacity-90 disabled:opacity-60"
+                  style={{ background: "linear-gradient(135deg,#E8274B,#F4822A)" }}
+                >
+                  {settingsLoading ? "Saving..." : "Save Settings"}
+                </button>
+              </div>
+
+              {/* Change Password */}
+              <div className="rounded-2xl border border-gray-200 bg-white shadow-sm p-5">
+                <h3 className="text-gray-900 font-bold mb-1">🔐 Change Admin Password</h3>
+                <p className="text-xs text-gray-500 mb-4">Use a strong password with at least 8 characters.</p>
+                {pwMsg && (
+                  <div className={`mb-4 rounded-xl px-4 py-3 text-sm border ${pwMsg.type === "success" ? "text-green-700 bg-green-50 border-green-200" : "text-red-600 bg-red-50 border-red-200"}`}>
+                    {pwMsg.text}
+                  </div>
+                )}
+                <div className="space-y-3">
+                  {[
+                    { key: "current" as const, label: "Current Password", ph: "Enter current password" },
+                    { key: "next" as const, label: "New Password", ph: "Min 8 characters" },
+                    { key: "confirm" as const, label: "Confirm New Password", ph: "Repeat new password" },
+                  ].map(({ key, label, ph }) => (
+                    <div key={key}>
+                      <label className="block text-xs font-semibold mb-1 text-gray-600">{label}</label>
+                      <input
+                        type="password"
+                        value={pwForm[key]}
+                        onChange={(e) => setPwForm((f) => ({ ...f, [key]: e.target.value }))}
+                        className="w-full px-4 py-2.5 rounded-xl text-sm bg-white border border-gray-200 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#E8274B]"
+                        placeholder={ph}
+                        autoComplete="new-password"
+                      />
+                    </div>
+                  ))}
+                </div>
+                <button
+                  onClick={changePassword}
+                  disabled={pwLoading}
+                  className="mt-4 w-full py-3 rounded-xl text-white font-bold text-sm transition hover:opacity-90 disabled:opacity-60"
+                  style={{ background: "#E8274B" }}
+                >
+                  {pwLoading ? "Changing..." : "Change Password"}
+                </button>
+              </div>
+            </div>
+          )}
+
           {/* ── PODCASTS ── */}
           {activeTab === "podcasts" && (
             <div className="space-y-5">
@@ -1971,7 +2162,7 @@ export default function AdminDashboard() {
                       onChange={(e) =>
                         setPodcastForm((f) => ({ ...f, title: e.target.value }))
                       }
-                      className="w-full px-4 py-2.5 rounded-xl text-sm bg-white border border-gray-200 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      className="w-full px-4 py-2.5 rounded-xl text-sm bg-white border border-gray-200 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#E8274B]"
                       placeholder="Episode title..."
                     />
                   </div>
@@ -1984,7 +2175,7 @@ export default function AdminDashboard() {
                       onChange={(e) =>
                         setPodcastForm((f) => ({ ...f, url: e.target.value }))
                       }
-                      className="w-full px-4 py-2.5 rounded-xl text-sm bg-white border border-gray-200 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      className="w-full px-4 py-2.5 rounded-xl text-sm bg-white border border-gray-200 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#E8274B]"
                       placeholder="https://youtube.com/watch?v=..."
                     />
                   </div>
@@ -2000,7 +2191,7 @@ export default function AdminDashboard() {
                           description: e.target.value,
                         }))
                       }
-                      className="w-full px-4 py-2.5 rounded-xl text-sm bg-white border border-gray-200 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      className="w-full px-4 py-2.5 rounded-xl text-sm bg-white border border-gray-200 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#E8274B]"
                       placeholder="Short description..."
                     />
                   </div>
@@ -2016,7 +2207,7 @@ export default function AdminDashboard() {
                           platform: e.target.value,
                         }))
                       }
-                      className="w-full px-4 py-2.5 rounded-xl text-sm bg-white border border-gray-200 text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      className="w-full px-4 py-2.5 rounded-xl text-sm bg-white border border-gray-200 text-gray-900 focus:outline-none focus:ring-2 focus:ring-[#E8274B]"
                     >
                       {["youtube", "spotify", "other"].map((p) => (
                         <option key={p} value={p}>
@@ -2034,7 +2225,7 @@ export default function AdminDashboard() {
                         is_published: !f.is_published,
                       }))
                     }
-                    className={`w-10 h-5 rounded-full transition-colors relative cursor-pointer ${podcastForm.is_published ? "bg-blue-600" : "bg-gray-200"}`}
+                    className={`w-10 h-5 rounded-full transition-colors relative cursor-pointer ${podcastForm.is_published ? "bg-[#E8274B]" : "bg-gray-200"}`}
                   >
                     <div
                       className={`absolute top-0.5 w-4 h-4 rounded-full bg-white shadow transition-transform ${podcastForm.is_published ? "translate-x-5" : "translate-x-0.5"}`}
@@ -2081,7 +2272,7 @@ export default function AdminDashboard() {
 
               {podcastLoading && !podcasts.length ? (
                 <div className="py-20 text-center text-gray-500">
-                  <div className="w-8 h-8 border-4 border-blue-200 border-t-blue-600 rounded-full animate-spin mx-auto mb-3" />
+                  <div className="w-8 h-8 border-4 border-red-100 border-t-[#E8274B] rounded-full animate-spin mx-auto mb-3" />
                   Loading...
                 </div>
               ) : podcasts.length === 0 ? (

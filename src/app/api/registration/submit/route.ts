@@ -75,13 +75,13 @@ export async function POST(req: NextRequest) {
     // Send email with QR pass
     if (visitor.email) {
       await transporter.sendMail({
-        from: `"Fusionera Events" <${process.env.GMAIL_USER}>`,
+        from: `"Fusion The Era Events" <${process.env.GMAIL_USER}>`,
         to: visitor.email,
-        subject: "✅ Registration Confirmed — Your Entry Pass | Fusionera 2026",
+        subject: "✅ Registration Confirmed — Your Entry Pass | Fusion The Era 2026",
         html: `
           <div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;border-radius:12px;overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,0.1);">
             <div style="background:linear-gradient(135deg,#110c41,#1a1560);padding:32px 40px;text-align:center;">
-              <h1 style="color:#fff;margin:0;font-size:24px;letter-spacing:1px;">FUSIONERA 2026</h1>
+              <h1 style="color:#fff;margin:0;font-size:24px;letter-spacing:1px;">FUSION THE ERA 2026</h1>
               <p style="color:#a5b4fc;margin:6px 0 0;font-size:13px;">Perfect Business Platform</p>
             </div>
             <div style="background:#fff;padding:36px 40px;">
@@ -122,7 +122,7 @@ export async function POST(req: NextRequest) {
               </table>
             </div>
             <div style="background:#f8f9ff;padding:16px 40px;text-align:center;border-top:1px solid #e5e7eb;">
-              <p style="color:#9ca3af;font-size:11px;margin:0;">© 2026 Fusionera — Perfect Business Platform</p>
+              <p style="color:#9ca3af;font-size:11px;margin:0;">© 2026 Fusion The Era — Perfect Business Platform</p>
             </div>
           </div>
         `,

@@ -67,7 +67,7 @@ export default function AdminLoginPage() {
                 }
                 placeholder="Enter username"
                 required
-                className="w-full px-4 py-3 rounded-xl bg-white border border-gray-200 text-gray-900 placeholder-gray-400 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
+                className="w-full px-4 py-3 rounded-xl bg-white border border-gray-200 text-gray-900 placeholder-gray-400 text-sm focus:outline-none focus:ring-2 focus:ring-[#E8274B] focus:border-transparent transition"
               />
             </div>
             <div>
@@ -83,7 +83,7 @@ export default function AdminLoginPage() {
                 }
                 placeholder="Enter password"
                 required
-                className="w-full px-4 py-3 rounded-xl bg-white border border-gray-200 text-gray-900 placeholder-gray-400 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
+                className="w-full px-4 py-3 rounded-xl bg-white border border-gray-200 text-gray-900 placeholder-gray-400 text-sm focus:outline-none focus:ring-2 focus:ring-[#E8274B] focus:border-transparent transition"
               />
             </div>
 
