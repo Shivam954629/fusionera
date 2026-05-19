@@ -170,7 +170,7 @@ export default function Products() {
               <img
                 src={portfolioModal.images[portfolioModal.activeIndex]}
                 alt={`${portfolioModal.title} - image ${portfolioModal.activeIndex + 1}`}
-                className="absolute inset-0 w-full h-full object-contain"
+                className="absolute inset-0 w-full h-full object-cover"
               />
 
               {/* Prev/Next Arrows */}
