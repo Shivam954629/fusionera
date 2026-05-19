@@ -48,9 +48,11 @@ export default function GalleryPage() {
       if (document.visibilityState === "visible") fetchImages();
     };
     document.addEventListener("visibilitychange", onVisible);
+    const interval = setInterval(() => fetchImages(), 30000);
     return () => {
       controller.abort();
       document.removeEventListener("visibilitychange", onVisible);
+      clearInterval(interval);
     };
   }, [fetchImages]);
 

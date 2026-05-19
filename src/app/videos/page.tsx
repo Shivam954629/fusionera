@@ -40,9 +40,11 @@ export default function VideosPage() {
       if (!document.hidden) loadVideos();
     };
     document.addEventListener("visibilitychange", onVisible);
+    const interval = setInterval(() => loadVideos(), 30000);
     return () => {
       controller.abort();
       document.removeEventListener("visibilitychange", onVisible);
+      clearInterval(interval);
     };
   }, [loadVideos]);
 

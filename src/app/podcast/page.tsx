@@ -43,9 +43,11 @@ export default function PodcastPage() {
       if (!document.hidden) loadPodcasts();
     };
     document.addEventListener("visibilitychange", onVisible);
+    const interval = setInterval(() => loadPodcasts(), 30000);
     return () => {
       controller.abort();
       document.removeEventListener("visibilitychange", onVisible);
+      clearInterval(interval);
     };
   }, [loadPodcasts]);
 
