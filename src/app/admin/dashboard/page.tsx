@@ -912,7 +912,7 @@ export default function AdminDashboard() {
 
       {/* Sidebar */}
       <aside
-        className={`fixed md:static inset-y-0 left-0 z-30 w-64 flex flex-col transition-transform duration-300 bg-white border-r border-gray-200 shadow-sm ${sidebarOpen ? "translate-x-0" : "-translate-x-full md:translate-x-0"}`}
+        className={`fixed inset-y-0 left-0 z-30 w-64 flex flex-col transition-transform duration-300 bg-white border-r border-gray-200 shadow-sm ${sidebarOpen ? "translate-x-0" : "-translate-x-full md:translate-x-0"}`}
       >
         <div className="border-b border-gray-200 px-3 py-3 flex items-center justify-between gap-2">
           <img
@@ -973,7 +973,7 @@ export default function AdminDashboard() {
       </aside>
 
       {/* Main */}
-      <div className="flex-1 flex flex-col min-w-0">
+      <div className="flex-1 flex flex-col min-w-0 md:pl-64">
         <header className="border-b border-gray-200 bg-white px-4 md:px-6 py-4 flex items-center justify-between gap-3 sticky top-0 z-10">
           <div className="flex items-center gap-3">
             <button
