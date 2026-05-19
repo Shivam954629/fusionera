@@ -861,9 +861,9 @@ export default function AdminDashboard() {
       {confirmDeleteId && (
         <div className="fixed inset-0 bg-black/40 z-50 flex items-center justify-center px-4">
           <div className="rounded-2xl border border-gray-200 bg-white p-6 max-w-sm w-full shadow-lg">
-            <div className="w-16 h-16 bg-red-50 rounded-full flex items-center justify-center mx-auto mb-4 border-4 border-red-100">
+            <div className="w-16 h-16 bg-blue-50 rounded-full flex items-center justify-center mx-auto mb-4 border-4 border-blue-100">
               <svg
-                className="w-8 h-8 text-red-500"
+                className="w-8 h-8 text-[#3B82F6]"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -894,7 +894,7 @@ export default function AdminDashboard() {
               <button
                 onClick={() => handleDelete(confirmDeleteId)}
                 disabled={deletingId === confirmDeleteId}
-                className="flex-1 py-2.5 rounded-xl bg-red-500 text-white text-sm font-semibold hover:bg-red-600 transition disabled:opacity-50"
+                className="flex-1 py-2.5 rounded-xl bg-[#3B82F6] text-white text-sm font-semibold hover:bg-blue-600 transition disabled:opacity-50"
               >
                 {deletingId === confirmDeleteId ? (
                   <span className="flex items-center justify-center gap-2">
@@ -1126,7 +1126,7 @@ export default function AdminDashboard() {
                             className={`border-t border-gray-200 ${v.is_blocked ? "bg-red-50" : "bg-white hover:bg-gray-50"}`}
                           >
                             <td className="py-3 px-4 font-medium text-gray-900">
-                              {v.full_name}
+                              {v.full_name || (v.phone_number?.includes("@") ? "—" : v.phone_number) || "—"}
                             </td>
                             <td className="py-3 px-4 text-gray-600 text-xs">
                               {/* International visitors have email stored in phone_number */}
@@ -1157,7 +1157,7 @@ export default function AdminDashboard() {
                                 </button>
                                 <button
                                   onClick={() => setConfirmDeleteId(v.id)}
-                                  className="px-2.5 py-1.5 text-xs rounded-lg bg-red-100 text-red-600 hover:bg-red-200 transition font-medium"
+                                  className="px-2.5 py-1.5 text-xs rounded-lg bg-blue-100 text-blue-600 hover:bg-blue-200 transition font-medium"
                                 >
                                   🗑️
                                 </button>
@@ -1270,7 +1270,7 @@ export default function AdminDashboard() {
                               {(page - 1) * PER_PAGE + i + 1}
                             </td>
                             <td className="py-3.5 px-4 font-semibold text-gray-900">
-                              {v.full_name}
+                              {v.full_name || (v.phone_number?.includes("@") ? "—" : v.phone_number) || "—"}
                             </td>
                             <td className="py-3.5 px-4">
                               {v.phone_number?.includes("@") ? (
@@ -1319,7 +1319,7 @@ export default function AdminDashboard() {
                                 </button>
                                 <button
                                   onClick={() => setConfirmDeleteId(v.id)}
-                                  className="px-3 py-1.5 text-xs rounded-lg font-semibold bg-red-50 text-red-600 border border-red-200 hover:bg-red-100 transition"
+                                  className="px-3 py-1.5 text-xs rounded-lg font-semibold bg-blue-50 text-blue-600 border border-blue-200 hover:bg-blue-100 transition"
                                 >
                                   🗑️ Delete
                                 </button>
@@ -1780,7 +1780,7 @@ export default function AdminDashboard() {
                             </button>
                             <button
                               onClick={() => deleteVideo(v.id)}
-                              className="flex-1 py-1.5 text-xs rounded-lg bg-red-50 text-red-500 hover:bg-red-100 transition font-medium"
+                              className="flex-1 py-1.5 text-xs rounded-lg bg-blue-50 text-[#3B82F6] hover:bg-blue-100 transition font-medium"
                             >
                               🗑️ Delete
                             </button>
@@ -1963,7 +1963,7 @@ export default function AdminDashboard() {
                             </button>
                             <button
                               onClick={() => deleteImage(img.id)}
-                              className="text-xs text-red-500 hover:text-red-600 px-1"
+                              className="text-xs text-[#3B82F6] hover:opacity-80 px-1"
                             >
                               🗑️
                             </button>
@@ -2041,7 +2041,7 @@ export default function AdminDashboard() {
                         </div>
                         <div className="flex gap-2 flex-shrink-0">
                           <button onClick={() => setContentForm({ key: c.key, title: c.title, subtitle: c.subtitle, content: c.content, image_url: c.image_url, is_published: c.is_published })} className="px-3 py-1.5 text-xs rounded-lg text-white font-medium" style={{ background: "#3B82F6" }}>✏️ Edit</button>
-                          <button onClick={() => deleteContent(c.id)} className="px-3 py-1.5 text-xs rounded-lg bg-red-50 text-red-500 hover:bg-red-100 transition">🗑️</button>
+                          <button onClick={() => deleteContent(c.id)} className="px-3 py-1.5 text-xs rounded-lg bg-blue-50 text-[#3B82F6] hover:bg-blue-100 transition">🗑️</button>
                         </div>
                       </div>
                     </div>
@@ -2439,7 +2439,7 @@ export default function AdminDashboard() {
                         </button>
                         <button
                           onClick={() => deletePodcast(p.id)}
-                          className="px-3 py-1.5 text-xs rounded-lg bg-red-50 text-red-500 hover:bg-red-100 transition font-medium"
+                          className="px-3 py-1.5 text-xs rounded-lg bg-blue-50 text-[#3B82F6] hover:bg-blue-100 transition font-medium"
                         >
                           🗑️
                         </button>

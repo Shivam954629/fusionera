@@ -128,6 +128,7 @@ const INDIA_STATES = [
   "Puducherry",
 ];
 const COUNTRY_CODES = [
+  { code: "+91", label: "+91 (India)" },
   { code: "+1", label: "+1 (USA/Canada)" },
   { code: "+44", label: "+44 (UK)" },
   { code: "+61", label: "+61 (Australia)" },
