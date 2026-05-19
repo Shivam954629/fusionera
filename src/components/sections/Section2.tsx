@@ -90,7 +90,7 @@ export default function Section2() {
             <img
               src={portfolioModal.src}
               alt={portfolioModal.alt}
-              className="max-h-[85vh] w-full object-contain bg-gray-50"
+              className="h-[70vh] w-full object-cover"
             />
           </div>
         </div>
