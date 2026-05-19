@@ -22,31 +22,33 @@ export default function ClientWrapper({
   }, []);
 
   useEffect(() => {
-    const frame = window.requestAnimationFrame(() => {
-      const elements =
-        document.querySelectorAll<HTMLElement>(".reveal-on-scroll");
-      if (!elements.length) return;
+    const show = (el: HTMLElement) => {
+      const delay = Number(el.dataset.revealDelay ?? 0);
+      setTimeout(() => el.classList.add("is-visible"), delay);
+    };
 
-      const observer = new IntersectionObserver(
-        (entries) => {
-          entries.forEach((entry) => {
-            if (!entry.isIntersecting) return;
-            const target = entry.target as HTMLElement;
-            const delay = Number(target.dataset.revealDelay ?? 0);
-            window.setTimeout(() => {
-              target.classList.add("is-visible");
-            }, delay);
-            observer.unobserve(target);
-          });
-        },
-        { threshold: 0.18, rootMargin: "0px 0px -40px 0px" },
-      );
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          show(entry.target as HTMLElement);
+          observer.unobserve(entry.target);
+        });
+      },
+      { threshold: 0.08, rootMargin: "0px 0px 0px 0px" },
+    );
 
-      elements.forEach((element) => observer.observe(element));
-      return () => observer.disconnect();
+    const elements = document.querySelectorAll<HTMLElement>(".reveal-on-scroll:not(.is-visible)");
+    elements.forEach((el) => {
+      const rect = el.getBoundingClientRect();
+      if (rect.top < window.innerHeight && rect.bottom > 0) {
+        show(el);
+      } else {
+        observer.observe(el);
+      }
     });
 
-    return () => window.cancelAnimationFrame(frame);
+    return () => observer.disconnect();
   });
 
   return (
