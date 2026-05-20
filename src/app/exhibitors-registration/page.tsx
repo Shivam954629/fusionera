@@ -68,13 +68,13 @@ export default function ExhibitorRegistrationPage() {
   };
 
   const inputCls =
-    "w-full px-4 py-2.5 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#3B82F6] transition";
+    "w-full px-4 py-2.5 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#1a1464] transition";
   const inputStyle = {
     background: "#f4f6ff",
     border: "1px solid #dde6ff",
     color: "#1a1a2e",
   };
-  const blueBg = { background: "linear-gradient(135deg,#3B82F6,#60A5FA)" };
+  const blueBg = { background: "#1a1464" };
 
   return (
     <div className="min-h-screen">
@@ -117,7 +117,7 @@ export default function ExhibitorRegistrationPage() {
                     </p>
                     <h2
                       className="text-2xl md:text-3xl font-black mb-2"
-                      style={{ color: "#3B82F6" }}
+                      style={{ color: "#1a1464" }}
                     >
                       JULY 4 - JULY 7, 2026
                     </h2>
@@ -160,7 +160,7 @@ export default function ExhibitorRegistrationPage() {
                   <div>
                     <h2
                       className="text-xl md:text-2xl font-black mb-1"
-                      style={{ color: "#3B82F6" }}
+                      style={{ color: "#1a1464" }}
                     >
                       JULY 4 - JULY 7, 2026
                     </h2>
@@ -308,7 +308,7 @@ export default function ExhibitorRegistrationPage() {
                         <button
                           onClick={() => handleResend("id")}
                           className="text-xs font-medium hover:underline"
-                          style={{ color: "#3B82F6" }}
+                          style={{ color: "#1a1464" }}
                         >
                           Resend Exhibitor ID
                         </button>
@@ -339,7 +339,7 @@ export default function ExhibitorRegistrationPage() {
                         <button
                           onClick={() => handleResend("password")}
                           className="text-xs font-medium hover:underline"
-                          style={{ color: "#3B82F6" }}
+                          style={{ color: "#1a1464" }}
                         >
                           Resend Password
                         </button>
@@ -392,7 +392,7 @@ export default function ExhibitorRegistrationPage() {
                           >
                             <p
                               className="text-xs font-bold"
-                              style={{ color: "#3B82F6" }}
+                              style={{ color: "#1a1464" }}
                             >
                               {city === "delhi" ? "Delhi" : "Mumbai"}:
                             </p>
@@ -407,7 +407,7 @@ export default function ExhibitorRegistrationPage() {
                             </p>
                             <a
                               href={`mailto:${siteSettings[`contact_${city}_email`]}`}
-                              className="text-xs text-[#3B82F6] hover:underline break-all"
+                              className="text-xs text-[#1a1464] hover:underline break-all"
                             >
                               {siteSettings[`contact_${city}_email`]}
                             </a>
@@ -840,7 +840,7 @@ function ExhibitorRequestForm({
   };
 
   const inputCls =
-    "w-full px-4 py-2.5 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#3B82F6] transition";
+    "w-full px-4 py-2.5 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#1a1464] transition";
   const inputStyle = {
     background: "#f4f6ff",
     border: "1px solid #dde6ff",
@@ -849,7 +849,7 @@ function ExhibitorRequestForm({
   const labelCls = "block text-sm font-semibold mb-1.5";
   const ls = { color: "#1a1a2e" };
   const req = <span className="text-red-500">*</span>;
-  const blueBg = { background: "linear-gradient(135deg,#3B82F6,#60A5FA)" };
+  const blueBg = { background: "#1a1464" };
 
   return (
     <div
@@ -911,7 +911,7 @@ function ExhibitorRequestForm({
                 type="radio"
                 checked={participationType === t}
                 onChange={() => setParticipationType(t)}
-                className="w-4 h-4 accent-[#3B82F6]"
+                className="w-4 h-4 accent-[#1a1464]"
               />
               <span
                 className="text-sm font-medium"
@@ -936,14 +936,14 @@ function ExhibitorRequestForm({
                 style={{
                   background:
                     participationMode === mode ? "#fff5f5" : "#f4f6ff",
-                  border: `1px solid ${participationMode === mode ? "#3B82F6" : "#dde6ff"}`,
+                  border: `1px solid ${participationMode === mode ? "#1a1464" : "#dde6ff"}`,
                 }}
               >
                 <input
                   type="radio"
                   checked={participationMode === mode}
                   onChange={() => setParticipationMode(mode)}
-                  className="mt-0.5 w-4 h-4 accent-[#3B82F6] flex-shrink-0"
+                  className="mt-0.5 w-4 h-4 accent-[#1a1464] flex-shrink-0"
                 />
                 <span
                   className="text-xs md:text-sm"
@@ -1012,14 +1012,14 @@ function ExhibitorRequestForm({
                 className="flex items-start gap-2 cursor-pointer mb-2 p-2 rounded-lg"
                 style={{
                   background: boothType === b.value ? "#fff5f5" : "transparent",
-                  border: `1px solid ${boothType === b.value ? "#3B82F6" : "transparent"}`,
+                  border: `1px solid ${boothType === b.value ? "#1a1464" : "transparent"}`,
                 }}
               >
                 <input
                   type="radio"
                   checked={boothType === b.value}
                   onChange={() => setBoothType(b.value)}
-                  className="mt-0.5 w-4 h-4 accent-[#3B82F6] flex-shrink-0"
+                  className="mt-0.5 w-4 h-4 accent-[#1a1464] flex-shrink-0"
                 />
                 <span
                   className="text-xs md:text-sm"
@@ -1040,14 +1040,14 @@ function ExhibitorRequestForm({
                 className="flex items-start gap-2 cursor-pointer mb-2 p-2 rounded-lg"
                 style={{
                   background: opening === o ? "#fff5f5" : "transparent",
-                  border: `1px solid ${opening === o ? "#3B82F6" : "transparent"}`,
+                  border: `1px solid ${opening === o ? "#1a1464" : "transparent"}`,
                 }}
               >
                 <input
                   type="radio"
                   checked={opening === o}
                   onChange={() => setOpening(o)}
-                  className="mt-0.5 w-4 h-4 accent-[#3B82F6] flex-shrink-0"
+                  className="mt-0.5 w-4 h-4 accent-[#1a1464] flex-shrink-0"
                 />
                 <span
                   className="text-xs md:text-sm"
@@ -1219,7 +1219,7 @@ function ExhibitorRequestForm({
                   background: productCategories.includes(cat)
                     ? "#fff5f5"
                     : "#f4f6ff",
-                  border: `1px solid ${productCategories.includes(cat) ? "#3B82F6" : "#dde6ff"}`,
+                  border: `1px solid ${productCategories.includes(cat) ? "#1a1464" : "#dde6ff"}`,
                   color: "#1a1a2e",
                 }}
               >
@@ -1227,7 +1227,7 @@ function ExhibitorRequestForm({
                   type="checkbox"
                   checked={productCategories.includes(cat)}
                   onChange={() => toggleCat(cat)}
-                  className="w-3.5 h-3.5 accent-[#3B82F6] flex-shrink-0"
+                  className="w-3.5 h-3.5 accent-[#1a1464] flex-shrink-0"
                 />
                 {cat}
               </label>
@@ -1243,7 +1243,7 @@ function ExhibitorRequestForm({
             className="text-sm md:text-base font-bold mb-3 pb-2"
             style={{
               color: "#1a1a2e",
-              borderBottom: "2px solid #3B82F6",
+              borderBottom: "2px solid #1a1464",
             }}
           >
             Organization Head
@@ -1312,7 +1312,7 @@ function ExhibitorRequestForm({
                   <select
                     value={orgCountryCode}
                     onChange={(e) => setOrgCountryCode(e.target.value)}
-                    className="px-2 py-2.5 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#3B82F6]"
+                    className="px-2 py-2.5 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#1a1464]"
                     style={{ ...inputStyle, minWidth: "75px" }}
                   >
                     {COUNTRY_CODES.map((c) => (
@@ -1355,7 +1355,7 @@ function ExhibitorRequestForm({
             className="text-sm md:text-base font-bold mb-3 pb-2"
             style={{
               color: "#1a1a2e",
-              borderBottom: "2px solid #3B82F6",
+              borderBottom: "2px solid #1a1464",
             }}
           >
             Contact Person
@@ -1424,7 +1424,7 @@ function ExhibitorRequestForm({
                   <select
                     value={cpCountryCode}
                     onChange={(e) => setCpCountryCode(e.target.value)}
-                    className="px-2 py-2.5 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#3B82F6]"
+                    className="px-2 py-2.5 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#1a1464]"
                     style={{ ...inputStyle, minWidth: "75px" }}
                   >
                     {COUNTRY_CODES.map((c) => (
@@ -1687,7 +1687,7 @@ function ExhibitorRequestForm({
             >
               <p
                 className="font-bold text-sm mb-1"
-                style={{ color: "#3B82F6" }}
+                style={{ color: "#1a1464" }}
               >
                 {city === "delhi" ? "Delhi" : "Mumbai"}:
               </p>
@@ -1702,7 +1702,7 @@ function ExhibitorRequestForm({
               </p>
               <a
                 href={`mailto:${siteSettings[`contact_${city}_email`]}`}
-                className="text-xs text-[#3B82F6] hover:underline break-all"
+                className="text-xs text-[#1a1464] hover:underline break-all"
               >
                 {siteSettings[`contact_${city}_email`]}
               </a>
@@ -1715,7 +1715,7 @@ function ExhibitorRequestForm({
           onClick={handleSubmit}
           disabled={loading}
           className="w-full py-3.5 rounded-xl text-white font-bold text-sm transition hover:opacity-90 disabled:opacity-60"
-          style={{ background: "linear-gradient(135deg,#3B82F6,#60A5FA)" }}
+          style={{ background: "#1a1464" }}
         >
           {loading ? "Submitting..." : "SUBMIT"}
         </button>

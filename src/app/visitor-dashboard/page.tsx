@@ -62,7 +62,7 @@ export default function VisitorDashboardPage() {
   if (loading)
     return (
       <section className="min-h-screen flex items-center justify-center">
-        <div className="w-10 h-10 border-4 border-blue-100 border-t-[#3B82F6] rounded-full animate-spin" />
+        <div className="w-10 h-10 border-4 rounded-full animate-spin" style={{ borderColor: "rgba(26,20,100,0.1)", borderTopColor: "#1a1464" }} />
       </section>
     );
 
@@ -71,9 +71,9 @@ export default function VisitorDashboardPage() {
       <section className="min-h-screen flex items-center justify-center px-4">
         <div
           className="w-full max-w-md rounded-2xl bg-white p-6 text-center shadow-sm"
-          style={{ border: "1px solid #dde6ff" }}
+          style={{ border: "1px solid rgba(26,20,100,0.12)" }}
         >
-          <h1 className="text-xl font-bold" style={{ color: "#1a1a2e" }}>
+          <h1 className="text-xl font-bold" style={{ color: "#1a1464" }}>
             Unable to load your pass
           </h1>
           <p className="mt-2 text-sm" style={{ color: "#6b7280" }}>
@@ -82,7 +82,7 @@ export default function VisitorDashboardPage() {
           <button
             onClick={() => router.replace("/visitor-registration")}
             className="mt-5 rounded-xl px-5 py-2.5 text-sm font-semibold text-white"
-            style={{ background: "linear-gradient(135deg,#3B82F6,#60A5FA)" }}
+            style={{ background: "#e84030", boxShadow: "0 4px 14px rgba(232,64,48,0.35)" }}
           >
             Go to registration
           </button>
@@ -96,22 +96,19 @@ export default function VisitorDashboardPage() {
       <section className="relative isolate w-full overflow-hidden py-14 md:py-20">
         <div
           className="absolute inset-0 -z-10"
-          style={{ background: "linear-gradient(120deg,#090f2d 0%,#0f1a4f 48%,#1a2f7f 100%)" }}
+          style={{ background: "linear-gradient(120deg,#090f2d 0%,#0f1a4f 48%,#1a1464 100%)" }}
         />
-        <div className="absolute inset-0 -z-10 bg-black/30" />
+        <div className="absolute inset-0 -z-10 bg-black/20" />
         <div
           className="pointer-events-none absolute -left-10 top-0 h-48 w-48 rounded-full blur-3xl"
-          style={{ background: "rgba(96,165,250,0.25)" }}
+          style={{ background: "rgba(232,64,48,0.15)" }}
         />
         <div
           className="pointer-events-none absolute right-0 bottom-0 h-40 w-40 rounded-full blur-3xl"
-          style={{ background: "rgba(0,200,212,0.15)" }}
+          style={{ background: "rgba(232,64,48,0.1)" }}
         />
         <div className="relative mx-auto max-w-7xl px-4 text-center sm:px-6 lg:px-10">
-          <p
-            className="text-xs font-extrabold uppercase tracking-[0.3em] mb-3"
-            style={{ color: "#8cecff" }}
-          >
+          <p className="text-xs font-extrabold uppercase tracking-[0.3em] mb-3 text-white/70">
             Fusion The Era 2026
           </p>
           <h1 className="text-4xl md:text-5xl font-black text-white">Your Entry Pass</h1>
@@ -119,33 +116,24 @@ export default function VisitorDashboardPage() {
             {siteSettings.event_venue} · {siteSettings.event_date}
           </p>
           <div className="mt-5 flex justify-center">
-            <span
-              className="h-1 w-20 rounded-full"
-              style={{ background: "linear-gradient(90deg,#3B82F6,#60A5FA)" }}
-            />
+            <span className="h-1 w-20 rounded-full" style={{ background: "#e84030" }} />
           </div>
         </div>
       </section>
 
       {/* PASS CARD */}
       <div className="mx-auto w-full max-w-lg px-4 py-10 sm:px-6">
-        <div className="rounded-2xl overflow-hidden shadow-xl" style={{ border: "1px solid #dde6ff" }}>
-          {/* Colorful top strip */}
-          <div
-            className="h-2"
-            style={{ background: "linear-gradient(90deg,#3B82F6,#60A5FA,#7DD3FC,#00C8D4,#3B82F6,#60A5FA)" }}
-          />
+        <div className="rounded-2xl overflow-hidden shadow-xl" style={{ border: "1px solid rgba(26,20,100,0.12)" }}>
+          {/* Top strip */}
+          <div className="h-2" style={{ background: "#e84030" }} />
 
           <div className="bg-white px-6 pt-6 pb-8 space-y-4">
             {/* Reg No */}
             <div
               className="rounded-xl p-4 text-center"
-              style={{ background: "linear-gradient(135deg,#110c41,#1a1560)" }}
+              style={{ background: "linear-gradient(135deg,#110c41,#1a1464)" }}
             >
-              <p
-                className="text-xs font-extrabold uppercase tracking-widest mb-1"
-                style={{ color: "#8cecff" }}
-              >
+              <p className="text-xs font-extrabold uppercase tracking-widest mb-1 text-white/70">
                 Registration Number
               </p>
               <p className="text-3xl font-black text-white tracking-widest">
@@ -155,42 +143,24 @@ export default function VisitorDashboardPage() {
 
             {/* Details Grid */}
             <div className="grid grid-cols-2 gap-3">
-              <div
-                className="rounded-xl p-3"
-                style={{ background: "#f4f6ff", border: "1px solid #dde6ff" }}
-              >
-                <p className="text-xs mb-0.5" style={{ color: "#6b7280" }}>Name</p>
-                <p className="text-sm font-semibold" style={{ color: "#1a1a2e" }}>
-                  {visitor?.fullName}
-                </p>
+              <div className="rounded-xl p-3" style={{ background: "#f0f4f8", border: "1px solid rgba(26,20,100,0.08)" }}>
+                <p className="text-xs mb-0.5 text-gray-500">Name</p>
+                <p className="text-sm font-semibold text-[#1a1464]">{visitor?.fullName}</p>
               </div>
-              <div
-                className="rounded-xl p-3"
-                style={{ background: "#f4f6ff", border: "1px solid #dde6ff" }}
-              >
-                <p className="text-xs mb-0.5" style={{ color: "#6b7280" }}>Phone</p>
-                <p className="text-sm font-semibold" style={{ color: "#1a1a2e" }}>
-                  {visitor?.phone}
-                </p>
+              <div className="rounded-xl p-3" style={{ background: "#f0f4f8", border: "1px solid rgba(26,20,100,0.08)" }}>
+                <p className="text-xs mb-0.5 text-gray-500">Phone</p>
+                <p className="text-sm font-semibold text-[#1a1464]">{visitor?.phone}</p>
               </div>
               {visitor?.email && (
-                <div
-                  className="rounded-xl p-3 col-span-2"
-                  style={{ background: "#f4f6ff", border: "1px solid #dde6ff" }}
-                >
-                  <p className="text-xs mb-0.5" style={{ color: "#6b7280" }}>Email</p>
-                  <p className="text-sm font-semibold" style={{ color: "#1a1a2e" }}>
-                    {visitor.email}
-                  </p>
+                <div className="rounded-xl p-3 col-span-2" style={{ background: "#f0f4f8", border: "1px solid rgba(26,20,100,0.08)" }}>
+                  <p className="text-xs mb-0.5 text-gray-500">Email</p>
+                  <p className="text-sm font-semibold text-[#1a1464]">{visitor.email}</p>
                 </div>
               )}
             </div>
 
             {/* Event Info */}
-            <div
-              className="rounded-xl p-4 text-center"
-              style={{ background: "linear-gradient(135deg,#3B82F6,#60A5FA)" }}
-            >
+            <div className="rounded-xl p-4 text-center" style={{ background: "#1a1464" }}>
               <p className="text-sm font-semibold text-white">
                 📅 {siteSettings.event_date} &nbsp;·&nbsp; 📍 {siteSettings.event_venue} &nbsp;·&nbsp; 🎟️ Free Entry
               </p>
@@ -199,7 +169,7 @@ export default function VisitorDashboardPage() {
             <button
               onClick={handleLogout}
               className="w-full py-3 rounded-xl text-sm font-medium transition hover:opacity-80"
-              style={{ color: "#6b7280", border: "1px solid #dde6ff", background: "transparent" }}
+              style={{ color: "#6b7280", border: "1px solid rgba(26,20,100,0.12)", background: "transparent" }}
             >
               Logout
             </button>

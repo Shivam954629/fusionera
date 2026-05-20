@@ -60,7 +60,7 @@ export default function PayStallAdvancePage() {
 
                   <a
                     href={`mailto:${siteSettings.contact_delhi_email}`}
-                    className="mt-2 block text-sm text-blue-700 hover:underline"
+                    className="mt-2 block text-sm text-[#1a1464] hover:underline"
                   >
                     ✉️ {siteSettings.contact_delhi_email}
                   </a>
@@ -81,7 +81,7 @@ export default function PayStallAdvancePage() {
 
                   <a
                     href={`mailto:${siteSettings.contact_mumbai_email}`}
-                    className="mt-2 block text-sm text-blue-700 hover:underline"
+                    className="mt-2 block text-sm text-[#1a1464] hover:underline"
                   >
                     ✉️ {siteSettings.contact_mumbai_email}
                   </a>

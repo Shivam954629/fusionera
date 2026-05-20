@@ -81,6 +81,8 @@ export const productList = [
     src: "/images/catalogue/plastic-ware.jpg",
     gallery: [
       "/images/catalogue/plastic-ware.jpg",
+      "/images/catalogue/plastic-ware-1.jpg",
+      "/images/catalogue/plastic-ware-2.jpg",
     ],
     title: "Plastic Ware",
     desc: "Smart and adaptable plasticware offering practical storage and organization for homes and commercial spaces. Household Organizers · Utility Containers · Kitchen Accessories · Storage Products",

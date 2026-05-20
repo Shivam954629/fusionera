@@ -32,7 +32,7 @@ export default function NewsletterPage() {
   if (loading) {
     return (
       <section className="min-h-screen flex items-center justify-center">
-        <div className="w-8 h-8 rounded-full border-4 border-blue-100 border-t-[#3B82F6] animate-spin" />
+        <div className="w-8 h-8 rounded-full border-4 border-[#eef2ff] border-t-[#1a1464] animate-spin" />
       </section>
     );
   }
@@ -52,16 +52,16 @@ export default function NewsletterPage() {
         <div className="absolute inset-0 -z-10 bg-black/30" />
         <div
           className="pointer-events-none absolute -left-10 top-0 h-48 w-48 rounded-full blur-3xl"
-          style={{ background: "rgba(255,170,0,0.18)" }}
+          style={{ background: "rgba(255,170,0,0.12)" }}
         />
         <div
           className="pointer-events-none absolute right-0 bottom-0 h-40 w-40 rounded-full blur-3xl"
-          style={{ background: "rgba(96,165,250,0.18)" }}
+          style={{ background: "rgba(26,20,100,0.18)" }}
         />
         <div className="relative mx-auto max-w-7xl px-4 text-center sm:px-6 lg:px-10">
           <p
             className="text-xs font-extrabold uppercase tracking-[0.3em] mb-3"
-            style={{ color: "#7DD3FC" }}
+            style={{ color: "#eef2ff" }}
           >
             Fusion The Era Updates
           </p>
@@ -72,7 +72,7 @@ export default function NewsletterPage() {
           <div className="mt-5 flex justify-center">
             <span
               className="h-1 w-20 rounded-full"
-              style={{ background: "linear-gradient(90deg,#7DD3FC,#60A5FA)" }}
+              style={{ background: "#1a1464" }}
             />
           </div>
         </div>
@@ -97,7 +97,7 @@ export default function NewsletterPage() {
           >
             <div
               className="px-1 py-1 rounded-t-2xl"
-              style={{ background: "linear-gradient(90deg,#7DD3FC,#60A5FA)" }}
+              style={{ background: "#1a1464" }}
             />
             <div className="px-6 py-8 sm:px-10">
               <div

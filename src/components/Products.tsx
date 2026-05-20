@@ -63,7 +63,7 @@ export default function Products() {
         className="mx-auto w-full max-w-7xl px-4 py-6 sm:px-6 md:py-10 lg:px-10"
         data-reveal-delay="0"
       >
-        <div className="relative overflow-hidden rounded-2xl border border-[#dde6ff] bg-[#eef2ff] p-4 shadow-sm sm:p-6 md:p-8">
+        <div className="relative overflow-hidden rounded-2xl p-4 shadow-sm sm:p-6 md:p-8" style={{ border: "1px solid rgba(26,20,100,0.1)", background: "#f0f4f8" }}>
 
           <div className="mb-6 flex flex-wrap items-end justify-between gap-4">
             <div className="max-w-3xl">
@@ -224,7 +224,7 @@ export default function Products() {
                         prev ? { ...prev, activeIndex: idx } : null,
                       )
                     }
-                    className={`flex-shrink-0 w-16 h-16 rounded-lg overflow-hidden border-2 transition ${idx === portfolioModal.activeIndex ? "border-[#3B82F6]" : "border-white/10 hover:border-white/30"}`}
+                    className={`flex-shrink-0 w-16 h-16 rounded-lg overflow-hidden border-2 transition ${idx === portfolioModal.activeIndex ? "border-[#e84030]" : "border-white/10 hover:border-white/30"}`}
                   >
                     <img
                       src={img}
