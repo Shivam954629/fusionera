@@ -23,12 +23,29 @@ export default function AboutUs() {
             <h2 className="mt-4 text-2xl font-bold md:text-3xl">
               About Fusion The Era
             </h2>
+            {/* Highlight chips */}
+            <div className="mt-4 flex flex-wrap gap-2">
+              {HIGHLIGHTS.map((h) => (
+                <span
+                  key={h.label}
+                  className="inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-bold uppercase tracking-wide"
+                  style={
+                    h.label === "B2B Platform"
+                      ? { background: "#e84030", color: "#fff" }
+                      : { background: "#1a1464", color: "#fff" }
+                  }
+                >
+                  {h.label}
+                </span>
+              ))}
+            </div>
             <p className="mt-4 text-md leading-7 text-justify text-gray-600">
                Fusion The Era is a dedicated trade exhibition designed for the
               evolving home and hospitality industry in India. Covering
               Houseware, HORECA Products, Stainless Steel, Kitchenware, and Home
-              Appliances, the exhibition creates a professional platform for
-              business networking, sourcing, and industry collaboration.
+              Appliances, the exhibition creates a{" "}
+              <span className="font-bold text-[#1a1464]">professional business platform</span>{" "}
+              for business networking, sourcing, and industry collaboration.
             </p>
             <p className="mt-4 text-md leading-7 text-justify text-gray-600">
               Driven by innovation, business growth, and market opportunities,

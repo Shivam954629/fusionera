@@ -4,6 +4,7 @@ import Link from "next/link";
 import React, { useState, useEffect, useRef } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import { useSiteSettings } from "@/lib/useSiteSettings";
+import BrandMarquee from "@/components/BrandMarquee";
 
 export default function Header() {
   const siteSettings = useSiteSettings();
@@ -60,6 +61,7 @@ export default function Header() {
       id="main-header"
       className="sticky top-0 z-30 border-b border-white/30 bg-gradient-to-r from-[#110c41] via-[#110c41] to-[#110c41]/80 backdrop-blur-md"
     >
+      <BrandMarquee />
       <div
         ref={menuRef}
         className="mx-auto flex w-full max-w-7xl flex-wrap items-center justify-between gap-3 px-4 py-3 sm:px-6 lg:px-10 lg:py-4"
@@ -118,7 +120,7 @@ export default function Header() {
                   Post Show Report
                 </Link>
                 <Link
-                  href="/products"
+                  href="/gallery"
                   className="block rounded px-3 py-2 text-xs text-white hover:bg-white/10"
                 >
                   Product Range
@@ -284,7 +286,7 @@ export default function Header() {
                   Post Show Report
                 </button>
                 <button
-                  onClick={() => handleMobileNav("/products")}
+                  onClick={() => handleMobileNav("/gallery")}
                   className="rounded px-2 py-2 hover:bg-white/10 text-left w-full"
                 >
                   Product Range

@@ -14,47 +14,25 @@ const FACTS = [
   { icon: "🎯", stat: "Exclusive", label: "Trade Audience" },
 ];
 
-const GRADIENTS = [
-  "linear-gradient(135deg,#3B82F6,#60A5FA)",
-  "linear-gradient(135deg,#3B82F6,#60A5FA)",
-  "linear-gradient(135deg,#00C8D4,#0080ff)",
-  "linear-gradient(135deg,#60A5FA,#7DD3FC)",
-  "linear-gradient(135deg,#10b981,#00C8D4)",
-  "linear-gradient(135deg,#60A5FA,#3B82F6)",
-  "linear-gradient(135deg,#7DD3FC,#60A5FA)",
-  "linear-gradient(135deg,#3B82F6,#3B82F6)",
-  "linear-gradient(135deg,#00C8D4,#60A5FA)",
-  "linear-gradient(135deg,#60A5FA,#3B82F6)",
-];
-
 export default function TradeShowFacts() {
   return (
-    <section
-      id="Benefits"
-      className="mx-auto w-full max-w-7xl px-4 py-8 sm:px-6 md:py-12 lg:px-10 reveal-on-scroll reveal-zoom"
-      data-reveal-delay="50"
-    >
-      <div className="relative overflow-hidden rounded-2xl border border-[#dde6ff] bg-[#eef2ff]">
-        <div className="relative grid gap-6 p-4 text-gray-900 sm:p-6 md:p-8">
-          <div>
-            <h2 className="mt-4 text-2xl font-bold md:text-3xl">
-              Trade Show Facts
-            </h2>
-            
-            <ul className="mt-4 list-disc pl-5 text-md leading-7 text-gray-600">
-              <li>Dedicated B2B Exhibition</li>
-              <li>50,000+ Trade Visitors </li>
-              <li>Visitors from 460+ Cities </li>
-              <li>Indian & International Participation </li>
-              <li>Strong Presence of Brands & Manufacturers</li>
-              <li>Latest Products & Industry Innovations </li>
-              <li>Focused Business Networking </li>
-              <li>Dealer & Distributor Expansion </li>
-              <li>Professional Exhibition Infrastructure </li>
-	            <li>Exclusive Trade Audience</li>
-  	
-            </ul>
-
+    <section className="mx-auto w-full max-w-7xl px-4 py-8 sm:px-6 md:py-12 lg:px-10">
+      <div className="relative overflow-hidden rounded-2xl" style={{ border: "1px solid rgba(26,20,100,0.1)", background: "#f0f4f8" }}>
+        <div className="h-1.5" style={{ background: "#e84030" }} />
+        <div className="px-6 md:px-8 py-8">
+          <h2 className="text-2xl font-bold md:text-3xl text-[#1a1464] mb-6">
+            Trade Show Facts
+          </h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            {FACTS.map((f) => (
+              <div key={f.label} className="flex items-center gap-3 bg-white rounded-xl px-4 py-3" style={{ border: "1px solid rgba(26,20,100,0.06)", borderLeft: "3px solid #e84030" }}>
+                <span className="text-xl flex-shrink-0">{f.icon}</span>
+                <div>
+                  <span className="font-bold text-sm" style={{ color: "#1a1464" }}>{f.stat}</span>
+                  <span className="text-sm text-gray-500 ml-1">{f.label}</span>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </div>

@@ -1,203 +1,223 @@
 "use client";
 import { useCallback, useEffect, useState } from "react";
-import { useSiteSettings } from "@/lib/useSiteSettings";
 
 interface GalleryImage {
-  id: number;
+  id: number | string;
   title: string;
   url: string;
   category: string;
-  type: string;
   is_published: boolean;
 }
 
+const Divider = () => <div className="h-px w-20 bg-[#1a1464]/20 my-3 mx-auto" />;
+
+// Static catalogue images — always shown
+const catalogueImages: GalleryImage[] = [
+  { id: "c1",  title: "Houseware",          url: "/images/catalogue/houseware-1.jpg",      category: "Houseware",         is_published: true },
+  { id: "c2",  title: "Houseware",          url: "/images/catalogue/houseware-2.jpg",      category: "Houseware",         is_published: true },
+  { id: "c3",  title: "Houseware",          url: "/images/catalogue/houseware-3.jpg",      category: "Houseware",         is_published: true },
+  { id: "c4",  title: "HORECA Ware",        url: "/images/catalogue/horeca-1.jpg",         category: "HORECA Ware",       is_published: true },
+  { id: "c5",  title: "HORECA Ware",        url: "/images/catalogue/horeca-2.jpg",         category: "HORECA Ware",       is_published: true },
+  { id: "c6",  title: "HORECA Ware",        url: "/images/catalogue/horeca-3.jpg",         category: "HORECA Ware",       is_published: true },
+  { id: "c7",  title: "HORECA Cocktails",   url: "/images/catalogue/horeca-cocktails.jpg", category: "HORECA Ware",       is_published: true },
+  { id: "c8",  title: "Stainless Steel",    url: "/images/catalogue/stainless-steel-1.jpg",category: "Stainless Steel",   is_published: true },
+  { id: "c9",  title: "Stainless Steel",    url: "/images/catalogue/stainless-steel-2.jpg",category: "Stainless Steel",   is_published: true },
+  { id: "c10", title: "Home Appliances",    url: "/images/catalogue/home-appliances-1.jpg",category: "Home Appliances",   is_published: true },
+  { id: "c11", title: "Cookware",           url: "/images/catalogue/cookware.jpg",         category: "Cookware",          is_published: true },
+  { id: "c12", title: "Tableware",          url: "/images/catalogue/tableware.jpg",        category: "Tableware",         is_published: true },
+  { id: "c13", title: "Ceramic Plates",     url: "/images/catalogue/ceramic-plates.jpg",  category: "Tableware",         is_published: true },
+  { id: "c14", title: "Plastic Ware",       url: "/images/catalogue/plastic-ware.jpg",    category: "Plastic Ware",      is_published: true },
+  { id: "c15", title: "Plastic Ware",       url: "/images/catalogue/plastic-ware-1.jpg",  category: "Plastic Ware",      is_published: true },
+  { id: "c16", title: "Plastic Ware",       url: "/images/catalogue/plastic-ware-2.jpg",  category: "Plastic Ware",      is_published: true },
+  { id: "c17", title: "Brass & Silver",     url: "/images/catalogue/brass-silver-1.jpg",  category: "Brass & Silver",    is_published: true },
+  { id: "c18", title: "Brass & Silver",     url: "/images/catalogue/brass-silver-2.jpg",  category: "Brass & Silver",    is_published: true },
+  { id: "c19", title: "Brass Hotpots",      url: "/images/catalogue/brass-hotpots.jpg",   category: "Brass & Silver",    is_published: true },
+  { id: "c20", title: "Glassware",          url: "/images/catalogue/glassware-1.jpg",     category: "Glassware",         is_published: true },
+  { id: "c21", title: "Glassware",          url: "/images/catalogue/glassware-2.jpg",     category: "Glassware",         is_published: true },
+  { id: "c22", title: "Baking & Aluminium", url: "/images/catalogue/baking-1.jpg",        category: "Baking & Aluminium",is_published: true },
+  { id: "c23", title: "Baking & Aluminium", url: "/images/catalogue/baking-2.jpg",        category: "Baking & Aluminium",is_published: true },
+  { id: "c24", title: "Cooking Range",      url: "/images/catalogue/cooking-range-1.jpg", category: "Cooking Range",     is_published: true },
+  { id: "c25", title: "RO Water",           url: "/images/catalogue/ro-water-1.jpg",      category: "RO Water",          is_published: true },
+  { id: "c26", title: "Home Décor",         url: "/images/catalogue/home-decor-1.jpg",    category: "Home Décor",        is_published: true },
+  { id: "c27", title: "Vases",              url: "/images/catalogue/vases.jpg",           category: "Home Décor",        is_published: true },
+];
+
 export default function GalleryPage() {
-  const siteSettings = useSiteSettings();
-  const [images, setImages] = useState<GalleryImage[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
-  const [activeCategory, setActiveCategory] = useState("all");
-  const [lightbox, setLightbox] = useState<GalleryImage | null>(null);
+  const [dbImages, setDbImages] = useState<GalleryImage[]>([]);
+  const [lightboxImages, setLightboxImages] = useState<GalleryImage[]>([]);
+  const [lightboxIndex, setLightboxIndex] = useState(0);
 
   const fetchImages = useCallback(async (signal?: AbortSignal) => {
-    setError("");
     try {
-      const res = await fetch("/api/admin/images", {
-        cache: "no-store",
-        signal,
-      });
+      const res = await fetch("/api/admin/images", { cache: "no-store", signal });
       const data = await res.json();
-      if (!res.ok || !data?.success)
-        throw new Error(data?.error || "Unable to load gallery.");
-      setImages(
-        (data?.data ?? []).filter((img: GalleryImage) => img?.is_published),
-      );
-    } catch (err: unknown) {
-      if (err instanceof Error && err.name === "AbortError") return;
-      setError(err instanceof Error ? err.message : "Unable to load gallery.");
-      setImages([]);
-    } finally {
-      if (!signal?.aborted) setLoading(false);
+      if (data?.success) {
+        setDbImages((data?.data ?? []).filter((img: GalleryImage) => img?.is_published));
+      }
+    } catch {
+      // silently fail — catalogue images still show
     }
   }, []);
 
   useEffect(() => {
     const controller = new AbortController();
     fetchImages(controller.signal);
-    const onVisible = () => {
-      if (document.visibilityState === "visible") fetchImages();
-    };
+    const onVisible = () => { if (document.visibilityState === "visible") fetchImages(); };
     document.addEventListener("visibilitychange", onVisible);
     const interval = setInterval(() => fetchImages(), 30000);
-    return () => {
-      controller.abort();
-      document.removeEventListener("visibilitychange", onVisible);
-      clearInterval(interval);
-    };
+    return () => { controller.abort(); document.removeEventListener("visibilitychange", onVisible); clearInterval(interval); };
   }, [fetchImages]);
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") setLightbox(null);
+      if (e.key === "Escape") setLightboxImages([]);
+      if (e.key === "ArrowRight") setLightboxIndex((i) => (i + 1) % lightboxImages.length);
+      if (e.key === "ArrowLeft") setLightboxIndex((i) => (i - 1 + lightboxImages.length) % lightboxImages.length);
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, []);
+  }, [lightboxImages.length]);
 
-  const categories = [
-    "all",
-    ...Array.from(new Set(images.map((i) => i.category).filter(Boolean))),
-  ];
-  const filtered =
-    activeCategory === "all"
-      ? images
-      : images.filter((i) => i.category === activeCategory);
+  // Group images by category
+  const groupByCategory = (imgs: GalleryImage[]) => {
+    const map = new Map<string, GalleryImage[]>();
+    imgs.forEach((img) => {
+      const cat = img.category || "General";
+      if (!map.has(cat)) map.set(cat, []);
+      map.get(cat)!.push(img);
+    });
+    return map;
+  };
+
+  const dbGroups = groupByCategory(dbImages);
+  const catalogueGroups = groupByCategory(catalogueImages);
+
+  const openLightbox = (imgs: GalleryImage[], idx: number) => {
+    setLightboxImages(imgs);
+    setLightboxIndex(idx);
+  };
 
   return (
-    <div className="min-h-screen">
-      {/* HERO BANNER */}
-
-      <div className="text-center mt-6 md:mt-10 mb-6 md:mb-8">
-        <h1
-          className="text-3xl font-bold mb-2"
-          style={{ color: "var(--app-text)" }}
-        >
-          Gallery
-        </h1>
-
-        <p className="text-sm" style={{ color: "#6b7280" }}>
-          Highlights from Fusion The Era — {siteSettings.event_date}
-        </p>
+    <div className="min-h-screen bg-white">
+      {/* Page header */}
+      <div className="w-full py-10 md:py-12" style={{ background: "#eef2ff" }}>
+        <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-10 text-center">
+          <h1 className="text-sm font-bold uppercase tracking-[0.2em] text-[#1a1464]">Photo Gallery</h1>
+          <Divider />
+        </div>
       </div>
 
-      {/* CONTENT */}
-      <div className="mx-auto w-full max-w-7xl px-4 py-10 sm:px-6 lg:px-10">
-        {/* Category filter */}
-        {categories.length > 1 && (
-          <div className="flex flex-wrap gap-2 mb-8 justify-center">
-            {categories.map((cat) => (
-              <button
-                key={cat}
-                onClick={() => setActiveCategory(cat)}
-                className="px-4 py-1.5 rounded-full text-sm font-semibold capitalize transition"
-                style={
-                  activeCategory === cat
-                    ? {
-                        background: "linear-gradient(90deg,#3B82F6,#60A5FA)",
-                        color: "#fff",
-                        border: "none",
-                      }
-                    : {
-                        background: "transparent",
-                        color: "#374151",
-                        border: "1px solid #dde6ff",
-                      }
-                }
-              >
-                {cat}
-              </button>
-            ))}
-          </div>
-        )}
+      <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-10 py-10">
 
-        {loading ? (
-          <div className="flex justify-center py-20">
-            <div className="w-10 h-10 border-4 border-blue-100 border-t-[#3B82F6] rounded-full animate-spin" />
-          </div>
-        ) : error ? (
-          <div className="text-center py-20">
-            <p className="text-gray-500 text-lg">{error}</p>
-            <button
-              onClick={() => {
-                setLoading(true);
-                fetchImages();
-              }}
-              className="mt-4 rounded-xl px-5 py-2.5 text-sm font-semibold text-white"
-              style={{ background: "linear-gradient(135deg,#3B82F6,#60A5FA)" }}
-            >
-              Try again
-            </button>
-          </div>
-        ) : filtered.length === 0 ? (
-          <div className="text-center py-20">
-            <p className="text-gray-400 text-lg">No images yet.</p>
-          </div>
-        ) : (
-          <div className="columns-1 sm:columns-2 md:columns-3 lg:columns-4 gap-4 space-y-4">
-            {filtered.map((img) => (
-              <div
-                key={img.id}
-                className="break-inside-avoid rounded-xl overflow-hidden cursor-pointer group shadow-sm hover:shadow-md transition-shadow"
-                style={{ border: "1px solid #dde6ff" }}
-                onClick={() => setLightbox(img)}
-              >
-                <div className="relative overflow-hidden bg-gray-50">
-                  <img
-                    src={img.url}
-                    alt={img.title || "Gallery image"}
-                    className="w-full object-cover transition-transform duration-300 group-hover:scale-105"
-                    loading="lazy"
-                  />
-                  {img.title && (
-                    <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/70 to-transparent px-3 py-3 translate-y-full group-hover:translate-y-0 transition-transform duration-300">
-                      <p className="text-white text-xs font-semibold truncate">
-                        {img.title}
-                      </p>
+        {/* Admin-uploaded Exhibition images — if any */}
+        {dbImages.length > 0 && (
+          <div className="mb-14">
+            <h2 className="text-xs font-bold uppercase tracking-[0.2em] text-[#1a1464] border-b border-[#1a1464]/10 pb-3 mb-6">
+              Exhibition Gallery
+            </h2>
+            {Array.from(dbGroups.entries()).map(([cat, imgs]) => (
+              <div key={cat} className="mb-10">
+                <h3 className="text-[11px] font-bold uppercase tracking-[0.18em] text-[#1a1464]/50 mb-3">{cat}</h3>
+                <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
+                  {imgs.map((img, idx) => (
+                    <div
+                      key={img.id}
+                      className="group cursor-pointer overflow-hidden rounded-sm bg-gray-50"
+                      style={{ border: "1px solid rgba(26,20,100,0.08)" }}
+                      onClick={() => openLightbox(imgs, idx)}
+                    >
+                      <div className="aspect-[4/3] overflow-hidden">
+                        <img
+                          src={img.url}
+                          alt={img.title || cat}
+                          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                          loading="lazy"
+                        />
+                      </div>
+                      {img.title && (
+                        <p className="px-2 py-1.5 text-[10px] font-semibold text-[#1a1464]/60 truncate">{img.title}</p>
+                      )}
                     </div>
-                  )}
+                  ))}
                 </div>
               </div>
             ))}
           </div>
         )}
+
+        {/* Gallery images */}
+        <div>
+          {Array.from(catalogueGroups.entries()).map(([cat, imgs]) => (
+            <div key={cat} className="mb-10">
+              <h3 className="text-[11px] font-bold uppercase tracking-[0.18em] text-[#1a1464]/50 mb-3">{cat}</h3>
+              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
+                {imgs.map((img, idx) => (
+                  <div
+                    key={img.id}
+                    className="group cursor-pointer overflow-hidden rounded-sm bg-gray-50"
+                    style={{ border: "1px solid rgba(26,20,100,0.08)" }}
+                    onClick={() => openLightbox(imgs, idx)}
+                  >
+                    <div className="aspect-[4/3] overflow-hidden">
+                      <img
+                        src={img.url}
+                        alt={img.title || cat}
+                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                        loading="lazy"
+                      />
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
 
-      {/* LIGHTBOX */}
-      {lightbox && (
+      {/* Lightbox */}
+      {lightboxImages.length > 0 && (
         <div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/85 backdrop-blur-sm p-4"
-          onClick={() => setLightbox(null)}
+          className="fixed inset-0 z-[110] flex items-center justify-center bg-black/90 p-4"
+          onClick={() => setLightboxImages([])}
         >
-          <div
-            className="relative max-w-4xl w-full max-h-[90vh] flex flex-col items-center"
-            onClick={(e) => e.stopPropagation()}
-          >
+          <div className="relative max-w-4xl w-full" onClick={(e) => e.stopPropagation()}>
             <button
-              onClick={() => setLightbox(null)}
-              className="absolute -top-10 right-0 text-white/70 hover:text-white text-2xl font-bold"
+              onClick={() => setLightboxImages([])}
+              className="absolute -top-10 right-0 text-white/60 hover:text-white text-2xl font-bold"
             >
               ✕
             </button>
-            <img
-              src={lightbox.url}
-              alt={lightbox.title || "Gallery image"}
-              className="max-h-[80vh] max-w-full rounded-xl object-contain shadow-2xl"
-            />
-            {lightbox.title && (
-              <p className="mt-3 text-white/80 text-sm text-center">
-                {lightbox.title}
-              </p>
+            {lightboxImages.length > 1 && (
+              <>
+                <button
+                  onClick={() => setLightboxIndex((i) => (i - 1 + lightboxImages.length) % lightboxImages.length)}
+                  className="absolute left-2 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-white/15 hover:bg-white/30 flex items-center justify-center text-white text-xl transition"
+                >‹</button>
+                <button
+                  onClick={() => setLightboxIndex((i) => (i + 1) % lightboxImages.length)}
+                  className="absolute right-2 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-white/15 hover:bg-white/30 flex items-center justify-center text-white text-xl transition"
+                >›</button>
+              </>
             )}
+            <img
+              src={lightboxImages[lightboxIndex]?.url}
+              alt={lightboxImages[lightboxIndex]?.title}
+              className="max-h-[80vh] w-full object-contain rounded-lg shadow-2xl"
+            />
+            {lightboxImages[lightboxIndex]?.title && (
+              <p className="mt-3 text-white/70 text-sm text-center">{lightboxImages[lightboxIndex].title}</p>
+            )}
+            <div className="flex gap-2 mt-4 overflow-x-auto pb-1 justify-center">
+              {lightboxImages.map((img, i) => (
+                <button
+                  key={i}
+                  onClick={() => setLightboxIndex(i)}
+                  className={`flex-shrink-0 w-14 h-10 rounded overflow-hidden border-2 transition ${i === lightboxIndex ? "border-white" : "border-transparent opacity-50 hover:opacity-80"}`}
+                >
+                  <img src={img.url} alt="" className="w-full h-full object-cover" />
+                </button>
+              ))}
+            </div>
           </div>
         </div>
       )}

@@ -1,5 +1,21 @@
 import { NextRequest, NextResponse } from "next/server";
 import { pool } from "@/lib/db";
+import { cookies } from "next/headers";
+import jwt from "jsonwebtoken";
+
+const JWT_SECRET = process.env.JWT_SECRET || "fallback_secret_change_this";
+
+async function verifyAdmin() {
+  const cookieStore = await cookies();
+  const token = cookieStore.get("admin_token")?.value;
+  if (!token) return false;
+  try {
+    jwt.verify(token, JWT_SECRET);
+    return true;
+  } catch {
+    return false;
+  }
+}
 
 async function initNewsletterTable() {
   await pool.query(`
@@ -27,12 +43,14 @@ export async function GET() {
       { success: true, data: result.rows[0] || null },
       { headers: { "Cache-Control": "no-store" } },
     );
-  } catch (err: any) {
+  } catch {
     return NextResponse.json({ error: "Failed to fetch." }, { status: 500 });
   }
 }
 
 export async function POST(req: NextRequest) {
+  if (!(await verifyAdmin()))
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   try {
     await initNewsletterTable();
     const { title, subtitle, content, is_published } = await req.json();
@@ -41,7 +59,7 @@ export async function POST(req: NextRequest) {
       [title || "", subtitle || "", content || "", is_published ?? false],
     );
     return NextResponse.json({ success: true });
-  } catch (err: any) {
+  } catch {
     return NextResponse.json({ error: "Failed to save." }, { status: 500 });
   }
 }

@@ -46,7 +46,7 @@ export default function AdminLoginPage() {
           <h1 className="text-2xl font-bold text-gray-900">Admin Panel</h1>
         </div>
 
-        <div className="bg-white rounded-2xl border border-[#dde6ff] p-8 shadow-sm">
+        <div className="bg-white rounded-2xl border border-[#e0e4f0] p-8 shadow-sm">
           <h2 className="text-lg font-semibold text-gray-900 mb-6">
             Sign in to continue
           </h2>
@@ -69,7 +69,7 @@ export default function AdminLoginPage() {
                 }
                 placeholder="Enter username"
                 required
-                className="w-full px-4 py-3 rounded-xl bg-white border border-gray-200 text-gray-900 placeholder-gray-400 text-sm focus:outline-none focus:ring-2 focus:ring-[#3B82F6] focus:border-transparent transition"
+                className="w-full px-4 py-3 rounded-xl bg-white border border-gray-200 text-gray-900 placeholder-gray-400 text-sm focus:outline-none focus:ring-2 focus:ring-[#1a1464] focus:border-transparent transition"
               />
             </div>
             <div>
@@ -86,7 +86,7 @@ export default function AdminLoginPage() {
                   }
                   placeholder="Enter password"
                   required
-                  className="w-full px-4 py-3 pr-12 rounded-xl bg-white border border-gray-200 text-gray-900 placeholder-gray-400 text-sm focus:outline-none focus:ring-2 focus:ring-[#3B82F6] focus:border-transparent transition"
+                  className="w-full px-4 py-3 pr-12 rounded-xl bg-white border border-gray-200 text-gray-900 placeholder-gray-400 text-sm focus:outline-none focus:ring-2 focus:ring-[#1a1464] focus:border-transparent transition"
                 />
                 <button
                   type="button"
@@ -122,7 +122,7 @@ export default function AdminLoginPage() {
               disabled={status === "loading"}
               className="w-full py-3.5 rounded-xl text-white font-semibold text-sm tracking-wide transition-all duration-200 hover:opacity-90 hover:shadow-lg disabled:opacity-50 mt-2"
               style={{
-                background: "linear-gradient(135deg, #3B82F6, #60A5FA)",
+                background: "#e84030",
               }}
             >
               {status === "loading" ? (
