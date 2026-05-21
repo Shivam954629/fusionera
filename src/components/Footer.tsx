@@ -68,8 +68,8 @@ export default function Footer() {
               Fusion The Era
             </h4>
             <ul className="space-y-2 text-[13px] text-white/55">
+              <li><Link href="/about" className="hover:text-white transition flex items-start"><Arrow />About Fusion The Era</Link></li>
               <li><Link href="/show" className="hover:text-white transition flex items-start"><Arrow />About The Show</Link></li>
-              <li><Link href="/show" className="hover:text-white transition flex items-start"><Arrow />Fusion The Era 2026</Link></li>
               <li><Link href="/organizer" className="hover:text-white transition flex items-start"><Arrow />About Organiser</Link></li>
               <li><Link href="/#why" className="hover:text-white transition flex items-start"><Arrow />Why Fusion The Era</Link></li>
               <li><Link href="/trade" className="hover:text-white transition flex items-start"><Arrow />Trade Show Facts: 1st Edition</Link></li>

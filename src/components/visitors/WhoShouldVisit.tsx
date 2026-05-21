@@ -1,42 +1,54 @@
 "use client";
-import React from "react";
+import React, { useEffect, useState } from "react";
+
+const FALLBACK_TITLE = "Who Should Visit";
+const FALLBACK_PARAGRAPHS = [
+  "Fusion The Era is designed for decision-makers and trade professionals seeking quality products, trusted suppliers, and new business opportunities within the home and hospitality sector.",
+  "The exhibition attracts Retailers & Modern Trade Buyers, Dealers & Distribution Networks, Hotel & Hospitality Procurement Teams, Importers & Exporters, Interior & Design Professionals, Corporate & Institutional Buyers, and E-commerce & Marketplace Sellers.",
+  "The event offers a business-first environment where networking, sourcing, and collaboration happen naturally under one roof.",
+];
 
 export default function WhoShouldVisit() {
+  const [title, setTitle] = useState(FALLBACK_TITLE);
+  const [paragraphs, setParagraphs] = useState<string[]>(FALLBACK_PARAGRAPHS);
+
+  useEffect(() => {
+    fetch("/api/admin/content", { cache: "no-store" })
+      .then((r) => r.json())
+      .then((data) => {
+        const entry = (data?.data ?? []).find(
+          (c: { key: string; is_published: boolean }) =>
+            c.key === "who-should-visit" && c.is_published,
+        );
+        if (entry) {
+          if (entry.title) setTitle(entry.title);
+          if (entry.content) {
+            const paras = entry.content
+              .split(/\n\n+/)
+              .map((p: string) => p.trim())
+              .filter(Boolean);
+            if (paras.length > 0) setParagraphs(paras);
+          }
+        }
+      })
+      .catch(() => {});
+  }, []);
+
   return (
     <section
       id="WhoShouldVisit"
-      className="mx-auto w-full max-w-7xl px-4 py-8 sm:px-6 md:py-12 lg:px-10 reveal-on-scroll reveal-zoom"
+      className="mx-auto w-full max-w-7xl my-8 md:my-12 px-6 py-10 sm:px-8 sm:py-12 md:py-14 md:px-10 rounded-2xl overflow-hidden reveal-on-scroll reveal-zoom"
+      style={{ background: "#fef9c3" }}
       data-reveal-delay="50"
     >
-      <div className="relative overflow-hidden rounded-2xl border border-[#dde6ff] bg-[#eef2ff]">
-        <div className="relative grid gap-6 p-4 text-gray-900 sm:p-6 md:p-8">
-          <div>
-            <h2 className="mt-4 text-2xl font-bold md:text-3xl">
-              Who Should Visit
-            </h2>
-            <p className="mt-4 text-md leading-7 text-justify text-gray-600">
-              Fusion The Era is designed for decision-makers and trade
-              professionals seeking quality products, trusted suppliers, and new
-              business opportunities within the home and hospitality sector.
-            </p>
-            <p className="mt-4 text-md leading-7 text-justify text-gray-600">
-             The exhibition attracts:
-            </p>
-            <ul className="mt-4 list-disc space-y-2 pl-6 text-md leading-7 text-gray-600">
-              <li>Retailers & Modern Trade Buyers</li>
-              <li>Dealers & Distribution Networks</li>
-              <li>Hotel & Hospitality Procurement Teams</li>
-              <li>Importers & Exporters</li>
-              <li>Interior & Design Professionals</li>
-              <li>Corporate & Institutional Buyers</li>
-              <li>E-commerce & Marketplace Sellers</li>
-            </ul>
-             <p className="mt-4 text-md leading-7 text-justify text-gray-600">
-            The event offers a business-first environment where networking, sourcing, and collaboration happen naturally under one roof.
-            </p>
-          </div>
-        </div>
-      </div>
+      <h2 className="mt-4 text-2xl font-bold md:text-3xl" style={{ color: "#0c1148" }}>
+        {title}
+      </h2>
+      {paragraphs.map((para, i) => (
+        <p key={i} className="mt-4 text-lg leading-8 text-justify" style={{ color: "#0c1148" }}>
+          {para}
+        </p>
+      ))}
     </section>
   );
 }

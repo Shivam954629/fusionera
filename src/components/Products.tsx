@@ -60,17 +60,16 @@ export default function Products() {
     <>
       <section
         id="houseware"
-        className="mx-auto w-full max-w-7xl px-4 py-6 sm:px-6 md:py-10 lg:px-10"
+        className="mx-auto w-full max-w-7xl my-8 md:my-12 px-6 py-10 sm:px-8 sm:py-12 md:py-14 md:px-10 rounded-2xl overflow-hidden reveal-on-scroll reveal-zoom"
+        style={{ background: "#fef9c3" }}
         data-reveal-delay="0"
       >
-        <div className="relative overflow-hidden rounded-2xl p-4 shadow-sm sm:p-6 md:p-8" style={{ border: "1px solid rgba(26,20,100,0.1)", background: "#f0f4f8" }}>
-
           <div className="mb-6 flex flex-wrap items-end justify-between gap-4">
             <div className="max-w-3xl">
-              <h2 className="text-3xl font-bold text-gray-900 sm:text-4xl lg:text-5xl">
+              <h2 className="text-3xl font-bold sm:text-4xl lg:text-5xl" style={{ color: "#0c1148" }}>
                 Product Portfolio
               </h2>
-              <p className="mt-3 text-sm leading-7 text-gray-600 md:text-base">
+              <p className="mt-3 text-sm leading-7 md:text-base" style={{ color: "#374151" }}>
                 Indian and International brands, importers, manufacturers and
                 distributors, private label suppliers, startup brands and
                 specialized producers.
@@ -128,7 +127,6 @@ export default function Products() {
               </article>
             ))}
           </div>
-        </div>
       </section>
 
       {/* Gallery Modal */}

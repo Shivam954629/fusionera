@@ -85,11 +85,11 @@ function CommentCarousel({
   return (
     <div className="flex flex-col items-center text-center px-2 md:px-10">
       {/* Title */}
-      <h3 className="text-xs font-black uppercase tracking-[0.22em]" style={{ color: "#1a1464" }}>
+      <h3 className="text-[15px] font-extrabold uppercase tracking-[0.18em]" style={{ color: "#1a1464" }}>
         {title}
       </h3>
       {/* Simple line */}
-      <div className="h-px w-16 mt-3 mb-8 mx-auto" style={{ background: "rgba(26,20,100,0.2)" }} />
+      <div className="h-0.5 w-16 mt-3 mb-8 mx-auto" style={{ background: "#f0b429" }} />
 
       {/* Card area */}
       <div className="relative w-full min-h-[260px] flex flex-col items-center">
@@ -114,9 +114,9 @@ function CommentCarousel({
         {/* Name */}
         <p className="text-sm font-bold" style={{ color: "#1a1464" }}>{c.name}</p>
         {/* Designation */}
-        <p className="text-xs text-gray-400 mt-1 mb-5">{c.designation}</p>
+        <p className="text-xs font-medium mt-1 mb-5" style={{ color: "#1a1464" }}>{c.designation}</p>
         {/* Comment */}
-        <p className="text-sm leading-7 text-gray-500 max-w-xs md:max-w-sm">
+        <p className="text-sm leading-7 font-medium max-w-xs md:max-w-sm" style={{ color: "#1a1464" }}>
           {c.text}
         </p>
       </div>
@@ -191,7 +191,7 @@ export default function CommentsSection() {
   useEffect(() => { fetchComments(); }, [fetchComments]);
 
   return (
-    <section className="w-full py-12 md:py-16" style={{ background: "#f0f4f8" }}>
+    <section className="w-full py-14 md:py-18" style={{ background: "#cce8f5", borderTop: "4px solid #f0b429" }}>
       <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-10">
         <div className="grid grid-cols-1 gap-12 md:grid-cols-2 md:gap-0 md:divide-x md:divide-[#1a1464]/10">
           <CommentCarousel

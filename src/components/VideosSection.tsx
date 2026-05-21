@@ -1,26 +1,26 @@
 "use client";
 import Link from "next/link";
 
-const Divider = () => <div className="h-px w-20 bg-[#1a1464]/20 my-3 mx-auto" />;
+const Divider = () => <div className="h-0.5 w-16 my-3 mx-auto" style={{ background: "rgba(255,255,255,0.4)" }} />;
 
 export default function VideosSection() {
   return (
-    <section className="w-full py-10 md:py-14 bg-white">
+    <section className="w-full py-14 md:py-18" style={{ background: "linear-gradient(135deg, #e03868 0%, #f57050 100%)" }}>
       <div className="mx-auto w-full max-w-4xl px-4 sm:px-6 lg:px-10">
 
-        {/* Title block — exactly like HGH "VIDEO GALLERY" style */}
-        <div className="text-center mb-8">
-          <h2 className="text-sm font-bold uppercase tracking-[0.25em] text-[#1a1464]">
+        {/* Title block */}
+        <div className="text-center mb-10">
+          <h2 className="text-[15px] font-black uppercase tracking-[0.22em]" style={{ color: "#ffffff" }}>
             Fusion The Era
           </h2>
-          <p className="mt-1 text-xs font-semibold uppercase tracking-[0.2em] text-[#1a1464]/50">
+          <p className="mt-2 text-sm font-black uppercase tracking-[0.18em]" style={{ color: "#ffffff" }}>
             Perfect Business Platform
           </p>
           <Divider />
         </div>
 
         {/* Video — 16:9 */}
-        <div className="overflow-hidden rounded-xl shadow-lg border border-[#1a1464]/10">
+        <div className="overflow-hidden rounded-xl shadow-2xl border border-white/20">
           <div className="relative w-full" style={{ paddingBottom: "56.25%" }}>
             <video
               className="absolute inset-0 w-full h-full"
@@ -37,8 +37,8 @@ export default function VideosSection() {
         <div className="text-center mt-7">
           <Link
             href="/videos"
-            className="inline-block rounded px-8 py-2.5 text-sm font-semibold text-white transition"
-            style={{ background: "#e84030", boxShadow: "0 4px 14px rgba(232,64,48,0.3)" }}
+            className="inline-block rounded px-8 py-2.5 text-sm font-bold transition hover:opacity-90"
+            style={{ background: "#ffffff", color: "#e03868", boxShadow: "0 4px 18px rgba(0,0,0,0.15)" }}
           >
             View All Videos
           </Link>

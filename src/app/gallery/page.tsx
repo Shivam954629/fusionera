@@ -9,9 +9,6 @@ interface GalleryImage {
   is_published: boolean;
 }
 
-const Divider = () => <div className="h-px w-20 bg-[#1a1464]/20 my-3 mx-auto" />;
-
-// Static catalogue images — always shown
 const catalogueImages: GalleryImage[] = [
   { id: "c1",  title: "Houseware",          url: "/images/catalogue/houseware-1.jpg",      category: "Houseware",         is_published: true },
   { id: "c2",  title: "Houseware",          url: "/images/catalogue/houseware-2.jpg",      category: "Houseware",         is_published: true },
@@ -27,7 +24,6 @@ const catalogueImages: GalleryImage[] = [
   { id: "c12", title: "Tableware",          url: "/images/catalogue/tableware.jpg",        category: "Tableware",         is_published: true },
   { id: "c13", title: "Ceramic Plates",     url: "/images/catalogue/ceramic-plates.jpg",  category: "Tableware",         is_published: true },
   { id: "c14", title: "Plastic Ware",       url: "/images/catalogue/plastic-ware.jpg",    category: "Plastic Ware",      is_published: true },
-  { id: "c15", title: "Plastic Ware",       url: "/images/catalogue/plastic-ware-1.jpg",  category: "Plastic Ware",      is_published: true },
   { id: "c16", title: "Plastic Ware",       url: "/images/catalogue/plastic-ware-2.jpg",  category: "Plastic Ware",      is_published: true },
   { id: "c17", title: "Brass & Silver",     url: "/images/catalogue/brass-silver-1.jpg",  category: "Brass & Silver",    is_published: true },
   { id: "c18", title: "Brass & Silver",     url: "/images/catalogue/brass-silver-2.jpg",  category: "Brass & Silver",    is_published: true },
@@ -78,7 +74,6 @@ export default function GalleryPage() {
     return () => window.removeEventListener("keydown", onKey);
   }, [lightboxImages.length]);
 
-  // Group images by category
   const groupByCategory = (imgs: GalleryImage[]) => {
     const map = new Map<string, GalleryImage[]>();
     imgs.forEach((img) => {
@@ -98,80 +93,63 @@ export default function GalleryPage() {
   };
 
   return (
-    <div className="min-h-screen bg-white">
-      {/* Page header */}
-      <div className="w-full py-10 md:py-12" style={{ background: "#eef2ff" }}>
-        <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-10 text-center">
-          <h1 className="text-sm font-bold uppercase tracking-[0.2em] text-[#1a1464]">Photo Gallery</h1>
-          <Divider />
-        </div>
-      </div>
+    <section
+      className="mx-auto w-full max-w-7xl my-8 md:my-12 px-6 py-10 sm:px-8 sm:py-12 md:py-14 md:px-10 rounded-2xl overflow-hidden reveal-on-scroll reveal-zoom"
+      style={{ background: "#fef9c3" }}
+      data-reveal-delay="50"
+    >
+      <h2 className="mt-4 text-2xl font-bold md:text-3xl" style={{ color: "#0c1148" }}>Photo Gallery</h2>
 
-      <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-10 py-10">
-
-        {/* Admin-uploaded Exhibition images — if any */}
-        {dbImages.length > 0 && (
-          <div className="mb-14">
-            <h2 className="text-xs font-bold uppercase tracking-[0.2em] text-[#1a1464] border-b border-[#1a1464]/10 pb-3 mb-6">
-              Exhibition Gallery
-            </h2>
-            {Array.from(dbGroups.entries()).map(([cat, imgs]) => (
-              <div key={cat} className="mb-10">
-                <h3 className="text-[11px] font-bold uppercase tracking-[0.18em] text-[#1a1464]/50 mb-3">{cat}</h3>
-                <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
-                  {imgs.map((img, idx) => (
-                    <div
-                      key={img.id}
-                      className="group cursor-pointer overflow-hidden rounded-sm bg-gray-50"
-                      style={{ border: "1px solid rgba(26,20,100,0.08)" }}
-                      onClick={() => openLightbox(imgs, idx)}
-                    >
-                      <div className="aspect-[4/3] overflow-hidden">
-                        <img
-                          src={img.url}
-                          alt={img.title || cat}
-                          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                          loading="lazy"
-                        />
-                      </div>
-                      {img.title && (
-                        <p className="px-2 py-1.5 text-[10px] font-semibold text-[#1a1464]/60 truncate">{img.title}</p>
-                      )}
-                    </div>
-                  ))}
-                </div>
-              </div>
-            ))}
-          </div>
-        )}
-
-        {/* Gallery images */}
-        <div>
-          {Array.from(catalogueGroups.entries()).map(([cat, imgs]) => (
-            <div key={cat} className="mb-10">
-              <h3 className="text-[11px] font-bold uppercase tracking-[0.18em] text-[#1a1464]/50 mb-3">{cat}</h3>
+      {dbImages.length > 0 && (
+        <div className="mt-8 mb-10">
+          <h3 className="text-xs font-bold uppercase tracking-[0.2em] mb-4 pb-2" style={{ color: "#0c1148", borderBottom: "1px solid rgba(12,17,72,0.15)" }}>
+            Exhibition Gallery
+          </h3>
+          {Array.from(dbGroups.entries()).map(([cat, imgs]) => (
+            <div key={cat} className="mb-8">
+              <h4 className="text-[11px] font-bold uppercase tracking-[0.18em] mb-3" style={{ color: "rgba(12,17,72,0.5)" }}>{cat}</h4>
               <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
                 {imgs.map((img, idx) => (
                   <div
                     key={img.id}
-                    className="group cursor-pointer overflow-hidden rounded-sm bg-gray-50"
-                    style={{ border: "1px solid rgba(26,20,100,0.08)" }}
+                    className="group cursor-pointer overflow-hidden rounded-xl bg-white"
+                    style={{ border: "1px solid rgba(12,17,72,0.08)" }}
                     onClick={() => openLightbox(imgs, idx)}
                   >
                     <div className="aspect-[4/3] overflow-hidden">
-                      <img
-                        src={img.url}
-                        alt={img.title || cat}
-                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                        loading="lazy"
-                      />
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img src={img.url} alt={img.title || cat} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" loading="lazy" />
                     </div>
+                    {img.title && <p className="px-2 py-1.5 text-[10px] font-semibold truncate" style={{ color: "rgba(12,17,72,0.6)" }}>{img.title}</p>}
                   </div>
                 ))}
               </div>
             </div>
           ))}
         </div>
+      )}
+
+      <div className="mt-6">
+        {Array.from(catalogueGroups.entries()).map(([cat, imgs]) => (
+          <div key={cat} className="mb-8">
+            <h3 className="text-[11px] font-bold uppercase tracking-[0.18em] mb-3" style={{ color: "rgba(12,17,72,0.5)" }}>{cat}</h3>
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
+              {imgs.map((img, idx) => (
+                <div
+                  key={img.id}
+                  className="group cursor-pointer overflow-hidden rounded-xl bg-white"
+                  style={{ border: "1px solid rgba(12,17,72,0.08)" }}
+                  onClick={() => openLightbox(imgs, idx)}
+                >
+                  <div className="aspect-[4/3] overflow-hidden">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img src={img.url} alt={img.title || cat} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" loading="lazy" />
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        ))}
       </div>
 
       {/* Lightbox */}
@@ -181,39 +159,22 @@ export default function GalleryPage() {
           onClick={() => setLightboxImages([])}
         >
           <div className="relative max-w-4xl w-full" onClick={(e) => e.stopPropagation()}>
-            <button
-              onClick={() => setLightboxImages([])}
-              className="absolute -top-10 right-0 text-white/60 hover:text-white text-2xl font-bold"
-            >
-              ✕
-            </button>
+            <button onClick={() => setLightboxImages([])} className="absolute -top-10 right-0 text-white/60 hover:text-white text-2xl font-bold">✕</button>
             {lightboxImages.length > 1 && (
               <>
-                <button
-                  onClick={() => setLightboxIndex((i) => (i - 1 + lightboxImages.length) % lightboxImages.length)}
-                  className="absolute left-2 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-white/15 hover:bg-white/30 flex items-center justify-center text-white text-xl transition"
-                >‹</button>
-                <button
-                  onClick={() => setLightboxIndex((i) => (i + 1) % lightboxImages.length)}
-                  className="absolute right-2 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-white/15 hover:bg-white/30 flex items-center justify-center text-white text-xl transition"
-                >›</button>
+                <button onClick={() => setLightboxIndex((i) => (i - 1 + lightboxImages.length) % lightboxImages.length)} className="absolute left-2 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-white/15 hover:bg-white/30 flex items-center justify-center text-white text-xl transition">‹</button>
+                <button onClick={() => setLightboxIndex((i) => (i + 1) % lightboxImages.length)} className="absolute right-2 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-white/15 hover:bg-white/30 flex items-center justify-center text-white text-xl transition">›</button>
               </>
             )}
-            <img
-              src={lightboxImages[lightboxIndex]?.url}
-              alt={lightboxImages[lightboxIndex]?.title}
-              className="max-h-[80vh] w-full object-contain rounded-lg shadow-2xl"
-            />
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src={lightboxImages[lightboxIndex]?.url} alt={lightboxImages[lightboxIndex]?.title} className="max-h-[80vh] w-full object-contain rounded-lg shadow-2xl" />
             {lightboxImages[lightboxIndex]?.title && (
               <p className="mt-3 text-white/70 text-sm text-center">{lightboxImages[lightboxIndex].title}</p>
             )}
             <div className="flex gap-2 mt-4 overflow-x-auto pb-1 justify-center">
               {lightboxImages.map((img, i) => (
-                <button
-                  key={i}
-                  onClick={() => setLightboxIndex(i)}
-                  className={`flex-shrink-0 w-14 h-10 rounded overflow-hidden border-2 transition ${i === lightboxIndex ? "border-white" : "border-transparent opacity-50 hover:opacity-80"}`}
-                >
+                <button key={i} onClick={() => setLightboxIndex(i)} className={`flex-shrink-0 w-14 h-10 rounded overflow-hidden border-2 transition ${i === lightboxIndex ? "border-white" : "border-transparent opacity-50 hover:opacity-80"}`}>
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img src={img.url} alt="" className="w-full h-full object-cover" />
                 </button>
               ))}
@@ -221,6 +182,6 @@ export default function GalleryPage() {
           </div>
         </div>
       )}
-    </div>
+    </section>
   );
 }

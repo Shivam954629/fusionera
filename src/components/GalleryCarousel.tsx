@@ -11,7 +11,7 @@ interface GalleryImage {
 }
 
 
-const Divider = () => <div className="h-px w-20 bg-[#1a1464]/20 my-3 mx-auto" />;
+const Divider = () => <div className="h-0.5 w-16 my-3 mx-auto" style={{ background: "#e84030" }} />;
 
 const fallbackImages: GalleryImage[] = [
   { id: "f1", title: "", url: "/images/catalogue/houseware-1.jpg",      category: "", is_published: true },
@@ -64,10 +64,10 @@ export default function GalleryCarousel() {
 
   return (
     <>
-      <section className="w-full py-10 md:py-14" style={{ background: "#f0f4f8" }}>
+      <section className="w-full py-14 md:py-18" style={{ background: "#cce8f5", borderTop: "4px solid #e84030" }}>
         <div className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-10">
-          <div className="text-center mb-8">
-            <h2 className="text-sm font-bold uppercase tracking-[0.2em] text-[#1a1464]">Photo Gallery</h2>
+          <div className="text-center mb-10">
+            <h2 className="text-[15px] font-extrabold uppercase tracking-[0.2em]" style={{ color: "#1a1464" }}>Photo Gallery</h2>
             <Divider />
           </div>
 

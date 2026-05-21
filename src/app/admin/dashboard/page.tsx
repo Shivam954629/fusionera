@@ -206,6 +206,8 @@ export default function AdminDashboard() {
   const [brandForm, setBrandForm] = useState({ name: "", logo_url: "", is_published: true, sort_order: 0 });
   const [editingBrand, setEditingBrand] = useState<{ id: number; name: string; logo_url: string; is_published: boolean; sort_order: number } | null>(null);
   const [brandSaved, setBrandSaved] = useState(false);
+  const [brandUploading, setBrandUploading] = useState(false);
+  const [brandUploaded, setBrandUploaded] = useState(false);
 
   // Enquiries state
   const [enquiries, setEnquiries] = useState<{ id: number; title: string; first_name: string; last_name: string; company: string; designation: string; email: string; phone: string; city: string; state: string; country: string; message: string; created_at: string }[]>([]);
@@ -788,6 +790,20 @@ export default function AdminDashboard() {
       alert(e instanceof Error ? e.message : "Upload failed");
     } finally {
       setCommentPhotoUploading(false);
+    }
+  };
+
+  const handleBrandLogoUpload = async (file: File) => {
+    setBrandUploading(true);
+    setBrandUploaded(false);
+    try {
+      const url = await uploadToCloudinary(file, "image");
+      setBrandForm((f) => ({ ...f, logo_url: url }));
+      setBrandUploaded(true);
+    } catch (e: unknown) {
+      alert(e instanceof Error ? e.message : "Upload failed");
+    } finally {
+      setBrandUploading(false);
     }
   };
 
@@ -3036,13 +3052,32 @@ export default function AdminDashboard() {
                     />
                   </div>
                   <div>
-                    <label className="block text-xs font-semibold mb-1 text-gray-600">Logo URL (optional)</label>
-                    <input
-                      value={brandForm.logo_url}
-                      onChange={(e) => setBrandForm((f) => ({ ...f, logo_url: e.target.value }))}
-                      className="w-full px-4 py-2.5 rounded-xl text-sm bg-white border border-gray-200 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#1a1464]"
-                      placeholder="https://... or /images/brands/logo.png"
-                    />
+                    <label className="block text-xs font-semibold mb-1 text-gray-600">Logo (optional)</label>
+                    <div className="flex gap-2">
+                      <input
+                        value={brandForm.logo_url}
+                        onChange={(e) => setBrandForm((f) => ({ ...f, logo_url: e.target.value }))}
+                        className="flex-1 px-4 py-2.5 rounded-xl text-sm bg-white border border-gray-200 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#1a1464]"
+                        placeholder="Paste URL or upload image..."
+                      />
+                      <label
+                        className={`flex-shrink-0 px-3 py-2.5 rounded-xl text-xs font-semibold cursor-pointer transition border ${brandUploading ? "bg-gray-100 text-gray-400 border-gray-200 cursor-not-allowed" : brandUploaded ? "bg-green-50 text-green-700 border-green-300" : "bg-[#f0f4f8] text-[#1a1464] border-[#1a1464]/20 hover:bg-[#eaecf5]"}`}
+                        title="Upload logo to Cloudinary"
+                      >
+                        {brandUploading ? "Uploading..." : brandUploaded ? "✅ Uploaded" : "⬆ Upload"}
+                        <input
+                          type="file"
+                          accept="image/*"
+                          className="hidden"
+                          disabled={brandUploading}
+                          onChange={(e) => {
+                            const f = e.target.files?.[0];
+                            if (f) handleBrandLogoUpload(f);
+                            e.target.value = "";
+                          }}
+                        />
+                      </label>
+                    </div>
                     {brandForm.logo_url && (
                       <div className="mt-2 p-2 border border-gray-100 rounded-xl inline-block">
                         <img src={brandForm.logo_url} alt="preview" className="h-10 object-contain" onError={(e) => { (e.target as HTMLImageElement).style.display = "none"; }} />

@@ -25,9 +25,9 @@ export default function BrandMarquee() {
           <span
             key={i}
             className="inline-flex items-center gap-3 px-7 text-xs font-semibold uppercase tracking-[0.15em] select-none"
-            style={{ color: "#00c8de" }}
+            style={{ color: "#ffffff" }}
           >
-            <span className="w-1 h-1 inline-block shrink-0" style={{ background: "#00c8de", opacity: 0.6, transform: "rotate(45deg)" }} />
+            <span className="w-1 h-1 inline-block shrink-0" style={{ background: "#ffffff", opacity: 0.6, transform: "rotate(45deg)" }} />
             {brand}
           </span>
         ))}

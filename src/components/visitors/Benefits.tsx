@@ -1,35 +1,24 @@
 "use client";
 import React from "react";
+import { usePageContent } from "@/lib/usePageContent";
+
+const FALLBACK_TITLE = "Benefits";
+const FALLBACK_PARAS = [
+  "The exhibition is designed to help businesses save time, expand networks, and discover quality sourcing opportunities in one place.",
+  "Access to Indian and international exhibitors, direct interaction with industry professionals, opportunities for collaboration and business expansion, exposure to new launches and product innovations, and efficient sourcing for retail and hospitality businesses.",
+];
 
 export default function Benefits() {
+  const cms = usePageContent("visitor-benefits");
+  const title = cms?.title || FALLBACK_TITLE;
+  const paragraphs = cms?.paragraphs.length ? cms.paragraphs : FALLBACK_PARAS;
+
   return (
-    <section
-      id="benefits"
-      className="mx-auto w-full max-w-7xl px-4 py-8 sm:px-6 md:py-12 lg:px-10 reveal-on-scroll reveal-zoom"
-      data-reveal-delay="50"
-    >
-      <div className="relative overflow-hidden rounded-2xl border border-[#dde6ff] bg-[#eef2ff]">
-        <div className="relative grid gap-6 p-4 text-gray-900 sm:p-6 md:p-8">
-          <div>
-            <h2 className="mt-4 text-2xl font-bold md:text-3xl">Benefits</h2>
-            <p className="mt-4 text-md leading-7 text-justify text-gray-600">
-              The exhibition is designed to help businesses save time, expand
-              networks, and discover quality sourcing opportunities in one
-              place.
-            </p>
-            <p className="mt-4 text-md leading-7 text-justify text-gray-600">
-              Key visitor benefits include:
-            </p>
-              <ul className="mt-4 list-disc space-y-2 pl-6 text-md leading-7 text-gray-600">
-                <li>Access to Indian and international exhibitors</li>
-                <li>Direct interaction with industry professionals</li>
-                <li>Opportunities for collaboration and business expansion</li>
-                <li>Exposure to new launches and product innovations</li>
-                <li>Efficient sourcing for retail and hospitality businesses</li>
-              </ul>
-          </div>
-        </div>
-      </div>
+    <section id="benefits" className="mx-auto w-full max-w-7xl my-8 md:my-12 px-6 py-10 sm:px-8 sm:py-12 md:py-14 md:px-10 rounded-2xl overflow-hidden reveal-on-scroll reveal-zoom" style={{ background: "#fef9c3" }} data-reveal-delay="50">
+      <h2 className="mt-4 text-2xl font-bold md:text-3xl" style={{ color: "#0c1148" }}>{title}</h2>
+      {paragraphs.map((para, i) => (
+        <p key={i} className="mt-4 text-lg leading-8 text-justify" style={{ color: "#0c1148" }}>{para}</p>
+      ))}
     </section>
   );
 }

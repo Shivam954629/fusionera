@@ -123,7 +123,7 @@ export default function Header() {
                   Post Show Report
                 </Link>
                 <Link
-                  href="/gallery"
+                  href="/range"
                   className="block rounded px-3 py-2 text-xs text-white hover:bg-white/10"
                 >
                   Product Range
@@ -271,7 +271,7 @@ export default function Header() {
                   onClick={() => handleMobileNav("/show")}
                   className="rounded px-2 py-2 hover:bg-white/10 text-left w-full"
                 >
-                  About The Show 2026
+                  About The Show
                 </button>
                 {/* FIXED: was /about */}
                 <button
@@ -295,7 +295,7 @@ export default function Header() {
                   Post Show Report
                 </button>
                 <button
-                  onClick={() => handleMobileNav("/gallery")}
+                  onClick={() => handleMobileNav("/range")}
                   className="rounded px-2 py-2 hover:bg-white/10 text-left w-full"
                 >
                   Product Range
