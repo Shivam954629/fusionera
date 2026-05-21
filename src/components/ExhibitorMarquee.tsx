@@ -71,8 +71,8 @@ export default function ExhibitorMarquee() {
                 src={brand.logo_url}
                 alt={brand.name}
                 style={{
-                  height: "48px",
-                  maxWidth: "130px",
+                  height: "72px",
+                  maxWidth: "160px",
                   objectFit: "contain",
                 }}
               />
