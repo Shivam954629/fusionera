@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 import { useState } from "react";
 import { useSiteSettings } from "@/lib/useSiteSettings";
 
@@ -77,17 +77,14 @@ export default function ExhibitorRegistrationPage() {
   const blueBg = { background: "#1a1464" };
 
   return (
-    <div className="min-h-screen">
-      {/* HERO BANNER */}
-
-      <section className="px-4 py-8 sm:px-6 md:py-12 lg:px-10">
-        <div className="max-w-3xl mx-auto">
+    <div className="min-h-screen w-full bg-[#cae9ff] px-4 py-8 sm:px-6 md:py-12 lg:px-10">
+        <div className="max-w-5xl mx-auto">
           <div className="mb-6 md:mb-8" />
 
           <div className="text-center mb-6 md:mb-8">
             <h1
               className="text-3xl font-bold mb-2"
-              style={{ color: "var(--app-text)" }}
+              style={{ color: "#00509d" }}
             >
               Exhibitors Registration
             </h1>
@@ -99,7 +96,7 @@ export default function ExhibitorRegistrationPage() {
 
           {/* INTRO */}
           {stage === "intro" && (
-            <div className="max-w-2xl mx-auto">
+            <div className="max-w-3xl mx-auto">
               <div
                 className="rounded-2xl overflow-hidden shadow-xl"
                 style={{
@@ -148,7 +145,7 @@ export default function ExhibitorRegistrationPage() {
 
           {/* SELECTION */}
           {stage === "selection" && (
-            <div className="max-w-md mx-auto">
+            <div className="max-w-2xl mx-auto">
               <div
                 className="rounded-2xl overflow-hidden shadow-xl"
                 style={{
@@ -221,7 +218,7 @@ export default function ExhibitorRegistrationPage() {
 
           {/* LOGIN */}
           {stage === "login" && (
-            <div className="max-w-lg mx-auto">
+            <div className="max-w-3xl mx-auto">
               <div
                 className="rounded-2xl overflow-hidden shadow-xl"
                 style={{
@@ -434,7 +431,7 @@ export default function ExhibitorRegistrationPage() {
 
           {/* SUBMITTED */}
           {stage === "submitted" && (
-            <div className="max-w-lg mx-auto">
+            <div className="max-w-3xl mx-auto">
               <div
                 className="rounded-2xl overflow-hidden shadow-xl text-center"
                 style={{
@@ -497,7 +494,6 @@ export default function ExhibitorRegistrationPage() {
             </div>
           )}
         </div>
-      </section>
     </div>
   );
 }
@@ -1723,3 +1719,4 @@ function ExhibitorRequestForm({
     </div>
   );
 }
+

@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 import { useState, useEffect } from "react";
 import { useSiteSettings } from "@/lib/useSiteSettings";
 
@@ -541,14 +541,12 @@ export default function VisitorRegistrationPage() {
   );
 
   return (
-    <div className="min-h-screen">
-  
-    <section id="contact" className="px-4 py-6 sm:px-6 md:py-8 lg:px-10">
-      <div className="max-w-3xl mx-auto">
+    <div className="min-h-screen w-full bg-[#cae9ff] px-4 py-6 sm:px-6 md:py-8 lg:px-10">
+      <div className="max-w-5xl mx-auto">
         <div className="text-center mb-6 md:mb-8">
             <h1
             className="text-3xl font-bold mb-2"
-            style={{ color: "var(--app-text)" }}
+            style={{ color: "#00509d" }}
           >
             Visitor Registration
           </h1>
@@ -561,7 +559,7 @@ export default function VisitorRegistrationPage() {
 
         {/* OTP PHONE */}
         {stage === "otp-phone" && (
-          <div className="max-w-md mx-auto">
+          <div className="max-w-2xl mx-auto">
             <div
               className="rounded-2xl overflow-hidden shadow-xl"
               style={{
@@ -730,7 +728,7 @@ export default function VisitorRegistrationPage() {
 
         {/* OTP VERIFY */}
         {stage === "otp-verify" && (
-          <div className="max-w-md mx-auto">
+          <div className="max-w-2xl mx-auto">
             <div
               className="rounded-2xl overflow-hidden shadow-xl"
               style={{
@@ -1900,7 +1898,7 @@ export default function VisitorRegistrationPage() {
 
         {/* COMPLETE */}
         {stage === "complete" && (
-          <div className="max-w-lg mx-auto">
+          <div className="max-w-3xl mx-auto">
             <div
               className="rounded-2xl overflow-hidden shadow-xl"
               style={{
@@ -2013,7 +2011,7 @@ export default function VisitorRegistrationPage() {
           </div>
         )}
       </div>
-    </section>
     </div>
   );
 }
+
