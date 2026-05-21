@@ -31,36 +31,39 @@ export default function NewsletterPage() {
 
   if (loading) {
     return (
-      <section className="mx-auto w-full max-w-7xl my-8 md:my-12 px-6 py-10 sm:px-8 sm:py-12 md:py-14 md:px-10 rounded-2xl flex items-center justify-center" style={{ background: "#fef9c3", minHeight: "200px" }}>
-        <div className="w-8 h-8 rounded-full border-4 border-[#fef9c3] border-t-[#0c1148] animate-spin" />
+      <section className="w-full py-8 md:py-12 bg-[#cae9ff] flex items-center justify-center" style={{ minHeight: "200px" }}>
+        <div className="w-8 h-8 rounded-full border-4 border-[#cae9ff] border-t-[#00509d] animate-spin" />
       </section>
     );
   }
 
   if (!data || !data.is_published || (!data.title && !data.content)) {
-    return <section className="mx-auto w-full max-w-7xl my-8" style={{ minHeight: "100px" }} />;
+    return <section className="w-full my-8" style={{ minHeight: "100px" }} />;
   }
 
   return (
-    <section
-      className="mx-auto w-full max-w-7xl my-8 md:my-12 px-6 py-10 sm:px-8 sm:py-12 md:py-14 md:px-10 rounded-2xl overflow-hidden reveal-on-scroll reveal-zoom"
-      style={{ background: "#fef9c3" }}
-      data-reveal-delay="50"
-    >
-      <h2 className="mt-4 text-2xl font-bold md:text-3xl" style={{ color: "#0c1148" }}>
-        Newsletter
-      </h2>
-      {data.title && (
-        <p className="mt-4 text-lg font-semibold" style={{ color: "#0c1148" }}>{data.title}</p>
-      )}
-      {data.subtitle && (
-        <p className="mt-1 text-base" style={{ color: "#374151" }}>{data.subtitle}</p>
-      )}
-      {data.content && (
-        <p className="mt-4 text-lg leading-8 whitespace-pre-wrap text-justify" style={{ color: "#0c1148" }}>
-          {data.content}
-        </p>
-      )}
+    <section className="w-full py-8 md:py-12 reveal-on-scroll reveal-zoom bg-[#cae9ff]" data-reveal-delay="50">
+      <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-10">
+        <div className="relative grid gap-6 p-4 text-[#00509d] sm:p-6 md:p-8">
+          <div>
+            <div className="mt-4 w-fit">
+              <h2 className="text-2xl font-bold md:text-3xl">Newsletter</h2>
+              <div className="mt-2 h-1 w-full rounded-full bg-[#00509d]" />
+            </div>
+            {data.title && (
+              <p className="mt-4 text-lg font-semibold text-[#00509d]">{data.title}</p>
+            )}
+            {data.subtitle && (
+              <p className="mt-1 text-base text-gray-600">{data.subtitle}</p>
+            )}
+            {data.content && (
+              <p className="mt-4 text-md leading-7 whitespace-pre-wrap text-justify text-black">
+                {data.content}
+              </p>
+            )}
+          </div>
+        </div>
+      </div>
     </section>
   );
 }

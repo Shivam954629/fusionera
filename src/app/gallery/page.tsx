@@ -93,63 +93,68 @@ export default function GalleryPage() {
   };
 
   return (
-    <section
-      className="mx-auto w-full max-w-7xl my-8 md:my-12 px-6 py-10 sm:px-8 sm:py-12 md:py-14 md:px-10 rounded-2xl overflow-hidden reveal-on-scroll reveal-zoom"
-      style={{ background: "#fef9c3" }}
-      data-reveal-delay="50"
-    >
-      <h2 className="mt-4 text-2xl font-bold md:text-3xl" style={{ color: "#0c1148" }}>Photo Gallery</h2>
+    <section className="w-full py-8 md:py-12 reveal-on-scroll reveal-zoom bg-[#cae9ff]" data-reveal-delay="50">
+      <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-10">
+        <div className="relative grid gap-6 p-4 text-[#00509d] sm:p-6 md:p-8">
+          <div>
+            <div className="mt-4 w-fit">
+              <h2 className="text-2xl font-bold md:text-3xl">Photo Gallery</h2>
+              <div className="mt-2 h-1 w-full rounded-full bg-[#00509d]" />
+            </div>
 
-      {dbImages.length > 0 && (
-        <div className="mt-8 mb-10">
-          <h3 className="text-xs font-bold uppercase tracking-[0.2em] mb-4 pb-2" style={{ color: "#0c1148", borderBottom: "1px solid rgba(12,17,72,0.15)" }}>
-            Exhibition Gallery
-          </h3>
-          {Array.from(dbGroups.entries()).map(([cat, imgs]) => (
-            <div key={cat} className="mb-8">
-              <h4 className="text-[11px] font-bold uppercase tracking-[0.18em] mb-3" style={{ color: "rgba(12,17,72,0.5)" }}>{cat}</h4>
-              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
-                {imgs.map((img, idx) => (
-                  <div
-                    key={img.id}
-                    className="group cursor-pointer overflow-hidden rounded-xl bg-white"
-                    style={{ border: "1px solid rgba(12,17,72,0.08)" }}
-                    onClick={() => openLightbox(imgs, idx)}
-                  >
-                    <div className="aspect-[4/3] overflow-hidden">
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img src={img.url} alt={img.title || cat} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" loading="lazy" />
+            {dbImages.length > 0 && (
+              <div className="mt-8 mb-10">
+                <h3 className="text-sm font-bold uppercase tracking-[0.15em] mb-4 pb-2 text-[#00509d]" style={{ borderBottom: "2px solid rgba(0,80,157,0.3)" }}>
+                  Exhibition Gallery
+                </h3>
+                {Array.from(dbGroups.entries()).map(([cat, imgs]) => (
+                  <div key={cat} className="mb-8">
+                    <h4 className="text-xs font-bold uppercase tracking-[0.15em] mb-3 text-[#00509d]">{cat}</h4>
+                    <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
+                      {imgs.map((img, idx) => (
+                        <div
+                          key={img.id}
+                          className="group cursor-pointer overflow-hidden rounded-xl bg-white"
+                          style={{ border: "1px solid rgba(0,80,157,0.12)" }}
+                          onClick={() => openLightbox(imgs, idx)}
+                        >
+                          <div className="aspect-[4/3] overflow-hidden">
+                            {/* eslint-disable-next-line @next/next/no-img-element */}
+                            <img src={img.url} alt={img.title || cat} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" loading="lazy" />
+                          </div>
+                          {img.title && <p className="px-2 py-1.5 text-[10px] font-semibold truncate text-[#00509d]">{img.title}</p>}
+                        </div>
+                      ))}
                     </div>
-                    {img.title && <p className="px-2 py-1.5 text-[10px] font-semibold truncate" style={{ color: "rgba(12,17,72,0.6)" }}>{img.title}</p>}
                   </div>
                 ))}
               </div>
-            </div>
-          ))}
-        </div>
-      )}
+            )}
 
-      <div className="mt-6">
-        {Array.from(catalogueGroups.entries()).map(([cat, imgs]) => (
-          <div key={cat} className="mb-8">
-            <h3 className="text-[11px] font-bold uppercase tracking-[0.18em] mb-3" style={{ color: "rgba(12,17,72,0.5)" }}>{cat}</h3>
-            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
-              {imgs.map((img, idx) => (
-                <div
-                  key={img.id}
-                  className="group cursor-pointer overflow-hidden rounded-xl bg-white"
-                  style={{ border: "1px solid rgba(12,17,72,0.08)" }}
-                  onClick={() => openLightbox(imgs, idx)}
-                >
-                  <div className="aspect-[4/3] overflow-hidden">
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img src={img.url} alt={img.title || cat} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" loading="lazy" />
+            <div className="mt-6">
+              {Array.from(catalogueGroups.entries()).map(([cat, imgs]) => (
+                <div key={cat} className="mb-8">
+                  <h3 className="text-[11px] font-bold uppercase tracking-[0.18em] mb-3 text-[#00509d]">{cat}</h3>
+                  <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
+                    {imgs.map((img, idx) => (
+                      <div
+                        key={img.id}
+                        className="group cursor-pointer overflow-hidden rounded-xl bg-white"
+                        style={{ border: "1px solid rgba(0,80,157,0.12)" }}
+                        onClick={() => openLightbox(imgs, idx)}
+                      >
+                        <div className="aspect-[4/3] overflow-hidden">
+                          {/* eslint-disable-next-line @next/next/no-img-element */}
+                          <img src={img.url} alt={img.title || cat} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" loading="lazy" />
+                        </div>
+                      </div>
+                    ))}
                   </div>
                 </div>
               ))}
             </div>
           </div>
-        ))}
+        </div>
       </div>
 
       {/* Lightbox */}

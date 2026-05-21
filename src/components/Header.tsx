@@ -285,7 +285,7 @@ export default function Header() {
                   onClick={() => handleMobileNav("/trade")}
                   className="rounded px-2 py-2 hover:bg-white/10 text-left w-full"
                 >
-                  Trade Show Facts
+                  Trade Show Facts - 1st Edition
                 </button>
                 {/* FIXED: was /about */}
                 <button
