@@ -10,7 +10,7 @@ const brands = [
 
 export default function BrandMarquee() {
   return (
-    <div className="w-full overflow-hidden py-2" style={{ background: "#00c8de" }}>
+    <div className="w-full overflow-hidden py-2 border-b border-white/10" style={{ background: "linear-gradient(90deg, #0c1148 0%, #101450 50%, #0c1148 100%)" }}>
       <style>{`
         @keyframes marquee {
           0%   { transform: translateX(0); }
@@ -24,10 +24,10 @@ export default function BrandMarquee() {
         {[...brands, ...brands].map((brand, i) => (
           <span
             key={i}
-            className="inline-flex items-center gap-3 px-7 text-xs font-bold uppercase tracking-[0.15em] select-none"
-            style={{ color: "#fff" }}
+            className="inline-flex items-center gap-3 px-7 text-xs font-semibold uppercase tracking-[0.15em] select-none"
+            style={{ color: "#00c8de" }}
           >
-            <span className="w-1 h-1 inline-block shrink-0" style={{ background: "#fff", opacity: 0.5, transform: "rotate(45deg)" }} />
+            <span className="w-1 h-1 inline-block shrink-0" style={{ background: "#00c8de", opacity: 0.6, transform: "rotate(45deg)" }} />
             {brand}
           </span>
         ))}
