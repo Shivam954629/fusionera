@@ -1777,7 +1777,7 @@ export default function AdminDashboard() {
                     📰 Newsletter Editor
                   </h2>
                   <p className="text-xs mt-0.5 text-gray-500">
-                   
+                    Manage the newsletter content shown to visitors.
                   </p>
                 </div>
                 <div className="px-6 py-6 space-y-4">

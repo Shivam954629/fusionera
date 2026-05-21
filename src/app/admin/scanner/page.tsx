@@ -149,8 +149,8 @@ export default function ScannerPage() {
   }, []);
 
   const statusConfig = {
-    idle: { bg: "#f0f4f8", icon: "📷", text: "Camera band hai", color: "#6b7280" },
-    scanning: { bg: "#f0f4f8", icon: "🔍", text: "QR scan kar raha hai...", color: "#1a1464" },
+    idle: { bg: "#f0f4f8", icon: "📷", text: "Camera is off", color: "#6b7280" },
+    scanning: { bg: "#f0f4f8", icon: "🔍", text: "Scanning QR code...", color: "#1a1464" },
     found: { bg: "#f0fdf4", icon: "✅", text: "ENTRY ALLOWED", color: "#16a34a" },
     blocked: { bg: "#fef2f2", icon: "🚫", text: "ENTRY BLOCKED", color: "#dc2626" },
     invalid: { bg: "#fffbeb", icon: "⚠️", text: "REGISTRATION INCOMPLETE", color: "#d97706" },
@@ -260,13 +260,13 @@ export default function ScannerPage() {
             {/* Not Found / Invalid */}
             {(status === "not_found") && (
               <div className="py-6 text-center">
-                <p className="text-gray-500 text-sm mb-4">Ye visitor database mein nahi mila.</p>
+                <p className="text-gray-500 text-sm mb-4">This visitor was not found in the database.</p>
                 <button
                   onClick={resetScan}
                   className="py-2.5 px-6 rounded-xl text-white font-bold text-sm"
                   style={{ background: "#1a1464" }}
                 >
-                  Dobara Try Karo
+                  Try Again
                 </button>
               </div>
             )}
@@ -274,13 +274,13 @@ export default function ScannerPage() {
             {/* Start/Stop Buttons */}
             {!scannerStarted && status === "idle" && (
               <div className="py-8 text-center">
-                <p className="text-gray-500 text-sm mb-5">Camera se QR code scan karo</p>
+                <p className="text-gray-500 text-sm mb-5">Scan visitor QR code using camera</p>
                 <button
                   onClick={startScanner}
                   className="w-full py-3.5 rounded-xl text-white font-bold text-base transition hover:opacity-90"
                   style={{ background: "#e84030" }}
                 >
-                  📷 Camera Shuru Karo
+                  📷 Start Camera
                 </button>
               </div>
             )}
@@ -293,7 +293,7 @@ export default function ScannerPage() {
                 onClick={stopScanner}
                 className="w-full py-2.5 rounded-xl border border-gray-300 text-gray-600 text-sm font-medium hover:bg-gray-50 transition"
               >
-                Camera Band Karo
+                Stop Camera
               </button>
             </div>
           )}
@@ -301,7 +301,7 @@ export default function ScannerPage() {
 
         {/* Manual Search */}
         <div className="mt-5 rounded-2xl bg-white/10 p-4">
-          <p className="text-white/70 text-xs font-semibold mb-2 uppercase tracking-wider">Manual Search (Reg No se)</p>
+          <p className="text-white/70 text-xs font-semibold mb-2 uppercase tracking-wider">Manual Search by Registration No.</p>
           <div className="flex gap-2">
             <input
               value={manualReg}
