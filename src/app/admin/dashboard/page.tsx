@@ -55,6 +55,7 @@ type TabType =
   | "videos"
   | "podcasts"
   | "images"
+  | "comments"
   | "content"
   | "brands"
   | "enquiries"
@@ -102,6 +103,8 @@ export default function AdminDashboard() {
   });
   const [editingVideo, setEditingVideo] = useState<Video | null>(null);
   const [videoSaved, setVideoSaved] = useState(false);
+  const [videoUploading, setVideoUploading] = useState(false);
+  const [videoUploaded, setVideoUploaded] = useState(false);
   // Podcasts state
   const [podcasts, setPodcasts] = useState<
     {
@@ -150,6 +153,8 @@ export default function AdminDashboard() {
     is_published: true,
   });
   const [imageSaved, setImageSaved] = useState(false);
+  const [imageUploading, setImageUploading] = useState(false);
+  const [imageUploaded, setImageUploaded] = useState(false);
   const [editingImage, setEditingImage] = useState<{
     id: number; title: string; url: string; category: string; type: string; is_published: boolean;
   } | null>(null);
@@ -184,6 +189,16 @@ export default function AdminDashboard() {
     is_published: true,
   });
   const [contentSaved, setContentSaved] = useState(false);
+
+  // Comments state
+  interface SiteComment { id: number; type: string; name: string; designation: string; text: string; is_published: boolean; sort_order: number; }
+  const [commentsList, setCommentsList] = useState<SiteComment[]>([]);
+  const [commentLoading, setCommentLoading] = useState(false);
+  const [commentForm, setCommentForm] = useState({ type: "visitor", name: "", designation: "", text: "", photo_url: "", is_published: true, sort_order: 0 });
+  const [editingComment, setEditingComment] = useState<SiteComment | null>(null);
+  const [commentSaved, setCommentSaved] = useState(false);
+  const [commentPhotoUploading, setCommentPhotoUploading] = useState(false);
+  const [commentPhotoUploaded, setCommentPhotoUploaded] = useState(false);
 
   // Brands (Exhibitor Marquee) state
   const [brandsList, setBrandsList] = useState<{ id: number; name: string; logo_url: string; is_published: boolean; sort_order: number }[]>([]);
@@ -328,6 +343,7 @@ export default function AdminDashboard() {
         category: "general",
         is_published: true,
       });
+      setVideoUploaded(false);
       setVideoSaved(true);
       setTimeout(() => setVideoSaved(false), 3000);
       await fetchVideos();
@@ -383,6 +399,7 @@ export default function AdminDashboard() {
         });
       }
       setImageForm({ title: "", url: "", category: "general", type: "gallery", is_published: true });
+      setImageUploaded(false);
       setImageSaved(true);
       setTimeout(() => setImageSaved(false), 3000);
       await fetchImages();
@@ -569,6 +586,62 @@ export default function AdminDashboard() {
     } catch {}
   };
 
+  // ── Comments ──
+  const fetchComments = useCallback(async () => {
+    setCommentLoading(true);
+    try {
+      const res = await fetch("/api/admin/comments", { credentials: "include" });
+      const data = await res.json();
+      setCommentsList(data.data || []);
+    } catch {
+    } finally {
+      setCommentLoading(false);
+    }
+  }, []);
+
+  const saveComment = async () => {
+    if (!commentForm.name.trim() || !commentForm.text.trim()) return;
+    setCommentLoading(true);
+    try {
+      if (editingComment) {
+        await fetch("/api/admin/comments", {
+          method: "PATCH",
+          headers: { "Content-Type": "application/json" },
+          credentials: "include",
+          body: JSON.stringify({ id: editingComment.id, ...commentForm }),
+        });
+        setEditingComment(null);
+      } else {
+        await fetch("/api/admin/comments", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          credentials: "include",
+          body: JSON.stringify(commentForm),
+        });
+      }
+      setCommentForm({ type: "visitor", name: "", designation: "", text: "", photo_url: "", is_published: true, sort_order: 0 });
+      setCommentPhotoUploaded(false);
+      setCommentSaved(true);
+      setTimeout(() => setCommentSaved(false), 3000);
+      await fetchComments();
+    } catch {
+    } finally {
+      setCommentLoading(false);
+    }
+  };
+
+  const deleteComment = async (id: number) => {
+    try {
+      await fetch("/api/admin/comments", {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+        body: JSON.stringify({ id }),
+      });
+      setCommentsList((prev) => prev.filter((c) => c.id !== id));
+    } catch {}
+  };
+
   // ── Enquiries ──
   const fetchEnquiries = useCallback(async () => {
     setEnquiryLoading(true);
@@ -657,6 +730,67 @@ export default function AdminDashboard() {
     } catch {}
   };
 
+  // ── Cloudinary Upload ──
+  const uploadToCloudinary = async (file: File, resourceType: "image" | "video" | "auto"): Promise<string> => {
+    const cloudName = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME;
+    const preset = process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET;
+    if (!cloudName || cloudName === "your_cloud_name_here" || !preset || preset === "your_upload_preset_here") {
+      throw new Error("Cloudinary not configured. Add NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME and NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET to .env.local");
+    }
+    const fd = new FormData();
+    fd.append("file", file);
+    fd.append("upload_preset", preset);
+    const res = await fetch(`https://api.cloudinary.com/v1_1/${cloudName}/${resourceType}/upload`, {
+      method: "POST",
+      body: fd,
+    });
+    const data = await res.json();
+    if (!data.secure_url) throw new Error(data.error?.message || "Upload failed");
+    return data.secure_url as string;
+  };
+
+  const handleVideoFileUpload = async (file: File) => {
+    setVideoUploading(true);
+    setVideoUploaded(false);
+    try {
+      const url = await uploadToCloudinary(file, "video");
+      setVideoForm((f) => ({ ...f, url }));
+      setVideoUploaded(true);
+    } catch (e: unknown) {
+      alert(e instanceof Error ? e.message : "Upload failed");
+    } finally {
+      setVideoUploading(false);
+    }
+  };
+
+  const handleImageFileUpload = async (file: File) => {
+    setImageUploading(true);
+    setImageUploaded(false);
+    try {
+      const url = await uploadToCloudinary(file, "image");
+      setImageForm((f) => ({ ...f, url }));
+      setImageUploaded(true);
+    } catch (e: unknown) {
+      alert(e instanceof Error ? e.message : "Upload failed");
+    } finally {
+      setImageUploading(false);
+    }
+  };
+
+  const handleCommentPhotoUpload = async (file: File) => {
+    setCommentPhotoUploading(true);
+    setCommentPhotoUploaded(false);
+    try {
+      const url = await uploadToCloudinary(file, "image");
+      setCommentForm((f) => ({ ...f, photo_url: url }));
+      setCommentPhotoUploaded(true);
+    } catch (e: unknown) {
+      alert(e instanceof Error ? e.message : "Upload failed");
+    } finally {
+      setCommentPhotoUploading(false);
+    }
+  };
+
   // ── Main data ──
   const fetchData = useCallback(async (signal?: AbortSignal) => {
     setLoadError("");
@@ -708,6 +842,7 @@ export default function AdminDashboard() {
     if (activeTab === "videos") fetchVideos();
     if (activeTab === "podcasts") fetchPodcasts();
     if (activeTab === "images") fetchImages();
+    if (activeTab === "comments") fetchComments();
     if (activeTab === "content") fetchContent();
     if (activeTab === "brands") fetchBrands();
     if (activeTab === "enquiries") fetchEnquiries();
@@ -726,6 +861,7 @@ export default function AdminDashboard() {
     fetchVideos,
     fetchPodcasts,
     fetchImages,
+    fetchComments,
     fetchContent,
     fetchBrands,
     fetchEnquiries,
@@ -901,6 +1037,12 @@ export default function AdminDashboard() {
       count: images.length || undefined,
     },
     {
+      id: "comments",
+      icon: "💬",
+      label: "Comments",
+      count: commentsList.length || undefined,
+    },
+    {
       id: "content",
       icon: "📝",
       label: "Content",
@@ -920,6 +1062,8 @@ export default function AdminDashboard() {
     },
     { id: "settings", icon: "⚙️", label: "Settings" },
   ];
+
+  const scannerLink = "/admin/scanner";
 
   const statusColor = (status: string) => {
     if (status === "approved") return "bg-green-100 text-green-700";
@@ -1071,7 +1215,14 @@ export default function AdminDashboard() {
           </div>
         )}
 
-        <div className="px-3 pb-5 pt-2 border-t border-gray-200">
+        <div className="px-3 pb-5 pt-2 border-t border-gray-200 space-y-1">
+          <a
+            href={scannerLink}
+            className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold text-white transition hover:opacity-90"
+            style={{ background: "#e84030" }}
+          >
+            <span>📷</span> Entry Scanner
+          </a>
           <button
             onClick={handleLogout}
             className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm text-red-500 hover:bg-red-50 transition"
@@ -1732,16 +1883,35 @@ export default function AdminDashboard() {
                   </div>
                   <div>
                     <label className="block text-xs font-semibold mb-1 text-gray-600">
-                      YouTube URL *
+                      Video URL / Upload *
                     </label>
-                    <input
-                      value={videoForm.url}
-                      onChange={(e) =>
-                        setVideoForm((f) => ({ ...f, url: e.target.value }))
-                      }
-                      className="w-full px-4 py-2.5 rounded-xl text-sm bg-white border border-gray-200 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#1a1464]"
-                      placeholder="https://youtube.com/watch?v=..."
-                    />
+                    <div className="flex gap-2">
+                      <input
+                        value={videoForm.url}
+                        onChange={(e) =>
+                          setVideoForm((f) => ({ ...f, url: e.target.value }))
+                        }
+                        className="flex-1 px-4 py-2.5 rounded-xl text-sm bg-white border border-gray-200 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#1a1464]"
+                        placeholder="YouTube URL or Cloudinary URL..."
+                      />
+                      <label
+                        className={`flex-shrink-0 px-3 py-2.5 rounded-xl text-xs font-semibold cursor-pointer transition border ${videoUploading ? "bg-gray-100 text-gray-400 border-gray-200 cursor-not-allowed" : videoUploaded ? "bg-green-50 text-green-700 border-green-300" : "bg-[#f0f4f8] text-[#1a1464] border-[#1a1464]/20 hover:bg-[#eaecf5]"}`}
+                        title="Upload video file to Cloudinary"
+                      >
+                        {videoUploading ? "Uploading..." : videoUploaded ? "✅ Uploaded" : "⬆ Upload"}
+                        <input
+                          type="file"
+                          accept="video/*"
+                          className="hidden"
+                          disabled={videoUploading}
+                          onChange={(e) => {
+                            const f = e.target.files?.[0];
+                            if (f) handleVideoFileUpload(f);
+                            e.target.value = "";
+                          }}
+                        />
+                      </label>
+                    </div>
                   </div>
                   <div>
                     <label className="block text-xs font-semibold mb-1 text-gray-600">
@@ -1928,16 +2098,35 @@ export default function AdminDashboard() {
                   </div>
                   <div>
                     <label className="block text-xs font-semibold mb-1 text-gray-600">
-                      Image URL *
+                      Image URL / Upload *
                     </label>
-                    <input
-                      value={imageForm.url}
-                      onChange={(e) =>
-                        setImageForm((f) => ({ ...f, url: e.target.value }))
-                      }
-                      className="w-full px-4 py-2.5 rounded-xl text-sm bg-white border border-gray-200 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#1a1464]"
-                      placeholder="https://..."
-                    />
+                    <div className="flex gap-2">
+                      <input
+                        value={imageForm.url}
+                        onChange={(e) =>
+                          setImageForm((f) => ({ ...f, url: e.target.value }))
+                        }
+                        className="flex-1 px-4 py-2.5 rounded-xl text-sm bg-white border border-gray-200 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#1a1464]"
+                        placeholder="Paste URL or upload file..."
+                      />
+                      <label
+                        className={`flex-shrink-0 px-3 py-2.5 rounded-xl text-xs font-semibold cursor-pointer transition border ${imageUploading ? "bg-gray-100 text-gray-400 border-gray-200 cursor-not-allowed" : imageUploaded ? "bg-green-50 text-green-700 border-green-300" : "bg-[#f0f4f8] text-[#1a1464] border-[#1a1464]/20 hover:bg-[#eaecf5]"}`}
+                        title="Upload image to Cloudinary"
+                      >
+                        {imageUploading ? "Uploading..." : imageUploaded ? "✅ Uploaded" : "⬆ Upload"}
+                        <input
+                          type="file"
+                          accept="image/*"
+                          className="hidden"
+                          disabled={imageUploading}
+                          onChange={(e) => {
+                            const f = e.target.files?.[0];
+                            if (f) handleImageFileUpload(f);
+                            e.target.value = "";
+                          }}
+                        />
+                      </label>
+                    </div>
                   </div>
                   <div>
                     <label className="block text-xs font-semibold mb-1 text-gray-600">
@@ -2083,6 +2272,207 @@ export default function AdminDashboard() {
                   ))}
                 </div>
               )}
+            </div>
+          )}
+
+          {/* ── COMMENTS ── */}
+          {activeTab === "comments" && (
+            <div className="space-y-5">
+              {/* Add/Edit Form */}
+              <div className="rounded-2xl border border-gray-200 bg-white shadow-sm p-5">
+                <h3 className="text-gray-900 font-bold mb-4">
+                  {editingComment ? "✏️ Edit Comment" : "➕ Add New Comment"}
+                </h3>
+                {commentSaved && (
+                  <div className="mb-3 rounded-xl px-4 py-3 text-sm text-green-700 bg-green-50 border border-green-200">
+                    ✅ Comment saved!
+                  </div>
+                )}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <div>
+                    <label className="block text-xs font-semibold mb-1 text-gray-600">Type *</label>
+                    <select
+                      value={commentForm.type}
+                      onChange={(e) => setCommentForm((f) => ({ ...f, type: e.target.value }))}
+                      className="w-full px-4 py-2.5 rounded-xl text-sm bg-white border border-gray-200 text-gray-900 focus:outline-none focus:ring-2 focus:ring-[#1a1464]"
+                    >
+                      <option value="visitor">Visitor Comment</option>
+                      <option value="exhibitor">Exhibitor Comment</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label className="block text-xs font-semibold mb-1 text-gray-600">Name *</label>
+                    <input
+                      value={commentForm.name}
+                      onChange={(e) => setCommentForm((f) => ({ ...f, name: e.target.value }))}
+                      className="w-full px-4 py-2.5 rounded-xl text-sm bg-white border border-gray-200 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#1a1464]"
+                      placeholder="Person's full name..."
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-xs font-semibold mb-1 text-gray-600">Designation / Company</label>
+                    <input
+                      value={commentForm.designation}
+                      onChange={(e) => setCommentForm((f) => ({ ...f, designation: e.target.value }))}
+                      className="w-full px-4 py-2.5 rounded-xl text-sm bg-white border border-gray-200 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#1a1464]"
+                      placeholder="e.g. Director, HomePro India"
+                    />
+                  </div>
+                  <div className="flex items-center gap-3 pt-5">
+                    <div
+                      onClick={() => setCommentForm((f) => ({ ...f, is_published: !f.is_published }))}
+                      className={`w-10 h-5 rounded-full transition-colors relative cursor-pointer ${commentForm.is_published ? "bg-[#1a1464]" : "bg-gray-200"}`}
+                    >
+                      <div className={`absolute top-0.5 w-4 h-4 rounded-full bg-white shadow transition-transform ${commentForm.is_published ? "translate-x-5" : "translate-x-0.5"}`} />
+                    </div>
+                    <span className="text-sm text-gray-600">{commentForm.is_published ? "Published" : "Draft"}</span>
+                  </div>
+                  <div className="sm:col-span-2">
+                    <label className="block text-xs font-semibold mb-1 text-gray-600">Photo URL / Upload (optional)</label>
+                    <div className="flex gap-2">
+                      <input
+                        value={commentForm.photo_url}
+                        onChange={(e) => setCommentForm((f) => ({ ...f, photo_url: e.target.value }))}
+                        className="flex-1 px-4 py-2.5 rounded-xl text-sm bg-white border border-gray-200 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#1a1464]"
+                        placeholder="Paste photo URL or upload..."
+                      />
+                      <label
+                        className={`flex-shrink-0 px-3 py-2.5 rounded-xl text-xs font-semibold cursor-pointer transition border ${commentPhotoUploading ? "bg-gray-100 text-gray-400 border-gray-200 cursor-not-allowed" : commentPhotoUploaded ? "bg-green-50 text-green-700 border-green-300" : "bg-[#f0f4f8] text-[#1a1464] border-[#1a1464]/20 hover:bg-[#eaecf5]"}`}
+                        title="Upload photo to Cloudinary"
+                      >
+                        {commentPhotoUploading ? "Uploading..." : commentPhotoUploaded ? "✅ Uploaded" : "⬆ Upload"}
+                        <input
+                          type="file"
+                          accept="image/*"
+                          className="hidden"
+                          disabled={commentPhotoUploading}
+                          onChange={(e) => {
+                            const f = e.target.files?.[0];
+                            if (f) handleCommentPhotoUpload(f);
+                            e.target.value = "";
+                          }}
+                        />
+                      </label>
+                    </div>
+                    {commentForm.photo_url && (
+                      <img src={commentForm.photo_url} alt="preview" className="mt-2 w-12 h-12 rounded-full object-cover border-2 border-[#1a1464]/20" />
+                    )}
+                  </div>
+                  <div className="sm:col-span-2">
+                    <label className="block text-xs font-semibold mb-1 text-gray-600">Comment Text *</label>
+                    <textarea
+                      value={commentForm.text}
+                      onChange={(e) => setCommentForm((f) => ({ ...f, text: e.target.value }))}
+                      rows={4}
+                      className="w-full px-4 py-2.5 rounded-xl text-sm bg-white border border-gray-200 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#1a1464] resize-none"
+                      placeholder="Write the comment here..."
+                    />
+                  </div>
+                </div>
+                <div className="flex gap-3 mt-4">
+                  <button
+                    onClick={saveComment}
+                    disabled={commentLoading || !commentForm.name || !commentForm.text}
+                    className="px-6 py-2.5 rounded-xl text-white font-bold text-sm hover:opacity-90 disabled:opacity-50 transition"
+                    style={{ background: "#e84030" }}
+                  >
+                    {commentLoading ? "Saving..." : editingComment ? "Update Comment" : "Add Comment"}
+                  </button>
+                  {editingComment && (
+                    <button
+                      onClick={() => {
+                        setEditingComment(null);
+                        setCommentForm({ type: "visitor", name: "", designation: "", text: "", photo_url: "", is_published: true, sort_order: 0 });
+                      }}
+                      className="px-6 py-2.5 rounded-xl border border-gray-200 text-gray-600 text-sm hover:bg-gray-50 transition"
+                    >
+                      Cancel
+                    </button>
+                  )}
+                </div>
+              </div>
+
+              {/* Exhibitor Comments */}
+              <div className="rounded-2xl border border-gray-200 bg-white shadow-sm overflow-hidden">
+                <div className="px-5 py-3 border-b border-gray-100 bg-gray-50">
+                  <h4 className="font-bold text-sm text-gray-800">🏢 Exhibitor Comments ({commentsList.filter(c => c.type === "exhibitor").length})</h4>
+                </div>
+                {commentsList.filter(c => c.type === "exhibitor").length === 0 ? (
+                  <p className="py-10 text-center text-gray-400 text-sm">No exhibitor comments yet</p>
+                ) : (
+                  <div className="divide-y divide-gray-100">
+                    {commentsList.filter(c => c.type === "exhibitor").map((c) => (
+                      <div key={c.id} className="px-5 py-4 flex items-start justify-between gap-3">
+                        <div className="flex-1 min-w-0">
+                          <div className="flex items-center gap-2 flex-wrap">
+                            <p className="text-sm font-bold text-gray-900">{c.name}</p>
+                            <span className={`text-xs px-2 py-0.5 rounded-full ${c.is_published ? "bg-green-100 text-green-700" : "bg-gray-100 text-gray-500"}`}>
+                              {c.is_published ? "Published" : "Draft"}
+                            </span>
+                          </div>
+                          <p className="text-xs text-gray-400 mt-0.5">{c.designation}</p>
+                          <p className="text-sm text-gray-600 mt-1 leading-6">{c.text}</p>
+                        </div>
+                        <div className="flex gap-2 flex-shrink-0">
+                          <button
+                            onClick={() => {
+                              setEditingComment(c);
+                              setCommentForm({ type: c.type, name: c.name, designation: c.designation, text: c.text, photo_url: (c as SiteComment & { photo_url?: string }).photo_url || "", is_published: c.is_published, sort_order: c.sort_order });
+                              window.scrollTo({ top: 0, behavior: "smooth" });
+                            }}
+                            className="px-3 py-1.5 text-xs rounded-lg bg-[#f0f4f8] text-[#1a1464] hover:bg-[#eaecf5] transition font-medium"
+                          >✏️ Edit</button>
+                          <button
+                            onClick={() => deleteComment(c.id)}
+                            className="px-3 py-1.5 text-xs rounded-lg bg-[#f0f4f8] text-[#1a1464] hover:bg-[#eaecf5] transition font-medium"
+                          >🗑️</button>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+
+              {/* Visitor Comments */}
+              <div className="rounded-2xl border border-gray-200 bg-white shadow-sm overflow-hidden">
+                <div className="px-5 py-3 border-b border-gray-100 bg-gray-50">
+                  <h4 className="font-bold text-sm text-gray-800">👥 Visitor Comments ({commentsList.filter(c => c.type === "visitor").length})</h4>
+                </div>
+                {commentsList.filter(c => c.type === "visitor").length === 0 ? (
+                  <p className="py-10 text-center text-gray-400 text-sm">No visitor comments yet</p>
+                ) : (
+                  <div className="divide-y divide-gray-100">
+                    {commentsList.filter(c => c.type === "visitor").map((c) => (
+                      <div key={c.id} className="px-5 py-4 flex items-start justify-between gap-3">
+                        <div className="flex-1 min-w-0">
+                          <div className="flex items-center gap-2 flex-wrap">
+                            <p className="text-sm font-bold text-gray-900">{c.name}</p>
+                            <span className={`text-xs px-2 py-0.5 rounded-full ${c.is_published ? "bg-green-100 text-green-700" : "bg-gray-100 text-gray-500"}`}>
+                              {c.is_published ? "Published" : "Draft"}
+                            </span>
+                          </div>
+                          <p className="text-xs text-gray-400 mt-0.5">{c.designation}</p>
+                          <p className="text-sm text-gray-600 mt-1 leading-6">{c.text}</p>
+                        </div>
+                        <div className="flex gap-2 flex-shrink-0">
+                          <button
+                            onClick={() => {
+                              setEditingComment(c);
+                              setCommentForm({ type: c.type, name: c.name, designation: c.designation, text: c.text, photo_url: (c as SiteComment & { photo_url?: string }).photo_url || "", is_published: c.is_published, sort_order: c.sort_order });
+                              window.scrollTo({ top: 0, behavior: "smooth" });
+                            }}
+                            className="px-3 py-1.5 text-xs rounded-lg bg-[#f0f4f8] text-[#1a1464] hover:bg-[#eaecf5] transition font-medium"
+                          >✏️ Edit</button>
+                          <button
+                            onClick={() => deleteComment(c.id)}
+                            className="px-3 py-1.5 text-xs rounded-lg bg-[#f0f4f8] text-[#1a1464] hover:bg-[#eaecf5] transition font-medium"
+                          >🗑️</button>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
             </div>
           )}
 

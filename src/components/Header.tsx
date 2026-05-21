@@ -79,6 +79,9 @@ export default function Header() {
 
         {/* DESKTOP NAV */}
         <nav className="hidden items-center gap-4 text-sm font-medium text-white lg:flex xl:gap-8">
+          <Link href="/" className="nav-link hover:text-brand-cyan">
+            Home
+          </Link>
           {/* FUSION THE ERA DROPDOWN */}
           <div className="group relative">
             <Link
@@ -246,6 +249,12 @@ export default function Header() {
         {/* MOBILE MENU */}
         {mobileMenuOpen && (
           <nav className="mobile-menu max-h-[calc(100vh-76px)] w-full overflow-y-auto rounded-md border border-white/10 bg-[#0B1E5B]/95 p-3 text-sm font-medium text-white shadow-[0_18px_45px_rgba(0,0,0,0.35)] backdrop-blur-xl lg:hidden">
+            <button
+              onClick={() => handleMobileNav("/")}
+              className="block w-full rounded px-2 py-2 text-left hover:bg-white/10"
+            >
+              Home
+            </button>
             <details className="group mobile-submenu">
               <summary className="mobile-summary cursor-pointer list-none rounded px-2 py-2 hover:bg-white/10">
                 Fusion The Era

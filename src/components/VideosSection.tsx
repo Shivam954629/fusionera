@@ -19,7 +19,7 @@ export default function VideosSection() {
           <Divider />
         </div>
 
-        {/* Video — 16:9 container, cover fill */}
+        {/* Video — 16:9 */}
         <div className="overflow-hidden rounded-xl shadow-lg border border-[#1a1464]/10">
           <div className="relative w-full" style={{ paddingBottom: "56.25%" }}>
             <video
