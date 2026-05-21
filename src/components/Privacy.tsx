@@ -28,10 +28,7 @@ export default function Privacy() {
               <div className="mt-2 h-1 w-full rounded-full bg-[#00509d]" />
             </div>
             {paragraphs.map((para, i) => (
-              <p
-                key={i}
-                className="mt-4 text-md leading-7 text-justify text-black"
-              >
+              <p key={i} className="mt-4 text-md leading-7  text-black">
                 {para}
               </p>
             ))}

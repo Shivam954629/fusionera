@@ -233,3 +233,8 @@ img, video, canvas, svg {
 ::-webkit-scrollbar-track { background: #f1f1f1; }
 ::-webkit-scrollbar-thumb { background: #1A1464; border-radius: 999px; }
 ::-webkit-scrollbar-thumb:hover { background: #e84030; }
+
+p {
+  word-break: normal;
+  hyphens: none;
+}

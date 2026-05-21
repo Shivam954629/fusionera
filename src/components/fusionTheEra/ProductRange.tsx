@@ -27,7 +27,7 @@ export default function ProductRange() {
               <h2 className="text-2xl font-bold md:text-3xl">Product Range</h2>
               <div className="mt-2 h-1 w-full rounded-full bg-[#00509d]" />
             </div>
-            <p className="mt-4 text-md leading-7 text-justify text-black">
+            <p className="mt-4 text-md leading-7  text-black">
               Fusion The Era showcases products across multiple categories
               related to home, kitchen, hospitality, and lifestyle industries,
               connecting buyers with the best manufacturers and brands.
