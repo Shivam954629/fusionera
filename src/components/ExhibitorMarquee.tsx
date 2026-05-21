@@ -36,14 +36,6 @@ export default function ExhibitorMarquee() {
 
   return (
     <div className="w-full bg-white" style={{ borderTop: "1px solid #e5e7eb" }}>
-      {/* Section header */}
-      <div className="text-center pt-8 pb-4">
-        <h2 className="text-sm font-bold uppercase tracking-[0.2em] text-[#1a1464]">
-          Our Exhibitors
-        </h2>
-        <div className="h-px w-20 bg-[#1a1464]/20 mt-3 mx-auto" />
-      </div>
-
       {/* Marquee strip */}
       <div
         className="w-full overflow-hidden"
