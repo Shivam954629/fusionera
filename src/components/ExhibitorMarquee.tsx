@@ -60,22 +60,16 @@ export default function ExhibitorMarquee() {
             <div
               key={`${brand.id}-${i}`}
               className="inline-flex items-center justify-center flex-shrink-0 select-none"
-              style={{
-                padding: "24px 52px",
-                borderRight: "1px solid #e5e7eb",
-                minWidth: "180px",
-              }}
+              style={{ padding: "20px 48px", borderRight: "1px solid #e5e7eb" }}
             >
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src={brand.logo_url}
-                alt={brand.name}
-                style={{
-                  height: "72px",
-                  maxWidth: "160px",
-                  objectFit: "contain",
-                }}
-              />
+              <div style={{ width: "140px", height: "80px", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={brand.logo_url}
+                  alt={brand.name}
+                  style={{ width: "140px", height: "80px", objectFit: "contain" }}
+                />
+              </div>
             </div>
           ))}
         </div>
