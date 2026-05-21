@@ -60,14 +60,14 @@ export default function ExhibitorMarquee() {
             <div
               key={`${brand.id}-${i}`}
               className="inline-flex items-center justify-center flex-shrink-0 select-none"
-              style={{ padding: "20px 48px", borderRight: "1px solid #e5e7eb" }}
+              style={{ padding: "24px 56px", borderRight: "1px solid #e5e7eb" }}
             >
-              <div style={{ width: "140px", height: "80px", display: "flex", alignItems: "center", justifyContent: "center" }}>
+              <div style={{ width: "200px", height: "110px", display: "flex", alignItems: "center", justifyContent: "center" }}>
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src={brand.logo_url}
                   alt={brand.name}
-                  style={{ width: "140px", height: "80px", objectFit: "contain" }}
+                  style={{ width: "200px", height: "110px", objectFit: "contain" }}
                 />
               </div>
             </div>
