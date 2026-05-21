@@ -67,12 +67,12 @@ export default function Header() {
         className="mx-auto flex w-full max-w-7xl flex-wrap items-center justify-between gap-3 px-4 py-3 sm:px-6 lg:px-10 lg:py-4"
       >
         {/* LOGO */}
-        <div className="flex min-w-0 items-center gap-3">
-          <Link href="/" className="min-w-0">
+        <div className="flex flex-shrink-0 items-center">
+          <Link href="/">
             <img
               src={siteSettings.logo_url || "/images/logo.jpeg"}
               alt="Fusion The Era logo"
-              className="h-10 w-auto max-w-[190px] object-contain sm:h-12 sm:max-w-[250px]"
+              className="h-12 w-auto max-w-[220px] object-contain sm:h-14 sm:max-w-[280px]"
             />
           </Link>
         </div>
