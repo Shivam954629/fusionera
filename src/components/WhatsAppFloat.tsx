@@ -1,4 +1,4 @@
-const rawPhone = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER?.replace(/\D/g, '') ?? '919315700590';
+const rawPhone = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER?.replace(/\D/g, '') ?? '918588892885';
 const whatsappHref = rawPhone
   ? `https://wa.me/${rawPhone}?text=${encodeURIComponent('Hello FUSION THE ERA Team, I want more details about the show.')}`
   : 'https://www.whatsapp.com/';

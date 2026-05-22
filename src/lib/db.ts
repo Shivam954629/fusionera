@@ -56,6 +56,16 @@ export async function initDB() {
     );
   `);
 
+  // Gate entry tracking — one row per entry per day per visitor
+  await pool.query(`
+    CREATE TABLE IF NOT EXISTS visitor_entries (
+      id SERIAL PRIMARY KEY,
+      visitor_id INTEGER,
+      reg_no VARCHAR(50),
+      entered_at TIMESTAMPTZ DEFAULT NOW()
+    );
+  `);
+
   // Expand phone_number column if it was created with VARCHAR(20)
   await pool.query(`ALTER TABLE visitors ALTER COLUMN phone_number TYPE VARCHAR(255);`).catch(() => {});
   // Expand otps phone_number too (used as email key for international visitors)

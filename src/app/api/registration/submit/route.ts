@@ -72,6 +72,29 @@ export async function POST(req: NextRequest) {
       ],
     );
 
+    // Notify visitor service team
+    transporter.sendMail({
+      from: `"Fusion The Era Events" <${process.env.GMAIL_USER}>`,
+      to: "info@fusiontheera.com, jasvinder.chaudhary@fusiontheera.com",
+      subject: `🔔 New Visitor Registered — ${visitor.first_name || ""} ${visitor.last_name || ""}`.trim(),
+      html: `
+        <div style="font-family:Arial,sans-serif;max-width:520px;margin:0 auto;border-radius:12px;overflow:hidden;">
+          <div style="background:linear-gradient(135deg,#110c41,#1a1560);padding:24px 32px;">
+            <h2 style="color:#fff;margin:0;font-size:18px;">🔔 New Visitor Registered</h2>
+          </div>
+          <div style="background:#fff;padding:28px 32px;">
+            <table cellpadding="10" cellspacing="0" width="100%" style="border-collapse:collapse;">
+              <tr style="border-bottom:1px solid #f0f0f0;"><td style="color:#6b7280;font-size:13px;width:40%;">🔢 Reg No</td><td style="color:#1a1560;font-weight:600;font-size:13px;">${regNo}</td></tr>
+              <tr style="border-bottom:1px solid #f0f0f0;"><td style="color:#6b7280;font-size:13px;">👤 Name</td><td style="color:#1a1560;font-weight:600;font-size:13px;">${visitor.first_name || ""} ${visitor.last_name || ""}</td></tr>
+              <tr style="border-bottom:1px solid #f0f0f0;"><td style="color:#6b7280;font-size:13px;">🏢 Company</td><td style="color:#1a1560;font-weight:600;font-size:13px;">${visitor.company || "—"}</td></tr>
+              <tr style="border-bottom:1px solid #f0f0f0;"><td style="color:#6b7280;font-size:13px;">📞 Phone</td><td style="color:#1a1560;font-weight:600;font-size:13px;">${visitor.phone_number}</td></tr>
+              <tr><td style="color:#6b7280;font-size:13px;">📧 Email</td><td style="color:#1a1560;font-weight:600;font-size:13px;">${visitor.email || "—"}</td></tr>
+            </table>
+          </div>
+        </div>
+      `,
+    }).catch((err) => console.error("Admin email error:", err));
+
     // Send email with QR pass
     if (visitor.email) {
       await transporter.sendMail({

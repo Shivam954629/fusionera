@@ -23,6 +23,7 @@ export async function GET(req: NextRequest) {
         regNo: v.registration_no,
         email: v.email,
         phone: v.phone_number,
+        qrCode: v.qr_code || null,
       },
     });
   } catch {

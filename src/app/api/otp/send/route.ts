@@ -1,12 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { pool, initDB } from "@/lib/db";
-import twilio from "twilio";
 import nodemailer from "nodemailer";
-
-const twilioClient = twilio(
-  process.env.TWILIO_ACCOUNT_SID,
-  process.env.TWILIO_AUTH_TOKEN,
-);
 
 const transporter = nodemailer.createTransport({
   service: "gmail",
@@ -22,7 +16,7 @@ export async function POST(req: NextRequest) {
     await initDB();
     const { phone, email, visitorType } = await req.json();
 
-    // INTERNATIONAL: email-based OTP
+    // ── INTERNATIONAL: email OTP (unchanged) ────────────────────────
     if (visitorType === "international") {
       if (!email)
         return NextResponse.json({ error: "Email address is required." }, { status: 400 });
@@ -57,52 +51,54 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ success: true, message: "OTP sent to your email.", visitorType });
     }
 
-    // INDIAN: phone-based OTP via Twilio
+    // ── INDIAN: no OTP — phone uniqueness check ──────────────────────
     if (!phone)
       return NextResponse.json({ error: "Phone number is required." }, { status: 400 });
 
     const cleanPhone = phone.replace(/\D/g, "").slice(-10);
     if (cleanPhone.length !== 10)
-      return NextResponse.json({ error: "Invalid phone number." }, { status: 400 });
+      return NextResponse.json({ error: "Invalid phone number. Enter 10 digits." }, { status: 400 });
 
-    const fullPhone = `+91${cleanPhone}`;
-
-    const rateCheck = await pool.query(
-      `SELECT COUNT(*) FROM otps WHERE phone_number=$1 AND created_at > NOW() - INTERVAL '1 hour'`,
+    // Already fully registered — return their existing pass
+    const complete = await pool.query(
+      `SELECT id, registration_no, qr_code FROM visitors WHERE phone_number=$1 AND registration_complete=TRUE LIMIT 1`,
       [cleanPhone],
     );
-    if (parseInt(rateCheck.rows[0].count) >= 4) {
-      return NextResponse.json(
-        { error: "Too many OTP requests. Please try after 1 hour." },
-        { status: 429 },
-      );
+    if (complete.rows.length > 0) {
+      return NextResponse.json({
+        success: true,
+        alreadyRegistered: true,
+        regNo: complete.rows[0].registration_no,
+        qrCode: complete.rows[0].qr_code || null,
+      });
     }
 
-    let verification;
-    try {
-      verification = await twilioClient.verify.v2
-        .services(process.env.TWILIO_VERIFY_SERVICE_SID!)
-        .verifications.create({ to: fullPhone, channel: "sms" });
-    } catch (twilioErr: any) {
-      console.error("Twilio error:", twilioErr?.message || twilioErr);
-      // Surface Twilio's own message so unverified-number errors are clear
-      const msg = twilioErr?.message || "Failed to send OTP. Please try again.";
-      return NextResponse.json({ error: msg }, { status: 500 });
-    }
-
-    if (verification.status !== "pending") {
-      return NextResponse.json({ error: "Failed to send OTP. Please try again." }, { status: 500 });
-    }
-
-    const expiresAt = new Date(Date.now() + 10 * 60 * 1000);
-    await pool.query(
-      `INSERT INTO otps (phone_number, otp, expires_at) VALUES ($1, $2, $3)`,
-      [cleanPhone, "twilio", expiresAt],
+    // In-progress registration — resume
+    const inProgress = await pool.query(
+      `SELECT id FROM visitors WHERE phone_number=$1 AND registration_complete=FALSE LIMIT 1`,
+      [cleanPhone],
     );
+    if (inProgress.rows.length > 0) {
+      return NextResponse.json({
+        success: true,
+        visitorId: inProgress.rows[0].id,
+        resuming: true,
+      });
+    }
 
-    return NextResponse.json({ success: true, message: "OTP sent successfully.", phone: cleanPhone, visitorType });
-  } catch (err: any) {
-    console.error("OTP send error:", err?.message || err);
-    return NextResponse.json({ error: err?.message || "Server error. Please try again." }, { status: 500 });
+    // New visitor — create record
+    const newVisitor = await pool.query(
+      `INSERT INTO visitors (phone_number, otp_verified, full_name) VALUES ($1, TRUE, '') RETURNING id`,
+      [cleanPhone],
+    );
+    return NextResponse.json({
+      success: true,
+      visitorId: newVisitor.rows[0].id,
+      isNew: true,
+    });
+  } catch (err: unknown) {
+    const msg = err instanceof Error ? err.message : "Server error.";
+    console.error("OTP send error:", msg);
+    return NextResponse.json({ error: msg }, { status: 500 });
   }
 }

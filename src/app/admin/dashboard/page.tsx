@@ -20,6 +20,8 @@ interface Stats {
   topCities: { city: string; count: string }[];
   businessTypes: { business_type: string; count: string }[];
   recentVisitors: Visitor[];
+  entriesByDay: Record<string, number>;
+  todayEntries: number;
 }
 
 interface Exhibitor {
@@ -1355,6 +1357,33 @@ export default function AdminDashboard() {
                     </div>
                   </div>
                 ))}
+              </div>
+
+              {/* Gate Entry — Day-wise counts */}
+              <div className="overflow-hidden rounded-2xl border border-[#e0e4f0] bg-white shadow-sm">
+                <div className="flex items-center justify-between px-5 py-4 border-b border-[#e0e4f0]">
+                  <h3 className="font-bold text-gray-900">🎟️ Gate Entries — Day Wise</h3>
+                  <a href="/admin/scanner" className="text-xs text-[#1a1464] hover:opacity-80 font-medium">Open Scanner →</a>
+                </div>
+                <div className="p-4 grid grid-cols-2 md:grid-cols-4 gap-3">
+                  {[
+                    { day: "2026-07-04", label: "July 4" },
+                    { day: "2026-07-05", label: "July 5" },
+                    { day: "2026-07-06", label: "July 6" },
+                    { day: "2026-07-07", label: "July 7" },
+                  ].map(({ day, label }) => (
+                    <div key={day} className="rounded-xl p-4 text-center" style={{ background: "#f0f6ff", border: "1px solid #dde6ff" }}>
+                      <p className="text-xs text-gray-500 mb-1">{label}</p>
+                      <p className="text-3xl font-black text-[#1a1464]">{stats.entriesByDay?.[day] ?? 0}</p>
+                      <p className="text-xs text-gray-400 mt-0.5">visitors</p>
+                    </div>
+                  ))}
+                </div>
+                <div className="px-5 pb-4">
+                  <div className="rounded-xl p-3 text-center" style={{ background: "#1a1464" }}>
+                    <p className="text-white text-sm font-bold">Today&apos;s Gate Entries: {stats.todayEntries ?? 0}</p>
+                  </div>
+                </div>
               </div>
 
               <div className="overflow-hidden rounded-2xl border border-[#e0e4f0] bg-[#f0f4f8] shadow-sm">

@@ -93,7 +93,7 @@ async function sendAdminEmail(
 ) {
   await transporter.sendMail({
     from: `"Fusion The Era Events" <${process.env.GMAIL_USER}>`,
-    to: "info@fusionera.in",
+    to: "info@fusiontheera.com, jasvinder.chaudhary@fusiontheera.com",
     subject: `🔔 New Visitor — ${fullName}`,
     html: `
       <div style="font-family:Arial,sans-serif;max-width:520px;margin:0 auto;border-radius:12px;overflow:hidden;">

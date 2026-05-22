@@ -46,14 +46,14 @@ export default function Footer() {
             <span aria-label="YouTube" className="flex h-8 w-8 items-center justify-center rounded-full border border-white/20 text-white/50 cursor-default">
               <svg className="h-3.5 w-3.5" fill="currentColor" viewBox="0 0 24 24"><path d="M23.5 6.2c-.3-1.2-1.2-2.1-2.4-2.4C18.6 3.5 12 3.5 12 3.5s-6.6 0-9.1.3c-1.2.3-2.1 1.2-2.4 2.4C.1 8.7 0 12 0 12s.1 3.3.5 5.8c.3 1.2 1.2 2.1 2.4 2.4 2.5.3 9.1.3 9.1.3s6.6 0 9.1-.3c1.2-.3 2.1-1.2 2.4-2.4.4-2.5.5-5.8.5-5.8s0-3.3-.5-5.8zM9.6 15.5V8.5L15.8 12l-6.2 3.5z" /></svg>
             </span>
-            {/* LinkedIn — coming soon */}
-            <span aria-label="LinkedIn" className="flex h-8 w-8 items-center justify-center rounded-full border border-white/20 text-white/50 cursor-default">
+            {/* LinkedIn */}
+            <a href="https://www.linkedin.com/company/fusiontheera/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" className="flex h-8 w-8 items-center justify-center rounded-full border border-white/20 text-white/50 hover:border-white/60 hover:text-white transition">
               <svg className="h-3.5 w-3.5" fill="currentColor" viewBox="0 0 24 24"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
-            </span>
-            {/* WhatsApp — coming soon */}
-            <span aria-label="WhatsApp" className="flex h-8 w-8 items-center justify-center rounded-full border border-white/20 text-white/50 cursor-default">
+            </a>
+            {/* WhatsApp */}
+            <a href="https://wa.me/918588892885?text=Hello%20FUSION%20THE%20ERA%20Team%2C%20I%20want%20more%20details%20about%20the%20show." target="_blank" rel="noopener noreferrer" aria-label="WhatsApp" className="flex h-8 w-8 items-center justify-center rounded-full border border-white/20 text-white/50 hover:border-white/60 hover:text-white transition">
               <svg className="h-3.5 w-3.5" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M11.999 2C6.477 2 2 6.477 2 12c0 1.89.525 3.66 1.438 5.168L2 22l4.932-1.423A9.956 9.956 0 0 0 12 22c5.523 0 10-4.477 10-10S17.523 2 12 2z" fillRule="evenodd" clipRule="evenodd"/></svg>
-            </span>
+            </a>
           </div>
         </div>
       </div>

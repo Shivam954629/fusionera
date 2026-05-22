@@ -302,22 +302,13 @@ export default function VisitorRegistrationPage() {
 
   const sendOTP = async () => {
     if (visitorType === "international") {
-      if (!intlEmail) {
-        setError("Please enter email address.");
-        return;
-      }
-      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(intlEmail)) {
-        setError("Please enter a valid email address.");
-        return;
-      }
-    } else if (!phone) {
-      setError("Please enter mobile number.");
-      return;
+      if (!intlEmail) { setError("Please enter email address."); return; }
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(intlEmail)) { setError("Please enter a valid email address."); return; }
+    } else {
+      if (!phone) { setError("Please enter mobile number."); return; }
+      if (phone.length !== 10) { setError("Enter a valid 10-digit mobile number."); return; }
     }
-    if (!agreed) {
-      setError("Please agree to receive updates.");
-      return;
-    }
+    if (!agreed) { setError("Please agree to receive updates."); return; }
     setLoading(true);
     setError("");
     try {
@@ -332,11 +323,29 @@ export default function VisitorRegistrationPage() {
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error);
+
+      // ── INDIAN: no OTP — go directly based on server response ──
+      if (visitorType === "indian") {
+        if (data.alreadyRegistered) {
+          // Already registered — show their existing pass
+          setRegNo(data.regNo || "");
+          setQrCode(data.qrCode || "");
+          setSuccess("You are already registered!");
+          setStage("complete");
+        } else {
+          // New or resuming — skip OTP, go straight to form
+          setVisitorId(data.visitorId);
+          setStage("form");
+        }
+        return;
+      }
+
+      // ── INTERNATIONAL: OTP sent — go to verify stage ──
       setSuccess("OTP sent successfully.");
       setStage("otp-verify");
       setOtpTimer(60);
     } catch (err: unknown) {
-      setError(err instanceof Error ? err.message : "Failed to send OTP");
+      setError(err instanceof Error ? err.message : "Failed. Please try again.");
     } finally {
       setLoading(false);
     }
@@ -551,7 +560,9 @@ export default function VisitorRegistrationPage() {
           </h1>
           {stage === "otp-phone" && (
             <p className="text-sm" style={{ color: "#6b7280" }}>
-              Choose how you want to receive your OTP to continue
+              {visitorType === "indian"
+                ? "Enter your mobile number to register"
+                : "Enter your email to receive an OTP"}
             </p>
           )}
         </div>
@@ -718,7 +729,11 @@ export default function VisitorRegistrationPage() {
                     background: "#1a1464",
                   }}
                 >
-                  {loading ? "Sending..." : "Generate OTP"}
+                  {loading
+                    ? "Please wait..."
+                    : visitorType === "indian"
+                    ? "Continue →"
+                    : "Send OTP"}
                 </button>
               </div>
             </div>
