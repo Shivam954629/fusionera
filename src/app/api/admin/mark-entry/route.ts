@@ -34,9 +34,9 @@ export async function POST(req: NextRequest) {
       [visitorId, regNo],
     );
 
-    // Total entries for this visitor today
+    // Total entries for this visitor today (IST timezone)
     const todayCount = await pool.query(
-      `SELECT COUNT(*) as count FROM visitor_entries WHERE visitor_id=$1 AND DATE(entered_at)=CURRENT_DATE`,
+      `SELECT COUNT(*) as count FROM visitor_entries WHERE visitor_id=$1 AND DATE(entered_at AT TIME ZONE 'Asia/Kolkata')=CURRENT_DATE AT TIME ZONE 'Asia/Kolkata'`,
       [visitorId],
     );
 

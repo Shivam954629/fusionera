@@ -71,6 +71,42 @@ export async function initDB() {
   // Expand otps phone_number too (used as email key for international visitors)
   await pool.query(`ALTER TABLE otps ALTER COLUMN phone_number TYPE VARCHAR(255);`).catch(() => {});
 
+  // Ensure all columns required by registration flow exist (safe to run repeatedly)
+  const visitorCols: string[] = [
+    `ADD COLUMN IF NOT EXISTS otp_verified BOOLEAN DEFAULT FALSE`,
+    `ADD COLUMN IF NOT EXISTS registration_complete BOOLEAN DEFAULT FALSE`,
+    `ADD COLUMN IF NOT EXISTS qr_code TEXT`,
+    `ADD COLUMN IF NOT EXISTS password_hash TEXT`,
+    `ADD COLUMN IF NOT EXISTS first_name VARCHAR(100)`,
+    `ADD COLUMN IF NOT EXISTS middle_name VARCHAR(100)`,
+    `ADD COLUMN IF NOT EXISTS last_name VARCHAR(100)`,
+    `ADD COLUMN IF NOT EXISTS title VARCHAR(20)`,
+    `ADD COLUMN IF NOT EXISTS designation VARCHAR(100)`,
+    `ADD COLUMN IF NOT EXISTS company VARCHAR(255)`,
+    `ADD COLUMN IF NOT EXISTS email2 VARCHAR(255)`,
+    `ADD COLUMN IF NOT EXISTS phone2 VARCHAR(50)`,
+    `ADD COLUMN IF NOT EXISTS address1 TEXT`,
+    `ADD COLUMN IF NOT EXISTS address2 TEXT`,
+    `ADD COLUMN IF NOT EXISTS state VARCHAR(100)`,
+    `ADD COLUMN IF NOT EXISTS pincode VARCHAR(10)`,
+    `ADD COLUMN IF NOT EXISTS nature_of_business TEXT`,
+    `ADD COLUMN IF NOT EXISTS annual_turnover VARCHAR(100)`,
+    `ADD COLUMN IF NOT EXISTS product_interests TEXT`,
+    `ADD COLUMN IF NOT EXISTS visit_purpose TEXT`,
+    `ADD COLUMN IF NOT EXISTS annual_buying VARCHAR(100)`,
+    `ADD COLUMN IF NOT EXISTS how_did_you_hear VARCHAR(100)`,
+    `ADD COLUMN IF NOT EXISTS additional_notes TEXT`,
+    `ADD COLUMN IF NOT EXISTS brands_interested TEXT`,
+    `ADD COLUMN IF NOT EXISTS photo_url TEXT`,
+    `ADD COLUMN IF NOT EXISTS invited_by VARCHAR(100)`,
+    `ADD COLUMN IF NOT EXISTS business_card_front TEXT`,
+    `ADD COLUMN IF NOT EXISTS business_card_back TEXT`,
+    `ADD COLUMN IF NOT EXISTS country VARCHAR(100) DEFAULT 'India'`,
+  ];
+  for (const col of visitorCols) {
+    await pool.query(`ALTER TABLE visitors ${col}`).catch(() => {});
+  }
+
   // Site settings table
   await pool.query(`
     CREATE TABLE IF NOT EXISTS site_settings (

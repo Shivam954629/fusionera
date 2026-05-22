@@ -37,6 +37,9 @@ export default function VideosPage() {
   const getYouTubeId = (url: string) =>
     url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([^&\n?#]+)/)?.[1] ?? null;
 
+  const isLocalVideo = (url: string) =>
+    url.startsWith("/videos/") || url.startsWith("/public/videos/");
+
   return (
     <section className="w-full py-8 md:py-12 reveal-on-scroll reveal-zoom bg-[#5B9BD5]" data-reveal-delay="50">
       <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-10">
@@ -82,9 +85,19 @@ export default function VideosPage() {
                   const ytId = getYouTubeId(v.url);
                   const isPlaying = playingId === v.id;
                   return (
-                    <div key={v.id} className="overflow-hidden rounded-xl bg-white shadow-sm" style={{ border: "1px solid rgba(0,80,157,0.15)" }}>
+                    <div key={v.id} className="overflow-hidden rounded-xl bg-black shadow-sm" style={{ border: "1px solid rgba(0,80,157,0.15)" }}>
                       <div className="relative aspect-video bg-black">
-                        {isPlaying && ytId ? (
+                        {isPlaying && isLocalVideo(v.url) ? (
+                          <video
+                            className="w-full h-full"
+                            style={{ objectFit: "contain" }}
+                            controls
+                            autoPlay
+                            playsInline
+                          >
+                            <source src={v.url} type="video/mp4" />
+                          </video>
+                        ) : isPlaying && ytId ? (
                           <iframe
                             src={`https://www.youtube.com/embed/${ytId}?autoplay=1`}
                             className="w-full h-full"

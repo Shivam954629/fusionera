@@ -393,7 +393,7 @@ export default function VisitorRegistrationPage() {
     setLoading(true);
     setError("");
     try {
-      await fetch("/api/registration/save", {
+      const saveRes = await fetch("/api/registration/save", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -406,6 +406,8 @@ export default function VisitorRegistrationPage() {
           },
         }),
       });
+      const saveData = await saveRes.json();
+      if (!saveRes.ok) throw new Error(saveData.error || "Failed to save. Please try again.");
       if (step < 8) {
         setCurrentStep(step + 1);
       } else {
@@ -1975,7 +1977,9 @@ export default function VisitorRegistrationPage() {
                   Registration Complete!
                 </h2>
                 <p className="text-sm mb-6" style={{ color: "#6b7280" }}>
-                  Your entry pass and QR code have been sent to your email.
+                  {visitorType === "indian"
+                    ? "Your QR code is ready! Screenshot or download it below to use at the entry gate."
+                    : "Your entry pass and QR code have been sent to your email."}
                 </p>
                 <div
                   className="rounded-xl p-4 mb-6"

@@ -45,7 +45,16 @@ export async function POST(req: NextRequest) {
         { status: 400 },
       );
 
-    const regNo = generateRegNo();
+    // Generate unique regNo — retry up to 5 times to avoid rare collisions
+    let regNo = "";
+    for (let attempt = 0; attempt < 5; attempt++) {
+      const candidate = generateRegNo();
+      const exists = await pool.query(`SELECT id FROM visitors WHERE registration_no=$1`, [candidate]);
+      if (exists.rows.length === 0) { regNo = candidate; break; }
+    }
+    if (!regNo)
+      return NextResponse.json({ error: "Could not generate registration number. Please try again." }, { status: 500 });
+
     const password = generatePassword();
     const passwordHash = await bcrypt.hash(password, 10);
 
@@ -95,9 +104,9 @@ export async function POST(req: NextRequest) {
       `,
     }).catch((err) => console.error("Admin email error:", err));
 
-    // Send email with QR pass
+    // Send email with QR pass (non-blocking — email failure must not break registration)
     if (visitor.email) {
-      await transporter.sendMail({
+      transporter.sendMail({
         from: `"Fusion The Era Events" <${process.env.GMAIL_USER}>`,
         to: visitor.email,
         subject: "✅ Registration Confirmed — Your Entry Pass | Fusion The Era 2026",
@@ -149,7 +158,7 @@ export async function POST(req: NextRequest) {
             </div>
           </div>
         `,
-      });
+      }).catch((err) => console.error("Visitor email error:", err));
     }
 
     return NextResponse.json({ success: true, regNo, qrCode: qrCodeDataUrl });

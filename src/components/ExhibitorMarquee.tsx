@@ -10,16 +10,21 @@ interface Brand {
 }
 
 const slogans: Record<string, string> = {
-  "Kotop Steel":  "Quality For Life",
-  "Shree MS":     "",
-  "Shagun":       "",
-  "India Gold":   "Advanced Cookware",
-  "Fusion":       "",
-  "Shagoon":      "100% Stainless Steel",
-  "Saga Steel":   "Exclusive Home Product Range",
-  "KHR":          "Love Cooking - First Cooking!",
-  "Jai Baba Ji":  "Stainless Steel",
+  "Kotop Steel":              "Quality For Life",
+  "Shree MS":                 "",
+  "Shagun":                   "",
+  "India Gold":               "Advanced Cookware",
+  "Fusion":                   "",
+  "Shagoon":                  "100% Stainless Steel",
+  "Saga Steel":               "Exclusive Home Product Range",
+  "KHR":                      "Love Cooking - First Cooking!",
+  "Jai Baba Ji":              "Stainless Steel",
+  "Global Designer Collection": "Designer Collection",
+  "Royal Chef":               "",
 };
+
+// Brands with dark backgrounds — skip multiply blend
+const darkBgBrands = new Set(["Royal Chef"]);
 
 const fallbackBrands: Brand[] = [
   { id: "f1", name: "Kotop Steel",  logo_url: "/images/brands/kotop-steel-logo.jpg",         is_published: true },
@@ -31,6 +36,9 @@ const fallbackBrands: Brand[] = [
   { id: "f7", name: "Saga Steel",   logo_url: "/images/brands/saga-steels-logo.jpg",         is_published: true },
   { id: "f8", name: "KHR",          logo_url: "/images/brands/khr-logo.jpg",                 is_published: true },
   { id: "f9", name: "Jai Baba Ji",  logo_url: "/images/brands/jai-baba-ji.jpg",             is_published: true },
+  { id: "f10", name: "TNT",                      logo_url: "/images/brands/tnt-the-next-trend.jpg",          is_published: true },
+  { id: "f11", name: "Global Designer Collection", logo_url: "/images/brands/global-designer-collection.jpg", is_published: true },
+  { id: "f12", name: "Royal Chef",               logo_url: "/images/brands/royal-chef.jpg",                  is_published: true },
 ];
 
 function BrandLogo({ brand }: { brand: Brand }) {
@@ -48,7 +56,12 @@ function BrandLogo({ brand }: { brand: Brand }) {
     <img
       src={brand.logo_url.replace(/ /g, "%20")}
       alt={brand.name}
-      style={{ width: "200px", height: "110px", objectFit: "contain", mixBlendMode: "multiply" }}
+      style={{
+        width: "200px",
+        height: "110px",
+        objectFit: "contain",
+        mixBlendMode: darkBgBrands.has(brand.name) ? "normal" : "multiply",
+      }}
     />
   );
 }
