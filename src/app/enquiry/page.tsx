@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 import { useState } from "react";
 
 const inputCls = "w-full px-3 py-2 border border-gray-300 text-sm text-gray-900 bg-white focus:outline-none focus:border-[#00509d] transition";
@@ -43,13 +43,13 @@ export default function EnquiryPage() {
   };
 
   return (
-    <section id="enquiry" className="w-full py-8 md:py-12 reveal-on-scroll reveal-zoom bg-[#cae9ff]" data-reveal-delay="50">
+    <section id="enquiry" className="w-full py-8 md:py-12 reveal-on-scroll reveal-zoom bg-[#5B9BD5]" data-reveal-delay="50">
       <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-10">
         <div className="relative grid gap-6 p-4 text-[#00509d] sm:p-6 md:p-8">
           <div>
             <div className="mt-4 w-fit">
-              <h2 className="text-2xl font-bold md:text-3xl">Enquiry Form</h2>
-              <div className="mt-2 h-1 w-full rounded-full bg-[#00509d]" />
+              <h2 className="text-2xl font-bold md:text-3xl text-white">Enquiry Form</h2>
+              <div className="mt-2 h-1 w-full rounded-full bg-[#f0b429]" />
             </div>
             <p className="mt-4 text-sm text-black">Please fill the below form with your query</p>
 

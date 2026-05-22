@@ -541,12 +541,11 @@ export default function VisitorRegistrationPage() {
   );
 
   return (
-    <div className="min-h-screen w-full bg-[#cae9ff] px-4 py-6 sm:px-6 md:py-8 lg:px-10">
+    <div className="min-h-screen w-full bg-[#5B9BD5] px-4 py-6 sm:px-6 md:py-8 lg:px-10">
       <div className="max-w-5xl mx-auto">
         <div className="text-center mb-6 md:mb-8">
             <h1
-            className="text-3xl font-bold mb-2"
-            style={{ color: "#00509d" }}
+            className="text-3xl font-bold mb-2 text-white"
           >
             Visitor Registration
           </h1>

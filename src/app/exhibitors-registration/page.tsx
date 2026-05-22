@@ -77,14 +77,13 @@ export default function ExhibitorRegistrationPage() {
   const blueBg = { background: "#1a1464" };
 
   return (
-    <div className="min-h-screen w-full bg-[#cae9ff] px-4 py-8 sm:px-6 md:py-12 lg:px-10">
+    <div className="min-h-screen w-full bg-[#5B9BD5] px-4 py-8 sm:px-6 md:py-12 lg:px-10">
         <div className="max-w-5xl mx-auto">
           <div className="mb-6 md:mb-8" />
 
           <div className="text-center mb-6 md:mb-8">
             <h1
-              className="text-3xl font-bold mb-2"
-              style={{ color: "#00509d" }}
+              className="text-3xl font-bold mb-2 text-white"
             >
               Exhibitors Registration
             </h1>

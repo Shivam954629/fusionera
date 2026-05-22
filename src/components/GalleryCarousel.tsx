@@ -64,10 +64,10 @@ export default function GalleryCarousel() {
 
   return (
     <>
-      <section className="w-full py-14 md:py-18" style={{ background: "#cce8f5", borderTop: "4px solid #e84030" }}>
+      <section className="w-full py-14 md:py-18" style={{ background: "#5B9BD5", borderTop: "4px solid #f0b429" }}>
         <div className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-10">
           <div className="text-center mb-10">
-            <h2 className="text-[15px] font-extrabold uppercase tracking-[0.2em]" style={{ color: "#1a1464" }}>Photo Gallery</h2>
+            <h2 className="text-[15px] font-extrabold uppercase tracking-[0.2em]" style={{ color: "#0B0F2B" }}>Photo Gallery</h2>
             <Divider />
           </div>
 
@@ -96,11 +96,13 @@ export default function GalleryCarousel() {
 
             <button
               onClick={prev}
-              className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 w-8 h-8 rounded-full bg-white shadow-md flex items-center justify-center text-[#1a1464] hover:bg-[#1a1464] hover:text-white transition text-lg border border-[#1a1464]/20"
+              className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 w-8 h-8 rounded-full shadow-md flex items-center justify-center text-white transition text-lg"
+              style={{ background: "rgba(255,255,255,0.9)", border: "none", color: "#5B9BD5" }}
             >‹</button>
             <button
               onClick={next}
-              className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 w-8 h-8 rounded-full bg-white shadow-md flex items-center justify-center text-[#1a1464] hover:bg-[#1a1464] hover:text-white transition text-lg border border-[#1a1464]/20"
+              className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 w-8 h-8 rounded-full shadow-md flex items-center justify-center text-white transition text-lg"
+              style={{ background: "rgba(255,255,255,0.9)", border: "none", color: "#5B9BD5" }}
             >›</button>
           </div>
 
@@ -110,7 +112,7 @@ export default function GalleryCarousel() {
                 key={i}
                 onClick={() => setIndex(i)}
                 className={`rounded-full transition-all ${i === index ? "w-5 h-2" : "w-2 h-2"}`}
-                style={{ background: i === index ? "#00c8de" : "rgba(0,200,222,0.25)" }}
+                style={{ background: i === index ? "#ffffff" : "rgba(255,255,255,0.35)" }}
               />
             ))}
           </div>
@@ -119,7 +121,7 @@ export default function GalleryCarousel() {
             <Link
               href="/gallery"
               className="inline-block rounded px-8 py-2.5 text-sm font-semibold text-white transition"
-              style={{ background: "#e84030", boxShadow: "0 4px 14px rgba(232,64,48,0.3)" }}
+              style={{ background: "#f0b429", color: "#0B0F2B", boxShadow: "0 4px 14px rgba(240,180,41,0.3)" }}
             >
               View More
             </Link>

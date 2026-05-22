@@ -9,55 +9,46 @@ interface Brand {
   is_published: boolean;
 }
 
+const slogans: Record<string, string> = {
+  "Kotop Steel":  "Quality For Life",
+  "Shree MS":     "",
+  "Shagun":       "",
+  "India Gold":   "Advanced Cookware",
+  "Fusion":       "",
+  "Shagoon":      "100% Stainless Steel",
+  "Saga Steel":   "Exclusive Home Product Range",
+  "KHR":          "Love Cooking - First Cooking!",
+  "Jai Baba Ji":  "Stainless Steel",
+};
+
 const fallbackBrands: Brand[] = [
-  { id: "f1", name: "Kotop Steel",  logo_url: "/images/brands/kotop-steel.jpg",  is_published: true },
-  { id: "f2", name: "Shree MS",     logo_url: "/images/brands/shree-ms.jpg",     is_published: true },
-  { id: "f3", name: "Shagun",       logo_url: "/images/brands/shagun.jpg",       is_published: true },
-  { id: "f4", name: "India Gold",   logo_url: "/images/brands/india-gold.jpg",   is_published: true },
-  { id: "f5", name: "Fusion",       logo_url: "/images/brands/fusion-brand.jpg", is_published: true },
-  { id: "f6", name: "Shagoon",      logo_url: "/images/brands/shagoon.jpg",      is_published: true },
-  { id: "f7", name: "Saga Steel",   logo_url: "/images/brands/saga-steel-logo.jpg",     is_published: true },
-  { id: "f8", name: "KHR",          logo_url: "/images/brands/khr-logo.jpg",             is_published: true },
+  { id: "f1", name: "Kotop Steel",  logo_url: "/images/brands/kotop-steel-logo.jpg",         is_published: true },
+  { id: "f2", name: "Shree MS",     logo_url: "/images/brands/shree-ms.jpg",                 is_published: true },
+  { id: "f3", name: "Shagun",       logo_url: "/images/brands/shagun.jpg",                   is_published: true },
+  { id: "f4", name: "India Gold",   logo_url: "/images/brands/india-gold.jpg",               is_published: true },
+  { id: "f5", name: "Fusion",       logo_url: "/images/brands/fusion-brand.jpg",             is_published: true },
+  { id: "f6", name: "Shagoon",      logo_url: "/images/brands/shagoon-logo.jpg",             is_published: true },
+  { id: "f7", name: "Saga Steel",   logo_url: "/images/brands/saga-steels-logo.jpg",         is_published: true },
+  { id: "f8", name: "KHR",          logo_url: "/images/brands/khr-logo.jpg",                 is_published: true },
+  { id: "f9", name: "Jai Baba Ji",  logo_url: "/images/brands/jai-baba-ji.jpg",             is_published: true },
 ];
 
 function BrandLogo({ brand }: { brand: Brand }) {
   if (!brand.logo_url) {
     return (
-      <div
-        style={{
-          width: "200px",
-          height: "110px",
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          justifyContent: "center",
-          background: "#ffffff",
-          borderRadius: "8px",
-          border: "1px solid rgba(12,17,72,0.12)",
-        }}
-      >
-        <span
-          style={{
-            fontWeight: 800,
-            fontSize: "18px",
-            color: "#0c1148",
-            letterSpacing: "0.05em",
-            textAlign: "center",
-            lineHeight: 1.2,
-          }}
-        >
+      <div style={{ width: "200px", height: "110px", display: "flex", alignItems: "center", justifyContent: "center" }}>
+        <span style={{ fontWeight: 800, fontSize: "18px", color: "#0c1148", textAlign: "center" }}>
           {brand.name}
         </span>
       </div>
     );
   }
-
   return (
     /* eslint-disable-next-line @next/next/no-img-element */
     <img
       src={brand.logo_url.replace(/ /g, "%20")}
       alt={brand.name}
-      style={{ width: "200px", height: "110px", objectFit: "contain" }}
+      style={{ width: "200px", height: "110px", objectFit: "contain", mixBlendMode: "multiply" }}
     />
   );
 }
@@ -77,7 +68,6 @@ export default function ExhibitorMarquee() {
             ...apiPublished.map((b: Brand) => {
               const fb = fallbackBrands.find((f) => f.name.toLowerCase() === b.name.toLowerCase());
               if (fb) {
-                // For fallback brands: use DB logo only if it's a proper external URL (Cloudinary etc.)
                 const isExternalUrl = b.logo_url && b.logo_url.startsWith("http") && !b.logo_url.includes(" ");
                 return isExternalUrl ? b : { ...b, logo_url: fb.logo_url };
               }
@@ -118,7 +108,7 @@ export default function ExhibitorMarquee() {
             <div
               key={`${brand.id}-${i}`}
               className="inline-flex items-center justify-center flex-shrink-0 select-none"
-              style={{ padding: "24px 56px", borderRight: "1px solid #e5e7eb" }}
+              style={{ padding: "20px 48px", borderRight: "1px solid #e5e7eb" }}
             >
               <BrandLogo brand={brand} />
             </div>

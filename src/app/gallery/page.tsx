@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 import { useCallback, useEffect, useState } from "react";
 
 interface GalleryImage {
@@ -93,13 +93,13 @@ export default function GalleryPage() {
   };
 
   return (
-    <section className="w-full py-8 md:py-12 reveal-on-scroll reveal-zoom bg-[#cae9ff]" data-reveal-delay="50">
+    <section className="w-full py-8 md:py-12 reveal-on-scroll reveal-zoom bg-[#5B9BD5]" data-reveal-delay="50">
       <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-10">
         <div className="relative grid gap-6 p-4 text-[#00509d] sm:p-6 md:p-8">
           <div>
             <div className="mt-4 w-fit">
-              <h2 className="text-2xl font-bold md:text-3xl">Photo Gallery</h2>
-              <div className="mt-2 h-1 w-full rounded-full bg-[#00509d]" />
+              <h2 className="text-2xl font-bold md:text-3xl text-white">Photo Gallery</h2>
+              <div className="mt-2 h-1 w-full rounded-full bg-[#f0b429]" />
             </div>
 
             {dbImages.length > 0 && (

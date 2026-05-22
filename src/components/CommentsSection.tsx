@@ -85,7 +85,7 @@ function CommentCarousel({
   return (
     <div className="flex flex-col items-center text-center px-2 md:px-10">
       {/* Title */}
-      <h3 className="text-[15px] font-extrabold uppercase tracking-[0.18em]" style={{ color: "#1a1464" }}>
+      <h3 className="text-[15px] font-extrabold uppercase tracking-[0.18em]" style={{ color: "#0B0F2B" }}>
         {title}
       </h3>
       {/* Simple line */}
@@ -105,18 +105,18 @@ function CommentCarousel({
         ) : (
           <div
             className="w-16 h-16 rounded-full flex items-center justify-center text-white text-2xl font-black mb-4 flex-shrink-0 relative z-10"
-            style={{ background: "#1a1464", border: "3px solid #fff", boxShadow: "0 4px 16px rgba(26,20,100,0.2)" }}
+            style={{ background: "#f0b429", border: "3px solid rgba(255,255,255,0.2)", boxShadow: "0 4px 16px rgba(26,20,100,0.2)" }}
           >
             {c.name.charAt(0)}
           </div>
         )}
 
         {/* Name */}
-        <p className="text-sm font-bold" style={{ color: "#1a1464" }}>{c.name}</p>
+        <p className="text-sm font-bold" style={{ color: "#0B0F2B" }}>{c.name}</p>
         {/* Designation */}
-        <p className="text-xs font-medium mt-1 mb-5" style={{ color: "#1a1464" }}>{c.designation}</p>
+        <p className="text-xs font-medium mt-1 mb-5" style={{ color: "rgba(11,15,43,0.65)" }}>{c.designation}</p>
         {/* Comment */}
-        <p className="text-sm leading-7 font-medium max-w-xs md:max-w-sm" style={{ color: "#1a1464" }}>
+        <p className="text-sm leading-7 font-medium max-w-xs md:max-w-sm" style={{ color: "rgba(11,15,43,0.85)" }}>
           {c.text}
         </p>
       </div>
@@ -126,8 +126,8 @@ function CommentCarousel({
         <button
           onClick={prev}
           className="w-8 h-8 rounded-full border flex items-center justify-center text-lg transition hover:text-white"
-          style={{ borderColor: "rgba(26,20,100,0.2)", color: "rgba(26,20,100,0.45)" }}
-          onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.background = "#1a1464"; }}
+          style={{ borderColor: "rgba(255,255,255,0.2)", color: "rgba(255,255,255,0.5)" }}
+          onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.background = "rgba(255,255,255,0.1)"; }}
           onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.background = "transparent"; }}
         >
           ‹
@@ -149,8 +149,8 @@ function CommentCarousel({
         <button
           onClick={next}
           className="w-8 h-8 rounded-full border flex items-center justify-center text-lg transition hover:text-white"
-          style={{ borderColor: "rgba(26,20,100,0.2)", color: "rgba(26,20,100,0.45)" }}
-          onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.background = "#1a1464"; }}
+          style={{ borderColor: "rgba(255,255,255,0.2)", color: "rgba(255,255,255,0.5)" }}
+          onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.background = "rgba(255,255,255,0.1)"; }}
           onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.background = "transparent"; }}
         >
           ›
@@ -162,7 +162,7 @@ function CommentCarousel({
         <Link
           href={viewAllHref}
           className="text-sm font-semibold transition hover:underline"
-          style={{ color: "#e84030" }}
+          style={{ color: "#f0b429" }}
         >
           Read More
         </Link>
@@ -191,19 +191,25 @@ export default function CommentsSection() {
   useEffect(() => { fetchComments(); }, [fetchComments]);
 
   return (
-    <section className="w-full py-14 md:py-18" style={{ background: "#cce8f5", borderTop: "4px solid #f0b429" }}>
+    <section className="w-full py-14 md:py-18" style={{ background: "#5B9BD5", borderTop: "4px solid #f0b429" }}>
       <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-10">
-        <div className="grid grid-cols-1 gap-12 md:grid-cols-2 md:gap-0 md:divide-x md:divide-[#1a1464]/10">
+        <div className="grid grid-cols-1 gap-12 md:grid-cols-2 md:gap-0 md:divide-x md:divide-white/10">
+          {/* Exhibitor comments — fully visible */}
           <CommentCarousel
             comments={liveExhibitor.length ? liveExhibitor : exhibitorComments}
             title="Exhibitors' Comments"
             viewAllHref="/exhibitorcomments"
           />
-          <CommentCarousel
-            comments={liveVisitor.length ? liveVisitor : visitorComments}
-            title="Visitor's Comments"
-            viewAllHref="/comments"
-          />
+          {/* Visitor comments — blurred, coming soon */}
+          <div className="relative">
+            <div style={{ filter: "blur(6px)", pointerEvents: "none", userSelect: "none" }}>
+              <CommentCarousel
+                comments={visitorComments}
+                title="Visitor's Comments"
+                viewAllHref="/comments"
+              />
+            </div>
+          </div>
         </div>
       </div>
     </section>

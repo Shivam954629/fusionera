@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useSiteSettings } from "@/lib/useSiteSettings";
@@ -61,14 +61,14 @@ export default function VisitorDashboardPage() {
 
   if (loading)
     return (
-      <section className="min-h-screen flex items-center justify-center bg-[#cae9ff]">
+      <section className="min-h-screen flex items-center justify-center bg-[#5B9BD5]">
         <div className="w-10 h-10 border-4 rounded-full animate-spin border-[#cae9ff] border-t-[#00509d]" />
       </section>
     );
 
   if (error || !visitor)
     return (
-      <section className="min-h-screen flex items-center justify-center px-4 bg-[#cae9ff]">
+      <section className="min-h-screen flex items-center justify-center px-4 bg-[#5B9BD5]">
         <div
           className="w-full max-w-md rounded-2xl bg-white p-6 text-center shadow-sm"
           style={{ border: "1px solid rgba(0,80,157,0.15)" }}
@@ -91,7 +91,7 @@ export default function VisitorDashboardPage() {
     );
 
   return (
-    <div className="min-h-screen bg-[#cae9ff]">
+    <div className="min-h-screen bg-[#5B9BD5]">
       {/* HERO BANNER */}
       <section className="relative isolate w-full overflow-hidden py-14 md:py-20">
         <div

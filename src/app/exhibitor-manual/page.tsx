@@ -1,4 +1,4 @@
-import Link from "next/link";
+﻿import Link from "next/link";
 
 const steps = [
   { no: "01", title: "Stall Booking", desc: "Contact our team to book your stall. Choose from various stall sizes and configurations. Pay the stall advance to confirm your booking." },
@@ -22,15 +22,15 @@ export default function ExhibitorManualPage() {
   return (
     <section
       id="exhibitor-manual"
-      className="w-full py-8 md:py-12 reveal-on-scroll reveal-zoom bg-[#cae9ff]"
+      className="w-full py-8 md:py-12 reveal-on-scroll reveal-zoom bg-[#5B9BD5]"
       data-reveal-delay="50"
     >
       <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-10">
         <div className="relative grid gap-6 p-4 text-[#00509d] sm:p-6 md:p-8">
           <div>
             <div className="mt-4 w-fit">
-              <h2 className="text-2xl font-bold md:text-3xl">Exhibitor Manual</h2>
-              <div className="mt-2 h-1 w-full rounded-full bg-[#00509d]" />
+              <h2 className="text-2xl font-bold md:text-3xl text-white">Exhibitor Manual</h2>
+              <div className="mt-2 h-1 w-full rounded-full bg-[#f0b429]" />
             </div>
             <p className="mt-4 text-md leading-7 text-black">
               Everything you need to know to exhibit at Fusion The Era — from booking to post-show.
@@ -38,7 +38,7 @@ export default function ExhibitorManualPage() {
 
             <div className="mt-8 w-fit">
               <h3 className="text-xl font-bold text-[#00509d]">Step-by-Step Guide</h3>
-              <div className="mt-2 h-1 w-full rounded-full bg-[#00509d]" />
+              <div className="mt-2 h-1 w-full rounded-full bg-[#f0b429]" />
             </div>
             <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
               {steps.map((s) => (
@@ -52,7 +52,7 @@ export default function ExhibitorManualPage() {
 
             <div className="mt-10 w-fit">
               <h3 className="text-xl font-bold text-[#00509d]">Key Show Information</h3>
-              <div className="mt-2 h-1 w-full rounded-full bg-[#00509d]" />
+              <div className="mt-2 h-1 w-full rounded-full bg-[#f0b429]" />
             </div>
             <div className="mt-4 grid grid-cols-2 md:grid-cols-4 gap-4">
               {[
@@ -70,7 +70,7 @@ export default function ExhibitorManualPage() {
 
             <div className="mt-10 w-fit">
               <h3 className="text-xl font-bold text-[#00509d]">Frequently Asked Questions</h3>
-              <div className="mt-2 h-1 w-full rounded-full bg-[#00509d]" />
+              <div className="mt-2 h-1 w-full rounded-full bg-[#f0b429]" />
             </div>
             <div className="mt-4 space-y-3">
               {faqs.map((f) => (
