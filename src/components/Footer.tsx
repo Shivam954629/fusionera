@@ -42,13 +42,12 @@ export default function Footer() {
             <a href="https://www.facebook.com/share/1EiPZcSKdq/" target="_blank" rel="noopener noreferrer" aria-label="Facebook" className="flex h-8 w-8 items-center justify-center rounded-full border border-white/20 text-white/50 hover:border-white/60 hover:text-white transition">
               <svg className="h-3.5 w-3.5" fill="currentColor" viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" /></svg>
             </a>
+            <a href="https://www.linkedin.com/company/fusiontheera/" target="_blank" rel="noopener noreferrer" aria-label="Instagram" className="flex h-8 w-8 items-center justify-center rounded-full border border-white/20 text-white/50 hover:border-white/60 hover:text-white transition">
+               <svg className="h-3.5 w-3.5" fill="currentColor" viewBox="0 0 24 24"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+            </a>
             {/* YouTube — coming soon */}
             <span aria-label="YouTube" className="flex h-8 w-8 items-center justify-center rounded-full border border-white/20 text-white/50 cursor-default">
               <svg className="h-3.5 w-3.5" fill="currentColor" viewBox="0 0 24 24"><path d="M23.5 6.2c-.3-1.2-1.2-2.1-2.4-2.4C18.6 3.5 12 3.5 12 3.5s-6.6 0-9.1.3c-1.2.3-2.1 1.2-2.4 2.4C.1 8.7 0 12 0 12s.1 3.3.5 5.8c.3 1.2 1.2 2.1 2.4 2.4 2.5.3 9.1.3 9.1.3s6.6 0 9.1-.3c1.2-.3 2.1-1.2 2.4-2.4.4-2.5.5-5.8.5-5.8s0-3.3-.5-5.8zM9.6 15.5V8.5L15.8 12l-6.2 3.5z" /></svg>
-            </span>
-            {/* LinkedIn — coming soon */}
-            <span aria-label="LinkedIn" className="flex h-8 w-8 items-center justify-center rounded-full border border-white/20 text-white/50 cursor-default">
-              <svg className="h-3.5 w-3.5" fill="currentColor" viewBox="0 0 24 24"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
             </span>
             {/* WhatsApp — coming soon */}
             <span aria-label="WhatsApp" className="flex h-8 w-8 items-center justify-center rounded-full border border-white/20 text-white/50 cursor-default">

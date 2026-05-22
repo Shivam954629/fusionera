@@ -3,17 +3,49 @@ import React from "react";
 import { usePageContent } from "@/lib/usePageContent";
 
 const FALLBACK_TITLE = "Reaching the Venue";
+
+const VENUE_HIGHLIGHTS = [
+  {
+    title: "Venue",
+    value: "Bharat Mandapam, Pragati Maidan, New Delhi",
+  },
+  {
+    title: "Nearest Metro",
+    value: "Pragati Maidan & Supreme Court Metro Station",
+  },
+  {
+    title: "Nearest Railway Station",
+    value: "New Delhi Railway Station",
+  },
+  {
+    title: "Nearest Airport",
+    value: "Indira Gandhi International Airport (IGI)",
+  },
+  {
+    title: "Transport Access",
+    value: "Taxis, App-based Cabs, Buses & Public Transport",
+  },
+  {
+    title: "Nearby Facilities",
+    value: "Hotels, Business Hubs & Hospitality Facilities",
+  },
+];
+
 const FALLBACK_PARAS = [
-  "Located in New Delhi, Bharat Mandapam at Pragati Maidan stands as one of India's most prestigious international exhibition and convention destinations. With world-class infrastructure, seamless connectivity, and modern facilities, the venue offers a convenient and professional experience for exhibitors and visitors attending Fusion The Era.",
-  "The venue is well connected through major road networks, Delhi Metro, railway stations, and Indira Gandhi International Airport, making travel smooth and accessible from across India and overseas.",
-  "Nearest Metro Station: Supreme Court Metro Station / Pragati Maidan Metro Station. Nearest Railway Station: New Delhi Railway Station. Nearest Airport: Indira Gandhi International Airport (IGI Airport). Easily accessible via taxis, app-based cabs, buses, and public transport.",
-  "Visitors can also explore nearby hotels, business hubs, and hospitality facilities conveniently located around the venue area.",
+  "Located in New Delhi, Bharat Mandapam at Pragati Maidan stands as one of India's most prestigious international exhibition and convention destinations.",
+
+  "With world-class infrastructure, seamless connectivity, and modern facilities, the venue offers a convenient and professional experience for exhibitors and visitors attending Fusion The Era.",
 ];
 
 export default function VenuePage() {
   const cms = usePageContent("reaching-the-venue");
+
   const title = cms?.title || FALLBACK_TITLE;
-  const paragraphs = cms?.paragraphs.length ? cms.paragraphs : FALLBACK_PARAS;
+
+  const paragraphs =
+    cms?.paragraphs?.length > 0
+      ? cms.paragraphs
+      : FALLBACK_PARAS;
 
   return (
     <section
@@ -24,11 +56,42 @@ export default function VenuePage() {
       <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-10">
         <div className="relative grid gap-6 p-4 text-[#00509d] sm:p-6 md:p-8">
           <div>
+            {/* Heading */}
             <div className="mt-4 w-fit">
-              <h2 className="text-2xl font-bold md:text-3xl text-white">{title}</h2>
+              <h2 className="text-2xl font-bold text-white md:text-3xl">
+                {title}
+              </h2>
+
               <div className="mt-2 h-1 w-full rounded-full bg-[#f0b429]" />
             </div>
-            <p className="mt-4 text-md leading-7 text-black text-justify">{paragraphs.join(" ")}</p>
+
+            {/* Intro */}
+            {paragraphs.map((para, i) => (
+              <p
+                key={i}
+                className="mt-4 text-md leading-7 text-black text-justify"
+              >
+                {para}
+              </p>
+            ))}
+
+            {/* Highlights */}
+            <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+              {VENUE_HIGHLIGHTS.map((item) => (
+                <div
+                  key={item.title}
+                  className="rounded-2xl border border-[#d6e9f7] bg-white p-5 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-md"
+                >
+                  <p className="text-sm font-bold text-[#00509d]">
+                    {item.title}
+                  </p>
+
+                  <p className="mt-2 text-sm leading-6 text-black sm:text-base">
+                    {item.value}
+                  </p>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </div>

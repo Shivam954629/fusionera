@@ -26,7 +26,7 @@ export default function PayStallAdvancePage() {
             </p>
 
             <div className="mt-8 w-fit">
-              <h3 className="text-xl font-bold text-[#00509d]">Contact Our Team</h3>
+              <h3 className="text-xl font-bold text-[#ffffff]">Contact Our Team</h3>
               <div className="mt-2 h-1 w-full rounded-full bg-[#f0b429]" />
             </div>
             <div className="mt-4 grid grid-cols-1 gap-4 md:grid-cols-2">
