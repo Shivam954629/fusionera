@@ -91,9 +91,7 @@ export default function Footer() {
               <li><Link href="/visitor-registration" className="hover:text-white transition flex items-start"><Arrow />Registration Steps</Link></li>
               <li><Link href="/visiting-hours" className="hover:text-white transition flex items-start"><Arrow />Visiting Hours</Link></li>
               <li><Link href="/visitor-facilities" className="hover:text-white transition flex items-start"><Arrow />Visitor Facilities</Link></li>
-              <li><Link href="/trade" className="hover:text-white transition flex items-start"><Arrow />Trade Show Facts</Link></li>
               <li><Link href="/reaching-the-venue" className="hover:text-white transition flex items-start"><Arrow />Reaching the Venue</Link></li>
-              <li><Link href="/contact" className="hover:text-white transition flex items-start"><Arrow />Contact</Link></li>
             </ul>
           </div>
 
@@ -114,7 +112,6 @@ export default function Footer() {
               <li><Link href="/exhibitors-registration" className="hover:text-white transition flex items-start"><Arrow />First Time Exhibitors</Link></li>
               <li><Link href="/pay-stall-advance" className="hover:text-white transition flex items-start"><Arrow />Pay Stall Advance</Link></li>
               <li><Link href="/exhibitor-brochure" className="hover:text-white transition flex items-start"><Arrow />Exhibitor Brochure</Link></li>
-              <li><Link href="/contact" className="hover:text-white transition flex items-start"><Arrow />Contact</Link></li>
             </ul>
           </div>
 
