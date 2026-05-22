@@ -16,7 +16,6 @@ const catalogueImages: GalleryImage[] = [
   { id: "c4",  title: "HORECA Ware",        url: "/images/catalogue/horeca-1.jpg",         category: "HORECA Ware",       is_published: true },
   { id: "c5",  title: "HORECA Ware",        url: "/images/catalogue/horeca-2.jpg",         category: "HORECA Ware",       is_published: true },
   { id: "c6",  title: "HORECA Ware",        url: "/images/catalogue/horeca-3.jpg",         category: "HORECA Ware",       is_published: true },
-  { id: "c7",  title: "HORECA Cocktails",   url: "/images/catalogue/horeca-cocktails.jpg", category: "HORECA Ware",       is_published: true },
   { id: "c8",  title: "Stainless Steel",    url: "/images/catalogue/stainless-steel-1.jpg",category: "Stainless Steel",   is_published: true },
   { id: "c9",  title: "Stainless Steel",    url: "/images/catalogue/stainless-steel-2.jpg",category: "Stainless Steel",   is_published: true },
   { id: "c10", title: "Home Appliances",    url: "/images/catalogue/home-appliances-1.jpg",category: "Home Appliances",   is_published: true },
@@ -27,7 +26,6 @@ const catalogueImages: GalleryImage[] = [
   { id: "c16", title: "Plastic Ware",       url: "/images/catalogue/plastic-ware-2.jpg",  category: "Plastic Ware",      is_published: true },
   { id: "c17", title: "Brass & Silver",     url: "/images/catalogue/brass-silver-1.jpg",  category: "Brass & Silver",    is_published: true },
   { id: "c18", title: "Brass & Silver",     url: "/images/catalogue/brass-silver-2.jpg",  category: "Brass & Silver",    is_published: true },
-  { id: "c19", title: "Brass Hotpots",      url: "/images/catalogue/brass-hotpots.jpg",   category: "Brass & Silver",    is_published: true },
   { id: "c20", title: "Glassware",          url: "/images/catalogue/glassware-1.jpg",     category: "Glassware",         is_published: true },
   { id: "c21", title: "Glassware",          url: "/images/catalogue/glassware-2.jpg",     category: "Glassware",         is_published: true },
   { id: "c22", title: "Baking & Aluminium", url: "/images/catalogue/baking-1.jpg",        category: "Baking & Aluminium",is_published: true },
@@ -85,7 +83,9 @@ export default function GalleryPage() {
   };
 
   const dbGroups = groupByCategory(dbImages);
-  const catalogueGroups = groupByCategory(catalogueImages);
+  const dbUrls = new Set(dbImages.map((img) => img.url));
+  const uniqueCatalogueImages = catalogueImages.filter((img) => !dbUrls.has(img.url));
+  const catalogueGroups = groupByCategory(uniqueCatalogueImages);
 
   const openLightbox = (imgs: GalleryImage[], idx: number) => {
     setLightboxImages(imgs);
