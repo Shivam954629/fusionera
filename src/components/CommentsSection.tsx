@@ -4,29 +4,29 @@ import Link from "next/link";
 
 const exhibitorComments = [
   {
-    name: "Rajesh Kumar",
-    designation: "Director, HomePro India",
-    text: "Fusion The Era gave us direct access to thousands of serious trade buyers in just four days. We finalized new dealerships across 8 cities and received bulk inquiries for our stainless steel cookware range. An unmatched B2B platform.",
+    name: "Arvind Malhotra",
+    designation: "Director, SteelCraft Industries, Ludhiana",
+    text: "We are going to exhibit in Fusion The Era show to connect directly with serious trade buyers across India. This B2B platform is the perfect opportunity to showcase our stainless steel cookware range and expand our dealership network to new cities.",
   },
   {
-    name: "Sunita Agarwal",
-    designation: "CEO, Stainless World Exports",
-    text: "We exhibited our HORECA and institutional-grade stainless steel products and were overwhelmed with quality footfall. The buyers here are decision-makers — hotel procurement managers, hypermarket buyers, and distributors. Real business happens here.",
+    name: "Meena Sharma",
+    designation: "CEO, Royal Kitchenware Pvt. Ltd., Mumbai",
+    text: "We are going to exhibit in Fusion The Era show with our complete HORECA and institutional-grade product line. We are confident the buyer quality here — hotel procurement managers, hypermarket chains, and distributors — will lead to real and lasting business.",
   },
   {
-    name: "Vikram Singh",
-    designation: "MD, KitchenPro Solutions",
-    text: "From cooking ranges to kitchen accessories, our full product line got tremendous response. The visitor quality at Fusion The Era is exceptional. We booked confirmed orders during the show itself and expanded our dealer base significantly.",
+    name: "Harpreet Walia",
+    designation: "MD, HomeEssentials Co., Amritsar",
+    text: "We are going to exhibit in Fusion The Era show with our full range of cooking appliances and kitchen accessories. We are looking forward to meeting confirmed buyers, expanding our dealer base, and exploring new markets under one roof.",
   },
   {
-    name: "Deepak Gupta",
-    designation: "Export Head, GlassArts India",
-    text: "As a glassware manufacturer targeting both domestic and international markets, this show was the right platform. We met importers, bulk buyers, and modern trade representatives in one place. Our export inquiries doubled compared to last year.",
+    name: "Suresh Bajaj",
+    designation: "Export Head, ClearGlass Exports, Firozabad",
+    text: "We are going to exhibit in Fusion The Era show as a glassware manufacturer targeting both domestic and international buyers. The chance to meet importers, bulk buyers, and modern trade representatives in a single event is a massive opportunity for us.",
   },
   {
-    name: "Pooja Ahluwalia",
-    designation: "Founder, CasaVerde Home",
-    text: "We launched our new home décor and gifting line at Fusion The Era and the response exceeded our expectations. The targeted B2B audience meant every conversation was meaningful. We are already booked for next year.",
+    name: "Anita Choudhary",
+    designation: "Founder, DecorNest India, Jaipur",
+    text: "We are going to exhibit in Fusion The Era show to launch our new home décor and gifting collection before a targeted B2B audience. Every conversation at this show is meaningful, and we are excited to build strong new buyer relationships.",
   },
 ];
 

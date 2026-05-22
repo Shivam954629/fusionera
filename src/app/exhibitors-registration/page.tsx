@@ -180,7 +180,7 @@ export default function ExhibitorRegistrationPage() {
                       {
                         type: "regular" as const,
                         label: "REGULAR EXHIBITOR",
-                        desc: "If you have exhibited at Fusion The Era in any of the past editions, please click below",
+                        desc: "If you are going to exhibit at Fusion The Era and have participated in similar trade shows before, please click below",
                       },
                       {
                         type: "firsttime" as const,
