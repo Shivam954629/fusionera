@@ -4,17 +4,36 @@ import { usePageContent } from "@/lib/usePageContent";
 import { useSiteSettings } from "@/lib/useSiteSettings";
 
 const FALLBACK_TITLE = "Travel & Stay";
+
 const FALLBACK_PARAS = [
   "Plan your visit to Fusion The Era with convenient travel, transport, and accommodation options near the venue.",
-  "Getting There: Delhi Metro Blue Line to Pragati Maidan Metro Station. Taxi / App-based cabs: Drop-off at Gate 1 or Gate 2. DTC buses available near Pragati Maidan. IGI Airport is approximately 20–25 km from the venue. New Delhi and Nizamuddin railway stations are 5–8 km away. Auto rickshaws available for short-distance travel.",
-  "Recommended Stay: Preferred accommodation options are available near the venue. Visitors and exhibitors may contact the team for hotel booking assistance and special rates. Nearby options include Hotel Samrat Chanakyapuri, The Ashok Chanakyapuri, Hotel Janpath Connaught Place, and budget hotels near Pragati Maidan / ITO.",
+];
+
+const TRAVEL_POINTS = [
+  "Delhi Metro Blue Line to Pragati Maidan Metro Station",
+  "Taxi / App-based cabs drop-off at Gate 1 or Gate 2",
+  "DTC buses available near Pragati Maidan",
+  "IGI Airport is approximately 20–25 km from the venue",
+  "New Delhi and Nizamuddin railway stations are 5–8 km away",
+  "Auto rickshaws available for short-distance travel",
+];
+
+const STAY_POINTS = [
+  "Hotel Samrat, Chanakyapuri — Luxury stay",
+  "The Ashok, Chanakyapuri — Premium stay",
+  "Hotel Janpath, Connaught Place — Business stay",
+  "Budget hotels near Pragati Maidan / ITO",
 ];
 
 export default function TravelStayPage() {
   const siteSettings = useSiteSettings();
+
   const cms = usePageContent("travel-stay");
+
   const title = cms?.title || FALLBACK_TITLE;
-  const paragraphs = cms?.paragraphs.length ? cms.paragraphs : FALLBACK_PARAS;
+
+  const paragraphs =
+    cms?.paragraphs?.length > 0 ? cms.paragraphs : FALLBACK_PARAS;
 
   return (
     <section
@@ -26,20 +45,79 @@ export default function TravelStayPage() {
         <div className="relative grid gap-6 p-4 text-[#00509d] sm:p-6 md:p-8">
           <div>
             <div className="mt-4 w-fit">
-              <h2 className="text-2xl font-bold md:text-3xl text-white">{title}</h2>
+              <h2 className="text-2xl font-bold text-white md:text-3xl">
+                {title}
+              </h2>
+
               <div className="mt-2 h-1 w-full rounded-full bg-[#f0b429]" />
             </div>
+
             {siteSettings.event_venue && (
               <p className="mt-4 text-md leading-7 text-black">
-                Venue: {siteSettings.event_venue}
+                <span className="font-semibold text-white">Venue:</span>{" "}
+                {siteSettings.event_venue}
               </p>
             )}
+
             {siteSettings.event_date && (
               <p className="mt-2 text-md leading-7 text-black">
-                Event Date: {siteSettings.event_date}
+                <span className="font-semibold text-white">Event Date:</span>{" "}
+                {siteSettings.event_date}
               </p>
             )}
-            <p className="mt-4 text-md leading-7 text-black text-justify">{paragraphs.join(" ")}</p>
+
+            {paragraphs.map((para, i) => (
+              <p
+                key={i}
+                className="mt-4 text-md leading-7 text-black text-justify"
+              >
+                {para}
+              </p>
+            ))}
+
+            <div className="mt-8">
+              <div className="inline-block">
+                <h3 className="text-xl font-bold text-white md:text-2xl">
+                  Getting There
+                </h3>
+
+                <div className="mt-2 h-1 w-full rounded-full bg-[#f0b429]" />
+              </div>
+
+              <ul className="mt-6 grid gap-3 sm:grid-cols-2">
+                {TRAVEL_POINTS.map((item) => (
+                  <li
+                    key={item}
+                    className="flex items-start gap-3 rounded-xl bg-white/90 px-4 py-3 text-sm leading-6 text-[#00509d] shadow-sm"
+                  >
+                    <span className="mt-1 text-[#f0b429]">●</span>
+                    <span>{item}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            <div className="mt-10">
+              <div className="inline-block">
+                <h3 className="text-xl font-bold text-white md:text-2xl">
+                  Recommended Stay
+                </h3>
+
+                <div className="mt-2 h-1 w-full rounded-full bg-[#f0b429]" />
+              </div>
+
+              <ul className="mt-6 grid gap-3 sm:grid-cols-2">
+                {STAY_POINTS.map((item) => (
+                  <li
+                    key={item}
+                    className="flex items-start gap-3 rounded-xl bg-white/90 px-4 py-3 text-sm leading-6 text-[#00509d] shadow-sm"
+                  >
+                    <span className="mt-1 text-[#f0b429]">●</span>
+                    <span>{item}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
           </div>
         </div>
       </div>

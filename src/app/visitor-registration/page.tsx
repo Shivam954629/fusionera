@@ -529,10 +529,7 @@ export default function VisitorRegistrationPage() {
             <rect x="2" y="5" width="20" height="14" rx="2" strokeWidth={2} />
             <path strokeLinecap="round" strokeWidth={2} d="M2 10h20" />
           </svg>
-          <span
-            className="text-sm font-medium"
-            style={{ color: "#1a1a2e" }}
-          >
+          <span className="text-sm font-medium" style={{ color: "#1a1a2e" }}>
             {label}
           </span>
           <input
@@ -553,13 +550,14 @@ export default function VisitorRegistrationPage() {
     <div className="min-h-screen w-full bg-[#5B9BD5] px-4 py-6 sm:px-6 md:py-8 lg:px-10">
       <div className="max-w-5xl mx-auto">
         <div className="text-center mb-6 md:mb-8">
-            <h1
-            className="text-3xl font-bold mb-2 text-white"
-          >
-            Visitor Registration
-          </h1>
+          <div className="inline-block">
+            <h1 className="mb-2 text-3xl font-bold text-white">
+              Visitor Registration
+            </h1>
+            <div className="mt-2 h-1 w-full rounded-full bg-[#f0b429]" />
+          </div>
           {stage === "otp-phone" && (
-            <p className="text-sm" style={{ color: "#6b7280" }}>
+            <p className="mt-3 text-sm text-gray-300">
               {visitorType === "indian"
                 ? "Enter your mobile number to register"
                 : "Enter your email to receive an OTP"}
@@ -577,10 +575,7 @@ export default function VisitorRegistrationPage() {
                 border: "1px solid #dde6ff",
               }}
             >
-              <div
-                className="flex border-b"
-                style={{ borderColor: "#dde6ff" }}
-              >
+              <div className="flex border-b" style={{ borderColor: "#dde6ff" }}>
                 {(["indian", "international"] as const).map((t) => (
                   <button
                     key={t}
@@ -708,10 +703,7 @@ export default function VisitorRegistrationPage() {
                     onChange={(e) => setAgreed(e.target.checked)}
                     className="mt-0.5 w-4 h-4 accent-[#1a1464] flex-shrink-0"
                   />
-                  <span
-                    className="text-xs"
-                    style={{ color: "#6b7280" }}
-                  >
+                  <span className="text-xs" style={{ color: "#6b7280" }}>
                     I agree to receive updates via WhatsApp, RCS, SMS &amp;
                     Email
                   </span>
@@ -766,7 +758,8 @@ export default function VisitorRegistrationPage() {
                     className="text-sm font-medium"
                     style={{ color: "#1a1a2e" }}
                   >
-                    ← Use a different {visitorType === "international" ? "email" : "number"}
+                    ← Use a different{" "}
+                    {visitorType === "international" ? "email" : "number"}
                   </button>
                   <button
                     onClick={() => {
@@ -842,10 +835,7 @@ export default function VisitorRegistrationPage() {
                 >
                   {loading ? "Verifying..." : "Verify and continue"}
                 </button>
-                <p
-                  className="text-center text-xs"
-                  style={{ color: "#6b7280" }}
-                >
+                <p className="text-center text-xs" style={{ color: "#6b7280" }}>
                   {otpTimer > 0 ? (
                     `Didn't get the OTP? You can resend after ${String(Math.floor(otpTimer / 60)).padStart(2, "0")}:${String(otpTimer % 60).padStart(2, "0")} (1 min wait)`
                   ) : (
@@ -881,9 +871,7 @@ export default function VisitorRegistrationPage() {
                                 ? "#1a1464"
                                 : "#f4f6ff",
                           border:
-                            i + 1 > currentStep
-                              ? "2px solid #dde6ff"
-                              : "none",
+                            i + 1 > currentStep ? "2px solid #dde6ff" : "none",
                         }}
                       >
                         {i + 1 < currentStep ? "✓" : i + 1}
@@ -891,10 +879,7 @@ export default function VisitorRegistrationPage() {
                       <span
                         className="text-xs mt-1 whitespace-nowrap hidden md:block"
                         style={{
-                          color:
-                            i + 1 === currentStep
-                              ? "#1a1464"
-                              : "#6b7280",
+                          color: i + 1 === currentStep ? "#1a1464" : "#6b7280",
                           fontWeight: i + 1 === currentStep ? 700 : 400,
                         }}
                       >
@@ -906,9 +891,7 @@ export default function VisitorRegistrationPage() {
                         className="w-5 md:w-8 h-0.5 mx-0.5 md:mx-1 mb-0 md:mb-4"
                         style={{
                           background:
-                            i + 1 < currentStep
-                              ? "#10b981"
-                              : "#dde6ff",
+                            i + 1 < currentStep ? "#10b981" : "#dde6ff",
                         }}
                       />
                     )}
@@ -1017,8 +1000,7 @@ export default function VisitorRegistrationPage() {
                               <span
                                 className="px-4 py-2 rounded-lg text-white text-sm font-medium"
                                 style={{
-                                  background:
-                                    "#1a1464",
+                                  background: "#1a1464",
                                 }}
                               >
                                 Upload photo
@@ -1210,7 +1192,9 @@ export default function VisitorRegistrationPage() {
                             style={inputStyle}
                           >
                             {COUNTRY_CODES.map((c) => (
-                              <option key={c.code} value={c.code}>{c.label}</option>
+                              <option key={c.code} value={c.code}>
+                                {c.label}
+                              </option>
                             ))}
                           </select>
                         ) : (
@@ -1224,14 +1208,21 @@ export default function VisitorRegistrationPage() {
                       </div>
                       <div>
                         <label className={labelCls} style={labelStyle}>
-                          Mobile No. 1{visitorType === "indian" ? <> {reqStar}</> : " (optional)"}
+                          Mobile No. 1
+                          {visitorType === "indian" ? (
+                            <> {reqStar}</>
+                          ) : (
+                            " (optional)"
+                          )}
                         </label>
                         {visitorType === "international" ? (
                           <input
                             type="tel"
                             value={phone}
                             onChange={(e) =>
-                              setPhone(e.target.value.replace(/\D/g, "").slice(0, 15))
+                              setPhone(
+                                e.target.value.replace(/\D/g, "").slice(0, 15),
+                              )
                             }
                             className={inputCls}
                             style={inputStyle}
@@ -1436,7 +1427,10 @@ export default function VisitorRegistrationPage() {
                           <select
                             value={formData.state}
                             onChange={(e) =>
-                              setFormData((p) => ({ ...p, state: e.target.value }))
+                              setFormData((p) => ({
+                                ...p,
+                                state: e.target.value,
+                              }))
                             }
                             className={inputCls}
                             style={inputStyle}
@@ -1450,7 +1444,10 @@ export default function VisitorRegistrationPage() {
                           <input
                             value={formData.state}
                             onChange={(e) =>
-                              setFormData((p) => ({ ...p, state: e.target.value }))
+                              setFormData((p) => ({
+                                ...p,
+                                state: e.target.value,
+                              }))
                             }
                             className={inputCls}
                             style={inputStyle}
@@ -1460,21 +1457,32 @@ export default function VisitorRegistrationPage() {
                       </div>
                       <div>
                         <label className={labelCls} style={labelStyle}>
-                          {visitorType === "indian" ? <>PIN Code {reqStar}</> : "Postal Code"}
+                          {visitorType === "indian" ? (
+                            <>PIN Code {reqStar}</>
+                          ) : (
+                            "Postal Code"
+                          )}
                         </label>
                         <input
                           value={formData.pincode}
                           onChange={(e) =>
                             setFormData((p) => ({
                               ...p,
-                              pincode: visitorType === "indian"
-                                ? e.target.value.replace(/\D/g, "").slice(0, 6)
-                                : e.target.value.slice(0, 10),
+                              pincode:
+                                visitorType === "indian"
+                                  ? e.target.value
+                                      .replace(/\D/g, "")
+                                      .slice(0, 6)
+                                  : e.target.value.slice(0, 10),
                             }))
                           }
                           className={inputCls}
                           style={inputStyle}
-                          placeholder={visitorType === "indian" ? "6-digit PIN" : "Postal code"}
+                          placeholder={
+                            visitorType === "indian"
+                              ? "6-digit PIN"
+                              : "Postal code"
+                          }
                           maxLength={visitorType === "indian" ? 6 : 10}
                         />
                       </div>
@@ -1541,10 +1549,7 @@ export default function VisitorRegistrationPage() {
                 {/* STEP 4 */}
                 {currentStep === 4 && (
                   <div>
-                    <p
-                      className="text-sm mb-4"
-                      style={{ color: "#6b7280" }}
-                    >
+                    <p className="text-sm mb-4" style={{ color: "#6b7280" }}>
                       Select all product categories you are interested in{" "}
                       {reqStar}:
                     </p>
@@ -1589,10 +1594,7 @@ export default function VisitorRegistrationPage() {
                 {/* STEP 5 */}
                 {currentStep === 5 && (
                   <div>
-                    <p
-                      className="text-sm mb-4"
-                      style={{ color: "#6b7280" }}
-                    >
+                    <p className="text-sm mb-4" style={{ color: "#6b7280" }}>
                       What is the purpose of your visit? {reqStar}
                     </p>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-2 md:gap-3">
@@ -1881,25 +1883,50 @@ export default function VisitorRegistrationPage() {
               </h3>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-3 md:gap-4">
                 {[
-                  { icon: "👤", title: "VISITOR SERVICES TEAM", sub: "Fusion The Era Events" },
-                  { icon: "📞", title: "PHONE", sub: `${siteSettings.contact_delhi_mobile}\n${siteSettings.contact_mumbai_mobile}` },
-                  { icon: "📧", title: "EMAIL", sub: siteSettings.contact_delhi_email, link: true },
+                  {
+                    icon: "👤",
+                    title: "VISITOR SERVICES TEAM",
+                    sub: "Fusion The Era Events",
+                  },
+                  {
+                    icon: "📞",
+                    title: "PHONE",
+                    sub: `${siteSettings.contact_delhi_mobile}\n${siteSettings.contact_mumbai_mobile}`,
+                  },
+                  {
+                    icon: "📧",
+                    title: "EMAIL",
+                    sub: siteSettings.contact_delhi_email,
+                    link: true,
+                  },
                 ].map((card) => (
                   <div
                     key={card.title}
                     className="rounded-xl p-4 md:p-5 text-center"
-                    style={{ background: "#ffffff", border: "1px solid #dde6ff" }}
+                    style={{
+                      background: "#ffffff",
+                      border: "1px solid #dde6ff",
+                    }}
                   >
                     <div className="text-2xl mb-2">{card.icon}</div>
-                    <p className="text-xs font-bold mb-1" style={{ color: "#1a1464" }}>
+                    <p
+                      className="text-xs font-bold mb-1"
+                      style={{ color: "#1a1464" }}
+                    >
                       {card.title}
                     </p>
                     {card.link ? (
-                      <a href={`mailto:${card.sub}`} className="text-sm text-[#1a1464] break-all">
+                      <a
+                        href={`mailto:${card.sub}`}
+                        className="text-sm text-[#1a1464] break-all"
+                      >
                         {card.sub}
                       </a>
                     ) : (
-                      <p className="text-sm whitespace-pre-line" style={{ color: "#1a1a2e" }}>
+                      <p
+                        className="text-sm whitespace-pre-line"
+                        style={{ color: "#1a1a2e" }}
+                      >
                         {card.sub}
                       </p>
                     )}
@@ -1947,10 +1974,7 @@ export default function VisitorRegistrationPage() {
                 >
                   Registration Complete!
                 </h2>
-                <p
-                  className="text-sm mb-6"
-                  style={{ color: "#6b7280" }}
-                >
+                <p className="text-sm mb-6" style={{ color: "#6b7280" }}>
                   Your entry pass and QR code have been sent to your email.
                 </p>
                 <div
@@ -1987,10 +2011,7 @@ export default function VisitorRegistrationPage() {
                         className="w-40 h-40 md:w-48 md:h-48"
                       />
                     </div>
-                    <p
-                      className="text-xs mt-2"
-                      style={{ color: "#6b7280" }}
-                    >
+                    <p className="text-xs mt-2" style={{ color: "#6b7280" }}>
                       Present this at the venue entrance
                     </p>
                     <a
@@ -2028,4 +2049,3 @@ export default function VisitorRegistrationPage() {
     </div>
   );
 }
-

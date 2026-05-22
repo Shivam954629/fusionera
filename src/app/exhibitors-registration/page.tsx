@@ -81,17 +81,19 @@ export default function ExhibitorRegistrationPage() {
         <div className="max-w-5xl mx-auto">
           <div className="mb-6 md:mb-8" />
 
-          <div className="text-center mb-6 md:mb-8">
-            <h1
-              className="text-3xl font-bold mb-2 text-white"
-            >
-              Exhibitors Registration
-            </h1>
+          <div className="mb-6 text-center md:mb-8">
+  <div className="inline-block">
+    <h1 className="mb-2 text-3xl font-bold text-white">
+      Exhibitors Registration
+    </h1>
 
-            <p className="text-sm" style={{ color: "#6b7280" }}>
-              July 4–7, 2026 · Bharat Mandapam, Pragati Maidan, New Delhi, India
-            </p>
-          </div>
+    <div className="mt-2 h-1 w-full rounded-full bg-[#f0b429]" />
+  </div>
+
+  <p className="mt-3 text-sm text-gray-300">
+    July 4–7, 2026 · Bharat Mandapam, Pragati Maidan, New Delhi, India
+  </p>
+</div>
 
           {/* INTRO */}
           {stage === "intro" && (
