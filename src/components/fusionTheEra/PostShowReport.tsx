@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 import React from "react";
 import { usePageContent } from "@/lib/usePageContent";
 
@@ -26,11 +26,7 @@ export default function PostShowReport() {
               <h2 className="text-2xl font-bold md:text-3xl">{title}</h2>
               <div className="mt-2 h-1 w-full rounded-full bg-[#00509d]" />
             </div>
-            {paragraphs.map((para, i) => (
-              <p key={i} className="mt-4 text-md leading-7  text-black">
-                {para}
-              </p>
-            ))}
+            <p className="mt-4 text-md leading-7 text-black text-justify">{paragraphs.join(" ")}</p>
           </div>
         </div>
       </div>

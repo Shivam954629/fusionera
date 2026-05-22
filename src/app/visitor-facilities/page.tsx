@@ -1,19 +1,24 @@
 "use client";
 import React from "react";
-import { usePageContent } from "@/lib/usePageContent";
 import { useSiteSettings } from "@/lib/useSiteSettings";
 
-const FALLBACK_TITLE = "Visitor Facilities";
-const FALLBACK_PARAS = [
-  "Fusion The Era is committed to providing a comfortable and productive experience for all trade visitors. A wide range of facilities are available at the venue to ensure you can focus on business while we take care of your needs.",
-  "Key facilities include: ATM facilities for convenient cash withdrawals, Business centre with internet, printing, scanning, and stationery, Car hire support for local and outstation travel, Courier services, Hotel and accommodation assistance near the venue, Left luggage storage, Medical and first aid support with ambulance standby, Visitor parking on a pay-per-use basis, Prayer room, Restaurants, cafeteria, and drinking water facilities, Taxi and transport support from venue gates, and Travel desk for tickets, hotel reservations, and tour packages.",
+const facilities = [
+  { title: "Banking & ATM Support", desc: "ATM and basic banking services will be available within or near the exhibition venue for visitor convenience and financial assistance." },
+  { title: "Business Assistance Centre", desc: "Business support facilities including internet access, printing, photocopying, and communication assistance will be available for exhibitors and visitors." },
+  { title: "Local Transport & Car Rental Services", desc: "Car rental and local transportation support services will be available for convenient travel within the city." },
+  { title: "Courier & Logistics Assistance", desc: "Courier and logistics assistance will be available for shipment of documents, samples, and exhibition materials." },
+  { title: "Hotel & Stay Assistance", desc: "Visitors and exhibitors can access guidance and assistance related to hotel bookings and nearby accommodation options." },
+  { title: "Luggage Assistance Facility", desc: "A designated luggage support facility may be available for visitors carrying baggage or travel belongings." },
+  { title: "Emergency Medical Support", desc: "Medical support and first aid services will be available at the venue for emergency assistance and visitor safety." },
+  { title: "Vehicle Parking Facility", desc: "Dedicated parking areas will be available for exhibitors, visitors, and business delegates attending the exhibition." },
+  { title: "Prayer & Meditation Room", desc: "A prayer room facility will be available at the venue for visitor convenience." },
+  { title: "Food Court & Refreshment Services", desc: "Food courts, cafeteria facilities, refreshments, beverages, and snack counters will be operational during exhibition hours." },
+  { title: "Cab & Taxi Assistance", desc: "Taxi and local cab support services will be available for easy travel to and from the exhibition venue." },
+  { title: "Travel Coordination Services", desc: "Assistance related to hotel bookings, local transportation, and travel coordination will be available for exhibitors and visitors during Fusion The Era 2026." },
 ];
 
 export default function VisitorFacilitiesPage() {
   const siteSettings = useSiteSettings();
-  const cms = usePageContent("visitor-facilities");
-  const title = cms?.title || FALLBACK_TITLE;
-  const paragraphs = cms?.paragraphs.length ? cms.paragraphs : FALLBACK_PARAS;
 
   return (
     <section
@@ -22,10 +27,10 @@ export default function VisitorFacilitiesPage() {
       data-reveal-delay="50"
     >
       <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-10">
-        <div className="relative grid gap-6 p-4 text-[#00509d] sm:p-6 md:p-8">
+        <div className="relative p-4 text-[#00509d] sm:p-6 md:p-8">
           <div>
             <div className="mt-4 w-fit">
-              <h2 className="text-2xl font-bold md:text-3xl">{title}</h2>
+              <h2 className="text-2xl font-bold md:text-3xl">Visitor Facilities</h2>
               <div className="mt-2 h-1 w-full rounded-full bg-[#00509d]" />
             </div>
             {siteSettings.event_venue && (
@@ -33,11 +38,15 @@ export default function VisitorFacilitiesPage() {
                 Venue: {siteSettings.event_venue}
               </p>
             )}
-            {paragraphs.map((para, i) => (
-              <p key={i} className="mt-4 text-md leading-7  text-black">
-                {para}
-              </p>
-            ))}
+            <div className="mt-4 text-md leading-7 text-black text-justify">
+              <p>Fusion The Era 2026 is committed to providing a professional, convenient, and well-managed exhibition experience for exhibitors, buyers, business delegates, and trade visitors. A wide range of visitor support services and operational facilities will be available at the venue to ensure smooth participation throughout the exhibition period. The exhibition venue will offer various hospitality, business, and convenience services that can be utilized by all registered visitors and exhibitors during the event.</p>
+              {facilities.map((f) => (
+                <p key={f.title} className="mt-0">
+                  <span className="font-semibold text-[#00509d]">{f.title}: </span>
+                  {f.desc}
+                </p>
+              ))}
+            </div>
           </div>
         </div>
       </div>

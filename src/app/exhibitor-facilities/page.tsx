@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 import React from "react";
 import { usePageContent } from "@/lib/usePageContent";
 import { useSiteSettings } from "@/lib/useSiteSettings";
@@ -33,11 +33,7 @@ export default function ExhibitorFacilitiesPage() {
                 World-class infrastructure at {siteSettings.event_venue}
               </p>
             )}
-            {paragraphs.map((para, i) => (
-              <p key={i} className="mt-4 text-md leading-7  text-black">
-                {para}
-              </p>
-            ))}
+            <p className="mt-4 text-md leading-7 text-black text-justify">{paragraphs.join(" ")}</p>
           </div>
         </div>
       </div>
