@@ -21,10 +21,14 @@ const slogans: Record<string, string> = {
   "Jai Baba Ji":              "Stainless Steel",
   "Global Designer Collection": "Designer Collection",
   "Royal Chef":               "",
+  "Nagina":                   "Premium Kitchenware",
+  "AAA":                      "Total Kitchen Solution",
+  "IndiChef":                 "",
+  "goodflame":                "",
 };
 
-// Brands with dark backgrounds — skip multiply blend
-const darkBgBrands = new Set(["Royal Chef"]);
+// Brands with dark/coloured backgrounds — skip multiply blend
+const darkBgBrands = new Set(["Royal Chef", "Nagina"]);
 
 const fallbackBrands: Brand[] = [
   { id: "f1", name: "Kotop Steel",  logo_url: "/images/brands/kotop-steel-logo.jpg",         is_published: true },
@@ -39,6 +43,10 @@ const fallbackBrands: Brand[] = [
   { id: "f10", name: "TNT",                      logo_url: "/images/brands/tnt-the-next-trend.jpg",          is_published: true },
   { id: "f11", name: "Global Designer Collection", logo_url: "/images/brands/global-designer-collection.jpg", is_published: true },
   { id: "f12", name: "Royal Chef",               logo_url: "/images/brands/royal-chef.jpg",                  is_published: true },
+  { id: "f13", name: "Nagina",                   logo_url: "/images/brands/nagina.jpg",                      is_published: true },
+  { id: "f14", name: "AAA",                      logo_url: "/images/brands/aaa-total-kitchen.jpg",           is_published: true },
+  { id: "f15", name: "IndiChef",                 logo_url: "/images/brands/indichef.jpg",                    is_published: true },
+  { id: "f16", name: "goodflame",                logo_url: "/images/brands/goodflame.jpg",                   is_published: true },
 ];
 
 function BrandLogo({ brand }: { brand: Brand }) {
