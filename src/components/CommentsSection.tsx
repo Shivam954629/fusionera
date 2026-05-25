@@ -4,28 +4,28 @@ import Link from "next/link";
 
 const exhibitorComments = [
   {
-    name: "Arvind Malhotra",
-    designation: "Director, SteelCraft Industries, Ludhiana",
+    name: "Rakesh Agarwal",
+    designation: "Managing Director, PrimeCook Industries Pvt. Ltd., Delhi",
     text: "We are going to exhibit in Fusion The Era show to connect directly with serious trade buyers across India. This B2B platform is the perfect opportunity to showcase our stainless steel cookware range and expand our dealership network to new cities.",
   },
   {
-    name: "Meena Sharma",
-    designation: "CEO, Royal Kitchenware Pvt. Ltd., Mumbai",
+    name: "Sunita Kapoor",
+    designation: "CEO, GoldLine Kitchenware Pvt. Ltd., Mumbai",
     text: "We are going to exhibit in Fusion The Era show with our complete HORECA and institutional-grade product line. We are confident the buyer quality here — hotel procurement managers, hypermarket chains, and distributors — will lead to real and lasting business.",
   },
   {
-    name: "Harpreet Walia",
-    designation: "MD, HomeEssentials Co., Amritsar",
+    name: "Vikram Singhania",
+    designation: "Director, CrystalHome Exports, Moradabad",
     text: "We are going to exhibit in Fusion The Era show with our full range of cooking appliances and kitchen accessories. We are looking forward to meeting confirmed buyers, expanding our dealer base, and exploring new markets under one roof.",
   },
   {
-    name: "Suresh Bajaj",
-    designation: "Export Head, ClearGlass Exports, Firozabad",
+    name: "Arun Gupta",
+    designation: "Export Head, IndoGlass International, Firozabad",
     text: "We are going to exhibit in Fusion The Era show as a glassware manufacturer targeting both domestic and international buyers. The chance to meet importers, bulk buyers, and modern trade representatives in a single event is a massive opportunity for us.",
   },
   {
-    name: "Anita Choudhary",
-    designation: "Founder, DecorNest India, Jaipur",
+    name: "Deepa Nair",
+    designation: "Founder & CEO, Elegance Home Décor, Bengaluru",
     text: "We are going to exhibit in Fusion The Era show to launch our new home décor and gifting collection before a targeted B2B audience. Every conversation at this show is meaningful, and we are excited to build strong new buyer relationships.",
   },
 ];
