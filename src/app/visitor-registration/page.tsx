@@ -1939,114 +1939,130 @@ export default function VisitorRegistrationPage() {
           </div>
         )}
 
-        {/* COMPLETE */}
+        {/* COMPLETE — Visitor Badge */}
         {stage === "complete" && (
-          <div className="max-w-3xl mx-auto">
-            <div
-              className="rounded-2xl overflow-hidden shadow-xl"
-              style={{
-                background: "#ffffff",
-                border: "1px solid #dde6ff",
-              }}
-            >
-              <div className="px-5 md:px-8 py-8 md:py-10 text-center">
-                <div
-                  className="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4"
-                  style={{
-                    background: "linear-gradient(135deg,#00c9a7,#00b4d8)",
-                  }}
-                >
-                  <svg
-                    className="w-8 h-8 text-white"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2.5}
-                      d="M5 13l4 4L19 7"
-                    />
-                  </svg>
-                </div>
-                <h2
-                  className="text-xl md:text-2xl font-bold mb-2"
-                  style={{ color: "#1a1a2e" }}
-                >
-                  Registration Complete!
-                </h2>
-                <p className="text-sm mb-6" style={{ color: "#6b7280" }}>
-                  {visitorType === "indian"
-                    ? "Your QR code is ready! Screenshot or download it below to use at the entry gate."
-                    : "Your entry pass and QR code have been sent to your email."}
+          <div className="max-w-md mx-auto">
+
+            {/* Thank You Message */}
+            <div className="text-center mb-5">
+              <p className="text-xl md:text-2xl font-bold text-white">
+                🎉 Thank You for Registering,{" "}
+                {formData.first_name || "Visitor"}!
+              </p>
+              <p className="text-sm mt-1" style={{ color: "#dde6ff" }}>
+                Your badge is attached below.
+              </p>
+            </div>
+
+            {/* Badge Card */}
+            <div className="rounded-2xl overflow-hidden shadow-2xl">
+
+              {/* Top: Event Banner with Logo */}
+              <div
+                className="px-6 py-6 text-center"
+                style={{ background: "linear-gradient(160deg, #0a0730 0%, #1a1464 60%, #1e3a8a 100%)" }}
+              >
+                <img
+                  src="/images/logo.jpeg"
+                  alt="Fusion The Era"
+                  className="h-20 mx-auto mb-3 object-contain rounded-xl"
+                />
+                <p className="text-white font-black text-xl tracking-widest">
+                  FUSION THE ERA
+                </p>
+                <p className="font-bold text-lg tracking-widest mt-0.5" style={{ color: "#f0b429" }}>
+                  2026
                 </p>
                 <div
-                  className="rounded-xl p-4 mb-6"
-                  style={{
-                    background: "#1a1464",
-                  }}
+                  className="mt-3 mx-auto rounded-full py-1.5 px-4 inline-block"
+                  style={{ background: "rgba(255,255,255,0.1)", border: "1px solid rgba(255,255,255,0.2)" }}
                 >
-                  <p className="text-xs text-white/70 uppercase tracking-widest mb-1">
-                    Registration Number
-                  </p>
-                  <p className="text-xl md:text-2xl font-bold text-white tracking-widest">
+                  <p className="text-white font-bold text-sm">4 · 5 · 6 · 7 July 2026</p>
+                </div>
+                <p className="text-xs mt-2" style={{ color: "#a5b4fc" }}>
+                  Bharat Mandapam, Pragati Maidan, New Delhi
+                </p>
+              </div>
+
+              {/* Middle: QR Code + Visitor Details */}
+              <div className="bg-white px-5 py-5 flex items-center gap-4">
+                {/* QR Code */}
+                {qrCode && (
+                  <div className="flex-shrink-0">
+                    <img
+                      src={qrCode}
+                      alt="Entry QR Code"
+                      className="w-28 h-28 md:w-32 md:h-32"
+                    />
+                  </div>
+                )}
+                {/* Visitor Info */}
+                <div className="min-w-0">
+                  <h2 className="font-black text-xl md:text-2xl uppercase leading-tight" style={{ color: "#1a1a2e" }}>
+                    {[formData.first_name, formData.last_name].filter(Boolean).join(" ")}
+                  </h2>
+                  {formData.company && (
+                    <p className="text-sm mt-1" style={{ color: "#374151" }}>
+                      {formData.company}
+                    </p>
+                  )}
+                  {(formData.city || formData.state) && (
+                    <p className="text-sm mt-0.5" style={{ color: "#6b7280" }}>
+                      {[formData.city, formData.state].filter(Boolean).join(", ")}
+                    </p>
+                  )}
+                  <p className="text-xs mt-2 font-mono" style={{ color: "#9ca3af" }}>
                     {regNo}
                   </p>
                 </div>
-                {qrCode && (
-                  <div className="mb-6">
-                    <p
-                      className="text-sm font-semibold mb-3"
-                      style={{ color: "#1a1a2e" }}
-                    >
-                      🔳 Your Entry QR Code
-                    </p>
-                    <div
-                      className="inline-block p-4 rounded-2xl"
-                      style={{
-                        background: "white",
-                        border: "2px solid #dde6ff",
-                      }}
-                    >
-                      <img
-                        src={qrCode}
-                        alt="QR Code"
-                        className="w-40 h-40 md:w-48 md:h-48"
-                      />
-                    </div>
-                    <p className="text-xs mt-2" style={{ color: "#6b7280" }}>
-                      Present this at the venue entrance
-                    </p>
-                    <a
-                      href={qrCode}
-                      download={`fusionera-pass-${regNo}.png`}
-                      className="inline-block mt-3 px-5 py-2 rounded-xl text-white text-sm font-medium"
-                      style={{
-                        background: "linear-gradient(135deg,#10b981,#059669)",
-                      }}
-                    >
-                      📥 Download QR Pass
-                    </a>
-                  </div>
-                )}
-                <div
-                  className="rounded-xl p-4"
-                  style={{
-                    background: "#f4f6ff",
-                    border: "1px solid #dde6ff",
-                  }}
-                >
-                  <p
-                    className="text-xs md:text-sm font-medium"
-                    style={{ color: "#1a1a2e" }}
-                  >
-                    📅 July 4–7, 2026 · 📍 Bharat Mandapam, Pragati Maidan, New
-                    Delhi
-                  </p>
-                </div>
+              </div>
+
+              {/* Bottom: VISITOR Bar */}
+              <div className="py-3 text-center" style={{ background: "#5B9BD5" }}>
+                <span className="text-white font-black text-2xl tracking-widest">
+                  VISITOR
+                </span>
               </div>
             </div>
+
+            {/* Download Button */}
+            {qrCode && (
+              <div className="text-center mt-4">
+                <a
+                  href={qrCode}
+                  download={`fusionera-pass-${regNo}.png`}
+                  className="inline-block px-6 py-3 rounded-xl text-white text-sm font-bold transition hover:opacity-90"
+                  style={{ background: "linear-gradient(135deg,#10b981,#059669)" }}
+                >
+                  📥 Download QR Pass
+                </a>
+              </div>
+            )}
+
+            {/* Important Instructions */}
+            <div
+              className="mt-5 rounded-2xl p-5"
+              style={{ background: "#fffbeb", border: "1px solid #f59e0b" }}
+            >
+              <p className="font-bold text-sm mb-3" style={{ color: "#92400e" }}>
+                💡 Important Instructions
+              </p>
+              <ul className="space-y-2">
+                {[
+                  "* Save your badge (screenshot or download)",
+                  "* Show QR code at entry for quick check-in",
+                  "* Carry a valid ID proof",
+                ].map((item) => (
+                  <li key={item} className="text-sm" style={{ color: "#78350f" }}>
+                    {item}
+                  </li>
+                ))}
+              </ul>
+              <p className="text-center text-sm font-bold mt-4" style={{ color: "#1a1464" }}>
+                See you at the exhibition! 🙏
+              </p>
+            </div>
+
           </div>
         )}
       </div>

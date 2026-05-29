@@ -104,63 +104,6 @@ export async function POST(req: NextRequest) {
       `,
     }).catch((err) => console.error("Admin email error:", err));
 
-    // Send email with QR pass (non-blocking — email failure must not break registration)
-    if (visitor.email) {
-      transporter.sendMail({
-        from: `"Fusion The Era Events" <${process.env.GMAIL_USER}>`,
-        to: visitor.email,
-        subject: "✅ Registration Confirmed — Your Entry Pass | Fusion The Era 2026",
-        html: `
-          <div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;border-radius:12px;overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,0.1);">
-            <div style="background:linear-gradient(135deg,#110c41,#1a1560);padding:32px 40px;text-align:center;">
-              <h1 style="color:#fff;margin:0;font-size:24px;letter-spacing:1px;">FUSION THE ERA 2026</h1>
-              <p style="color:#a5b4fc;margin:6px 0 0;font-size:13px;">Perfect Business Platform</p>
-            </div>
-            <div style="background:#fff;padding:36px 40px;">
-              <div style="text-align:center;margin-bottom:24px;">
-                <h2 style="color:#1a1560;margin:0 0 8px;font-size:22px;">🎟️ Your Entry Pass</h2>
-                <p style="color:#6b7280;font-size:14px;margin:0;">Present this QR code at the venue entrance</p>
-              </div>
-              
-              <!-- Visitor Details -->
-              <table width="100%" cellpadding="0" cellspacing="0" style="background:#f8f9ff;border-radius:12px;margin-bottom:24px;">
-                <tr><td style="padding:20px 24px;">
-                  <table width="100%" cellpadding="6" cellspacing="0">
-                    <tr><td style="color:#6b7280;font-size:13px;width:40%;">👤 Name</td><td style="color:#1a1560;font-weight:700;font-size:14px;">${visitor.first_name || ""} ${visitor.last_name || ""}</td></tr>
-                    <tr><td style="color:#6b7280;font-size:13px;">🏢 Company</td><td style="color:#1a1560;font-weight:600;font-size:13px;">${visitor.company || "—"}</td></tr>
-                    <tr><td style="color:#6b7280;font-size:13px;">📞 Mobile</td><td style="color:#1a1560;font-weight:600;font-size:13px;">${visitor.phone_number}</td></tr>
-                    <tr><td style="color:#6b7280;font-size:13px;">🔢 Reg No</td><td style="color:#1a1560;font-weight:700;font-size:15px;">${regNo}</td></tr>
-                    <tr><td style="color:#6b7280;font-size:13px;">🔑 Password</td><td style="color:#1a1560;font-weight:700;font-size:15px;">${password}</td></tr>
-                  </table>
-                </td></tr>
-              </table>
-
-              <!-- QR Code -->
-              <div style="text-align:center;background:#f0f4ff;border-radius:12px;padding:24px;margin-bottom:24px;">
-                <p style="color:#374151;font-size:13px;font-weight:600;text-transform:uppercase;letter-spacing:0.5px;margin:0 0 16px;">Scan QR Code at Entrance</p>
-                <img src="${qrCodeDataUrl}" alt="QR Code" style="width:200px;height:200px;border-radius:8px;" />
-                <p style="color:#6b7280;font-size:12px;margin:12px 0 0;">Registration No: <strong>${regNo}</strong></p>
-              </div>
-
-              <!-- Event Details -->
-              <table width="100%" cellpadding="0" cellspacing="0" style="background:#f8f9ff;border-radius:12px;margin-bottom:16px;">
-                <tr><td style="padding:16px 24px;">
-                  <table width="100%" cellpadding="6" cellspacing="0">
-                    <tr><td style="color:#6b7280;font-size:13px;width:40%;">📅 Dates</td><td style="color:#1a1560;font-weight:600;font-size:13px;">July 4–6, 2026</td></tr>
-                    <tr><td style="color:#6b7280;font-size:13px;">📍 Venue</td><td style="color:#1a1560;font-weight:600;font-size:13px;">Bharat Mandapam, Pragati Maidan, New Delhi</td></tr>
-                    <tr><td style="color:#6b7280;font-size:13px;">🎟️ Entry</td><td style="color:#00c9a7;font-weight:700;font-size:13px;">FREE</td></tr>
-                  </table>
-                </td></tr>
-              </table>
-            </div>
-            <div style="background:#f8f9ff;padding:16px 40px;text-align:center;border-top:1px solid #e5e7eb;">
-              <p style="color:#9ca3af;font-size:11px;margin:0;">© 2026 Fusion The Era — Perfect Business Platform</p>
-            </div>
-          </div>
-        `,
-      }).catch((err) => console.error("Visitor email error:", err));
-    }
-
     return NextResponse.json({ success: true, regNo, qrCode: qrCodeDataUrl });
   } catch (err) {
     console.error("Submit error:", err);
