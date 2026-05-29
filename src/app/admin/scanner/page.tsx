@@ -7,7 +7,14 @@ interface VisitorResult {
   phone: string;
   email: string;
   company: string;
+  designation: string;
   city: string;
+  state: string;
+  business_type: string;
+  product_interests: string;
+  visit_purpose: string;
+  annual_buying: string;
+  photo_url: string;
   regNo: string;
   is_blocked: boolean;
   registration_complete: boolean;
@@ -195,29 +202,70 @@ export default function ScannerPage() {
                   borderColor: status === "found" || status === "entry_marked" ? "#16a34a" : status === "blocked" ? "#dc2626" : "#d97706",
                   background: "#fff",
                 }}>
+                  {/* Avatar + Name */}
                   <div className="flex items-center gap-3 mb-3">
-                    <div className="w-14 h-14 rounded-full flex items-center justify-center text-white text-2xl font-black flex-shrink-0" style={{ background: "#1a1464" }}>
-                      {visitor.name?.charAt(0) || "?"}
-                    </div>
+                    {visitor.photo_url ? (
+                      <img src={visitor.photo_url} alt={visitor.name} className="w-14 h-14 rounded-full object-cover flex-shrink-0" style={{ border: "2px solid #1a1464" }} />
+                    ) : (
+                      <div className="w-14 h-14 rounded-full flex items-center justify-center text-white text-2xl font-black flex-shrink-0" style={{ background: "#1a1464" }}>
+                        {visitor.name?.charAt(0) || "?"}
+                      </div>
+                    )}
                     <div>
                       <p className="font-bold text-gray-900 text-base leading-tight">{visitor.name || "—"}</p>
+                      {visitor.designation && <p className="text-gray-500 text-xs">{visitor.designation}</p>}
                       <p className="text-gray-500 text-sm">{visitor.company || "—"}</p>
-                      <p className="text-gray-400 text-xs">{visitor.city || ""}</p>
                     </div>
                   </div>
+
+                  {/* Info Grid */}
                   <div className="grid grid-cols-2 gap-2 text-sm">
                     <div className="bg-gray-50 rounded-lg px-3 py-2">
                       <p className="text-gray-400 text-xs">Reg No</p>
-                      <p className="font-bold text-gray-900">{visitor.regNo}</p>
+                      <p className="font-bold text-gray-900 text-xs">{visitor.regNo}</p>
                     </div>
                     <div className="bg-gray-50 rounded-lg px-3 py-2">
                       <p className="text-gray-400 text-xs">Phone</p>
-                      <p className="font-bold text-gray-900">{visitor.phone}</p>
+                      <p className="font-bold text-gray-900 text-xs">{visitor.phone}</p>
                     </div>
                     {visitor.email && (
                       <div className="col-span-2 bg-gray-50 rounded-lg px-3 py-2">
                         <p className="text-gray-400 text-xs">Email</p>
                         <p className="font-medium text-gray-700 text-xs">{visitor.email}</p>
+                      </div>
+                    )}
+                    {(visitor.city || visitor.state) && (
+                      <div className="col-span-2 bg-gray-50 rounded-lg px-3 py-2">
+                        <p className="text-gray-400 text-xs">Location</p>
+                        <p className="font-medium text-gray-700 text-xs">{[visitor.city, visitor.state].filter(Boolean).join(", ")}</p>
+                      </div>
+                    )}
+                    {visitor.business_type && (
+                      <div className="bg-gray-50 rounded-lg px-3 py-2">
+                        <p className="text-gray-400 text-xs">Business Type</p>
+                        <p className="font-medium text-gray-700 text-xs">{visitor.business_type}</p>
+                      </div>
+                    )}
+                    {visitor.annual_buying && (
+                      <div className="bg-gray-50 rounded-lg px-3 py-2">
+                        <p className="text-gray-400 text-xs">Annual Buying</p>
+                        <p className="font-medium text-gray-700 text-xs">{visitor.annual_buying}</p>
+                      </div>
+                    )}
+                    {visitor.product_interests && (
+                      <div className="col-span-2 bg-gray-50 rounded-lg px-3 py-2">
+                        <p className="text-gray-400 text-xs">Product Interests</p>
+                        <p className="font-medium text-gray-700 text-xs">{
+                          (() => { try { return JSON.parse(visitor.product_interests).join(", "); } catch { return visitor.product_interests; } })()
+                        }</p>
+                      </div>
+                    )}
+                    {visitor.visit_purpose && (
+                      <div className="col-span-2 bg-gray-50 rounded-lg px-3 py-2">
+                        <p className="text-gray-400 text-xs">Visit Purpose</p>
+                        <p className="font-medium text-gray-700 text-xs">{
+                          (() => { try { return JSON.parse(visitor.visit_purpose).join(", "); } catch { return visitor.visit_purpose; } })()
+                        }</p>
                       </div>
                     )}
                   </div>

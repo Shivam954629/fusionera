@@ -61,8 +61,16 @@ export async function POST(req: NextRequest) {
     // Generate QR code
     const qrData = JSON.stringify({
       regNo,
+      name: `${visitor.first_name} ${visitor.last_name}`.trim(),
       phone: visitor.phone_number,
-      name: `${visitor.first_name} ${visitor.last_name}`,
+      email: visitor.email || "",
+      company: visitor.company || "",
+      designation: visitor.designation || "",
+      city: visitor.city || "",
+      state: visitor.state || "",
+      business_type: visitor.business_type || "",
+      product_interests: visitor.product_interests || "",
+      visit_purpose: visitor.visit_purpose || "",
     });
     const qrCodeDataUrl = await QRCode.toDataURL(qrData, {
       width: 300,
