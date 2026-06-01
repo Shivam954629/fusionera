@@ -59,7 +59,7 @@ export default function PayStallAdvancePage() {
               <h3 className="text-xl font-bold text-[#ffffff]">Contact Our Team</h3>
               <div className="mt-2 h-1 w-full rounded-full bg-[#f0b429]" />
             </div>
-            <div className="mt-4 grid grid-cols-1 gap-4 md:grid-cols-2">
+            <div className="mt-4 grid grid-cols-1 gap-4 md:grid-cols-3">
               <div className="rounded-xl p-5 bg-white" style={{ border: "1px solid rgba(0,80,157,0.15)" }}>
                 <p className="text-sm font-bold text-[#00509d]">Delhi</p>
                 <p className="mt-3 text-base font-semibold text-black">{siteSettings.contact_delhi_name}</p>
@@ -74,6 +74,13 @@ export default function PayStallAdvancePage() {
                 <p className="mt-2 text-sm text-gray-600">📞 {siteSettings.contact_mumbai_mobile}</p>
                 <a href={`mailto:${siteSettings.contact_mumbai_email}`} className="mt-2 block text-sm hover:underline text-[#00509d]">
                   ✉️ {siteSettings.contact_mumbai_email}
+                </a>
+              </div>
+              <div className="rounded-xl p-5 bg-white" style={{ border: "1px solid rgba(0,80,157,0.15)" }}>
+                <p className="text-sm font-bold text-[#00509d]">General Enquiries</p>
+                <p className="mt-3 text-base font-semibold text-black">Fusion The Era</p>
+                <a href="mailto:sales.info@fusiontheera.com" className="mt-2 block text-sm hover:underline text-[#00509d]">
+                  ✉️ sales.info@fusiontheera.com
                 </a>
               </div>
             </div>

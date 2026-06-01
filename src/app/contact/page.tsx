@@ -18,7 +18,7 @@ export default function ContactPage() {
                 <p className="text-sm text-gray-500 mt-0.5">V-Tech Innovation Services</p>
                 <p className="text-sm text-gray-500 leading-6">Ghaziabad, U.P. 201014</p>
                 <a href="tel:+919315700590" className="block text-sm mt-3 transition hover:underline text-[#00509d]">📞 +91 93157 00590</a>
-                <a href="mailto:pawan@fusiontheera.com" className="block text-sm mt-1 transition hover:underline text-[#00509d]">✉️ pawan@fusiontheera.com</a>
+                <a href="mailto:pawan.singh@fusiontheera.com" className="block text-sm mt-1 transition hover:underline text-[#00509d]">✉️ pawan.singh@fusiontheera.com</a>
               </div>
 
               <div className="p-5 rounded-xl bg-white" style={{ border: "1px solid rgba(0,80,157,0.15)" }}>
@@ -26,14 +26,14 @@ export default function ContactPage() {
                 <p className="font-bold text-sm text-[#00509d]">Mr. Jasvinder Singh Chaudhary</p>
                 <p className="text-sm text-gray-500 mt-0.5">Mumbai, Maharashtra</p>
                 <a href="tel:+918588892885" className="block text-sm mt-3 transition hover:underline text-[#00509d]">📞 +91 85888 92885</a>
-                <a href="mailto:jasvinder@fusiontheera.com" className="block text-sm mt-1 transition hover:underline text-[#00509d]">✉️ jasvinder@fusiontheera.com</a>
+                <a href="mailto:jasvinder.chaudhary@fusiontheera.com" className="block text-sm mt-1 transition hover:underline text-[#00509d]">✉️ jasvinder.chaudhary@fusiontheera.com</a>
               </div>
 
               <div className="p-5 rounded-xl bg-white" style={{ border: "1px solid rgba(0,80,157,0.15)" }}>
                 <p className="text-xs font-bold uppercase tracking-wider mb-3 text-[#00509d]">General Enquiries</p>
                 <p className="font-bold text-sm text-[#00509d]">Fusion The Era</p>
                 <p className="text-sm text-gray-500 mt-0.5">V-Tech Innovation Services</p>
-                <a href="mailto:info@fusiontheera.com" className="block text-sm mt-3 transition hover:underline text-[#00509d]">✉️ info@fusiontheera.com</a>
+                <a href="mailto:sales.info@fusiontheera.com" className="block text-sm mt-3 transition hover:underline text-[#00509d]">✉️ sales.info@fusiontheera.com</a>
               </div>
 
               <div className="p-5 rounded-xl bg-white" style={{ border: "1px solid rgba(0,80,157,0.15)" }}>

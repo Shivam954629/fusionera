@@ -1918,12 +1918,10 @@ export default function VisitorRegistrationPage() {
                       {card.title}
                     </p>
                     {card.link ? (
-                      <a
-                        href={`mailto:${card.sub}`}
-                        className="text-sm text-[#1a1464] break-all"
-                      >
-                        {card.sub}
-                      </a>
+                      <div className="space-y-1">
+                        <a href={`mailto:${card.sub}`} className="text-sm text-[#1a1464] break-all block">{card.sub}</a>
+                        <a href="mailto:sales.info@fusiontheera.com" className="text-sm text-[#1a1464] break-all block">sales.info@fusiontheera.com</a>
+                      </div>
                     ) : (
                       <p
                         className="text-sm whitespace-pre-line"

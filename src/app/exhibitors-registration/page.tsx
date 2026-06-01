@@ -1675,7 +1675,7 @@ function ExhibitorRequestForm({
         </div>
 
         {/* Contact Info — live from admin settings */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           {(["delhi", "mumbai"] as const).map((city) => (
             <div
               key={city}
@@ -1705,6 +1705,13 @@ function ExhibitorRequestForm({
               </a>
             </div>
           ))}
+          <div className="rounded-xl p-4" style={{ background: "#f4f6ff", border: "1px solid #dde6ff" }}>
+            <p className="font-bold text-sm mb-1" style={{ color: "#1a1464" }}>General Enquiries:</p>
+            <p className="font-bold text-sm" style={{ color: "#1a1a2e" }}>Fusion The Era</p>
+            <a href="mailto:sales.info@fusiontheera.com" className="text-xs text-[#1a1464] hover:underline break-all block mt-1">
+              sales.info@fusiontheera.com
+            </a>
+          </div>
         </div>
 
         {/* Submit */}

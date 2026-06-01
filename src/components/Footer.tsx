@@ -149,10 +149,10 @@ export default function Footer() {
               <li className="flex items-start gap-2">
                 <Arrow />
                 <a
-                  href="mailto:info@fusiontheera.com"
+                  href="mailto:sales.info@fusiontheera.com"
                   className="hover:text-white transition break-all"
                 >
-                  info@fusiontheera.com
+                  sales.info@fusiontheera.com
                 </a>
               </li>
 <li className="flex items-start gap-2">
