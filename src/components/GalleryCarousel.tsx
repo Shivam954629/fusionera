@@ -22,7 +22,7 @@ const fallbackImages: GalleryImage[] = [
   { id: "f6", title: "", url: "/images/catalogue/cookware.jpg",          category: "", is_published: true },
   { id: "f7", title: "", url: "/images/catalogue/home-decor-1.jpg",      category: "", is_published: true },
   { id: "f8", title: "", url: "/images/catalogue/brass-silver-1.jpg",   category: "", is_published: true },
-  { id: "f9", title: "", url: "/images/catalogue/tableware.jpg",         category: "", is_published: true },
+  { id: "f9", title: "", url: "/images/catalogue/tableware1.jpg",        category: "", is_published: true },
 ];
 
 export default function GalleryCarousel() {
