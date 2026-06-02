@@ -29,10 +29,22 @@ export default function AboutUs() {
         <div className="relative p-4 text-[#00509d] sm:p-6 md:p-8">
           <div>
             <div className="mt-4 w-fit">
-              <h2 className="text-2xl font-bold md:text-3xl text-white">{title}</h2>
+              <h2 className="text-2xl font-bold text-white md:text-3xl">
+                {title}
+              </h2>
               <div className="mt-2 h-1 w-full rounded-full bg-[#f0b429]" />
             </div>
-            <p className="mt-4 text-md leading-7 text-black text-justify">{paragraphs.join(" ")}</p>
+
+            <div className="mt-4 space-y-4">
+              {paragraphs.map((para, index) => (
+                <p
+                  key={index}
+                  className="text-sm leading-6 text-black text-left sm:text-base sm:leading-7 md:text-justify"
+                >
+                  {para}
+                </p>
+              ))}
+            </div>
           </div>
         </div>
       </div>
