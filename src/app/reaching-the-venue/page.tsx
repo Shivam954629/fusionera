@@ -33,7 +33,6 @@ const VENUE_HIGHLIGHTS = [
 
 const FALLBACK_PARAS = [
   "Located in New Delhi, Bharat Mandapam at Pragati Maidan stands as one of India's most prestigious international exhibition and convention destinations.",
-
   "With world-class infrastructure, seamless connectivity, and modern facilities, the venue offers a convenient and professional experience for exhibitors and visitors attending Fusion The Era.",
 ];
 
@@ -41,57 +40,50 @@ export default function VenuePage() {
   const cms = usePageContent("reaching-the-venue");
 
   const title = cms?.title || FALLBACK_TITLE;
-
-  const paragraphs =
-    cms?.paragraphs?.length > 0
-      ? cms.paragraphs
-      : FALLBACK_PARAS;
+  const paragraphs = cms?.paragraphs?.length ? cms.paragraphs : FALLBACK_PARAS;
 
   return (
     <section
       id="contact"
-      className="w-full py-8 md:py-12 reveal-on-scroll reveal-zoom bg-[#5B9BD5]"
+      className="w-full bg-[#5B9BD5] py-6 md:py-12 reveal-on-scroll reveal-zoom"
       data-reveal-delay="50"
     >
       <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-10">
-        <div className="relative grid gap-6 p-4 text-[#00509d] sm:p-6 md:p-8">
-          <div>
-            {/* Heading */}
-            <div className="mt-4 w-fit">
-              <h2 className="text-2xl font-bold text-white md:text-3xl">
-                {title}
-              </h2>
+        <div className="relative py-4 text-[#00509d] sm:py-6 md:py-8">
+          <div className="w-fit">
+            <h2 className="text-2xl font-bold text-white md:text-3xl">
+              {title}
+            </h2>
 
-              <div className="mt-2 h-1 w-full rounded-full bg-[#f0b429]" />
-            </div>
+            <div className="mt-2 h-1 w-full rounded-full bg-[#f0b429]" />
+          </div>
 
-            {/* Intro */}
-            {paragraphs.map((para, i) => (
+          <div className="mt-4 space-y-3 md:space-y-4">
+            {paragraphs.map((para, index) => (
               <p
-                key={i}
-                className="mt-4 text-md leading-7 text-black text-justify"
+                key={index}
+                className="text-left text-sm leading-6 text-black sm:text-base sm:leading-7 md:text-justify"
               >
                 {para}
               </p>
             ))}
+          </div>
 
-            {/* Highlights */}
-            <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-              {VENUE_HIGHLIGHTS.map((item) => (
-                <div
-                  key={item.title}
-                  className="rounded-2xl border border-[#d6e9f7] bg-white p-5 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-md"
-                >
-                  <p className="text-sm font-bold text-[#00509d]">
-                    {item.title}
-                  </p>
+          <div className="mt-8 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
+            {VENUE_HIGHLIGHTS.map((item) => (
+              <div
+                key={item.title}
+                className="rounded-xl border border-[#00509d]/15 bg-white/90 px-4 py-3 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-md"
+              >
+                <p className="text-sm font-bold text-[#00509d]">
+                  {item.title}
+                </p>
 
-                  <p className="mt-2 text-sm leading-6 text-black sm:text-base">
-                    {item.value}
-                  </p>
-                </div>
-              ))}
-            </div>
+                <p className="mt-2 text-sm leading-6 text-black sm:text-base">
+                  {item.value}
+                </p>
+              </div>
+            ))}
           </div>
         </div>
       </div>

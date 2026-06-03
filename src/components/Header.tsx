@@ -171,6 +171,7 @@ export default function Header() {
                 <Link href="/exhibitorcomments" className="block rounded px-3 py-2 text-xs text-white hover:bg-white/10">Exhibitor Comments</Link>
                 <Link href="/exhibitorlist" className="block rounded px-3 py-2 text-xs text-white hover:bg-white/10">Exhibitors List</Link>
                 <Link href="/exhibitor-facilities" className="block rounded px-3 py-2 text-xs text-white hover:bg-white/10">Exhibitor Facilities</Link>
+                <Link href="/exhibitor-brochure" className="block rounded px-3 py-2 text-xs text-white hover:bg-white/10">Exhibitor Brochure</Link>
                 <Link href="/travel-stay" className="block rounded px-3 py-2 text-xs text-white hover:bg-white/10">Travel &amp; Stay</Link>
               </div>
             </div>
