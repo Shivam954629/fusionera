@@ -1,5 +1,6 @@
 ﻿"use client";
 import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import { useSiteSettings } from "@/lib/useSiteSettings";
 
 type Stage = "otp-phone" | "otp-verify" | "form" | "complete";
@@ -172,6 +173,7 @@ const COUNTRY_CODES = [
 
 export default function VisitorRegistrationPage() {
   const siteSettings = useSiteSettings();
+  const router = useRouter();
   const [stage, setStage] = useState<Stage>("otp-phone");
   const [visitorType, setVisitorType] = useState<"indian" | "international">(
     "indian",
@@ -327,11 +329,16 @@ export default function VisitorRegistrationPage() {
       // ── INDIAN: no OTP — go directly based on server response ──
       if (visitorType === "indian") {
         if (data.alreadyRegistered) {
-          // Already registered — show their existing pass
-          setRegNo(data.regNo || "");
-          setQrCode(data.qrCode || "");
-          setSuccess("You are already registered!");
-          setStage("complete");
+          sessionStorage.setItem("visitor_badge", JSON.stringify({
+            regNo: data.regNo || "",
+            qrCode: data.qrCode || "",
+            firstName: formData.first_name,
+            lastName: formData.last_name,
+            company: formData.company,
+            city: formData.city,
+            state: formData.state,
+          }));
+          router.push("/thank-you?type=visitor");
         } else {
           // New or resuming — skip OTP, go straight to form
           setVisitorId(data.visitorId);
@@ -418,9 +425,16 @@ export default function VisitorRegistrationPage() {
         });
         const data = await res.json();
         if (!res.ok) throw new Error(data.error);
-        setRegNo(data.regNo);
-        setQrCode(data.qrCode);
-        setStage("complete");
+        sessionStorage.setItem("visitor_badge", JSON.stringify({
+          regNo: data.regNo,
+          qrCode: data.qrCode,
+          firstName: formData.first_name,
+          lastName: formData.last_name,
+          company: formData.company,
+          city: formData.city,
+          state: formData.state,
+        }));
+        router.push("/thank-you?type=visitor");
       }
     } catch (err: unknown) {
       setError(err instanceof Error ? err.message : "Failed to save");

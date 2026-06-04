@@ -1,5 +1,6 @@
 ﻿"use client";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 const inputCls = "w-full px-3 py-2 border border-gray-300 text-sm text-gray-900 bg-white focus:outline-none focus:border-[#00509d] transition";
 
@@ -18,8 +19,8 @@ const EMPTY: FormState = {
 };
 
 export default function EnquiryPage() {
+  const router = useRouter();
   const [form, setForm] = useState<FormState>(EMPTY);
-  const [sent, setSent] = useState(false);
   const [loading, setLoading] = useState(false);
 
   const set = (k: keyof FormState, v: string | boolean) =>
@@ -34,9 +35,9 @@ export default function EnquiryPage() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(form),
       });
-      setSent(true);
+      router.push("/thank-you?type=enquiry");
     } catch {
-      setSent(true);
+      router.push("/thank-you?type=enquiry");
     } finally {
       setLoading(false);
     }
@@ -54,20 +55,6 @@ export default function EnquiryPage() {
             <p className="mt-4 text-sm text-black">Please fill the below form with your query</p>
 
             <div className="mt-6">
-              {sent ? (
-                <div className="rounded-xl p-10 text-center bg-white" style={{ border: "1px solid rgba(0,80,157,0.15)" }}>
-                  <div className="w-14 h-14 rounded-full flex items-center justify-center text-white text-2xl mx-auto mb-4" style={{ background: "#00509d" }}>✓</div>
-                  <h3 className="font-bold text-[#00509d] text-lg">Enquiry Submitted!</h3>
-                  <p className="text-sm text-gray-500 mt-2">Our team will get back to you within 24 hours.</p>
-                  <button
-                    onClick={() => { setSent(false); setForm(EMPTY); }}
-                    className="mt-5 inline-block rounded px-7 py-2.5 text-sm font-semibold text-white transition hover:opacity-90"
-                    style={{ background: "#00509d" }}
-                  >
-                    Send Another
-                  </button>
-                </div>
-              ) : (
                 <form onSubmit={handleSubmit} className="bg-white rounded-xl p-6 md:p-8" style={{ border: "1px solid rgba(0,80,157,0.15)" }}>
 
                   {/* Row 1 */}
@@ -164,7 +151,6 @@ export default function EnquiryPage() {
                   </div>
 
                 </form>
-              )}
             </div>
           </div>
         </div>

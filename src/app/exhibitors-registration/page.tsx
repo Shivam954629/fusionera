@@ -1,11 +1,13 @@
 ﻿"use client";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { useSiteSettings } from "@/lib/useSiteSettings";
 
 type Stage = "intro" | "selection" | "login" | "form" | "submitted";
 
 export default function ExhibitorRegistrationPage() {
   const siteSettings = useSiteSettings();
+  const router = useRouter();
   const [stage, setStage] = useState<Stage>("intro");
   const [exhibitorType, setExhibitorType] = useState<
     "regular" | "firsttime" | null
@@ -426,7 +428,7 @@ export default function ExhibitorRegistrationPage() {
               onBack={() =>
                 setStage(exhibitorType === "regular" ? "login" : "selection")
               }
-              onSubmitted={() => setStage("submitted")}
+              onSubmitted={() => router.push("/thank-you?type=exhibitor")}
             />
           )}
 
