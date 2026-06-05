@@ -91,6 +91,65 @@ export async function POST(req: NextRequest) {
       ],
     );
 
+    // Send WhatsApp badge (non-blocking — registration succeeds even if this fails)
+    if (visitor.phone_number) {
+      (async () => {
+        try {
+          const { generateBadgeImage } = await import("@/lib/generateBadgeImage");
+          const { uploadImageToWhatsApp, sendWhatsAppBadge } = await import("@/lib/whatsapp");
+          const badgeBuffer = await generateBadgeImage({
+            name: `${visitor.first_name || ""} ${visitor.last_name || ""}`.trim(),
+            company: visitor.company || "",
+            regNo,
+            qrCodeDataUrl,
+          });
+          const mediaId = await uploadImageToWhatsApp(badgeBuffer);
+          await sendWhatsAppBadge(visitor.phone_number, mediaId);
+        } catch (waErr) {
+          console.error("WhatsApp badge error (non-fatal):", waErr);
+        }
+      })();
+    }
+
+    // Send confirmation email to visitor with QR badge
+    if (visitor.email) {
+      transporter.sendMail({
+        from: `"Fusion The Era Events" <${process.env.SMTP_USER}>`,
+        to: visitor.email,
+        subject: "✅ Registration Confirmed — Fusion The Era 2026",
+        html: `
+          <div style="font-family:Arial,sans-serif;max-width:560px;margin:0 auto;border-radius:12px;overflow:hidden;">
+            <div style="background:linear-gradient(135deg,#110c41,#1a1560);padding:32px;text-align:center;">
+              <h1 style="color:#fff;margin:0;font-size:22px;">🎉 Registration Confirmed!</h1>
+              <p style="color:rgba(255,255,255,0.8);margin:8px 0 0;">Thank you for registering for Fusion The Era 2026</p>
+            </div>
+            <div style="background:#fff;padding:28px 32px;">
+              <p style="color:#1a1560;font-size:16px;font-weight:bold;">Dear ${visitor.first_name || "Visitor"},</p>
+              <p style="color:#6b7280;font-size:14px;">Your registration is complete. Please find your details below:</p>
+              <table cellpadding="10" cellspacing="0" width="100%" style="border-collapse:collapse;margin:16px 0;">
+                <tr style="border-bottom:1px solid #f0f0f0;"><td style="color:#6b7280;font-size:13px;width:40%;">Registration No.</td><td style="color:#1a1560;font-weight:700;font-size:14px;">${regNo}</td></tr>
+                <tr style="border-bottom:1px solid #f0f0f0;"><td style="color:#6b7280;font-size:13px;">Name</td><td style="color:#1a1560;font-size:13px;">${visitor.first_name || ""} ${visitor.last_name || ""}</td></tr>
+                <tr style="border-bottom:1px solid #f0f0f0;"><td style="color:#6b7280;font-size:13px;">Company</td><td style="color:#1a1560;font-size:13px;">${visitor.company || "—"}</td></tr>
+                <tr style="border-bottom:1px solid #f0f0f0;"><td style="color:#6b7280;font-size:13px;">Login Password</td><td style="color:#1a1560;font-weight:700;font-size:13px;">${password}</td></tr>
+              </table>
+              <div style="text-align:center;margin:24px 0;">
+                <p style="color:#6b7280;font-size:13px;margin-bottom:12px;">Your QR Code — Show this at the entry gate</p>
+                <img src="${qrCodeDataUrl}" width="200" height="200" alt="QR Code" style="border:4px solid #e5e7eb;border-radius:8px;"/>
+              </div>
+              <div style="background:#fef3c7;border-radius:8px;padding:16px;margin-top:16px;">
+                <p style="color:#92400e;font-size:13px;font-weight:bold;margin:0 0 8px;">📅 Event Details</p>
+                <p style="color:#78350f;font-size:13px;margin:0;">Date: 4 · 5 · 6 · 7 July 2026</p>
+                <p style="color:#78350f;font-size:13px;margin:4px 0 0;">Venue: Bharat Mandapam, Pragati Maidan, New Delhi</p>
+              </div>
+            </div>
+            <div style="background:#f9fafb;padding:16px;text-align:center;">
+              <p style="color:#9ca3af;font-size:12px;margin:0;">fusiontheera.com</p>
+            </div>
+          </div>
+        `,
+      }).catch((err) => console.error("Visitor email error:", err));
+    }
+
     // Notify visitor service team
     transporter.sendMail({
       from: `"Fusion The Era Events" <${process.env.SMTP_USER}>`,
