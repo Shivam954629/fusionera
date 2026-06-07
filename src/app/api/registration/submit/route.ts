@@ -104,7 +104,7 @@ export async function POST(req: NextRequest) {
             qrCodeDataUrl,
           });
           const mediaId = await uploadImageToWhatsApp(badgeBuffer);
-          await sendWhatsAppBadge(visitor.phone_number, mediaId);
+          await sendWhatsAppBadge(visitor.phone_number, mediaId, `${visitor.first_name || ""} ${visitor.last_name || ""}`.trim());
         } catch (waErr) {
           console.error("WhatsApp badge error (non-fatal):", waErr);
         }

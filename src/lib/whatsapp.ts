@@ -28,7 +28,11 @@ export async function uploadImageToWhatsApp(imageBuffer: Buffer): Promise<string
   return data.id;
 }
 
-export async function sendWhatsAppBadge(phoneNumber: string, mediaId: string): Promise<void> {
+export async function sendWhatsAppBadge(
+  phoneNumber: string,
+  mediaId: string,
+  visitorName: string,
+): Promise<void> {
   const token = process.env.WHATSAPP_TOKEN;
   const phoneNumberId = process.env.WHATSAPP_PHONE_NUMBER_ID;
   const templateName = process.env.WHATSAPP_TEMPLATE_NAME || "visitor_badge";
@@ -51,6 +55,10 @@ export async function sendWhatsAppBadge(phoneNumber: string, mediaId: string): P
           {
             type: "header",
             parameters: [{ type: "image", image: { id: mediaId } }],
+          },
+          {
+            type: "body",
+            parameters: [{ type: "text", text: visitorName }],
           },
         ],
       },

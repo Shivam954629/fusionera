@@ -51,6 +51,7 @@ const fallbackBrands: Brand[] = [
   { id: "f18", name: "IndiChef",                 logo_url: "/images/brands/expoearth.jpg",                    is_published: true },
   { id: "f19", name: "goodflame",                logo_url: "/images/brands/kvimalbro.jpg",                   is_published: true },
    { id: "f20", name: "goodflame",                logo_url: "/images/brands/appara.jpg",                   is_published: true },
+   { id: "f21", name: "Dollar",                   logo_url: "/images/brands/dollar.jpg",                   is_published: true },
 
 ];
 

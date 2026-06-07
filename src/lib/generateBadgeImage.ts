@@ -29,50 +29,63 @@ export async function generateBadgeImage(params: {
   const displayCompany = escapeXml(truncate(company || "", 26));
   const displayRegNo = escapeXml(regNo);
 
-  const svg = `<svg width="600" height="800" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+  const svg = `<svg width="600" height="820" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+
   <!-- Outer background -->
-  <rect width="600" height="800" fill="#5ba3f5"/>
+  <rect width="600" height="820" fill="#5ba3f5"/>
 
-  <!-- Top text -->
-  <text x="300" y="36" text-anchor="middle" fill="white" font-size="15" font-family="Arial, Helvetica, sans-serif">Thank You for Registering!</text>
-  <text x="300" y="62" text-anchor="middle" fill="white" font-size="22" font-weight="bold" font-family="Arial, Helvetica, sans-serif" letter-spacing="2">Visitor Registration</text>
+  <!-- Top greeting text -->
+  <text x="300" y="38" text-anchor="middle" fill="white" font-size="18" font-weight="bold" font-family="Arial, Helvetica, sans-serif">Thank You for Registering!</text>
+  <text x="300" y="64" text-anchor="middle" fill="rgba(255,255,255,0.8)" font-size="13" font-family="Arial, Helvetica, sans-serif">Your badge is attached below.</text>
 
-  <!-- Header dark card -->
-  <rect x="16" y="78" width="568" height="360" rx="16" fill="#0e1655"/>
+  <!-- Event banner card -->
+  <rect x="20" y="80" width="560" height="330" rx="18" fill="#0a0730"/>
+  <rect x="20" y="80" width="560" height="330" rx="18" fill="url(#bannerGrad)"/>
+  <defs>
+    <linearGradient id="bannerGrad" x1="0" y1="0" x2="600" y2="410" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#0a0730"/>
+      <stop offset="60%" stop-color="#1a1464"/>
+      <stop offset="100%" stop-color="#1e3a8a"/>
+    </linearGradient>
+  </defs>
 
-  <!-- Logo -->
-  <image x="110" y="100" width="380" height="110" href="${logoBase64}" preserveAspectRatio="xMidYMid meet"/>
+  <!-- Logo circle background -->
+  <circle cx="300" cy="158" r="48" fill="white" opacity="0.95"/>
+  <!-- Logo image -->
+  <image x="253" y="111" width="94" height="94" href="${logoBase64}" preserveAspectRatio="xMidYMid meet" clip-path="circle(47px at 47px 47px)"/>
+  <!-- Logo border ring -->
+  <circle cx="300" cy="158" r="48" fill="none" stroke="rgba(255,255,255,0.3)" stroke-width="2.5"/>
 
   <!-- FUSION THE ERA -->
-  <text x="300" y="265" text-anchor="middle" fill="white" font-size="26" font-weight="bold" font-family="Arial, Helvetica, sans-serif" letter-spacing="3">FUSION THE ERA</text>
+  <text x="300" y="238" text-anchor="middle" fill="white" font-size="22" font-weight="bold" font-family="Arial, Helvetica, sans-serif" letter-spacing="4">FUSION THE ERA</text>
 
   <!-- 2026 -->
-  <text x="300" y="312" text-anchor="middle" fill="#f59e0b" font-size="44" font-weight="bold" font-family="Arial, Helvetica, sans-serif">2026</text>
+  <text x="300" y="286" text-anchor="middle" fill="#f0b429" font-size="48" font-weight="bold" font-family="Arial, Helvetica, sans-serif">2026</text>
 
   <!-- Date pill -->
-  <rect x="130" y="326" width="340" height="44" rx="22" fill="rgba(255,255,255,0.15)"/>
-  <text x="300" y="354" text-anchor="middle" fill="white" font-size="17" font-family="Arial, Helvetica, sans-serif">4 · 5 · 6 · 7 July 2026</text>
+  <rect x="150" y="300" width="300" height="36" rx="18" fill="rgba(255,255,255,0.13)" stroke="rgba(255,255,255,0.25)" stroke-width="1"/>
+  <text x="300" y="323" text-anchor="middle" fill="white" font-size="14" font-weight="bold" font-family="Arial, Helvetica, sans-serif">4 · 5 · 6 · 7 July 2026</text>
 
   <!-- Venue -->
-  <text x="300" y="408" text-anchor="middle" fill="rgba(255,255,255,0.75)" font-size="13" font-family="Arial, Helvetica, sans-serif">Bharat Mandapam, Pragati Maidan, New Delhi</text>
+  <text x="300" y="380" text-anchor="middle" fill="rgba(255,255,255,0.65)" font-size="12" font-family="Arial, Helvetica, sans-serif">Bharat Mandapam, Pragati Maidan, New Delhi</text>
 
-  <!-- White QR card -->
-  <rect x="16" y="458" width="568" height="246" rx="16" fill="white"/>
+  <!-- White visitor info card -->
+  <rect x="20" y="428" width="560" height="220" rx="18" fill="white"/>
 
   <!-- QR Code -->
-  <image x="30" y="472" width="190" height="190" href="${qrCodeDataUrl}"/>
+  <image x="36" y="444" width="180" height="180" href="${qrCodeDataUrl}"/>
 
   <!-- Visitor details -->
-  <text x="240" y="520" fill="#1a1560" font-size="19" font-weight="bold" font-family="Arial, Helvetica, sans-serif">${displayName}</text>
-  <text x="240" y="552" fill="#6b7280" font-size="14" font-family="Arial, Helvetica, sans-serif">${displayCompany}</text>
-  <text x="240" y="582" fill="#9ca3af" font-size="13" font-family="Arial, Helvetica, sans-serif">${displayRegNo}</text>
+  <text x="234" y="492" fill="#1a1a2e" font-size="20" font-weight="bold" font-family="Arial, Helvetica, sans-serif">${displayName}</text>
+  <text x="234" y="522" fill="#374151" font-size="14" font-family="Arial, Helvetica, sans-serif">${displayCompany}</text>
+  <text x="234" y="548" fill="#9ca3af" font-size="12" font-family="Arial, Helvetica, sans-serif">${displayRegNo}</text>
 
   <!-- VISITOR banner -->
-  <rect x="16" y="722" width="568" height="62" rx="16" fill="#4a90e2"/>
-  <text x="300" y="763" text-anchor="middle" fill="white" font-size="30" font-weight="bold" letter-spacing="8" font-family="Arial, Helvetica, sans-serif">VISITOR</text>
+  <rect x="20" y="664" width="560" height="68" rx="16" fill="#4a90e2"/>
+  <text x="300" y="708" text-anchor="middle" fill="white" font-size="32" font-weight="bold" letter-spacing="10" font-family="Arial, Helvetica, sans-serif">VISITOR</text>
 </svg>`;
 
   // Use sharp for SVG → PNG conversion
   const sharp = (await import("sharp")).default;
-  return await sharp(Buffer.from(svg)).png().toBuffer();
+  return await sharp(Buffer.from(svg), { density: 150 }).png().toBuffer();
 }

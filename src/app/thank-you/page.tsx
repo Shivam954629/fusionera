@@ -115,15 +115,24 @@ function ThankYouContent() {
         )}
 
         {/* Download button for visitor */}
-        {type === "visitor" && badge?.qrCode && (
-          <div className="text-center mb-5">
+        {type === "visitor" && badge?.regNo && (
+          <div className="text-center mb-5 flex flex-col sm:flex-row gap-3 justify-center">
             <a
-              href={badge.qrCode}
-              download={`fusionera-pass-${badge.regNo}.png`}
+              href={`/api/badge/${badge.regNo}`}
+              download={`fusionera-badge-${badge.regNo}.png`}
               className="inline-block px-6 py-3 rounded-xl text-white text-sm font-bold transition hover:opacity-90"
               style={{ background: "linear-gradient(135deg,#10b981,#059669)" }}
             >
-              Download QR Pass
+              🎟️ Download Full Badge
+            </a>
+            <a
+              href={`/badge/${badge.regNo}`}
+              target="_blank"
+              rel="noreferrer"
+              className="inline-block px-6 py-3 rounded-xl text-white text-sm font-bold transition hover:opacity-90"
+              style={{ background: "#1a1464" }}
+            >
+              🔗 View Badge Page
             </a>
           </div>
         )}
