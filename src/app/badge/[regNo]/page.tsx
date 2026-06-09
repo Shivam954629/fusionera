@@ -46,8 +46,8 @@ export default async function BadgePage({
             alt="Fusion The Era Logo"
             className="rounded-full object-contain mb-3"
             style={{
-              width: 76,
-              height: 76,
+              width: 110,
+              height: 110,
               border: "3px solid rgba(255,255,255,0.25)",
               background: "white",
             }}

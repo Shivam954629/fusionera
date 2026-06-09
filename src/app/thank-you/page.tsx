@@ -71,7 +71,8 @@ function ThankYouContent() {
               <img
                 src="/images/logo.jpeg"
                 alt="Fusion The Era"
-                className="h-20 mx-auto mb-3 object-contain rounded-xl"
+                className="mx-auto mb-3 object-contain rounded-full"
+                style={{ width: 110, height: 110, border: "3px solid rgba(255,255,255,0.25)", background: "white" }}
               />
               <p className="text-white font-black text-xl tracking-widest">FUSION THE ERA</p>
               <p className="font-bold text-lg tracking-widest mt-0.5" style={{ color: "#f0b429" }}>2026</p>

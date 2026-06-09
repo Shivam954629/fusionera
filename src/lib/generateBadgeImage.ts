@@ -50,24 +50,24 @@ export async function generateBadgeImage(params: {
   </defs>
 
   <!-- Logo circle background -->
-  <circle cx="300" cy="158" r="48" fill="white" opacity="0.95"/>
+  <circle cx="300" cy="165" r="70" fill="white" opacity="0.95"/>
   <!-- Logo image -->
-  <image x="253" y="111" width="94" height="94" href="${logoBase64}" preserveAspectRatio="xMidYMid meet" clip-path="circle(47px at 47px 47px)"/>
+  <image x="230" y="95" width="140" height="140" href="${logoBase64}" preserveAspectRatio="xMidYMid meet" clip-path="circle(70px at 70px 70px)"/>
   <!-- Logo border ring -->
-  <circle cx="300" cy="158" r="48" fill="none" stroke="rgba(255,255,255,0.3)" stroke-width="2.5"/>
+  <circle cx="300" cy="165" r="70" fill="none" stroke="rgba(255,255,255,0.3)" stroke-width="2.5"/>
 
   <!-- FUSION THE ERA -->
-  <text x="300" y="238" text-anchor="middle" fill="white" font-size="22" font-weight="bold" font-family="Arial, Helvetica, sans-serif" letter-spacing="4">FUSION THE ERA</text>
+  <text x="300" y="258" text-anchor="middle" fill="white" font-size="22" font-weight="bold" font-family="Arial, Helvetica, sans-serif" letter-spacing="4">FUSION THE ERA</text>
 
   <!-- 2026 -->
-  <text x="300" y="286" text-anchor="middle" fill="#f0b429" font-size="48" font-weight="bold" font-family="Arial, Helvetica, sans-serif">2026</text>
+  <text x="300" y="306" text-anchor="middle" fill="#f0b429" font-size="48" font-weight="bold" font-family="Arial, Helvetica, sans-serif">2026</text>
 
   <!-- Date pill -->
-  <rect x="150" y="300" width="300" height="36" rx="18" fill="rgba(255,255,255,0.13)" stroke="rgba(255,255,255,0.25)" stroke-width="1"/>
-  <text x="300" y="323" text-anchor="middle" fill="white" font-size="14" font-weight="bold" font-family="Arial, Helvetica, sans-serif">4 · 5 · 6 · 7 July 2026</text>
+  <rect x="150" y="318" width="300" height="36" rx="18" fill="rgba(255,255,255,0.13)" stroke="rgba(255,255,255,0.25)" stroke-width="1"/>
+  <text x="300" y="341" text-anchor="middle" fill="white" font-size="14" font-weight="bold" font-family="Arial, Helvetica, sans-serif">4 · 5 · 6 · 7 July 2026</text>
 
   <!-- Venue -->
-  <text x="300" y="380" text-anchor="middle" fill="rgba(255,255,255,0.65)" font-size="12" font-family="Arial, Helvetica, sans-serif">Bharat Mandapam, Pragati Maidan, New Delhi</text>
+  <text x="300" y="378" text-anchor="middle" fill="rgba(255,255,255,0.65)" font-size="12" font-family="Arial, Helvetica, sans-serif">Bharat Mandapam, Pragati Maidan, New Delhi</text>
 
   <!-- White visitor info card -->
   <rect x="20" y="428" width="560" height="220" rx="18" fill="white"/>

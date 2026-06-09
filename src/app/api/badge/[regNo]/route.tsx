@@ -58,11 +58,13 @@ export async function GET(
             <img
               src={logoDataUrl}
               style={{
-                width: "90px",
-                height: "90px",
+                width: "130px",
+                height: "130px",
                 objectFit: "contain",
-                borderRadius: "12px",
+                borderRadius: "50%",
                 marginBottom: "12px",
+                border: "3px solid rgba(255,255,255,0.3)",
+                backgroundColor: "white",
               }}
             />
             <span
