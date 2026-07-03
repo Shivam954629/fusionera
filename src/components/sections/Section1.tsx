@@ -12,7 +12,7 @@ export default function Section1() {
 
   // Countdown
   useEffect(() => {
-    const showDate = new Date("2026-07-04T10:00:00");
+    const showDate = new Date("2026-08-15T10:00:00");
 
     const updateCountdown = () => {
       const now = new Date();
