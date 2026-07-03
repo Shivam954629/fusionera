@@ -93,7 +93,7 @@ export default function ExhibitorRegistrationPage() {
   </div>
 
   <p className="mt-3 text-sm text-gray-300">
-    July 4–7, 2026 · Bharat Mandapam, Pragati Maidan, New Delhi, India
+    August 15-18, 2026 · Bharat Mandapam, Pragati Maidan, New Delhi, India
   </p>
 </div>
 
@@ -119,7 +119,7 @@ export default function ExhibitorRegistrationPage() {
                       className="text-2xl md:text-3xl font-black mb-2"
                       style={{ color: "#1a1464" }}
                     >
-                      JULY 4 - JULY 7, 2026
+                      August 15 - August 18, 2026
                     </h2>
                     <p
                       className="text-sm font-medium"
@@ -162,7 +162,7 @@ export default function ExhibitorRegistrationPage() {
                       className="text-xl md:text-2xl font-black mb-1"
                       style={{ color: "#1a1464" }}
                     >
-                      JULY 4 - JULY 7, 2026
+                      August 15 - August 18, 2026
                     </h2>
                     <p
                       className="text-xs md:text-sm"
@@ -891,7 +891,7 @@ function ExhibitorRequestForm({
         </h2>
         <p className="text-xs md:text-sm mt-1" style={{ color: "#6b7280" }}>
           We are interested in exhibiting at Fusion The Era 2026 scheduled for
-          July 4–7, 2026 at Bharat Mandapam, Pragati Maidan, New Delhi.
+          august 15–18, 2026 at Bharat Mandapam, Pragati Maidan, New Delhi.
         </p>
       </div>
 

@@ -72,7 +72,7 @@ async function sendVisitorEmail(
             <tr><td style="padding:20px 24px;">
               <p style="margin:0 0 10px;color:#374151;font-size:13px;font-weight:600;text-transform:uppercase;letter-spacing:0.5px;">Event Details</p>
               <table cellpadding="6" cellspacing="0" width="100%">
-                <tr><td style="color:#6b7280;font-size:13px;width:40%;">📅 Dates</td><td style="color:#1a1560;font-size:13px;font-weight:600;">July 4–6, 2026</td></tr>
+                <tr><td style="color:#6b7280;font-size:13px;width:40%;">📅 Dates</td><td style="color:#1a1560;font-size:13px;font-weight:600;">August 15–18, 2026</td></tr>
                 <tr><td style="color:#6b7280;font-size:13px;">📍 Location</td><td style="color:#1a1560;font-size:13px;font-weight:600;">New Delhi, India</td></tr>
                 <tr><td style="color:#6b7280;font-size:13px;">🎟️ Entry</td><td style="color:#00c9a7;font-size:13px;font-weight:600;">Free Entry</td></tr>
               </table>

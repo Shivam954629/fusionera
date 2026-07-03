@@ -138,7 +138,7 @@ export async function POST(req: NextRequest) {
               </div>
               <div style="background:#fef3c7;border-radius:8px;padding:16px;margin-top:16px;">
                 <p style="color:#92400e;font-size:13px;font-weight:bold;margin:0 0 8px;">📅 Event Details</p>
-                <p style="color:#78350f;font-size:13px;margin:0;">Date: 4 · 5 · 6 · 7 July 2026</p>
+                <p style="color:#78350f;font-size:13px;margin:0;">Date: 15 · 16 · 17 · 18 August 2026</p>
                 <p style="color:#78350f;font-size:13px;margin:4px 0 0;">Venue: Bharat Mandapam, Pragati Maidan, New Delhi</p>
               </div>
             </div>

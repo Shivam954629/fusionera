@@ -6,25 +6,25 @@ import { useSiteSettings } from "@/lib/useSiteSettings";
 const SCHEDULE = [
   {
     day: "Day 1",
-    date: "Friday, July 4, 2026",
+    date: "Saturday, August 15, 2026",
     time: "10:00 am – 07:00 pm",
     note: "Fusion The Era Plus Members only",
   },
   {
     day: "Day 2",
-    date: "Saturday, July 5, 2026",
+    date: "Sunday, August 16, 2026",
     time: "10:00 am – 07:00 pm",
     note: "All trade visitors",
   },
   {
     day: "Day 3",
-    date: "Sunday, July 6, 2026",
+    date: "Monday, August 17, 2026",
     time: "10:00 am – 07:00 pm",
     note: "All trade visitors",
   },
   {
     day: "Day 4",
-    date: "Monday, July 7, 2026",
+    date: "Tuesday, August 18, 2026",
     time: "10:00 am – 05:00 pm",
     note: "All trade visitors",
   },

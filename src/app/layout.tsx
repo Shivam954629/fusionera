@@ -14,7 +14,7 @@ export const metadata: Metadata = {
     template: "%s | Fusion The Era 2026",
   },
   description:
-    "Fusion The Era 2026 — India's leading B2B trade exhibition for houseware, kitchenware, home décor, HORECA ware, stainless steel & lifestyle products. July 4–7, 2026 | Bharat Mandapam, Pragati Maidan, New Delhi.",
+    "Fusion The Era 2026 — India's leading B2B trade exhibition for houseware, kitchenware, home décor, HORECA ware, stainless steel & lifestyle products. August 15–18, 2026 | Bharat Mandapam, Pragati Maidan, New Delhi.",
   keywords: [
     "houseware exhibition India",
     "home products trade show",
@@ -44,7 +44,7 @@ export const metadata: Metadata = {
     siteName: "Fusion The Era 2026",
     title: "Fusion The Era 2026 — India's Premier Houseware & Home Products B2B Trade Show",
     description:
-      "India's leading B2B trade exhibition for houseware, kitchenware, home décor, HORECA ware, stainless steel & lifestyle products. July 4–7, 2026 | Bharat Mandapam, New Delhi.",
+      "India's leading B2B trade exhibition for houseware, kitchenware, home décor, HORECA ware, stainless steel & lifestyle products. August 15–18, 2026 | Bharat Mandapam, New Delhi.",
     images: [
       {
         url: "/images/logo.jpeg",
@@ -58,7 +58,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Fusion The Era 2026 — India's Premier Houseware & Home Products B2B Trade Show",
     description:
-      "India's leading B2B trade exhibition for houseware, kitchenware, home décor, HORECA ware & lifestyle products. July 4–7, 2026 | Bharat Mandapam, New Delhi.",
+      "India's leading B2B trade exhibition for houseware, kitchenware, home décor, HORECA ware & lifestyle products. August 15–18, 2026 | Bharat Mandapam, New Delhi.",
     images: ["/images/logo.jpeg"],
   },
   alternates: {

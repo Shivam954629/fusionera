@@ -11,7 +11,7 @@ const FALLBACK_PARAS = [
   "The exhibition attracts a diverse visitor profile including retailers, wholesalers, distributors, dealers, importers, hospitality buyers, sourcing professionals, modern retail chains, procurement heads, interior consultants, and project buyers actively seeking innovative products and reliable supply partners.",
   "Fusion The Era is also positioned as a trend-focused industry gathering where businesses can explore emerging market directions, evolving consumer demands, innovative product designs, and new merchandising opportunities across the home and lifestyle segment.",
   "Scheduled strategically ahead of major buying and sourcing cycles, Fusion The Era provides exhibitors with the opportunity to engage with active buyers during an important business period.",
-  "The upcoming edition of Fusion The Era 2026 will be held from 04–07 July 2026 at Bharat Mandapam, Pragati Maidan, New Delhi, India.",
+  "The upcoming edition of Fusion The Era 2026 will be held from 15–18 August 2026 at Bharat Mandapam, Pragati Maidan, New Delhi, India.",
 ];
 
 export default function AboutUs() {

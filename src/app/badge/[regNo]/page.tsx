@@ -71,7 +71,7 @@ export default async function BadgePage({
             className="mt-3 px-4 py-1.5 rounded-full text-white text-xs font-bold"
             style={{ background: "rgba(255,255,255,0.13)", border: "1px solid rgba(255,255,255,0.25)" }}
           >
-            4 · 5 · 6 · 7 July 2026
+            15 · 16 · 17 · 18 August 2026
           </div>
 
           <p className="text-white/60 text-xs mt-2">

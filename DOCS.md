@@ -168,7 +168,7 @@ WhatsApp float and footer link on the website use **Jasvinder's number** (+91 85
 ## 8. Event Details
 
 - **Name:** Fusion The Era 2026 — Perfect Business Platform
-- **Dates:** July 4–6, 2026
+- **Dates:** August 15 - 18, 2026
 - **Venue:** Bharat Mandapam, Pragati Maidan, New Delhi
 - **Entry for Visitors:** FREE
 

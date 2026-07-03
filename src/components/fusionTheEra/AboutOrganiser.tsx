@@ -9,7 +9,7 @@ const FALLBACK_PARAS = [
   "The organization focuses on supporting India's growing home, hospitality, and lifestyle trade ecosystem by building meaningful platforms where businesses can discover products, forge partnerships, and expand their market reach.",
   "V-Tech Innovation Services is dedicated to ensuring that every edition of Fusion The Era meets the highest standards of organization, visitor experience, and business opportunity generation.",
   "The team works closely with exhibitors, trade associations, industry bodies, and business communities to create a well-curated and professionally managed event environment that delivers real value to all participants.",
-  "Fusion The Era 2026, the first edition of this landmark trade show, is being held at Bharat Mandapam, Pragati Maidan, New Delhi from July 4 to 7, 2026 — bringing together India's finest houseware, HORECA ware, stainless steel, home appliances, and allied industries under one prestigious roof.",
+  "Fusion The Era 2026, the first edition of this landmark trade show, is being held at Bharat Mandapam, Pragati Maidan, New Delhi from August 15 to 18, 2026 — bringing together India's finest houseware, HORECA ware, stainless steel, home appliances, and allied industries under one prestigious roof.",
 ];
 
 export default function AboutOrganizer() {

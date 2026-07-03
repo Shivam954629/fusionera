@@ -94,11 +94,11 @@ export default function Section1() {
 
             <div className="rounded-xl border border-white/20 bg-[#101a43]/50 px-3 py-2 backdrop-blur-xl sm:px-4">
               <p className="text-center text-base font-black text-[#ffd238] sm:text-xl">
-                4<sup className="text-[0.5em]">th</sup>, 5
-                <sup className="text-[0.5em]">th</sup>, 6
-                <sup className="text-[0.5em]">th</sup>, 7
+                15<sup className="text-[0.5em]">th</sup>, 16
+                <sup className="text-[0.5em]">th</sup>, 17
+                <sup className="text-[0.5em]">th</sup>, 18
                 <sup className="text-[0.5em]">th</sup>
-                <span className="mx-2 text-white">JULY</span>
+                <span className="mx-2 text-white">AUGUST</span>
                 2026
               </p>
             </div>

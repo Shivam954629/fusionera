@@ -64,7 +64,7 @@ export async function generateBadgeImage(params: {
 
   <!-- Date pill -->
   <rect x="150" y="318" width="300" height="36" rx="18" fill="rgba(255,255,255,0.13)" stroke="rgba(255,255,255,0.25)" stroke-width="1"/>
-  <text x="300" y="341" text-anchor="middle" fill="white" font-size="14" font-weight="bold" font-family="Arial, Helvetica, sans-serif">4 · 5 · 6 · 7 July 2026</text>
+  <text x="300" y="341" text-anchor="middle" fill="white" font-size="14" font-weight="bold" font-family="Arial, Helvetica, sans-serif">15 · 16 · 17 · 18 August 2026</text>
 
   <!-- Venue -->
   <text x="300" y="378" text-anchor="middle" fill="rgba(255,255,255,0.65)" font-size="12" font-family="Arial, Helvetica, sans-serif">Bharat Mandapam, Pragati Maidan, New Delhi</text>

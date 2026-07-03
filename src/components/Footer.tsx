@@ -28,7 +28,7 @@ export default function Footer() {
                 Fusion The Era
               </p>
               <p className="text-[11px] text-white/40 mt-0.5">
-                India's B2B Trade Show · July 4–7, 2026 · Bharat Mandapam, Delhi
+                India's B2B Trade Show · August 15–18, 2026 · Bharat Mandapam, Delhi
               </p>
             </div>
           </div>

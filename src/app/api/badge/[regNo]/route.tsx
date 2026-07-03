@@ -101,7 +101,7 @@ export async function GET(
               <span
                 style={{ color: "white", fontSize: "14px", fontWeight: 700 }}
               >
-                4 · 5 · 6 · 7 July 2026
+                15 · 16 · 17 · 18 August 2026
               </span>
             </div>
             <span
