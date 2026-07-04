@@ -1,6 +1,6 @@
 export const textileSlides = [
   {
-    src: "/images/slider/decor-main.png",
+    src: "/images/slider/decor-main-aug2026.png",
     alt: "Fusionera Exhibition 2026",
   },
   {
