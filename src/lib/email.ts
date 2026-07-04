@@ -1,4 +1,4 @@
-const SENDER_EMAIL = process.env.SMTP_USER || "sales.info@fusiontheera.com";
+const SENDER_EMAIL = "sales.info@fusiontheera.com";
 const SENDER_NAME = "Fusion The Era Events";
 
 function parseRecipients(to: string | string[]): { email: string }[] {
