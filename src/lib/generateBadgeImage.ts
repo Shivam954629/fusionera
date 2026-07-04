@@ -1,15 +1,6 @@
 import { readFile } from "node:fs/promises";
 import { join } from "node:path";
 
-function escapeXml(str: string): string {
-  return str
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;")
-    .replace(/'/g, "&apos;");
-}
-
 function truncate(text: string, max: number): string {
   return text.length > max ? text.slice(0, max - 3) + "..." : text;
 }
@@ -25,74 +16,102 @@ export async function generateBadgeImage(params: {
   const logoBuffer = await readFile(join(process.cwd(), "public/images/logo.jpeg"));
   const logoBase64 = `data:image/jpeg;base64,${logoBuffer.toString("base64")}`;
 
-  const displayName = escapeXml(truncate(name, 26));
-  const displayCompany = escapeXml(truncate(company || "", 26));
-  const displayRegNo = escapeXml(regNo);
+  // Fonts are passed to Satori explicitly, because the production server has
+  // no system fonts installed — without this, text renders as blank boxes.
+  const [robotoBold, robotoBlack] = await Promise.all([
+    readFile(join(process.cwd(), "assets/fonts/Roboto-Bold.ttf")),
+    readFile(join(process.cwd(), "assets/fonts/Roboto-Black.ttf")),
+  ]);
 
-  const svg = `<svg width="600" height="820" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+  const displayName = truncate(name, 26);
+  const displayCompany = truncate(company || "", 26);
 
-  <defs>
-    <linearGradient id="bannerGrad" x1="0" y1="0" x2="600" y2="410" gradientUnits="userSpaceOnUse">
-      <stop offset="0%" stop-color="#0a0730"/>
-      <stop offset="60%" stop-color="#1a1464"/>
-      <stop offset="100%" stop-color="#1e3a8a"/>
-    </linearGradient>
-    <filter id="cardShadow" x="-20%" y="-20%" width="140%" height="140%">
-      <feDropShadow dx="0" dy="6" stdDeviation="10" flood-color="#0a0730" flood-opacity="0.25"/>
-    </filter>
-  </defs>
+  const { default: satori } = await import("satori");
+  const { Resvg } = await import("@resvg/resvg-js");
 
-  <!-- Outer background -->
-  <rect width="600" height="820" fill="#5ba3f5"/>
+  const element = {
+    type: "div",
+    props: {
+      style: { display: "flex", flexDirection: "column", width: "600px", height: "820px", background: "#5ba3f5", fontFamily: "Roboto" },
+      children: [
+        {
+          type: "div",
+          props: {
+            style: { display: "flex", flexDirection: "column", alignItems: "center", padding: "18px 0 10px" },
+            children: [
+              { type: "span", props: { style: { color: "white", fontSize: 18, fontWeight: 700 }, children: "Thank You for Registering!" } },
+              { type: "span", props: { style: { color: "rgba(255,255,255,0.8)", fontSize: 13, marginTop: 6 }, children: "Your badge is attached below." } },
+            ],
+          },
+        },
+        {
+          type: "div",
+          props: {
+            style: { display: "flex", flexDirection: "column", alignItems: "center", margin: "0 20px", padding: "24px 20px", borderRadius: "18px", background: "linear-gradient(160deg, #0a0730 0%, #1a1464 60%, #1e3a8a 100%)" },
+            children: [
+              {
+                type: "div",
+                props: {
+                  style: { display: "flex", width: "140px", height: "140px", borderRadius: "70px", background: "white", alignItems: "center", justifyContent: "center", marginBottom: "12px" },
+                  children: [{ type: "img", props: { src: logoBase64, width: 120, height: 30 } }],
+                },
+              },
+              { type: "span", props: { style: { color: "white", fontSize: 22, fontWeight: 700, letterSpacing: 4 }, children: "FUSION THE ERA" } },
+              { type: "span", props: { style: { color: "#f0b429", fontSize: 44, fontWeight: 900, marginTop: 4 }, children: "2026" } },
+              {
+                type: "div",
+                props: {
+                  style: { display: "flex", marginTop: 14, padding: "8px 22px", borderRadius: "18px", background: "rgba(255,255,255,0.13)", border: "1px solid rgba(255,255,255,0.25)" },
+                  children: [{ type: "span", props: { style: { color: "white", fontSize: 14, fontWeight: 700 }, children: "15 · 16 · 17 · 18 August 2026" } }],
+                },
+              },
+              { type: "span", props: { style: { color: "rgba(255,255,255,0.65)", fontSize: 12, marginTop: 10 }, children: "Bharat Mandapam, Pragati Maidan, New Delhi" } },
+            ],
+          },
+        },
+        {
+          type: "div",
+          props: {
+            style: { display: "flex", flexDirection: "row", alignItems: "center", margin: "20px 20px 0", padding: "22px", borderRadius: "18px", background: "white" },
+            children: [
+              { type: "img", props: { src: qrCodeDataUrl, width: 180, height: 180, style: { borderRadius: "10px", border: "2px solid #e5e7eb" } } },
+              {
+                type: "div",
+                props: {
+                  style: { display: "flex", flexDirection: "column", marginLeft: "24px" },
+                  children: [
+                    { type: "span", props: { style: { color: "#1a1a2e", fontSize: 20, fontWeight: 700 }, children: displayName } },
+                    { type: "span", props: { style: { color: "#374151", fontSize: 14, marginTop: 8 }, children: displayCompany } },
+                    { type: "span", props: { style: { color: "#9ca3af", fontSize: 12, marginTop: 6 }, children: regNo } },
+                    { type: "div", props: { style: { display: "flex", width: "310px", height: "1px", background: "#eef0f5", margin: "12px 0" } } },
+                    { type: "span", props: { style: { color: "#1e3a8a", fontSize: 12, fontWeight: 700 }, children: "SCAN AT ENTRY GATE" } },
+                    { type: "span", props: { style: { color: "#9ca3af", fontSize: 11, marginTop: 4 }, children: "Valid for all 4 event days" } },
+                  ],
+                },
+              },
+            ],
+          },
+        },
+        {
+          type: "div",
+          props: {
+            style: { display: "flex", alignItems: "center", justifyContent: "center", margin: "20px 20px 0", height: "68px", borderRadius: "16px", background: "#1e3a8a" },
+            children: [{ type: "span", props: { style: { color: "white", fontSize: 32, fontWeight: 700, letterSpacing: 10 }, children: "VISITOR" } }],
+          },
+        },
+      ],
+    },
+  };
 
-  <!-- Top greeting text -->
-  <text x="300" y="38" text-anchor="middle" fill="white" font-size="18" font-weight="bold" font-family="Arial, Helvetica, sans-serif">Thank You for Registering!</text>
-  <text x="300" y="64" text-anchor="middle" fill="rgba(255,255,255,0.8)" font-size="13" font-family="Arial, Helvetica, sans-serif">Your badge is attached below.</text>
+  const svg = await satori(element as never, {
+    width: 600,
+    height: 820,
+    fonts: [
+      { name: "Roboto", data: robotoBold, weight: 700, style: "normal" },
+      { name: "Roboto", data: robotoBlack, weight: 900, style: "normal" },
+    ],
+  });
 
-  <!-- Event banner card -->
-  <rect x="20" y="80" width="560" height="330" rx="18" fill="url(#bannerGrad)" filter="url(#cardShadow)"/>
-
-  <!-- Logo circle background -->
-  <circle cx="300" cy="165" r="70" fill="white" opacity="0.95"/>
-  <!-- Logo image -->
-  <image x="230" y="95" width="140" height="140" href="${logoBase64}" preserveAspectRatio="xMidYMid meet" clip-path="circle(70px at 70px 70px)"/>
-  <!-- Logo border ring -->
-  <circle cx="300" cy="165" r="70" fill="none" stroke="rgba(255,255,255,0.3)" stroke-width="2.5"/>
-
-  <!-- FUSION THE ERA -->
-  <text x="300" y="258" text-anchor="middle" fill="white" font-size="22" font-weight="bold" font-family="Arial, Helvetica, sans-serif" letter-spacing="4">FUSION THE ERA</text>
-
-  <!-- 2026 -->
-  <text x="300" y="306" text-anchor="middle" fill="#f0b429" font-size="48" font-weight="bold" font-family="Arial, Helvetica, sans-serif">2026</text>
-
-  <!-- Date pill -->
-  <rect x="150" y="318" width="300" height="36" rx="18" fill="rgba(255,255,255,0.13)" stroke="rgba(255,255,255,0.25)" stroke-width="1"/>
-  <text x="300" y="341" text-anchor="middle" fill="white" font-size="14" font-weight="bold" font-family="Arial, Helvetica, sans-serif">15 · 16 · 17 · 18 August 2026</text>
-
-  <!-- Venue -->
-  <text x="300" y="378" text-anchor="middle" fill="rgba(255,255,255,0.65)" font-size="12" font-family="Arial, Helvetica, sans-serif">Bharat Mandapam, Pragati Maidan, New Delhi</text>
-
-  <!-- White visitor info card -->
-  <rect x="20" y="428" width="560" height="220" rx="18" fill="white" filter="url(#cardShadow)"/>
-
-  <!-- QR Code with frame -->
-  <rect x="32" y="440" width="188" height="188" rx="10" fill="none" stroke="#e5e7eb" stroke-width="2"/>
-  <image x="36" y="444" width="180" height="180" href="${qrCodeDataUrl}"/>
-
-  <!-- Visitor details -->
-  <text x="234" y="482" fill="#1a1a2e" font-size="20" font-weight="bold" font-family="Arial, Helvetica, sans-serif">${displayName}</text>
-  <text x="234" y="512" fill="#374151" font-size="14" font-family="Arial, Helvetica, sans-serif">${displayCompany}</text>
-  <text x="234" y="538" fill="#9ca3af" font-size="12" font-family="Arial, Helvetica, sans-serif">${displayRegNo}</text>
-  <line x1="234" y1="558" x2="544" y2="558" stroke="#eef0f5" stroke-width="1.5"/>
-  <text x="234" y="580" fill="#1e3a8a" font-size="12" font-weight="bold" font-family="Arial, Helvetica, sans-serif">📱 SCAN AT ENTRY GATE</text>
-  <text x="234" y="602" fill="#9ca3af" font-size="11" font-family="Arial, Helvetica, sans-serif">Valid for all 4 event days</text>
-
-  <!-- VISITOR banner -->
-  <rect x="20" y="664" width="560" height="68" rx="16" fill="#1e3a8a" filter="url(#cardShadow)"/>
-  <text x="300" y="708" text-anchor="middle" fill="white" font-size="32" font-weight="bold" letter-spacing="10" font-family="Arial, Helvetica, sans-serif">VISITOR</text>
-</svg>`;
-
-  // Use sharp for SVG → PNG conversion
-  const sharp = (await import("sharp")).default;
-  return await sharp(Buffer.from(svg), { density: 150 }).png().toBuffer();
+  const resvg = new Resvg(svg, { fitTo: { mode: "width", value: 600 } });
+  return Buffer.from(resvg.render().asPng());
 }
