@@ -1,6 +1,6 @@
 const SENDER_EMAIL = "sales.info@fusiontheera.com";
 const SENDER_NAME = "Fusion The Era Events";
-const LOGO_URL = "https://www.fusiontheera.com/images/logo.jpeg";
+const LOGO_URL = "https://res.cloudinary.com/dofwvxjzg/image/upload/v1783154301/fusion-the-era-logo.jpg";
 
 function parseRecipients(to: string | string[]): { email: string }[] {
   const list = Array.isArray(to) ? to : to.split(",");
@@ -10,7 +10,7 @@ function parseRecipients(to: string | string[]): { email: string }[] {
 export function emailHeader(title: string, subtitle?: string): string {
   return `
     <div style="background:linear-gradient(135deg,#110c41,#1a1560);padding:28px 32px;text-align:center;">
-      <img src="${LOGO_URL}" alt="Fusion The Era" width="56" height="56" style="border-radius:10px;margin-bottom:14px;" />
+      <img src="${LOGO_URL}" alt="Fusion The Era" width="220" height="54" style="border-radius:8px;margin-bottom:16px;max-width:80%;height:auto;" />
       <h1 style="color:#fff;margin:0;font-size:20px;">${title}</h1>
       ${subtitle ? `<p style="color:rgba(255,255,255,0.75);margin:6px 0 0;font-size:13px;">${subtitle}</p>` : ""}
     </div>
