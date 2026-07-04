@@ -9,10 +9,10 @@ function parseRecipients(to: string | string[]): { email: string }[] {
 
 export function emailHeader(title: string, subtitle?: string): string {
   return `
-    <div style="background:linear-gradient(135deg,#110c41,#1a1560);padding:28px 32px;text-align:center;">
-      <img src="${LOGO_URL}" alt="Fusion The Era" width="220" height="54" style="border-radius:8px;margin-bottom:16px;max-width:80%;height:auto;" />
-      <h1 style="color:#fff;margin:0;font-size:20px;">${title}</h1>
-      ${subtitle ? `<p style="color:rgba(255,255,255,0.75);margin:6px 0 0;font-size:13px;">${subtitle}</p>` : ""}
+    <div style="background:#ffffff;padding:32px 32px 24px;text-align:center;border-bottom:1px solid #f0f0f0;">
+      <img src="${LOGO_URL}" alt="Fusion The Era" width="200" style="max-width:70%;height:auto;margin-bottom:20px;" />
+      <h1 style="color:#1a1560;margin:0;font-size:20px;">${title}</h1>
+      ${subtitle ? `<p style="color:#6b7280;margin:6px 0 0;font-size:13px;">${subtitle}</p>` : ""}
     </div>
   `;
 }
