@@ -1,13 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { pool } from "@/lib/db";
-import nodemailer from "nodemailer";
-
-const transporter = nodemailer.createTransport({
-  host: process.env.SMTP_HOST,
-  port: Number(process.env.SMTP_PORT) || 587,
-  secure: false,
-  auth: { user: process.env.SMTP_USER, pass: process.env.SMTP_PASS },
-});
+import { sendEmail } from "@/lib/email";
 
 async function initTable() {
   await pool.query(`
@@ -84,8 +77,7 @@ export async function POST(req: NextRequest) {
     );
 
     // Notify admin via email
-    transporter.sendMail({
-      from: `"Fusion The Era Events" <${process.env.SMTP_USER}>`,
+    sendEmail({
       to: "pawan.singh@fusiontheera.com, jasvinder.chaudhary@fusiontheera.com, sales.info@fusiontheera.com",
       subject: `🏢 New Exhibitor Registration — ${companyName}`,
       html: `
@@ -106,7 +98,7 @@ export async function POST(req: NextRequest) {
           </div>
         </div>
       `,
-    }).catch((err) => console.error("Email error:", err));
+    }).catch((err: unknown) => console.error("Email error:", err));
 
     return NextResponse.json({ success: true });
   } catch (err: any) {

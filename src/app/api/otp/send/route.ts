@@ -1,13 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { pool, initDB } from "@/lib/db";
-import nodemailer from "nodemailer";
-
-const transporter = nodemailer.createTransport({
-  host: process.env.SMTP_HOST,
-  port: Number(process.env.SMTP_PORT) || 587,
-  secure: false,
-  auth: { user: process.env.SMTP_USER, pass: process.env.SMTP_PASS },
-});
+import { sendEmail } from "@/lib/email";
 
 function generateOTP(): string {
   return Math.floor(100000 + Math.random() * 900000).toString();
@@ -33,8 +26,7 @@ export async function POST(req: NextRequest) {
         [email, otp, expiresAt],
       );
 
-      await transporter.sendMail({
-        from: `"Fusion The Era" <${process.env.SMTP_USER}>`,
+      await sendEmail({
         to: email,
         subject: "Your Fusion The Era OTP",
         html: `

@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { pool, initDB } from "@/lib/db";
 import jwt from "jsonwebtoken";
-import nodemailer from "nodemailer";
+import { sendEmail } from "@/lib/email";
 import bcrypt from "bcryptjs";
 
 const JWT_SECRET = process.env.JWT_SECRET || "fallback_secret_change_this";
@@ -15,13 +15,6 @@ function verifyToken(req: NextRequest) {
     return null;
   }
 }
-
-const transporter = nodemailer.createTransport({
-  host: process.env.SMTP_HOST,
-  port: Number(process.env.SMTP_PORT) || 587,
-  secure: false,
-  auth: { user: process.env.SMTP_USER, pass: process.env.SMTP_PASS },
-});
 
 function generatePassword(): string {
   const chars = "ABCDEFGHJKMNPQRSTUVWXYZabcdefghjkmnpqrstuvwxyz23456789";
@@ -41,8 +34,7 @@ async function sendVisitorEmail(
   regNo: string,
   password: string,
 ) {
-  await transporter.sendMail({
-    from: `"Fusion The Era Events" <${process.env.SMTP_USER}>`,
+  await sendEmail({
     to,
     subject: "✅ Registration Confirmed — Fusion The Era 2026",
     html: `
@@ -93,8 +85,7 @@ async function sendAdminEmail(
   email: string,
   regNo: string,
 ) {
-  await transporter.sendMail({
-    from: `"Fusion The Era Events" <${process.env.SMTP_USER}>`,
+  await sendEmail({
     to: "pawan.singh@fusiontheera.com, jasvinder.chaudhary@fusiontheera.com, sales.info@fusiontheera.com",
     subject: `🔔 New Visitor — ${fullName}`,
     html: `

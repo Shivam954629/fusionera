@@ -1,15 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { pool } from "@/lib/db";
-import nodemailer from "nodemailer";
+import { sendEmail } from "@/lib/email";
 import bcrypt from "bcryptjs";
 import QRCode from "qrcode";
-
-const transporter = nodemailer.createTransport({
-  host: process.env.SMTP_HOST,
-  port: Number(process.env.SMTP_PORT) || 587,
-  secure: false,
-  auth: { user: process.env.SMTP_USER, pass: process.env.SMTP_PASS },
-});
 
 function generateRegNo(): string {
   return `FE${new Date().getFullYear()}${Math.floor(10000 + Math.random() * 90000)}`;
@@ -113,8 +106,7 @@ export async function POST(req: NextRequest) {
 
     // Send confirmation email to visitor with QR badge
     if (visitor.email) {
-      transporter.sendMail({
-        from: `"Fusion The Era Events" <${process.env.SMTP_USER}>`,
+      sendEmail({
         to: visitor.email,
         subject: "✅ Registration Confirmed — Fusion The Era 2026",
         html: `
@@ -147,12 +139,11 @@ export async function POST(req: NextRequest) {
             </div>
           </div>
         `,
-      }).catch((err) => console.error("Visitor email error:", err));
+      }).catch((err: unknown) => console.error("Visitor email error:", err));
     }
 
     // Notify visitor service team
-    transporter.sendMail({
-      from: `"Fusion The Era Events" <${process.env.SMTP_USER}>`,
+    sendEmail({
       to: "pawan.singh@fusiontheera.com, jasvinder.chaudhary@fusiontheera.com, sales.info@fusiontheera.com",
       subject: `🔔 New Visitor Registered — ${visitor.first_name || ""} ${visitor.last_name || ""}`.trim(),
       html: `
@@ -171,7 +162,7 @@ export async function POST(req: NextRequest) {
           </div>
         </div>
       `,
-    }).catch((err) => console.error("Admin email error:", err));
+    }).catch((err: unknown) => console.error("Admin email error:", err));
 
     return NextResponse.json({ success: true, regNo, qrCode: qrCodeDataUrl });
   } catch (err) {

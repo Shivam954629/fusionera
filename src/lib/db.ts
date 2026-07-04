@@ -66,6 +66,18 @@ export async function initDB() {
     );
   `);
 
+  // OTP storage — used for international visitors' email verification
+  await pool.query(`
+    CREATE TABLE IF NOT EXISTS otps (
+      id SERIAL PRIMARY KEY,
+      phone_number VARCHAR(50) NOT NULL,
+      otp VARCHAR(10) NOT NULL,
+      expires_at TIMESTAMP NOT NULL,
+      used BOOLEAN DEFAULT FALSE,
+      created_at TIMESTAMP DEFAULT NOW()
+    );
+  `);
+
   // Expand phone_number column if it was created with VARCHAR(20)
   await pool.query(`ALTER TABLE visitors ALTER COLUMN phone_number TYPE VARCHAR(255);`).catch(() => {});
   // Expand otps phone_number too (used as email key for international visitors)
