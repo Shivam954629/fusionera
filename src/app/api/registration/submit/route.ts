@@ -16,6 +16,29 @@ function generatePassword(): string {
   ).join("");
 }
 
+// Email clients (Gmail etc.) strip inline base64 images — host the badge on
+// Cloudinary and link to it instead, so it actually renders in the inbox.
+async function uploadBadgeToCloudinary(buffer: Buffer, regNo: string): Promise<string | null> {
+  const cloudName = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME;
+  const preset = process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET;
+  if (!cloudName || !preset) return null;
+  try {
+    const fd = new FormData();
+    fd.append("file", new Blob([new Uint8Array(buffer)], { type: "image/png" }));
+    fd.append("upload_preset", preset);
+    fd.append("public_id", `badges/${regNo}`);
+    const res = await fetch(`https://api.cloudinary.com/v1_1/${cloudName}/image/upload`, {
+      method: "POST",
+      body: fd,
+    });
+    const data = await res.json();
+    return data.secure_url || null;
+  } catch (err) {
+    console.error("Badge Cloudinary upload error (non-fatal):", err);
+    return null;
+  }
+}
+
 export async function POST(req: NextRequest) {
   try {
     const { visitorId } = await req.json();
@@ -86,27 +109,26 @@ export async function POST(req: NextRequest) {
 
     // Generate the same badge image used on the website/WhatsApp, once, and reuse it everywhere
     const visitorName = `${visitor.first_name || ""} ${visitor.last_name || ""}`.trim();
-    let badgeDataUrl = "";
+    let badgeBuffer: Buffer | null = null;
     try {
       const { generateBadgeImage } = await import("@/lib/generateBadgeImage");
-      const badgeBuffer = await generateBadgeImage({
+      badgeBuffer = await generateBadgeImage({
         name: visitorName,
         company: visitor.company || "",
         regNo,
         qrCodeDataUrl,
       });
-      badgeDataUrl = `data:image/png;base64,${badgeBuffer.toString("base64")}`;
     } catch (badgeErr) {
       console.error("Badge image generation error (non-fatal):", badgeErr);
     }
 
     // Send WhatsApp badge (non-blocking — registration succeeds even if this fails)
-    if (visitor.phone_number && badgeDataUrl) {
+    if (visitor.phone_number && badgeBuffer) {
+      const waBadgeBuffer = badgeBuffer;
       (async () => {
         try {
           const { uploadImageToWhatsApp, sendWhatsAppBadge } = await import("@/lib/whatsapp");
-          const badgeBuffer = Buffer.from(badgeDataUrl.split(",")[1], "base64");
-          const mediaId = await uploadImageToWhatsApp(badgeBuffer);
+          const mediaId = await uploadImageToWhatsApp(waBadgeBuffer);
           await sendWhatsAppBadge(visitor.phone_number, mediaId, visitorName);
         } catch (waErr) {
           console.error("WhatsApp badge error (non-fatal):", waErr);
@@ -115,7 +137,9 @@ export async function POST(req: NextRequest) {
     }
 
     // Send confirmation email to visitor with the actual badge image
+    // (hosted on Cloudinary — inline base64 images get stripped by Gmail/Outlook)
     if (visitor.email) {
+      const badgeUrl = badgeBuffer ? await uploadBadgeToCloudinary(badgeBuffer, regNo) : null;
       sendEmail({
         to: visitor.email,
         subject: "✅ Registration Confirmed — Fusion The Era 2026",
@@ -125,7 +149,7 @@ export async function POST(req: NextRequest) {
             <div style="background:#fff;padding:28px 32px;">
               <p style="color:#1a1560;font-size:16px;font-weight:bold;">Dear ${visitor.first_name || "Visitor"},</p>
               <p style="color:#6b7280;font-size:14px;">Your registration is complete. Your visitor badge is below — show the QR code at the entry gate.</p>
-              ${badgeDataUrl ? `<div style="text-align:center;margin:20px 0;"><img src="${badgeDataUrl}" width="320" alt="Your Visitor Badge" style="max-width:100%;border-radius:12px;box-shadow:0 4px 16px rgba(0,0,0,0.1);"/></div>` : ""}
+              ${badgeUrl ? `<div style="text-align:center;margin:20px 0;"><img src="${badgeUrl}" width="320" alt="Your Visitor Badge" style="max-width:100%;border-radius:12px;box-shadow:0 4px 16px rgba(0,0,0,0.1);"/></div>` : `<div style="text-align:center;margin:20px 0;"><img src="${qrCodeDataUrl}" width="200" height="200" alt="QR Code" style="border:4px solid #e5e7eb;border-radius:8px;"/></div>`}
               <table cellpadding="10" cellspacing="0" width="100%" style="border-collapse:collapse;margin:16px 0;background:#f8f9ff;border-radius:10px;">
                 <tr><td style="color:#6b7280;font-size:13px;width:40%;padding-left:16px;">🔑 Login Password</td><td style="color:#1a1560;font-weight:700;font-size:14px;">${password}</td></tr>
               </table>
