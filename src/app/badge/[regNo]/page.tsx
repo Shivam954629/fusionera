@@ -32,11 +32,11 @@ export default async function BadgePage({
       </div>
 
       {/* ── BADGE CARD ── */}
-      <div className="w-full max-w-sm rounded-2xl overflow-hidden shadow-2xl">
+      <div className="w-full max-w-sm rounded-2xl overflow-hidden shadow-2xl divide-y divide-transparent">
 
         {/* TOP — Event Banner */}
         <div
-          className="flex flex-col items-center text-center px-5 py-6"
+          className="flex flex-col items-center text-center px-5 py-6 shadow-lg"
           style={{ background: "linear-gradient(160deg,#0a0730 0%,#1a1464 60%,#1e3a8a 100%)" }}
         >
           {/* Logo */}
@@ -109,13 +109,18 @@ export default async function BadgePage({
             <span className="text-gray-400 text-[11px] mt-1 font-semibold">
               {v.registration_no}
             </span>
+            <div className="border-t border-[#eef0f5] mt-2 pt-2">
+              <span className="text-[11px] font-bold" style={{ color: "#1e3a8a" }}>
+                SCAN AT ENTRY GATE
+              </span>
+            </div>
           </div>
         </div>
 
         {/* BOTTOM — VISITOR bar */}
         <div
-          className="flex items-center justify-center py-4"
-          style={{ background: "#4a90e2" }}
+          className="flex items-center justify-center py-4 shadow-lg"
+          style={{ background: "#1e3a8a" }}
         >
           <span
             className="text-white font-black tracking-[0.4em] uppercase"

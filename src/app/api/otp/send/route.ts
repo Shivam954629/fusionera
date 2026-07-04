@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { pool, initDB } from "@/lib/db";
-import { sendEmail } from "@/lib/email";
+import { sendEmail, emailHeader, emailFooter } from "@/lib/email";
 
 function generateOTP(): string {
   return Math.floor(100000 + Math.random() * 900000).toString();
@@ -30,14 +30,17 @@ export async function POST(req: NextRequest) {
         to: email,
         subject: "Your Fusion The Era OTP",
         html: `
-          <div style="font-family:sans-serif;max-width:480px;margin:auto;padding:32px;background:#fff;border:1px solid #dde6ff;border-radius:16px">
-            <h2 style="color:#1a1464;margin:0 0 8px">Fusion The Era Visitor Registration</h2>
-            <p style="color:#6b7280;margin:0 0 24px">Your OTP for email verification:</p>
-            <div style="background:linear-gradient(135deg,#110c41,#1a1560);border-radius:12px;padding:20px;text-align:center;margin-bottom:24px">
-              <p style="color:#8cecff;font-size:12px;letter-spacing:0.2em;margin:0 0 8px;text-transform:uppercase">One-Time Password</p>
-              <p style="color:#fff;font-size:36px;font-weight:900;letter-spacing:0.3em;margin:0">${otp}</p>
+          <div style="font-family:Arial,sans-serif;max-width:480px;margin:0 auto;border-radius:12px;overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,0.08);">
+            ${emailHeader("Visitor Registration", "Email verification for Fusion The Era 2026")}
+            <div style="background:#fff;padding:32px;">
+              <p style="color:#6b7280;font-size:14px;margin:0 0 20px;text-align:center;">Your One-Time Password:</p>
+              <div style="background:linear-gradient(135deg,#110c41,#1a1560);border-radius:12px;padding:20px;text-align:center;margin-bottom:20px">
+                <p style="color:#8cecff;font-size:12px;letter-spacing:0.2em;margin:0 0 8px;text-transform:uppercase">One-Time Password</p>
+                <p style="color:#fff;font-size:36px;font-weight:900;letter-spacing:0.3em;margin:0">${otp}</p>
+              </div>
+              <p style="color:#6b7280;font-size:13px;margin:0;text-align:center;">This OTP is valid for <strong>10 minutes</strong>. Do not share it with anyone.</p>
             </div>
-            <p style="color:#6b7280;font-size:13px;margin:0">This OTP is valid for <strong>10 minutes</strong>. Do not share it with anyone.</p>
+            ${emailFooter()}
           </div>
         `,
       });

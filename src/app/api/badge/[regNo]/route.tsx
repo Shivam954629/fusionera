@@ -171,8 +171,19 @@ export async function GET(
                   {location}
                 </span>
               ) : null}
-              <span style={{ fontSize: "11px", color: "#9ca3af" }}>
+              <span style={{ fontSize: "11px", color: "#9ca3af", marginBottom: "10px" }}>
                 {v.registration_no}
+              </span>
+              <span
+                style={{
+                  fontSize: "12px",
+                  fontWeight: 700,
+                  color: "#1e3a8a",
+                  borderTop: "1px solid #eef0f5",
+                  paddingTop: "10px",
+                }}
+              >
+                SCAN AT ENTRY GATE
               </span>
             </div>
           </div>
@@ -183,7 +194,7 @@ export async function GET(
               display: "flex",
               justifyContent: "center",
               alignItems: "center",
-              backgroundColor: "#5B9BD5",
+              backgroundColor: "#1e3a8a",
               height: "80px",
             }}
           >

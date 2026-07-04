@@ -191,6 +191,7 @@ export default function VisitorRegistrationPage() {
   const [regNo, setRegNo] = useState("");
   const [qrCode, setQrCode] = useState("");
   const [agreed, setAgreed] = useState(false);
+  const [uploadingField, setUploadingField] = useState<string | null>(null);
 
   const [formData, setFormData] = useState({
     photo_url: "",
@@ -446,11 +447,28 @@ export default function VisitorRegistrationPage() {
   const toggleArray = (arr: string[], val: string) =>
     arr.includes(val) ? arr.filter((x) => x !== val) : [...arr, val];
 
-  const handleFileUpload = (field: string, file: File) => {
-    const reader = new FileReader();
-    reader.onload = (ev) =>
-      setFormData((p) => ({ ...p, [field]: ev.target?.result as string }));
-    reader.readAsDataURL(file);
+  const handleFileUpload = async (field: string, file: File) => {
+    const cloudName = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME;
+    const preset = process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET;
+    setUploadingField(field);
+    setError("");
+    try {
+      if (!cloudName || !preset) throw new Error("Upload is not configured.");
+      const fd = new FormData();
+      fd.append("file", file);
+      fd.append("upload_preset", preset);
+      const res = await fetch(`https://api.cloudinary.com/v1_1/${cloudName}/image/upload`, {
+        method: "POST",
+        body: fd,
+      });
+      const data = await res.json();
+      if (!data.secure_url) throw new Error(data.error?.message || "Upload failed.");
+      setFormData((p) => ({ ...p, [field]: data.secure_url }));
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Photo upload failed. Please try again.");
+    } finally {
+      setUploadingField(null);
+    }
   };
 
   const inputCls =
@@ -533,6 +551,16 @@ export default function VisitorRegistrationPage() {
           >
             Remove
           </button>
+        </div>
+      ) : uploadingField === field ? (
+        <div className="py-2">
+          <div
+            className="w-6 h-6 mx-auto mb-2 rounded-full border-2 border-t-transparent animate-spin"
+            style={{ borderColor: "#1a1464", borderTopColor: "transparent" }}
+          />
+          <span className="text-sm font-medium" style={{ color: "#1a1a2e" }}>
+            Uploading...
+          </span>
         </div>
       ) : (
         <label className="cursor-pointer block">
@@ -995,6 +1023,22 @@ export default function VisitorRegistrationPage() {
                                   Remove photo
                                 </button>
                               </div>
+                            </div>
+                          ) : uploadingField === "photo_url" ? (
+                            <div
+                              className="rounded-xl p-6 text-center"
+                              style={{
+                                background: "#f4f6ff",
+                                border: "2px dashed #dde6ff",
+                              }}
+                            >
+                              <div
+                                className="w-8 h-8 mx-auto mb-3 rounded-full border-2 animate-spin"
+                                style={{ borderColor: "#1a1464", borderTopColor: "transparent" }}
+                              />
+                              <span className="text-sm font-medium" style={{ color: "#1a1a2e" }}>
+                                Uploading photo...
+                              </span>
                             </div>
                           ) : (
                             <label
@@ -1873,13 +1917,15 @@ export default function VisitorRegistrationPage() {
                   )}
                   <button
                     onClick={() => saveStep(currentStep)}
-                    disabled={loading}
+                    disabled={loading || uploadingField !== null}
                     className="w-full rounded-xl px-6 py-2.5 text-sm font-semibold text-white transition hover:opacity-90 disabled:opacity-60 sm:ml-auto sm:w-auto md:px-8"
                     style={{
                       background: "#1a1464",
                     }}
                   >
-                    {loading
+                    {uploadingField
+                      ? "Uploading..."
+                      : loading
                       ? "Saving..."
                       : currentStep === 9
                         ? "Submit Registration"

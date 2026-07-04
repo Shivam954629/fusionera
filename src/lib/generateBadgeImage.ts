@@ -31,6 +31,17 @@ export async function generateBadgeImage(params: {
 
   const svg = `<svg width="600" height="820" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 
+  <defs>
+    <linearGradient id="bannerGrad" x1="0" y1="0" x2="600" y2="410" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#0a0730"/>
+      <stop offset="60%" stop-color="#1a1464"/>
+      <stop offset="100%" stop-color="#1e3a8a"/>
+    </linearGradient>
+    <filter id="cardShadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="6" stdDeviation="10" flood-color="#0a0730" flood-opacity="0.25"/>
+    </filter>
+  </defs>
+
   <!-- Outer background -->
   <rect width="600" height="820" fill="#5ba3f5"/>
 
@@ -39,15 +50,7 @@ export async function generateBadgeImage(params: {
   <text x="300" y="64" text-anchor="middle" fill="rgba(255,255,255,0.8)" font-size="13" font-family="Arial, Helvetica, sans-serif">Your badge is attached below.</text>
 
   <!-- Event banner card -->
-  <rect x="20" y="80" width="560" height="330" rx="18" fill="#0a0730"/>
-  <rect x="20" y="80" width="560" height="330" rx="18" fill="url(#bannerGrad)"/>
-  <defs>
-    <linearGradient id="bannerGrad" x1="0" y1="0" x2="600" y2="410" gradientUnits="userSpaceOnUse">
-      <stop offset="0%" stop-color="#0a0730"/>
-      <stop offset="60%" stop-color="#1a1464"/>
-      <stop offset="100%" stop-color="#1e3a8a"/>
-    </linearGradient>
-  </defs>
+  <rect x="20" y="80" width="560" height="330" rx="18" fill="url(#bannerGrad)" filter="url(#cardShadow)"/>
 
   <!-- Logo circle background -->
   <circle cx="300" cy="165" r="70" fill="white" opacity="0.95"/>
@@ -70,18 +73,22 @@ export async function generateBadgeImage(params: {
   <text x="300" y="378" text-anchor="middle" fill="rgba(255,255,255,0.65)" font-size="12" font-family="Arial, Helvetica, sans-serif">Bharat Mandapam, Pragati Maidan, New Delhi</text>
 
   <!-- White visitor info card -->
-  <rect x="20" y="428" width="560" height="220" rx="18" fill="white"/>
+  <rect x="20" y="428" width="560" height="220" rx="18" fill="white" filter="url(#cardShadow)"/>
 
-  <!-- QR Code -->
+  <!-- QR Code with frame -->
+  <rect x="32" y="440" width="188" height="188" rx="10" fill="none" stroke="#e5e7eb" stroke-width="2"/>
   <image x="36" y="444" width="180" height="180" href="${qrCodeDataUrl}"/>
 
   <!-- Visitor details -->
-  <text x="234" y="492" fill="#1a1a2e" font-size="20" font-weight="bold" font-family="Arial, Helvetica, sans-serif">${displayName}</text>
-  <text x="234" y="522" fill="#374151" font-size="14" font-family="Arial, Helvetica, sans-serif">${displayCompany}</text>
-  <text x="234" y="548" fill="#9ca3af" font-size="12" font-family="Arial, Helvetica, sans-serif">${displayRegNo}</text>
+  <text x="234" y="482" fill="#1a1a2e" font-size="20" font-weight="bold" font-family="Arial, Helvetica, sans-serif">${displayName}</text>
+  <text x="234" y="512" fill="#374151" font-size="14" font-family="Arial, Helvetica, sans-serif">${displayCompany}</text>
+  <text x="234" y="538" fill="#9ca3af" font-size="12" font-family="Arial, Helvetica, sans-serif">${displayRegNo}</text>
+  <line x1="234" y1="558" x2="544" y2="558" stroke="#eef0f5" stroke-width="1.5"/>
+  <text x="234" y="580" fill="#1e3a8a" font-size="12" font-weight="bold" font-family="Arial, Helvetica, sans-serif">📱 SCAN AT ENTRY GATE</text>
+  <text x="234" y="602" fill="#9ca3af" font-size="11" font-family="Arial, Helvetica, sans-serif">Valid for all 4 event days</text>
 
   <!-- VISITOR banner -->
-  <rect x="20" y="664" width="560" height="68" rx="16" fill="#4a90e2"/>
+  <rect x="20" y="664" width="560" height="68" rx="16" fill="#1e3a8a" filter="url(#cardShadow)"/>
   <text x="300" y="708" text-anchor="middle" fill="white" font-size="32" font-weight="bold" letter-spacing="10" font-family="Arial, Helvetica, sans-serif">VISITOR</text>
 </svg>`;
 

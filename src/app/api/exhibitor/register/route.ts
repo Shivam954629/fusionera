@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { pool } from "@/lib/db";
-import { sendEmail } from "@/lib/email";
+import { sendEmail, emailHeader, emailFooter } from "@/lib/email";
 
 async function initTable() {
   await pool.query(`
@@ -81,10 +81,8 @@ export async function POST(req: NextRequest) {
       to: "pawan.singh@fusiontheera.com, jasvinder.chaudhary@fusiontheera.com, sales.info@fusiontheera.com",
       subject: `🏢 New Exhibitor Registration — ${companyName}`,
       html: `
-        <div style="font-family:Arial,sans-serif;max-width:560px;margin:0 auto;border-radius:12px;overflow:hidden;">
-          <div style="background:linear-gradient(135deg,#110c41,#1a1560);padding:24px 32px;">
-            <h2 style="color:#fff;margin:0;font-size:18px;">🏢 New Exhibitor Registration</h2>
-          </div>
+        <div style="font-family:Arial,sans-serif;max-width:560px;margin:0 auto;border-radius:12px;overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,0.08);">
+          ${emailHeader("🏢 New Exhibitor Registration")}
           <div style="background:#fff;padding:28px 32px;">
             <table cellpadding="8" cellspacing="0" width="100%" style="border-collapse:collapse;">
               <tr style="border-bottom:1px solid #f0f0f0;"><td style="color:#6b7280;font-size:13px;width:40%;">Company</td><td style="color:#1a1560;font-weight:600;font-size:13px;">${companyName}</td></tr>
@@ -96,6 +94,7 @@ export async function POST(req: NextRequest) {
               <tr><td style="color:#6b7280;font-size:13px;">Categories</td><td style="color:#1a1560;font-weight:600;font-size:13px;">${productCategoryStr || "—"}</td></tr>
             </table>
           </div>
+          ${emailFooter()}
         </div>
       `,
     }).catch((err: unknown) => console.error("Email error:", err));

@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { pool, initDB } from "@/lib/db";
 import jwt from "jsonwebtoken";
-import { sendEmail } from "@/lib/email";
+import { sendEmail, emailHeader, emailFooter } from "@/lib/email";
 import bcrypt from "bcryptjs";
 
 const JWT_SECRET = process.env.JWT_SECRET || "fallback_secret_change_this";
@@ -39,10 +39,7 @@ async function sendVisitorEmail(
     subject: "✅ Registration Confirmed — Fusion The Era 2026",
     html: `
       <div style="font-family:Arial,sans-serif;max-width:560px;margin:0 auto;border-radius:12px;overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,0.08);">
-        <div style="background:linear-gradient(135deg,#110c41,#1a1560);padding:32px 40px;text-align:center;">
-          <h1 style="color:#fff;margin:0;font-size:22px;letter-spacing:1px;">FUSION THE ERA 2026</h1>
-          <p style="color:#a5b4fc;margin:6px 0 0;font-size:12px;">Perfect Business Platform</p>
-        </div>
+        ${emailHeader("FUSION THE ERA 2026", "Perfect Business Platform")}
         <div style="background:#fff;padding:36px 40px;text-align:center;">
           <div style="width:60px;height:60px;background:linear-gradient(135deg,#00c9a7,#00b4d8);border-radius:50%;display:inline-flex;align-items:center;justify-content:center;margin-bottom:16px;">
             <span style="color:#fff;font-size:26px;">✓</span>
@@ -71,9 +68,7 @@ async function sendVisitorEmail(
             </td></tr>
           </table>
         </div>
-        <div style="background:#f8f9ff;padding:16px 40px;text-align:center;border-top:1px solid #e5e7eb;">
-          <p style="color:#9ca3af;font-size:11px;margin:0;">© 2026 Fusion The Era — Perfect Business Platform</p>
-        </div>
+        ${emailFooter()}
       </div>
     `,
   });
@@ -89,10 +84,8 @@ async function sendAdminEmail(
     to: "pawan.singh@fusiontheera.com, jasvinder.chaudhary@fusiontheera.com, sales.info@fusiontheera.com",
     subject: `🔔 New Visitor — ${fullName}`,
     html: `
-      <div style="font-family:Arial,sans-serif;max-width:520px;margin:0 auto;border-radius:12px;overflow:hidden;">
-        <div style="background:linear-gradient(135deg,#110c41,#1a1560);padding:24px 32px;">
-          <h2 style="color:#fff;margin:0;font-size:18px;">🔔 New Visitor Registered</h2>
-        </div>
+      <div style="font-family:Arial,sans-serif;max-width:520px;margin:0 auto;border-radius:12px;overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,0.08);">
+        ${emailHeader("🔔 New Visitor Registered")}
         <div style="background:#fff;padding:28px 32px;">
           <table cellpadding="10" cellspacing="0" width="100%" style="border-collapse:collapse;">
             <tr style="border-bottom:1px solid #f0f0f0;"><td style="color:#6b7280;font-size:13px;width:40%;">🔢 Reg No</td><td style="color:#1a1560;font-weight:600;font-size:13px;">${regNo}</td></tr>
@@ -101,6 +94,7 @@ async function sendAdminEmail(
             <tr><td style="color:#6b7280;font-size:13px;">📧 Email</td><td style="color:#1a1560;font-weight:600;font-size:13px;">${email || "—"}</td></tr>
           </table>
         </div>
+        ${emailFooter()}
       </div>
     `,
   });

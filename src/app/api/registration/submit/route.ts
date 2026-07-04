@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { pool } from "@/lib/db";
-import { sendEmail } from "@/lib/email";
+import { sendEmail, emailHeader, emailFooter } from "@/lib/email";
 import bcrypt from "bcryptjs";
 import QRCode from "qrcode";
 
@@ -110,11 +110,8 @@ export async function POST(req: NextRequest) {
         to: visitor.email,
         subject: "✅ Registration Confirmed — Fusion The Era 2026",
         html: `
-          <div style="font-family:Arial,sans-serif;max-width:560px;margin:0 auto;border-radius:12px;overflow:hidden;">
-            <div style="background:linear-gradient(135deg,#110c41,#1a1560);padding:32px;text-align:center;">
-              <h1 style="color:#fff;margin:0;font-size:22px;">🎉 Registration Confirmed!</h1>
-              <p style="color:rgba(255,255,255,0.8);margin:8px 0 0;">Thank you for registering for Fusion The Era 2026</p>
-            </div>
+          <div style="font-family:Arial,sans-serif;max-width:560px;margin:0 auto;border-radius:12px;overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,0.08);">
+            ${emailHeader("🎉 Registration Confirmed!", "Thank you for registering for Fusion The Era 2026")}
             <div style="background:#fff;padding:28px 32px;">
               <p style="color:#1a1560;font-size:16px;font-weight:bold;">Dear ${visitor.first_name || "Visitor"},</p>
               <p style="color:#6b7280;font-size:14px;">Your registration is complete. Please find your details below:</p>
@@ -134,9 +131,7 @@ export async function POST(req: NextRequest) {
                 <p style="color:#78350f;font-size:13px;margin:4px 0 0;">Venue: Bharat Mandapam, Pragati Maidan, New Delhi</p>
               </div>
             </div>
-            <div style="background:#f9fafb;padding:16px;text-align:center;">
-              <p style="color:#9ca3af;font-size:12px;margin:0;">fusiontheera.com</p>
-            </div>
+            ${emailFooter()}
           </div>
         `,
       }).catch((err: unknown) => console.error("Visitor email error:", err));
@@ -147,10 +142,8 @@ export async function POST(req: NextRequest) {
       to: "pawan.singh@fusiontheera.com, jasvinder.chaudhary@fusiontheera.com, sales.info@fusiontheera.com",
       subject: `🔔 New Visitor Registered — ${visitor.first_name || ""} ${visitor.last_name || ""}`.trim(),
       html: `
-        <div style="font-family:Arial,sans-serif;max-width:520px;margin:0 auto;border-radius:12px;overflow:hidden;">
-          <div style="background:linear-gradient(135deg,#110c41,#1a1560);padding:24px 32px;">
-            <h2 style="color:#fff;margin:0;font-size:18px;">🔔 New Visitor Registered</h2>
-          </div>
+        <div style="font-family:Arial,sans-serif;max-width:520px;margin:0 auto;border-radius:12px;overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,0.08);">
+          ${emailHeader("🔔 New Visitor Registered")}
           <div style="background:#fff;padding:28px 32px;">
             <table cellpadding="10" cellspacing="0" width="100%" style="border-collapse:collapse;">
               <tr style="border-bottom:1px solid #f0f0f0;"><td style="color:#6b7280;font-size:13px;width:40%;">🔢 Reg No</td><td style="color:#1a1560;font-weight:600;font-size:13px;">${regNo}</td></tr>
@@ -160,6 +153,7 @@ export async function POST(req: NextRequest) {
               <tr><td style="color:#6b7280;font-size:13px;">📧 Email</td><td style="color:#1a1560;font-weight:600;font-size:13px;">${visitor.email || "—"}</td></tr>
             </table>
           </div>
+          ${emailFooter()}
         </div>
       `,
     }).catch((err: unknown) => console.error("Admin email error:", err));
