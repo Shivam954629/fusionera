@@ -84,27 +84,37 @@ export async function POST(req: NextRequest) {
       ],
     );
 
+    // Generate the same badge image used on the website/WhatsApp, once, and reuse it everywhere
+    const visitorName = `${visitor.first_name || ""} ${visitor.last_name || ""}`.trim();
+    let badgeDataUrl = "";
+    try {
+      const { generateBadgeImage } = await import("@/lib/generateBadgeImage");
+      const badgeBuffer = await generateBadgeImage({
+        name: visitorName,
+        company: visitor.company || "",
+        regNo,
+        qrCodeDataUrl,
+      });
+      badgeDataUrl = `data:image/png;base64,${badgeBuffer.toString("base64")}`;
+    } catch (badgeErr) {
+      console.error("Badge image generation error (non-fatal):", badgeErr);
+    }
+
     // Send WhatsApp badge (non-blocking — registration succeeds even if this fails)
-    if (visitor.phone_number) {
+    if (visitor.phone_number && badgeDataUrl) {
       (async () => {
         try {
-          const { generateBadgeImage } = await import("@/lib/generateBadgeImage");
           const { uploadImageToWhatsApp, sendWhatsAppBadge } = await import("@/lib/whatsapp");
-          const badgeBuffer = await generateBadgeImage({
-            name: `${visitor.first_name || ""} ${visitor.last_name || ""}`.trim(),
-            company: visitor.company || "",
-            regNo,
-            qrCodeDataUrl,
-          });
+          const badgeBuffer = Buffer.from(badgeDataUrl.split(",")[1], "base64");
           const mediaId = await uploadImageToWhatsApp(badgeBuffer);
-          await sendWhatsAppBadge(visitor.phone_number, mediaId, `${visitor.first_name || ""} ${visitor.last_name || ""}`.trim());
+          await sendWhatsAppBadge(visitor.phone_number, mediaId, visitorName);
         } catch (waErr) {
           console.error("WhatsApp badge error (non-fatal):", waErr);
         }
       })();
     }
 
-    // Send confirmation email to visitor with QR badge
+    // Send confirmation email to visitor with the actual badge image
     if (visitor.email) {
       sendEmail({
         to: visitor.email,
@@ -114,22 +124,11 @@ export async function POST(req: NextRequest) {
             ${emailHeader("🎉 Registration Confirmed!", "Thank you for registering for Fusion The Era 2026")}
             <div style="background:#fff;padding:28px 32px;">
               <p style="color:#1a1560;font-size:16px;font-weight:bold;">Dear ${visitor.first_name || "Visitor"},</p>
-              <p style="color:#6b7280;font-size:14px;">Your registration is complete. Please find your details below:</p>
-              <table cellpadding="10" cellspacing="0" width="100%" style="border-collapse:collapse;margin:16px 0;">
-                <tr style="border-bottom:1px solid #f0f0f0;"><td style="color:#6b7280;font-size:13px;width:40%;">Registration No.</td><td style="color:#1a1560;font-weight:700;font-size:14px;">${regNo}</td></tr>
-                <tr style="border-bottom:1px solid #f0f0f0;"><td style="color:#6b7280;font-size:13px;">Name</td><td style="color:#1a1560;font-size:13px;">${visitor.first_name || ""} ${visitor.last_name || ""}</td></tr>
-                <tr style="border-bottom:1px solid #f0f0f0;"><td style="color:#6b7280;font-size:13px;">Company</td><td style="color:#1a1560;font-size:13px;">${visitor.company || "—"}</td></tr>
-                <tr style="border-bottom:1px solid #f0f0f0;"><td style="color:#6b7280;font-size:13px;">Login Password</td><td style="color:#1a1560;font-weight:700;font-size:13px;">${password}</td></tr>
+              <p style="color:#6b7280;font-size:14px;">Your registration is complete. Your visitor badge is below — show the QR code at the entry gate.</p>
+              ${badgeDataUrl ? `<div style="text-align:center;margin:20px 0;"><img src="${badgeDataUrl}" width="320" alt="Your Visitor Badge" style="max-width:100%;border-radius:12px;box-shadow:0 4px 16px rgba(0,0,0,0.1);"/></div>` : ""}
+              <table cellpadding="10" cellspacing="0" width="100%" style="border-collapse:collapse;margin:16px 0;background:#f8f9ff;border-radius:10px;">
+                <tr><td style="color:#6b7280;font-size:13px;width:40%;padding-left:16px;">🔑 Login Password</td><td style="color:#1a1560;font-weight:700;font-size:14px;">${password}</td></tr>
               </table>
-              <div style="text-align:center;margin:24px 0;">
-                <p style="color:#6b7280;font-size:13px;margin-bottom:12px;">Your QR Code — Show this at the entry gate</p>
-                <img src="${qrCodeDataUrl}" width="200" height="200" alt="QR Code" style="border:4px solid #e5e7eb;border-radius:8px;"/>
-              </div>
-              <div style="background:#fef3c7;border-radius:8px;padding:16px;margin-top:16px;">
-                <p style="color:#92400e;font-size:13px;font-weight:bold;margin:0 0 8px;">📅 Event Details</p>
-                <p style="color:#78350f;font-size:13px;margin:0;">Date: 15 · 16 · 17 · 18 August 2026</p>
-                <p style="color:#78350f;font-size:13px;margin:4px 0 0;">Venue: Bharat Mandapam, Pragati Maidan, New Delhi</p>
-              </div>
             </div>
             ${emailFooter()}
           </div>

@@ -1958,7 +1958,7 @@ export default function VisitorRegistrationPage() {
                   {
                     icon: "📧",
                     title: "EMAIL",
-                    sub: siteSettings.contact_delhi_email,
+                    sub: [siteSettings.contact_delhi_email, siteSettings.contact_mumbai_email, "sales.info@fusiontheera.com"],
                     link: true,
                   },
                 ].map((card) => (
@@ -1979,8 +1979,9 @@ export default function VisitorRegistrationPage() {
                     </p>
                     {card.link ? (
                       <div className="space-y-1">
-                        <a href={`mailto:${card.sub}`} className="text-sm text-[#1a1464] break-all block">{card.sub}</a>
-                        <a href="mailto:sales.info@fusiontheera.com" className="text-sm text-[#1a1464] break-all block">sales.info@fusiontheera.com</a>
+                        {(Array.isArray(card.sub) ? card.sub : [card.sub]).map((addr) => (
+                          <a key={addr} href={`mailto:${addr}`} className="text-sm text-[#1a1464] break-all block">{addr}</a>
+                        ))}
                       </div>
                     ) : (
                       <p

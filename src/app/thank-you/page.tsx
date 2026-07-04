@@ -65,7 +65,7 @@ function ThankYouContent() {
         {type === "visitor" && badge && (
           <div className="rounded-2xl overflow-hidden shadow-2xl mb-6">
             <div
-              className="px-6 py-6 text-center"
+              className="px-6 py-6 text-center shadow-lg"
               style={{ background: "linear-gradient(160deg, #0a0730 0%, #1a1464 60%, #1e3a8a 100%)" }}
             >
               <img
@@ -106,10 +106,15 @@ function ThankYouContent() {
                   </p>
                 )}
                 <p className="text-xs mt-2 font-mono" style={{ color: "#9ca3af" }}>{badge.regNo}</p>
+                <div className="border-t border-[#eef0f5] mt-2 pt-2">
+                  <span className="text-[11px] font-bold" style={{ color: "#1e3a8a" }}>
+                    SCAN AT ENTRY GATE
+                  </span>
+                </div>
               </div>
             </div>
 
-            <div className="py-3 text-center" style={{ background: "#5B9BD5" }}>
+            <div className="py-3 text-center shadow-lg" style={{ background: "#1e3a8a" }}>
               <span className="text-white font-black text-2xl tracking-widest">VISITOR</span>
             </div>
           </div>
