@@ -28,7 +28,7 @@ const slogans: Record<string, string> = {
 };
 
 // Brands with dark/coloured backgrounds — skip multiply blend
-const darkBgBrands = new Set(["Royal Chef", "Nagina"]);
+const darkBgBrands = new Set(["Royal Chef", "Nagina", "Steel Edge"]);
 
 const fallbackBrands: Brand[] = [
   { id: "f1", name: "Kotop Steel",  logo_url: "/images/brands/kotop-steel-logo.jpg",         is_published: true },
@@ -55,6 +55,7 @@ const fallbackBrands: Brand[] = [
    { id: "f22", name: "kartik",                   logo_url: "/images/brands/kartik.jpg",                   is_published: true },
      { id: "f23", name: "ssr",                   logo_url: "/images/brands/ssr.jpg",                   is_published: true },
      { id: "f24", name: "pnb",                   logo_url: "/images/brands/pnb.jpg",                   is_published: true },
+     { id: "f25", name: "Steel Edge",            logo_url: "/images/brands/steel-edge.jpg",            is_published: true },
 
 ];
 
