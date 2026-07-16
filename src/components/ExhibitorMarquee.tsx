@@ -28,7 +28,7 @@ const slogans: Record<string, string> = {
 };
 
 // Brands with dark/coloured backgrounds — skip multiply blend
-const darkBgBrands = new Set(["Royal Chef", "Nagina", "Steel Edge"]);
+const darkBgBrands = new Set(["Royal Chef", "Nagina", "Steel Edge", "Bronzerr", "Expo Earth"]);
 
 const fallbackBrands: Brand[] = [
   { id: "f1", name: "Kotop Steel",  logo_url: "/images/brands/kotop-steel-logo.jpg",         is_published: true },
@@ -47,10 +47,10 @@ const fallbackBrands: Brand[] = [
   { id: "f14", name: "AAA",                      logo_url: "/images/brands/aaa-total-kitchen.jpg",           is_published: true },
   { id: "f15", name: "IndiChef",                 logo_url: "/images/brands/indichef.jpg",                    is_published: true },
   { id: "f16", name: "goodflame",                logo_url: "/images/brands/goodflame.jpg",                   is_published: true },
-   { id: "f17", name: "AAA",                      logo_url: "/images/brands/bronzerr.jpg",           is_published: true },
-  { id: "f18", name: "IndiChef",                 logo_url: "/images/brands/expoearth.jpg",                    is_published: true },
-  { id: "f19", name: "goodflame",                logo_url: "/images/brands/kvimalbro.jpg",                   is_published: true },
-   { id: "f20", name: "goodflame",                logo_url: "/images/brands/appara.jpg",                   is_published: true },
+   { id: "f17", name: "Bronzerr",                 logo_url: "/images/brands/bronzerr.jpg",           is_published: true },
+  { id: "f18", name: "Expo Earth",               logo_url: "/images/brands/expoearth.jpg",                    is_published: true },
+  { id: "f19", name: "KVI Malbro",               logo_url: "/images/brands/kvimalbro.jpg",                   is_published: true },
+   { id: "f20", name: "Appara",                   logo_url: "/images/brands/appara.jpg",                   is_published: true },
    { id: "f21", name: "Dollar",                   logo_url: "/images/brands/dollar.jpg",                   is_published: true },
    { id: "f22", name: "kartik",                   logo_url: "/images/brands/kartik.jpg",                   is_published: true },
      { id: "f23", name: "ssr",                   logo_url: "/images/brands/ssr.jpg",                   is_published: true },
