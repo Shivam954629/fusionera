@@ -174,7 +174,7 @@ export default function ScannerPage() {
       <div className="w-full max-w-md mb-6 flex items-center justify-between">
         <div>
           <h1 className="text-white text-xl font-bold">Entry Scanner</h1>
-          <p className="text-white/50 text-xs mt-0.5">Fusion The Era 2026</p>
+          <p className="text-white/50 text-xs mt-0.5">Fusion The Era 2027</p>
         </div>
         <a href="/admin/dashboard" className="text-xs text-white/60 border border-white/20 rounded-lg px-3 py-1.5 hover:bg-white/10 transition">
           ← Dashboard
@@ -340,7 +340,7 @@ export default function ScannerPage() {
               value={manualReg}
               onChange={(e) => setManualReg(e.target.value.toUpperCase())}
               onKeyDown={(e) => e.key === "Enter" && handleManualSearch()}
-              placeholder="FE2026XXXXX"
+              placeholder="FE2027XXXXX"
               className="flex-1 px-4 py-2.5 rounded-xl text-sm bg-white text-gray-900 placeholder-gray-400 focus:outline-none"
             />
             <button

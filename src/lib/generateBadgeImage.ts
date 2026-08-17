@@ -57,12 +57,12 @@ export async function generateBadgeImage(params: {
                 },
               },
               { type: "span", props: { style: { color: "white", fontSize: 22, fontWeight: 700, letterSpacing: 4 }, children: "FUSION THE ERA" } },
-              { type: "span", props: { style: { color: "#f0b429", fontSize: 44, fontWeight: 900, marginTop: 4 }, children: "2026" } },
+              { type: "span", props: { style: { color: "#f0b429", fontSize: 44, fontWeight: 900, marginTop: 4 }, children: "2027" } },
               {
                 type: "div",
                 props: {
                   style: { display: "flex", marginTop: 14, padding: "8px 22px", borderRadius: "18px", background: "rgba(255,255,255,0.13)", border: "1px solid rgba(255,255,255,0.25)" },
-                  children: [{ type: "span", props: { style: { color: "white", fontSize: 14, fontWeight: 700 }, children: "15 · 16 · 17 · 18 August 2026" } }],
+                  children: [{ type: "span", props: { style: { color: "white", fontSize: 14, fontWeight: 700 }, children: "19 · 20 · 21 June 2027" } }],
                 },
               },
               { type: "span", props: { style: { color: "rgba(255,255,255,0.65)", fontSize: 12, marginTop: 10 }, children: "Bharat Mandapam, Pragati Maidan, New Delhi" } },

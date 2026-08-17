@@ -1367,10 +1367,10 @@ export default function AdminDashboard() {
                 </div>
                 <div className="p-4 grid grid-cols-2 md:grid-cols-4 gap-3">
                   {[
-                    { day: "2026-08-15", label: "August 15" },
-                    { day: "2026-08-16", label: "August 16" },
-                    { day: "2026-08-17", label: "August 17" },
-                    { day: "2026-08-18", label: "August 18" },
+                    { day: "2027-06-19", label: "June 19" },
+                    { day: "2027-06-20", label: "June 20" },
+                    { day: "2027-06-21", label: "June 21" },
+                   
                   ].map(({ day, label }) => (
                     <div key={day} className="rounded-xl p-4 text-center" style={{ background: "#f0f6ff", border: "1px solid #dde6ff" }}>
                       <p className="text-xs text-gray-500 mb-1">{label}</p>

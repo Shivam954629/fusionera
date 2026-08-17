@@ -6,28 +6,28 @@ import { useSiteSettings } from "@/lib/useSiteSettings";
 const SCHEDULE = [
   {
     day: "Day 1",
-    date: "Saturday, August 15, 2026",
+    date: "Saturday, June 19, 2027",
     time: "10:00 am – 07:00 pm",
     note: "Fusion The Era Plus Members only",
   },
   {
     day: "Day 2",
-    date: "Sunday, August 16, 2026",
+    date: "Sunday, June 20, 2027",
     time: "10:00 am – 07:00 pm",
     note: "All trade visitors",
   },
   {
     day: "Day 3",
-    date: "Monday, August 17, 2026",
+    date: "Monday, June 21, 2027",
     time: "10:00 am – 07:00 pm",
     note: "All trade visitors",
   },
-  {
-    day: "Day 4",
-    date: "Tuesday, August 18, 2026",
-    time: "10:00 am – 05:00 pm",
-    note: "All trade visitors",
-  },
+  // {
+  //   day: "Day 4",
+  //   date: "Tuesday, June 18, 2027",
+  //   time: "10:00 am – 05:00 pm",
+  //   note: "All trade visitors",
+  // },
 ];
 
 const FALLBACK_TITLE = "Visiting Hours";

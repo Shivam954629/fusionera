@@ -142,10 +142,10 @@ export async function POST(req: NextRequest) {
       const badgeUrl = badgeBuffer ? await uploadBadgeToCloudinary(badgeBuffer, regNo) : null;
       sendEmail({
         to: visitor.email,
-        subject: "✅ Registration Confirmed — Fusion The Era 2026",
+        subject: "✅ Registration Confirmed — Fusion The Era 2027",
         html: `
           <div style="font-family:Arial,sans-serif;max-width:560px;margin:0 auto;border-radius:12px;overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,0.08);">
-            ${emailHeader("🎉 Registration Confirmed!", "Thank you for registering for Fusion The Era 2026")}
+            ${emailHeader("🎉 Registration Confirmed!", "Thank you for registering for Fusion The Era 2027")}
             <div style="background:#fff;padding:28px 32px;">
               <p style="color:#1a1560;font-size:16px;font-weight:bold;">Dear ${visitor.first_name || "Visitor"},</p>
               <p style="color:#6b7280;font-size:14px;">Your registration is complete. Your visitor badge is below — show the QR code at the entry gate.</p>

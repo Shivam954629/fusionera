@@ -79,7 +79,7 @@ export default function Benefits() {
                 </ul>
 
                 <p>
-                  At Fusion The Era 2026, trade visitors will have the
+                  At Fusion The Era 2027, trade visitors will have the
                   opportunity to:
                 </p>
 
@@ -103,7 +103,7 @@ export default function Benefits() {
                   <li>
                     Discover upcoming design inspirations, home styling concepts,
                     retail trends, and lifestyle innovations influencing the
-                    market for 2026–27.
+                    market for 2027–27.
                   </li>
                   <li>
                     Identify new product launches, innovative business solutions,

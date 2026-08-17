@@ -45,7 +45,7 @@ export default function VisitorFacilitiesPage() {
           )}
 
           <p className="mt-4 text-left text-sm leading-6 text-black sm:text-base sm:leading-7 md:text-justify">
-            Fusion The Era 2026 is committed to providing a professional,
+            Fusion The Era 2027 is committed to providing a professional,
             convenient, and well-managed exhibition experience for exhibitors,
             buyers, business delegates, and trade visitors. A wide range of
             visitor support services and operational facilities will be

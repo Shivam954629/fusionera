@@ -2030,13 +2030,13 @@ export default function VisitorRegistrationPage() {
                   FUSION THE ERA
                 </p>
                 <p className="font-bold text-lg tracking-widest mt-0.5" style={{ color: "#f0b429" }}>
-                  2026
+                  2027
                 </p>
                 <div
                   className="mt-3 mx-auto rounded-full py-1.5 px-4 inline-block"
                   style={{ background: "rgba(255,255,255,0.1)", border: "1px solid rgba(255,255,255,0.2)" }}
                 >
-                  <p className="text-white font-bold text-sm">15 · 16 · 17 · 18 August 2026</p>
+                  <p className="text-white font-bold text-sm">19 · 20 · 21 June 2027</p>
                 </div>
                 <p className="text-xs mt-2" style={{ color: "#a5b4fc" }}>
                   Bharat Mandapam, Pragati Maidan, New Delhi

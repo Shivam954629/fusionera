@@ -31,7 +31,7 @@ export async function POST(req: NextRequest) {
         subject: "Your Fusion The Era OTP",
         html: `
           <div style="font-family:Arial,sans-serif;max-width:480px;margin:0 auto;border-radius:12px;overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,0.08);">
-            ${emailHeader("Visitor Registration", "Email verification for Fusion The Era 2026")}
+            ${emailHeader("Visitor Registration", "Email verification for Fusion The Era 2027")}
             <div style="background:#fff;padding:32px;">
               <p style="color:#6b7280;font-size:14px;margin:0 0 20px;text-align:center;">Your One-Time Password:</p>
               <div style="background:linear-gradient(135deg,#110c41,#1a1560);border-radius:12px;padding:20px;text-align:center;margin-bottom:20px">

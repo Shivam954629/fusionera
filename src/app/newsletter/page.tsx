@@ -81,7 +81,7 @@ export default function NewsletterPage() {
                 <div className="mt-2 h-1 w-full rounded-full bg-[#f0b429]" />
               </div>
               <p className="mt-4 text-md leading-7 text-black">
-                Our newsletter is coming soon. Stay tuned for updates, highlights, and news from Fusion The Era 2026.
+                Our newsletter is coming soon. Stay tuned for updates, highlights, and news from Fusion The Era 2027.
               </p>
             </div>
           </div>

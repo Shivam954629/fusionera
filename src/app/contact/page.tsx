@@ -40,7 +40,7 @@ export default function ContactPage() {
                 <p className="text-xs font-bold uppercase tracking-wider mb-3 text-[#00509d]">Venue</p>
                 <p className="font-semibold text-sm text-[#00509d]">Bharat Mandapam</p>
                 <p className="text-sm text-gray-500 mt-1 leading-6">Pragati Maidan, New Delhi — 110001</p>
-                <p className="text-sm font-medium mt-2 text-[#00509d]">August 15–18, 2026</p>
+                <p className="text-sm font-medium mt-2 text-[#00509d]">June 19 - 21, 2027</p>
               </div>
             </div>
 

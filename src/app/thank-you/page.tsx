@@ -44,7 +44,7 @@ function ThankYouContent() {
   const subtexts: Record<string, string> = {
     visitor: "Your visitor badge is ready. Save it for quick entry.",
     enquiry: "Our team will get back to you within 24 hours.",
-    exhibitor: "Thank you for your interest in exhibiting at Fusion The Era 2026. Our team will contact you shortly.",
+    exhibitor: "Thank you for your interest in exhibiting at Fusion The Era 2027. Our team will contact you shortly.",
     general: "We have received your submission.",
   };
 
@@ -75,12 +75,12 @@ function ThankYouContent() {
                 style={{ width: 110, height: 110, border: "3px solid rgba(255,255,255,0.25)", background: "white" }}
               />
               <p className="text-white font-black text-xl tracking-widest">FUSION THE ERA</p>
-              <p className="font-bold text-lg tracking-widest mt-0.5" style={{ color: "#f0b429" }}>2026</p>
+              <p className="font-bold text-lg tracking-widest mt-0.5" style={{ color: "#f0b429" }}>2027</p>
               <div
                 className="mt-3 mx-auto rounded-full py-1.5 px-4 inline-block"
                 style={{ background: "rgba(255,255,255,0.1)", border: "1px solid rgba(255,255,255,0.2)" }}
               >
-                <p className="text-white font-bold text-sm">15 · 16 · 17 · 18 August 2026</p>
+                <p className="text-white font-bold text-sm">19 · 20 · 21 June 2027</p>
               </div>
               <p className="text-xs mt-2" style={{ color: "#a5b4fc" }}>
                 Bharat Mandapam, Pragati Maidan, New Delhi

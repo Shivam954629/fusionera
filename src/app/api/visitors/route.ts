@@ -36,17 +36,17 @@ async function sendVisitorEmail(
 ) {
   await sendEmail({
     to,
-    subject: "✅ Registration Confirmed — Fusion The Era 2026",
+    subject: "✅ Registration Confirmed — Fusion The Era 2027",
     html: `
       <div style="font-family:Arial,sans-serif;max-width:560px;margin:0 auto;border-radius:12px;overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,0.08);">
-        ${emailHeader("FUSION THE ERA 2026", "Perfect Business Platform")}
+        ${emailHeader("Fusion The Era 2027", "Perfect Business Platform")}
         <div style="background:#fff;padding:36px 40px;text-align:center;">
           <div style="width:60px;height:60px;background:linear-gradient(135deg,#00c9a7,#00b4d8);border-radius:50%;display:inline-flex;align-items:center;justify-content:center;margin-bottom:16px;">
             <span style="color:#fff;font-size:26px;">✓</span>
           </div>
           <h2 style="color:#1a1560;margin:0 0 10px;font-size:20px;">Registration Confirmed!</h2>
           <p style="color:#6b7280;font-size:14px;line-height:1.6;margin:0 0 24px;">
-            Dear <strong>${fullName}</strong>, you are successfully registered for Fusion The Era 2026.
+            Dear <strong>${fullName}</strong>, you are successfully registered for Fusion The Era 2027.
           </p>
           <table width="100%" cellpadding="0" cellspacing="0" style="background:#f0f4ff;border-radius:10px;text-align:left;margin-bottom:20px;">
             <tr><td style="padding:20px 24px;">
@@ -61,7 +61,7 @@ async function sendVisitorEmail(
             <tr><td style="padding:20px 24px;">
               <p style="margin:0 0 10px;color:#374151;font-size:13px;font-weight:600;text-transform:uppercase;letter-spacing:0.5px;">Event Details</p>
               <table cellpadding="6" cellspacing="0" width="100%">
-                <tr><td style="color:#6b7280;font-size:13px;width:40%;">📅 Dates</td><td style="color:#1a1560;font-size:13px;font-weight:600;">August 15–18, 2026</td></tr>
+                <tr><td style="color:#6b7280;font-size:13px;width:40%;">📅 Dates</td><td style="color:#1a1560;font-size:13px;font-weight:600;">June 19 - 21, 2027</td></tr>
                 <tr><td style="color:#6b7280;font-size:13px;">📍 Location</td><td style="color:#1a1560;font-size:13px;font-weight:600;">New Delhi, India</td></tr>
                 <tr><td style="color:#6b7280;font-size:13px;">🎟️ Entry</td><td style="color:#00c9a7;font-size:13px;font-weight:600;">Free Entry</td></tr>
               </table>

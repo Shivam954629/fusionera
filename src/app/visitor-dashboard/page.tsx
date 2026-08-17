@@ -84,7 +84,7 @@ export default function VisitorDashboardPage() {
         <div className="absolute inset-0 -z-10" style={{ background: "linear-gradient(120deg,#002f6c 0%,#00509d 100%)" }} />
         <div className="absolute inset-0 -z-10 bg-black/10" />
         <div className="relative mx-auto max-w-7xl px-4 text-center sm:px-6 lg:px-10">
-          <p className="text-xs font-extrabold uppercase tracking-[0.3em] mb-3 text-white/70">Fusion The Era 2026</p>
+          <p className="text-xs font-extrabold uppercase tracking-[0.3em] mb-3 text-white/70">Fusion The Era 2027</p>
           <h1 className="text-4xl md:text-5xl font-black text-white">Your Entry Pass</h1>
           <p className="mt-3 text-white/70 text-sm">{siteSettings.event_venue} · {siteSettings.event_date}</p>
           <div className="mt-5 flex justify-center">

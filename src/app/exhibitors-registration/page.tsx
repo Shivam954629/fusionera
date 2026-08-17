@@ -93,7 +93,7 @@ export default function ExhibitorRegistrationPage() {
   </div>
 
   <p className="mt-3 text-sm text-gray-300">
-    August 15-18, 2026 · Bharat Mandapam, Pragati Maidan, New Delhi, India
+   June 19-21, 2027 · Bharat Mandapam, Pragati Maidan, New Delhi, India
   </p>
 </div>
 
@@ -119,7 +119,7 @@ export default function ExhibitorRegistrationPage() {
                       className="text-2xl md:text-3xl font-black mb-2"
                       style={{ color: "#1a1464" }}
                     >
-                      August 15 - August 18, 2026
+                      June 19 - June 21, 2027
                     </h2>
                     <p
                       className="text-sm font-medium"
@@ -162,7 +162,7 @@ export default function ExhibitorRegistrationPage() {
                       className="text-xl md:text-2xl font-black mb-1"
                       style={{ color: "#1a1464" }}
                     >
-                      August 15 - August 18, 2026
+                      June 19 - June 21, 2027
                     </h2>
                     <p
                       className="text-xs md:text-sm"
@@ -255,7 +255,7 @@ export default function ExhibitorRegistrationPage() {
                     className="text-xs md:text-sm mb-5"
                     style={{ color: "#6b7280" }}
                   >
-                    To book your Exhibition space for Fusion The Era 2026,
+                    To book your Exhibition space for Fusion The Era 2027,
                     please login below by using the same Exhibitor ID and
                     Password which has been shared with you by Fusion The Era
                     Team.
@@ -471,7 +471,7 @@ export default function ExhibitorRegistrationPage() {
                   </h2>
                   <p className="text-sm mb-6" style={{ color: "#6b7280" }}>
                     Thank you for your interest in exhibiting at Fusion The Era
-                    2026.
+                    2027.
                     <br />
                     Our team will contact you shortly.
                   </p>
@@ -890,8 +890,8 @@ function ExhibitorRequestForm({
           </span>
         </h2>
         <p className="text-xs md:text-sm mt-1" style={{ color: "#6b7280" }}>
-          We are interested in exhibiting at Fusion The Era 2026 scheduled for
-          august 15–18, 2026 at Bharat Mandapam, Pragati Maidan, New Delhi.
+          We are interested in exhibiting at Fusion The Era 2027 scheduled for
+          June 19 - 21, 2027 at Bharat Mandapam, Pragati Maidan, New Delhi.
         </p>
       </div>
 

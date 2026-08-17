@@ -64,14 +64,14 @@ export default async function BadgePage({
             className="font-black"
             style={{ color: "#f0b429", fontSize: 36, lineHeight: 1.1 }}
           >
-            2026
+            2027
           </span>
 
           <div
             className="mt-3 px-4 py-1.5 rounded-full text-white text-xs font-bold"
             style={{ background: "rgba(255,255,255,0.13)", border: "1px solid rgba(255,255,255,0.25)" }}
           >
-            15 · 16 · 17 · 18 August 2026
+            19 · 20 · 21 June 2027
           </div>
 
           <p className="text-white/60 text-xs mt-2">

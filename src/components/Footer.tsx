@@ -28,7 +28,7 @@ export default function Footer() {
                 Fusion The Era
               </p>
               <p className="text-[11px] text-white/40 mt-0.5">
-                India's B2B Trade Show · August 15–18, 2026 · Bharat Mandapam, Delhi
+                India's B2B Trade Show · June 19-21, 2027 · Bharat Mandapam, Delhi
               </p>
             </div>
           </div>
@@ -185,7 +185,7 @@ export default function Footer() {
       {/* Bottom bar */}
       <div className="border-t border-white/10" style={{ background: "#07091f" }}>
         <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-10 py-4 flex flex-col md:flex-row md:items-center md:justify-between gap-2 text-xs text-white/35">
-          <p>© 2026 Fusion The Era. All rights reserved. Organised by V-Tech Innovation Services.</p>
+          <p>© 2027 Fusion The Era. All rights reserved. Organised by V-Tech Innovation Services.</p>
           <div className="flex flex-wrap gap-4">
             <Link href="/privacy" className="hover:text-white/60 transition">Privacy Policy</Link>
             <Link href="/terms" className="hover:text-white/60 transition">Terms of Service</Link>

@@ -5,7 +5,7 @@ const steps = [
   { no: "02", title: "Exhibitor Registration", desc: "Complete your online exhibitor registration with your company details, product categories, and key contact information." },
   { no: "03", title: "Stall Allotment", desc: "Stall allotment is done on a first-come, first-served basis after payment confirmation. You will receive your stall number and hall map." },
   { no: "04", title: "Stall Setup", desc: "Setup begins one day before the show opens. Bare stalls and shell scheme stalls are both available. Bring your branding, products, and display materials." },
-  { no: "05", title: "Show Days", desc: "The show runs for 4 days (August 15–18, 2026). Exhibitors get free passes for their team. Entry is strictly B2B — no retail visitors." },
+  { no: "05", title: "Show Days", desc: "The show runs for 4 days (June 19 - 21, 2027). Exhibitors get free passes for their team. Entry is strictly B2B — no retail visitors." },
   { no: "06", title: "Post-Show", desc: "Dismantling begins on the last day after closing time. Our team will share visitor enquiry data and post-show analytics within 7 working days." },
 ];
 
@@ -57,7 +57,7 @@ export default function ExhibitorManualPage() {
             <div className="mt-4 grid grid-cols-2 md:grid-cols-4 gap-4">
               {[
                 { label: "Venue", value: "Bharat Mandapam, New Delhi" },
-                { label: "Dates", value: "August 15–18, 2026" },
+                { label: "Dates", value: "June 19 - 21, 2027" },
                 { label: "Edition", value: "1st Edition" },
                 { label: "Format", value: "B2B Only" },
               ].map((item) => (

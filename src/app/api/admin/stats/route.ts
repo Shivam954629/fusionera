@@ -28,15 +28,15 @@ export async function GET(req: NextRequest) {
         pool.query(`
           SELECT DATE(entered_at AT TIME ZONE 'Asia/Kolkata') as day, COUNT(*) as count
           FROM visitor_entries
-          WHERE entered_at >= '2026-08-15' AND entered_at < '2026-08-19'
+          WHERE entered_at >= '2027-06-19' AND entered_at < '2027-06-21'
           GROUP BY day ORDER BY day
         `),
         // Today's gate entries
         pool.query(`SELECT COUNT(*) as count FROM visitor_entries WHERE DATE(entered_at AT TIME ZONE 'Asia/Kolkata')=CURRENT_DATE`),
       ]);
 
-    // Build day-wise map: { "2026-08-15": 120, "2026-08-16": 95, ... }
-    const EVENT_DAYS = ["2026-08-15", "2026-08-16", "2026-08-17", "2026-08-18"];
+  
+    const EVENT_DAYS = ["2027-06-19", "2027-06-20", "2027-06-21"];
     const dayMap: Record<string, number> = {};
     for (const day of EVENT_DAYS) dayMap[day] = 0;
     for (const row of entriesByDayRes.rows) {

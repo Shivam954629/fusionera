@@ -86,7 +86,7 @@ export async function GET(
                 marginBottom: "14px",
               }}
             >
-              2026
+              2027
             </span>
             <div
               style={{
@@ -101,7 +101,7 @@ export async function GET(
               <span
                 style={{ color: "white", fontSize: "14px", fontWeight: 700 }}
               >
-                15 · 16 · 17 · 18 August 2026
+                19 · 20 · 21 June 2027
               </span>
             </div>
             <span

@@ -139,7 +139,7 @@ export async function initDB() {
     ["contact_mumbai_tel", "+91 (22) 6997 1122"],
     ["contact_mumbai_email", "jasvinder.chaudhary@fusiontheera.com"],
     ["logo_url", "/images/logo.jpeg"],
-    ["event_date", "August 15–18, 2026"],
+    ["event_date", "June 19 - 21, 2027"],
     ["event_venue", "Bharat Mandapam, Pragati Maidan, New Delhi"],
   ];
   for (const [k, v] of defaults) {

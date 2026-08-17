@@ -21,7 +21,7 @@ export default function ExhibitorBrochurePage() {
             <div className="mt-6 grid grid-cols-2 md:grid-cols-4 gap-4">
               {[
                 { label: "Edition", value: "1st Edition" },
-                { label: "Dates", value: "August 15-18, 2026" },
+                { label: "Dates", value: "June 19-21, 2027" },
                 { label: "Venue", value: "Bharat Mandapam, Delhi" },
                 { label: "Format", value: "B2B Only" },
               ].map((item) => (

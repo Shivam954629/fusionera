@@ -12,7 +12,7 @@ export default function Section1() {
 
   // Countdown
   useEffect(() => {
-    const showDate = new Date("2026-08-15T10:00:00");
+    const showDate = new Date("2027-06-19T10:00:00");
 
     const updateCountdown = () => {
       const now = new Date();
@@ -94,12 +94,12 @@ export default function Section1() {
 
             <div className="rounded-xl border border-white/20 bg-[#101a43]/50 px-3 py-2 backdrop-blur-xl sm:px-4">
               <p className="text-center text-base font-black text-[#ffd238] sm:text-xl">
-                15<sup className="text-[0.5em]">th</sup>, 16
-                <sup className="text-[0.5em]">th</sup>, 17
-                <sup className="text-[0.5em]">th</sup>, 18
+              19
+                <sup className="text-[0.5em]">th</sup>, 20
+                <sup className="text-[0.5em]">th</sup>, 21
                 <sup className="text-[0.5em]">th</sup>
-                <span className="mx-2 text-white">AUGUST</span>
-                2026
+                <span className="mx-2 text-white">JUNE</span>
+                2027
               </p>
             </div>
 
